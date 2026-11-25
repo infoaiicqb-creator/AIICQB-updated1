@@ -48,6 +48,7 @@ const CandidateVerify = lazy(() => import('./pages/candidate/CandidateVerify').t
 const CandidatePayments = lazy(() => import('./pages/candidate/CandidatePayments').then(m => ({ default: m.CandidatePayments })));
 const CandidateSupport = lazy(() => import('./pages/candidate/CandidateSupport').then(m => ({ default: m.CandidateSupport })));
 const CandidateSettings = lazy(() => import('./pages/candidate/CandidateSettings').then(m => ({ default: m.CandidateSettings })));
+const CandidateNotifications = lazy(() => import('./pages/candidate/CandidateNotifications').then(m => ({ default: m.CandidateNotifications })));
 
 // Admin Portal Pages (Lazy Loaded)
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
@@ -234,6 +235,7 @@ export const App: React.FC = () => {
         <Route path="payments" element={<CandidatePayments />} />
         <Route path="support" element={<CandidateSupport />} />
         <Route path="settings" element={<CandidateSettings />} />
+        <Route path="notifications" element={<CandidateNotifications />} />
       </Route>
 
       {/* 13 Super Admin Portal Modules */}

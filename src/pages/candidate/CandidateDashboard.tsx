@@ -94,12 +94,13 @@ export const CandidateDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Welcome Banner matching Image 2 #1 */}
+      {/* Welcome Banner matching Screen 1 in Screenshot */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">
-          Welcome Back, {displayName}
+        <h1 className="text-xl sm:text-2xl font-black text-[#10264B] flex items-center space-x-1.5">
+          <span>Welcome Back!</span>
+          <span className="text-xl sm:text-2xl">👋</span>
         </h1>
-        <p className="text-xs text-gray-500 mt-0.5">
+        <p className="text-xs text-gray-500 mt-0.5 leading-snug">
           Manage your certifications, exams, learning and certificates in one place.
         </p>
       </div>

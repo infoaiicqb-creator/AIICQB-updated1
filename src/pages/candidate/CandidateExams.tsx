@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { api } from '../../services/api';
 import { ExamEngineModal } from '../../components/ExamEngineModal';
 import { CertificateModal } from '../../components/CertificateModal';
+import { SelectExamLevelModal } from '../../components/SelectExamLevelModal';
 import {
   Calendar,
   Clock,
@@ -23,6 +24,8 @@ import {
   BarChart3,
   Download,
   RotateCcw,
+  GraduationCap,
+  ArrowRight,
 } from 'lucide-react';
 
 export const CandidateExams: React.FC = () => {
@@ -31,7 +34,9 @@ export const CandidateExams: React.FC = () => {
   const candidateName = user?.fullName || candidate?.fullName || 'Candidate';
   const candidateId = user?.candidateId || candidate?.candidateId || (user?.id ? `AICQB-${user.id.slice(0, 6).toUpperCase()}` : '');
 
+  const [primaryTab, setPrimaryTab] = useState<'available' | 'my_exams'>('available');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'completed' | 'all'>('upcoming');
+  const [selectedForLevelModal, setSelectedForLevelModal] = useState<any>(null);
   const [upcoming, setUpcoming] = useState<any[]>(() => {
     try {
       const u = localStorage.getItem('aicqb_my_upcoming');
@@ -97,46 +102,161 @@ export const CandidateExams: React.FC = () => {
         (c.score !== undefined && c.score >= 70))
   );
 
+  const availableExamsList = [
+    {
+      id: 'cert_aicqb_pw_cp',
+      name: 'Playwright Automation Testing + AI Testing',
+      code: 'AICQB-PW-CP®',
+      domain: 'Software Testing & Quality Engineering',
+      duration: '90 mins',
+      levelsText: '3 Levels | 90 mins',
+      examFee: 9999,
+      iconType: 'theatre',
+    },
+    {
+      id: 'cert_aicqb_st_cp',
+      name: 'Selenium Automation Testing',
+      code: 'AICQB-ST-CP®',
+      domain: 'Software Testing & Quality Engineering',
+      duration: '90 mins',
+      levelsText: '3 Levels | 90 mins',
+      examFee: 9999,
+      iconType: 'selenium',
+    },
+    {
+      id: 'cert_aicqb_ai_301',
+      name: 'AICQB Certified AI Professional',
+      code: 'AICQB-AI-301®',
+      domain: 'Artificial Intelligence & Machine Learning',
+      duration: '90 mins',
+      levelsText: '3 Levels | 90 mins',
+      examFee: 9999,
+      iconType: 'ai',
+    },
+  ];
+
   return (
-    <div className="w-full space-y-6">
-      {/* Header */}
+    <div className="w-full space-y-5 max-w-5xl mx-auto">
+      {/* Header matching Screen 2 in Screenshot */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">My Exams</h1>
-        <p className="text-xs text-gray-500 mt-0.5">
-          View, schedule and launch your online proctored certification examinations.
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 rounded-lg bg-orange-50 text-[#F47716] flex items-center justify-center flex-shrink-0">
+            <GraduationCap className="w-5 h-5 stroke-[2.2]" />
+          </div>
+          <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">My Exams</h1>
+        </div>
+        <p className="text-xs text-gray-500 mt-1">
+          View, enroll and take your certification exams.
         </p>
       </div>
 
-      {/* Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-gray-200 pb-3">
+      {/* Primary Filter Tabs matching Screen 2 */}
+      <div className="flex items-center space-x-2 border-b border-gray-200 pb-3">
         <button
-          onClick={() => setActiveTab('upcoming')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${activeTab === 'upcoming'
-            ? 'bg-[#F47716] text-white shadow-sm'
-            : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
-            }`}
+          onClick={() => setPrimaryTab('available')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            primaryTab === 'available'
+              ? 'bg-[#F47716] text-white shadow-sm'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          Upcoming Exams ({displayUpcoming.length})
+          Available Exams
         </button>
         <button
-          onClick={() => setActiveTab('completed')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${activeTab === 'completed'
-            ? 'bg-[#F47716] text-white shadow-sm'
-            : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
-            }`}
+          onClick={() => setPrimaryTab('my_exams')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            primaryTab === 'my_exams'
+              ? 'bg-[#F47716] text-white shadow-sm'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          Completed Exams ({displayCompleted.length})
-        </button>
-        <button
-          onClick={() => setActiveTab('all')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${activeTab === 'all'
-            ? 'bg-[#F47716] text-white shadow-sm'
-            : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
-            }`}
-        >
-          All Exams ({displayUpcoming.length + displayCompleted.length})
+          My Exams ({displayUpcoming.length + displayCompleted.length})
         </button>
       </div>
+
+      {/* AVAILABLE EXAMS TAB matching Screen 2 in Screenshot */}
+      {primaryTab === 'available' && (
+        <div className="space-y-3">
+          {availableExamsList.map((item) => (
+            <div
+              key={item.id}
+              className="bg-white rounded-2xl border border-gray-200 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+            >
+              {/* Left Icon & Details matching Screen 2 */}
+              <div className="flex items-center space-x-3.5 min-w-0">
+                <div className="w-12 h-12 rounded-xl bg-orange-50/80 border border-orange-100 text-[#F47716] flex items-center justify-center flex-shrink-0 shadow-xs">
+                  {item.iconType === 'theatre' ? (
+                    <span className="text-2xl">🎭</span>
+                  ) : item.iconType === 'selenium' ? (
+                    <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white font-black text-sm flex items-center justify-center">
+                      Se
+                    </div>
+                  ) : (
+                    <GraduationCap className="w-6 h-6 stroke-[2.2]" />
+                  )}
+                </div>
+
+                <div className="space-y-0.5 min-w-0">
+                  <h4 className="text-xs sm:text-sm font-extrabold text-[#10264B] truncate">
+                    {item.name}
+                  </h4>
+                  <p className="text-[11px] text-gray-500 font-medium">
+                    {item.levelsText}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right Enroll Button matching Screen 2 */}
+              <div className="flex items-center justify-end flex-shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setSelectedForLevelModal(item)}
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#F47716] hover:bg-[#E35D00] text-white font-extrabold text-xs shadow-md transition-all flex items-center justify-center space-x-1.5 cursor-pointer hover:scale-[1.01]"
+                >
+                  <span>Enroll Now</span>
+                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* MY EXAMS TAB (Sub-Tabs: Upcoming, Completed, All) */}
+      {primaryTab === 'my_exams' && (
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-center gap-2 pb-1">
+            <button
+              onClick={() => setActiveTab('upcoming')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                activeTab === 'upcoming'
+                  ? 'bg-[#10264B] text-white shadow-xs'
+                  : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              Upcoming ({displayUpcoming.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('completed')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                activeTab === 'completed'
+                  ? 'bg-[#10264B] text-white shadow-xs'
+                  : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              Completed ({displayCompleted.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('all')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                activeTab === 'all'
+                  ? 'bg-[#10264B] text-white shadow-xs'
+                  : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              All Exams ({displayUpcoming.length + displayCompleted.length})
+            </button>
+          </div>
 
       {/* 1. UPCOMING EXAMS TAB */}
       {(activeTab === 'upcoming' || activeTab === 'all') && (
@@ -452,6 +572,8 @@ export const CandidateExams: React.FC = () => {
               </p>
             </div>
           )}
+        </div>
+      )}
         </div>
       )}
 
@@ -785,6 +907,20 @@ export const CandidateExams: React.FC = () => {
           onExamCompleted={() => {
             setActiveExamSession(null);
             loadSchedules();
+          }}
+        />
+      )}
+
+      {/* ========================================================================= */}
+      {/* 7. SELECT EXAM LEVEL MODAL (Matching Screenshot Screen 2) */}
+      {/* ========================================================================= */}
+      {selectedForLevelModal && (
+        <SelectExamLevelModal
+          certification={selectedForLevelModal}
+          onClose={() => setSelectedForLevelModal(null)}
+          onContinue={() => {
+            setSelectedForLevelModal(null);
+            navigate('/portal/certifications');
           }}
         />
       )}

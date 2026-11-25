@@ -105,111 +105,94 @@ export const CandidateCertificates: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header matching Image 2 #6 */}
+    <div className="space-y-5 max-w-4xl mx-auto">
+      {/* Header matching Screen 3 in Screenshot */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">My Certificates</h1>
-        <p className="text-xs text-gray-500 mt-0.5">
-          View, download and share your earned certificates.
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 rounded-lg bg-orange-50 text-[#F47716] flex items-center justify-center flex-shrink-0">
+            <Award className="w-5 h-5 stroke-[2.2]" />
+          </div>
+          <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">My Certifications</h1>
+        </div>
+        <p className="text-xs text-gray-500 mt-1">
+          View and download your earned certificates.
         </p>
       </div>
 
-      {/* Tabs matching Image 2 #6 */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-gray-200 pb-3">
+      {/* Filter Tabs matching Screen 3 */}
+      <div className="flex items-center space-x-2 border-b border-gray-200 pb-3">
         <button
           onClick={() => setActiveTab('earned')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'earned'
-            ? 'bg-[#F47716] text-white shadow-sm'
-            : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
-            }`}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'earned'
+              ? 'bg-[#F47716] text-white shadow-sm'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          Earned Certificates ({displayCertificates.length})
+          All Certificates ({displayCertificates.length})
         </button>
         <button
           onClick={() => setActiveTab('progress')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${activeTab === 'progress'
-            ? 'bg-[#F47716] text-white shadow-sm'
-            : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
-            }`}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'progress'
+              ? 'bg-[#F47716] text-white shadow-sm'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          Enrolled / In Progress ({enrolledExams.length})
+          In Progress ({enrolledExams.length})
         </button>
       </div>
 
-      {/* Certificates Grid: Only shown after exam */}
+      {/* Certificates List matching Screen 3 */}
       {activeTab === 'earned' && (
         <>
           {displayCertificates.length > 0 ? (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {displayCertificates.map((cert) => (
                 <div
                   key={cert.id}
-                  className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-md transition-shadow"
+                  className="bg-white rounded-2xl border border-gray-200 p-4 sm:p-5 shadow-xs hover:shadow-md transition-all flex items-center justify-between gap-3.5"
                 >
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                    {/* Certificate Thumbnail using Master Certificate */}
+                  <div className="flex items-start space-x-3.5 min-w-0">
+                    {/* Certificate Thumbnail / Icon matching Screen 3 */}
                     <div
                       onClick={() => setSelectedCert(cert)}
-                      className="w-36 h-24 rounded-lg overflow-hidden border border-[#D4AF37] shadow-sm cursor-pointer hover:shadow-md transition-all relative flex-shrink-0 group"
-                      title="Click to view full certificate"
+                      className="w-12 h-12 sm:w-16 sm:h-12 rounded-xl bg-gradient-to-tr from-amber-50 to-orange-50 border border-amber-200 text-amber-700 flex items-center justify-center flex-shrink-0 cursor-pointer shadow-xs hover:scale-105 transition-transform"
+                      title="View Certificate"
                     >
-                      <img
-                        src="/certificate-master.jpg"
-                        alt="Certificate Preview"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                      />
-                      <div className="absolute inset-0 bg-[#0A1D37]/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span className="text-[10px] font-bold text-white bg-black/60 px-2 py-1 rounded backdrop-blur-xs">
-                          View
-                        </span>
-                      </div>
+                      <Award className="w-6 h-6 stroke-[2.2] text-[#F47716]" />
                     </div>
 
                     {/* Details */}
-                    <div className="space-y-1.5">
-                      <h3 className="text-base font-bold text-[#10264B]">{cert.certificationName}</h3>
-                      <div className="space-y-0.5 text-xs text-gray-600">
-                        <p>
-                          <span className="text-gray-400">Certificate ID: </span>
-                          <span className="font-mono font-bold text-[#10264B]">{cert.certificateNo}</span>
-                        </p>
-                        <p>
-                          <span className="text-gray-400">Issued On: </span>
-                          <span className="font-medium text-gray-700">{cert.issueDateFormatted || cert.issueDate}</span>
-                          <span className="mx-2 text-gray-300">•</span>
-                          <span className="text-gray-400">Valid Till: </span>
-                          <span className="font-medium text-gray-700">{cert.validUntilFormatted || cert.validUntil}</span>
-                        </p>
+                    <div className="space-y-0.5 min-w-0">
+                      <h4 className="text-xs sm:text-sm font-black text-[#10264B] truncate">
+                        {cert.certificationCode || cert.certificateNo}
+                      </h4>
+                      <p className="text-[11px] sm:text-xs text-gray-700 font-semibold truncate leading-tight">
+                        {cert.certificationName}
+                      </p>
+                      <p className="text-[10px] text-gray-500 font-medium truncate pt-0.5">
+                        <span>Issued: {cert.issueDateFormatted || cert.issueDate}</span>
+                        <span className="mx-1.5 text-gray-300">|</span>
+                        <span>Valid Until: {cert.validUntilFormatted || cert.validUntil}</span>
+                      </p>
+                      <div className="pt-1">
+                        <span className="inline-flex items-center text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full border border-emerald-300">
+                          <CheckCircle2 className="w-3 h-3 mr-1 text-emerald-600" />
+                          Valid
+                        </span>
                       </div>
-                      <span className="inline-flex items-center text-[10px] font-bold text-green-700 bg-green-50 px-2.5 py-0.5 rounded-full border border-green-200">
-                        <CheckCircle2 className="w-3 h-3 mr-1 text-green-600" />
-                        Verified Active
-                      </span>
                     </div>
                   </div>
 
-                  {/* Action Buttons matching Image 2 #6 */}
-                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 pt-3 md:pt-0 border-t md:border-t-0 border-gray-100">
+                  {/* Right Download / View Button matching Screen 3 */}
+                  <div className="flex items-center space-x-2 flex-shrink-0">
                     <button
                       onClick={() => setSelectedCert(cert)}
-                      className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-[#10264B] text-xs font-semibold rounded-lg transition-colors flex items-center space-x-1.5 cursor-pointer"
+                      className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl border-2 border-orange-200 bg-orange-50/50 hover:bg-orange-100/80 text-[#F47716] flex items-center justify-center transition-all cursor-pointer shadow-xs hover:scale-105"
+                      title="View & Download Certificate"
                     >
-                      <Eye className="w-3.5 h-3.5" />
-                      <span>View Certificate</span>
-                    </button>
-                    <button
-                      onClick={() => setSelectedCert(cert)}
-                      className="px-3.5 py-2 bg-[#10264B] hover:bg-[#1E3A6E] text-white text-xs font-semibold rounded-lg shadow-sm transition-colors flex items-center space-x-1.5 cursor-pointer"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>Download (PDF)</span>
-                    </button>
-                    <button
-                      onClick={() => handleShare(cert)}
-                      className="px-3.5 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 text-xs font-semibold rounded-lg transition-colors flex items-center space-x-1.5 cursor-pointer"
-                    >
-                      <Share2 className="w-3.5 h-3.5" />
-                      <span>Share Link</span>
+                      <Download className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
                     </button>
                   </div>
                 </div>

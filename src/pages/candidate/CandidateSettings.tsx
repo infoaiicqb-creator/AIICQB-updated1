@@ -24,6 +24,10 @@ import {
   ShieldCheck,
   Clock,
   Globe,
+  Settings,
+  Sun,
+  Info,
+  HelpCircle,
 } from 'lucide-react';
 
 export const CandidateSettings: React.FC = () => {
@@ -286,12 +290,17 @@ export const CandidateSettings: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-6">
-      {/* Header */}
+    <div className="w-full max-w-4xl mx-auto space-y-5">
+      {/* Header matching Screen 9 in Screenshot */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">Settings</h1>
-        <p className="text-xs text-gray-500 mt-0.5">
-          Manage your account, security and preferences.
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 rounded-lg bg-orange-50 text-[#F47716] flex items-center justify-center flex-shrink-0">
+            <Settings className="w-5 h-5 stroke-[2.2]" />
+          </div>
+          <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">Settings</h1>
+        </div>
+        <p className="text-xs text-gray-500 mt-1">
+          Manage your account and preferences.
         </p>
       </div>
 
@@ -311,142 +320,114 @@ export const CandidateSettings: React.FC = () => {
         </div>
       )}
 
-      {/* Settings Options List matching candidate portal layout */}
-      <div className="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100 shadow-sm overflow-hidden">
-        {/* 1. Account Settings */}
+      {/* Settings Options List matching Screen 9 */}
+      <div className="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100 shadow-xs overflow-hidden">
+        {/* 1. Notification Preferences matching Screen 9 */}
         <div
-          onClick={() => navigate('/portal/profile')}
-          className="p-5 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group"
+          onClick={() => setShowNotificationModal(true)}
+          className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group"
         >
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#10264B] flex items-center justify-center group-hover:scale-105 transition-transform">
-              <User className="w-5 h-5" />
+          <div className="flex items-center space-x-3.5">
+            <div className="w-9 h-9 rounded-xl bg-orange-50 text-[#F47716] flex items-center justify-center group-hover:scale-105 transition-transform flex-shrink-0">
+              <Bell className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-[#10264B]">Account Settings</h3>
-              <p className="text-xs text-gray-500">Update your basic account information and contact email.</p>
-            </div>
-          </div>
-          <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#10264B] transition-colors" />
-        </div>
-
-        {/* 2. Change Password */}
-        <div
-          onClick={handleOpenPasswordModal}
-          className="p-5 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group"
-        >
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#F47716] flex items-center justify-center group-hover:scale-105 transition-transform">
-              <KeyRound className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-[#10264B]">Change Password</h3>
-              <p className="text-xs text-gray-500">Update your account password and security credentials.</p>
+              <h3 className="text-xs sm:text-sm font-bold text-[#10264B]">Notification Preferences</h3>
+              <p className="text-[11px] text-gray-500">Manage email, SMS and app notifications.</p>
             </div>
           </div>
           <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#F47716] transition-colors" />
         </div>
 
-        {/* 3. Notification Preferences (Interactive Modal Trigger) */}
+        {/* 2. Account Security matching Screen 9 */}
         <div
-          onClick={() => setShowNotificationModal(true)}
-          className="p-5 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group"
+          onClick={() => setShowPrivacyModal(true)}
+          className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group"
         >
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-105 transition-transform">
-              <Bell className="w-5 h-5" />
+          <div className="flex items-center space-x-3.5">
+            <div className="w-9 h-9 rounded-xl bg-slate-100 text-[#10264B] flex items-center justify-center group-hover:scale-105 transition-transform flex-shrink-0">
+              <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <div className="flex items-center space-x-2">
-                <h3 className="text-sm font-bold text-[#10264B]">Notification Preferences</h3>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-700">
-                  Active
-                </span>
-              </div>
-              <p className="text-xs text-gray-500">Manage email, SMS and app notifications.</p>
+              <h3 className="text-xs sm:text-sm font-bold text-[#10264B]">Account Security</h3>
+              <p className="text-[11px] text-gray-500">Control passwords, sessions and account security.</p>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#10264B] transition-colors" />
+        </div>
+
+        {/* 3. Language matching Screen 9 */}
+        <div
+          onClick={() => setShowLanguageModal(true)}
+          className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group"
+        >
+          <div className="flex items-center space-x-3.5">
+            <div className="w-9 h-9 rounded-xl bg-slate-100 text-[#10264B] flex items-center justify-center group-hover:scale-105 transition-transform flex-shrink-0">
+              <Globe className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-[#10264B]">Language</h3>
+              <p className="text-[11px] text-gray-500">Choose your preferred examination language.</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className="text-xs font-semibold text-gray-600">{selectedLanguage}</span>
+            <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#10264B] transition-colors" />
+          </div>
+        </div>
+
+        {/* 4. Theme matching Screen 9 */}
+        <div
+          onClick={() => showToast('Theme is set to Light mode (AICQB Official Standard)')}
+          className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group"
+        >
+          <div className="flex items-center space-x-3.5">
+            <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-105 transition-transform flex-shrink-0">
+              <Sun className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-[#10264B]">Theme</h3>
+              <p className="text-[11px] text-gray-500">Customize interface appearance.</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className="text-xs font-semibold text-gray-600">Light</span>
+            <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#10264B] transition-colors" />
+          </div>
+        </div>
+
+        {/* 5. About AIICQB matching Screen 9 */}
+        <div
+          onClick={() => navigate('/about')}
+          className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group"
+        >
+          <div className="flex items-center space-x-3.5">
+            <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#10264B] flex items-center justify-center group-hover:scale-105 transition-transform flex-shrink-0">
+              <Info className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-[#10264B]">About AIICQB</h3>
+              <p className="text-[11px] text-gray-500">Learn about our board and accreditation standards.</p>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#10264B] transition-colors" />
+        </div>
+
+        {/* 6. Help & Support matching Screen 9 */}
+        <div
+          onClick={() => navigate('/portal/support')}
+          className="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group"
+        >
+          <div className="flex items-center space-x-3.5">
+            <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-105 transition-transform flex-shrink-0">
+              <HelpCircle className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-xs sm:text-sm font-bold text-[#10264B]">Help & Support</h3>
+              <p className="text-[11px] text-gray-500">Get technical assistance and exam support.</p>
             </div>
           </div>
           <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-purple-600 transition-colors" />
-        </div>
-
-        {/* 4. Privacy & Security (Interactive Modal Trigger) */}
-        <div
-          onClick={() => setShowPrivacyModal(true)}
-          className="p-5 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer group"
-        >
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 rounded-xl bg-green-50 text-green-700 flex items-center justify-center group-hover:scale-105 transition-transform">
-              <Shield className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <h3 className="text-sm font-bold text-[#10264B]">Privacy & Security</h3>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-800">
-                  Protected
-                </span>
-              </div>
-              <p className="text-xs text-gray-500">Control your data and account security.</p>
-            </div>
-          </div>
-          <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-green-700 transition-colors" />
-        </div>
-
-        {/* 5. Language (Direct Selector & Modal Trigger) */}
-        <div
-          onClick={() => setShowLanguageModal(true)}
-          className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50 transition-colors cursor-pointer group"
-        >
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-105 transition-transform">
-              <Languages className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <h3 className="text-sm font-bold text-[#10264B]">Language</h3>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800">
-                  {selectedLanguage}
-                </span>
-              </div>
-              <p className="text-xs text-gray-500">Choose your preferred examination and portal language.</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-2" onClick={(e) => e.stopPropagation()}>
-            <select
-              value={selectedLanguage}
-              onChange={(e) => handleSelectLanguage(e.target.value)}
-              className="text-xs font-semibold text-[#10264B] bg-slate-100 border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-[#F47716] transition-colors cursor-pointer"
-            >
-              {languagesList.map((l) => (
-                <option key={l.code} value={l.name}>
-                  {l.flag} {l.name}
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              onClick={() => setShowLanguageModal(true)}
-              className="px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold rounded-lg border border-amber-200 transition-colors"
-            >
-              Choose
-            </button>
-          </div>
-        </div>
-
-        {/* 6. Logout */}
-        <div
-          onClick={handleLogout}
-          className="p-5 flex items-center justify-between hover:bg-red-50 transition-colors cursor-pointer text-red-600 group"
-        >
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center group-hover:scale-105 transition-transform">
-              <LogOut className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold">Logout</h3>
-              <p className="text-xs text-red-400">Sign out from your account session.</p>
-            </div>
-          </div>
-          <ChevronRight className="w-4 h-4 text-red-400 group-hover:text-red-600 transition-colors" />
         </div>
       </div>
 

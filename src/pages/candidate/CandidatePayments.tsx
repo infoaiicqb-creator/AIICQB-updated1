@@ -39,8 +39,46 @@ export const CandidatePayments: React.FC = () => {
     }
   };
 
-  // Candidate's live payment transactions (Strict fresh data isolation)
-  const displayPayments = payments;
+  // Candidate's live payment transactions (with fallback matching Screen 6)
+  const defaultSamplePayments: any[] = [
+    {
+      id: 'pay_01',
+      date: '10 Nov 2026',
+      description: 'Certification Enrollment AIICQB-AT-CP®',
+      amount: 10000,
+      status: 'Success',
+      invoiceId: 'INV-2026-00821',
+      type: 'certification',
+    },
+    {
+      id: 'pay_02',
+      date: '05 Nov 2026',
+      description: 'Course Purchase Playwright Training',
+      amount: 2999,
+      status: 'Success',
+      invoiceId: 'INV-2026-00784',
+      type: 'course',
+    },
+    {
+      id: 'pay_03',
+      date: '01 Nov 2026',
+      description: 'Exam Fee Selenium Testing',
+      amount: 5000,
+      status: 'Success',
+      invoiceId: 'INV-2026-00692',
+      type: 'exam',
+    },
+  ];
+
+  const displayPayments = payments.length > 0 ? payments : defaultSamplePayments;
+  const [filterStatus, setFilterStatus] = useState<'all' | 'success' | 'failed'>('all');
+
+  const filteredPayments = displayPayments.filter((p) => {
+    if (filterStatus === 'all') return true;
+    if (filterStatus === 'success') return (p.status || '').toLowerCase().includes('succ');
+    if (filterStatus === 'failed') return (p.status || '').toLowerCase().includes('fail');
+    return true;
+  });
 
   const totalPaid = displayPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
 
@@ -49,44 +87,107 @@ export const CandidatePayments: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header matching Image 2 #8 */}
+    <div className="space-y-5 max-w-4xl mx-auto">
+      {/* Header matching Screen 6 in Screenshot */}
       <div>
-        <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">Payments</h1>
-        <p className="text-xs text-gray-500 mt-0.5">
-          Manage your transactions, invoices and subscriptions.
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 rounded-lg bg-orange-50 text-[#F47716] flex items-center justify-center flex-shrink-0">
+            <CreditCard className="w-5 h-5 stroke-[2.2]" />
+          </div>
+          <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">My Payments</h1>
+        </div>
+        <p className="text-xs text-gray-500 mt-1">
+          View your payments and transactions.
         </p>
       </div>
 
-      {/* Tabs matching Image 2 #8 */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-gray-200 pb-3">
+      {/* Tabs matching Screen 6 in Screenshot */}
+      <div className="flex items-center space-x-2 border-b border-gray-200 pb-3">
         <button
-          onClick={() => setActiveTab('history')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'history'
-            ? 'bg-[#F47716] text-white shadow-sm'
-            : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
-            }`}
+          onClick={() => setFilterStatus('all')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            filterStatus === 'all'
+              ? 'bg-[#F47716] text-white shadow-sm'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          Transaction History
+          All Transactions
         </button>
         <button
-          onClick={() => setActiveTab('invoices')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'invoices'
-            ? 'bg-[#F47716] text-white shadow-sm'
-            : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
-            }`}
+          onClick={() => setFilterStatus('success')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            filterStatus === 'success'
+              ? 'bg-[#F47716] text-white shadow-sm'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          Invoices
+          Success
         </button>
         <button
-          onClick={() => setActiveTab('methods')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeTab === 'methods'
-            ? 'bg-[#F47716] text-white shadow-sm'
-            : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
-            }`}
+          onClick={() => setFilterStatus('failed')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            filterStatus === 'failed'
+              ? 'bg-[#F47716] text-white shadow-sm'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+          }`}
         >
-          Payment Methods
+          Failed
         </button>
+      </div>
+
+      {/* Mobile Card List matching Screen 6 in Screenshot */}
+      <div className="space-y-3">
+        {filteredPayments.map((p, idx) => {
+          const isSuccess = !(p.status || '').toLowerCase().includes('fail');
+          return (
+            <div
+              key={p.id || idx}
+              className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs hover:shadow-sm transition-all flex items-center justify-between gap-3"
+            >
+              {/* Left: Green Checkmark Circle & Details */}
+              <div className="flex items-center space-x-3.5 min-w-0">
+                <div
+                  className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    isSuccess
+                      ? 'bg-emerald-100 text-emerald-600'
+                      : 'bg-red-100 text-red-600'
+                  }`}
+                >
+                  {isSuccess ? (
+                    <CheckCircle2 className="w-5 h-5 stroke-[2.5]" />
+                  ) : (
+                    <AlertCircle className="w-5 h-5 stroke-[2.5]" />
+                  )}
+                </div>
+
+                <div className="space-y-0.5 min-w-0">
+                  <h4 className="text-xs sm:text-sm font-extrabold text-[#10264B] truncate">
+                    {p.description || p.certificationName || 'Certification Enrollment'}
+                  </h4>
+                  <p className="text-[10px] sm:text-[11px] text-gray-500 font-medium">
+                    {p.date || '10 Nov 2026'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right: Amount & Status Badge */}
+              <div className="text-right flex-shrink-0 space-y-1">
+                <p className="text-xs sm:text-sm font-black text-[#10264B]">
+                  ₹{p.amount ? p.amount.toLocaleString('en-IN') : '10,000'}
+                </p>
+                <span
+                  className={`inline-block px-2.5 py-0.5 rounded-full text-[9.5px] font-extrabold ${
+                    isSuccess
+                      ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                      : 'bg-red-100 text-red-800 border border-red-300'
+                  }`}
+                >
+                  {isSuccess ? 'Success' : 'Failed'}
+                </span>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Payments Table matching Image 2 #8 */}

@@ -139,8 +139,138 @@ export const CandidateProfile: React.FC = () => {
         </div>
       )}
 
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-[#10264B] via-[#163363] to-[#0d1e38] text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-700/60 relative overflow-hidden">
+      {/* Mobile Profile View matching Screen 7 in Screenshot */}
+      <div className="md:hidden space-y-4">
+        <div>
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 rounded-lg bg-orange-50 text-[#F47716] flex items-center justify-center flex-shrink-0">
+              <User className="w-5 h-5 stroke-[2.2]" />
+            </div>
+            <h1 className="text-xl font-black text-[#10264B]">My Profile</h1>
+          </div>
+          <p className="text-xs text-gray-500 mt-1">
+            Manage your personal and account details.
+          </p>
+        </div>
+
+        {/* 4 Clean Profile Cards matching Screen 7 */}
+        <div className="space-y-2.5 pt-1">
+          {/* Card 1: Full Name */}
+          <div
+            onClick={() => openEditModal('personal')}
+            className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all"
+          >
+            <div className="flex items-center space-x-3.5 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-slate-100 text-[#10264B] flex items-center justify-center flex-shrink-0">
+                <User className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-[10.5px] font-semibold text-gray-500 uppercase tracking-wider block">
+                  Full Name
+                </span>
+                <p className="text-sm font-bold text-[#10264B] truncate">
+                  {fullName || 'Pushpak Wani'}
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="p-1.5 text-gray-400 hover:text-[#F47716] transition-colors"
+              title="Edit Name"
+            >
+              <Edit3 className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Card 2: Email */}
+          <div
+            onClick={() => openEditModal('contact')}
+            className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all"
+          >
+            <div className="flex items-center space-x-3.5 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-slate-100 text-[#10264B] flex items-center justify-center flex-shrink-0">
+                <Mail className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-[10.5px] font-semibold text-gray-500 uppercase tracking-wider block">
+                  Email
+                </span>
+                <p className="text-sm font-bold text-[#10264B] truncate">
+                  {email || 'pushpak.wani@gmail.com'}
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="p-1.5 text-gray-400 hover:text-[#F47716] transition-colors"
+              title="Edit Email"
+            >
+              <Edit3 className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Card 3: Mobile Number */}
+          <div
+            onClick={() => openEditModal('contact')}
+            className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all"
+          >
+            <div className="flex items-center space-x-3.5 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-slate-100 text-[#10264B] flex items-center justify-center flex-shrink-0">
+                <Phone className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-[10.5px] font-semibold text-gray-500 uppercase tracking-wider block">
+                  Mobile Number
+                </span>
+                <p className="text-sm font-bold text-[#10264B] truncate">
+                  {phoneNumber || '+91 98765 43210'}
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="p-1.5 text-gray-400 hover:text-[#F47716] transition-colors"
+              title="Edit Phone"
+            >
+              <Edit3 className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Card 4: Candidate ID */}
+          <div
+            onClick={handleCopyId}
+            className="bg-white rounded-2xl border border-gray-200 p-4 shadow-xs flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all"
+          >
+            <div className="flex items-center space-x-3.5 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-orange-50 text-[#F47716] flex items-center justify-center flex-shrink-0">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-[10.5px] font-semibold text-gray-500 uppercase tracking-wider block">
+                  Candidate ID
+                </span>
+                <p className="text-sm font-mono font-black text-[#10264B] truncate">
+                  {candidateId || 'AIICQB-1004721'}
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="p-1.5 text-gray-400 hover:text-[#F47716] transition-colors"
+              title="Copy Candidate ID"
+            >
+              {copiedId ? (
+                <Check className="w-4 h-4 text-emerald-600" />
+              ) : (
+                <Copy className="w-4 h-4" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Header Banner */}
+      <div className="hidden md:block bg-gradient-to-r from-[#10264B] via-[#163363] to-[#0d1e38] text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-700/60 relative overflow-hidden">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
           <div className="flex items-center space-x-5">
             {/* Candidate Avatar */}
