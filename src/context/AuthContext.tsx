@@ -98,7 +98,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           try {
             setUser(JSON.parse(cachedUser));
             if (cachedCand) setCandidate(JSON.parse(cachedCand));
-          } catch (_) {}
+          } catch (_) { }
         }
       }
     } finally {
@@ -118,9 +118,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (currentFbUser) {
           currentFbUser.getIdToken().then((tok) => {
             if (tok && isMounted) setAuthToken(tok);
-          }).catch(() => {});
+          }).catch(() => { });
         }
-      }).catch(() => {});
+      }).catch(() => { });
     }
 
     // Subscribe to Firebase auth persistence across browser refreshes
@@ -130,7 +130,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         try {
           const tok = await fbUser.getIdToken();
           if (tok) setAuthToken(tok);
-        } catch (_) {}
+        } catch (_) { }
         // Refresh silently in background
         refreshUser(true);
       } else {
@@ -167,7 +167,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         ]);
         if (uDoc && uDoc.exists && uDoc.exists()) userData = uDoc.data() as User;
         if (cDoc && cDoc.exists && cDoc.exists()) candData = cDoc.data() as CandidateProfile;
-      } catch (_) {}
+      } catch (_) { }
 
       if (!userData) {
         const cached = localStorage.getItem('aicqb_user');
@@ -251,7 +251,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const email = formData.email?.trim().toLowerCase();
       const userCredential = await createUserWithEmailAndPassword(auth, email, formData.password);
       if (formData.fullName) {
-        await updateProfile(userCredential.user, { displayName: formData.fullName.trim() }).catch(() => {});
+        await updateProfile(userCredential.user, { displayName: formData.fullName.trim() }).catch(() => { });
       }
       const candidateId = `AICQB-${Math.floor(1004700 + Math.random() * 9000)}`;
       const newUser: User = {
@@ -404,7 +404,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCandidate(null);
     localStorage.removeItem('aicqb_user');
     localStorage.removeItem('aicqb_candidate');
-    auth.signOut().catch(() => {});
+    auth.signOut().catch(() => { });
   };
 
   const updateCandidateState = (data: Partial<CandidateProfile>) => {

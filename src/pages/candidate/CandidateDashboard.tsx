@@ -408,25 +408,25 @@ export const CandidateDashboard: React.FC = () => {
               {(activeCertificates.length > 0
                 ? activeCertificates
                 : completedExams.map((ce, idx) => ({
-                    id: ce.id || `comp_cert_${idx}`,
-                    certificateNo:
-                      ce.certificateNo ||
-                      `AICQB-${(ce.certificationCode || 'AI').replace(/[^A-Z]/g, '')}-2026-000125`,
-                    certificationName: ce.examName || ce.certificationName,
-                    certificationCode: ce.certificationCode,
-                    candidateName: displayName,
-                    candidateId: candidateId,
-                    credentialLevel: 'Professional Level',
-                    grade: 'Grade A+ (Distinction)',
-                    score: ce.score || ce.percentage || 94,
-                    issueDateFormatted: ce.scheduledDateFormatted || '10 Oct 2026',
-                    validUntilFormatted: '10 Oct 2029',
-                    status: 'Issued',
-                    verificationUrl: `${window.location.origin}/verify?id=${encodeURIComponent(
-                      ce.certificateNo ||
-                        `AICQB-${(ce.certificationCode || 'AI').replace(/[^A-Z]/g, '')}-2026-000125`
-                    )}`,
-                  }))
+                  id: ce.id || `comp_cert_${idx}`,
+                  certificateNo:
+                    ce.certificateNo ||
+                    `AICQB-${(ce.certificationCode || 'AI').replace(/[^A-Z]/g, '')}-2026-000125`,
+                  certificationName: ce.examName || ce.certificationName,
+                  certificationCode: ce.certificationCode,
+                  candidateName: displayName,
+                  candidateId: candidateId,
+                  credentialLevel: 'Professional Level',
+                  grade: 'Grade A+ (Distinction)',
+                  score: ce.score || ce.percentage || 94,
+                  issueDateFormatted: ce.scheduledDateFormatted || '10 Oct 2026',
+                  validUntilFormatted: '10 Oct 2029',
+                  status: 'Issued',
+                  verificationUrl: `${window.location.origin}/verify?id=${encodeURIComponent(
+                    ce.certificateNo ||
+                    `AICQB-${(ce.certificationCode || 'AI').replace(/[^A-Z]/g, '')}-2026-000125`
+                  )}`,
+                }))
               ).slice(0, 3).map((cert: any) => (
                 <div
                   key={cert.id}
