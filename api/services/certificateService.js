@@ -125,19 +125,22 @@ export async function generateCertificate({
 
 export async function ensureCandidateCertificates({ uid, email, candidateId, fullName }) {
   const cleanEmail = email ? email.toLowerCase().trim() : '';
+  const cleanFullName = fullName ? fullName.toLowerCase().trim() : '';
 
   // 1. Current certificates
   let certificates = db.find('certificates', c =>
     (uid && c.candidateUid === uid) ||
     (candidateId && (c.candidateId === candidateId || c.candidate_id === candidateId)) ||
-    (cleanEmail && c.candidateEmail && c.candidateEmail.toLowerCase() === cleanEmail)
+    (cleanEmail && c.candidateEmail && c.candidateEmail.toLowerCase() === cleanEmail) ||
+    (cleanFullName && c.candidateName && c.candidateName.toLowerCase() === cleanFullName)
   );
 
   // 2. Passed results
   const passedResults = db.find('results', r =>
     ((uid && r.candidateUid === uid) ||
      (candidateId && (r.candidateId === candidateId || r.candidate_id === candidateId)) ||
-     (cleanEmail && r.candidateEmail && r.candidateEmail.toLowerCase() === cleanEmail)) &&
+     (cleanEmail && r.candidateEmail && r.candidateEmail.toLowerCase() === cleanEmail) ||
+     (cleanFullName && r.candidateName && r.candidateName.toLowerCase() === cleanFullName)) &&
     (r.passed === true || (r.percentage !== undefined && r.percentage >= 70) || (r.score !== undefined && r.score >= 70))
   );
 
@@ -145,7 +148,8 @@ export async function ensureCandidateCertificates({ uid, email, candidateId, ful
   const completedSchedules = db.find('examSchedules', s =>
     ((uid && s.candidateUid === uid) ||
      (candidateId && (s.candidateId === candidateId || s.candidate_id === candidateId)) ||
-     (cleanEmail && s.candidateEmail && s.candidateEmail.toLowerCase() === cleanEmail)) &&
+     (cleanEmail && s.candidateEmail && s.candidateEmail.toLowerCase() === cleanEmail) ||
+     (cleanFullName && s.candidateName && s.candidateName.toLowerCase() === cleanFullName)) &&
     (s.passed === true || s.status === 'completed' || (s.percentage !== undefined && s.percentage >= 70) || (s.score !== undefined && s.score >= 70))
   );
 
@@ -153,7 +157,8 @@ export async function ensureCandidateCertificates({ uid, email, candidateId, ful
   const completedEnrollments = db.find('enrollments', e =>
     ((uid && e.candidateUid === uid) ||
      (candidateId && (e.candidateId === candidateId || e.candidate_id === candidateId)) ||
-     (cleanEmail && e.candidateEmail && e.candidateEmail.toLowerCase() === cleanEmail)) &&
+     (cleanEmail && e.candidateEmail && e.candidateEmail.toLowerCase() === cleanEmail) ||
+     (cleanFullName && e.candidateName && e.candidateName.toLowerCase() === cleanFullName)) &&
     e.status === 'completed'
   );
 

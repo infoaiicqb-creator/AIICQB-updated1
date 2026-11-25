@@ -767,5 +767,23 @@
     "createdAt": "2026-11-25T10:41:42.601Z",
     "id": "certificateVerification_1795603302606_f7y6k",
     "updatedAt": "2026-11-25T10:41:42.606Z"
+  },
+  {
+    "certificateNo": "AICQB-AI-2026-000125",
+    "candidateName": "pushpak Wani",
+    "certificationName": "AICQB Certified AI Professional",
+    "verifiedCount": 0,
+    "createdAt": "2026-11-25T14:30:24.494Z",
+    "id": "certificateVerification_1795617024499_mlngp",
+    "updatedAt": "2026-11-25T14:30:24.499Z"
+  },
+  {
+    "certificateNo": "AICQB-AI-2026-000126",
+    "candidateName": "pushpak Wani",
+    "certificationName": "AICQB Certified Software Tester",
+    "verifiedCount": 0,
+    "createdAt": "2026-11-25T14:30:24.559Z",
+    "id": "certificateVerification_1795617024559_yonim",
+    "updatedAt": "2026-11-25T14:30:24.559Z"
   }
 ]

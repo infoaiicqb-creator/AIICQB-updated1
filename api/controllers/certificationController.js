@@ -75,12 +75,14 @@ export async function getCandidateCertificationStatus(req, res) {
     const uid = req.user?.uid;
     const email = req.user?.email?.toLowerCase();
     const candidateId = req.user?.candidateId;
+    const fullName = req.user?.fullName?.toLowerCase();
 
-    // Find candidate's enrollments (match by uid, email or candidateId)
+    // Find candidate's enrollments (match by uid, email, candidateId, or fullName)
     const enrollments = db.find('enrollments', e =>
       (uid && e.candidateUid === uid) ||
       (email && e.candidateEmail?.toLowerCase() === email) ||
-      (candidateId && (e.candidateId === candidateId || e.candidate_id === candidateId))
+      (candidateId && (e.candidateId === candidateId || e.candidate_id === candidateId)) ||
+      (fullName && e.candidateName && e.candidateName.toLowerCase() === fullName)
     );
 
     // Ensure all passed exams/schedules have their certificates generated and synced
@@ -95,7 +97,8 @@ export async function getCandidateCertificationStatus(req, res) {
     const schedules = db.find('examSchedules', s =>
       ((uid && s.candidateUid === uid) ||
       (email && s.candidateEmail?.toLowerCase() === email) ||
-      (candidateId && (s.candidateId === candidateId || s.candidate_id === candidateId))) &&
+      (candidateId && (s.candidateId === candidateId || s.candidate_id === candidateId)) ||
+      (fullName && s.candidateName && s.candidateName.toLowerCase() === fullName)) &&
       (s.status === 'scheduled' || s.status === 'in-progress')
     );
 

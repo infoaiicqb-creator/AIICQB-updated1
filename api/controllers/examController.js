@@ -16,6 +16,7 @@ export async function getCandidateSchedules(req, res) {
     const uid = req.user.uid;
     const candidateId = req.user.candidateId;
     const email = req.user.email?.toLowerCase();
+    const fullName = req.user.fullName?.toLowerCase();
 
     // 1. Fetch existing exam schedules strictly for this candidate
     let schedules = db.find(
@@ -23,7 +24,8 @@ export async function getCandidateSchedules(req, res) {
       s =>
         (uid && s.candidateUid === uid) ||
         (email && s.candidateEmail && s.candidateEmail.toLowerCase() === email) ||
-        (candidateId && (s.candidateId === candidateId || s.candidate_id === candidateId))
+        (candidateId && (s.candidateId === candidateId || s.candidate_id === candidateId)) ||
+        (fullName && s.candidateName && s.candidateName.toLowerCase() === fullName)
     );
 
     // 2. Fetch candidate's enrollments from payments/courses taken
@@ -32,7 +34,8 @@ export async function getCandidateSchedules(req, res) {
       e =>
         (uid && e.candidateUid === uid) ||
         (email && e.candidateEmail && e.candidateEmail.toLowerCase() === email) ||
-        (candidateId && (e.candidateId === candidateId || e.candidate_id === candidateId))
+        (candidateId && (e.candidateId === candidateId || e.candidate_id === candidateId)) ||
+        (fullName && e.candidateName && e.candidateName.toLowerCase() === fullName)
     );
 
     // 3. For any course enrollment without an exam schedule, automatically add it to My Exams!
@@ -95,7 +98,9 @@ export async function getCandidateSchedules(req, res) {
       'examAttempts',
       a =>
         (a.candidateUid && a.candidateUid === uid) ||
-        (email && a.candidateEmail && a.candidateEmail.toLowerCase() === email)
+        (email && a.candidateEmail && a.candidateEmail.toLowerCase() === email) ||
+        (candidateId && a.candidateId === candidateId) ||
+        (fullName && a.candidateName && a.candidateName.toLowerCase() === fullName)
     );
 
     // Completed attempts taken strictly by this candidate
@@ -109,13 +114,17 @@ export async function getCandidateSchedules(req, res) {
       'results',
       r =>
         (r.candidateUid && r.candidateUid === uid) ||
-        (email && r.candidateEmail && r.candidateEmail.toLowerCase() === email)
+        (email && r.candidateEmail && r.candidateEmail.toLowerCase() === email) ||
+        (candidateId && r.candidateId === candidateId) ||
+        (fullName && r.candidateName && r.candidateName.toLowerCase() === fullName)
     );
     const certificates = db.find(
       'certificates',
       c =>
         (c.candidateUid && c.candidateUid === uid) ||
-        (email && c.candidateEmail && c.candidateEmail.toLowerCase() === email)
+        (email && c.candidateEmail && c.candidateEmail.toLowerCase() === email) ||
+        (candidateId && (c.candidateId === candidateId || c.candidate_id === candidateId)) ||
+        (fullName && c.candidateName && c.candidateName.toLowerCase() === fullName)
     );
 
     // RULES IMPLEMENTATION:

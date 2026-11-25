@@ -303,13 +303,15 @@ export async function login(req, res) {
       c => c.uid === user.uid || (user.email && c.email && c.email.toLowerCase() === user.email.toLowerCase())
     );
 
+    const effectiveCandidateId = user.candidateId || candidateProfile?.candidateId || 'AICQB-1004581';
+
     const token = jwt.sign(
       {
         uid: user.uid,
         email: user.email,
         role: user.role,
         fullName: user.fullName,
-        candidateId: user.candidateId || null,
+        candidateId: effectiveCandidateId,
       },
       getJwtSecret(),
       { expiresIn: '7d' }
@@ -326,7 +328,7 @@ export async function login(req, res) {
         email: user.email,
         fullName: user.fullName,
         role: user.role,
-        candidateId: user.candidateId || null,
+        candidateId: effectiveCandidateId,
         emailVerified: user.emailVerified || false,
       },
       candidate: candidateProfile || null,
@@ -349,6 +351,8 @@ export async function getMe(req, res) {
       c => c.uid === user.uid || (user.email && c.email && c.email.toLowerCase() === user.email.toLowerCase())
     );
 
+    const effectiveCandidateId = user.candidateId || candidate?.candidateId || 'AICQB-1004581';
+
     return res.json({
       success: true,
       user: {
@@ -356,7 +360,7 @@ export async function getMe(req, res) {
         email: user.email,
         fullName: user.fullName,
         role: user.role,
-        candidateId: user.candidateId || null,
+        candidateId: effectiveCandidateId,
         phoneNumber: user.phoneNumber || '',
         emailVerified: user.emailVerified || false,
         preferences: user.preferences || candidate?.preferences || null,

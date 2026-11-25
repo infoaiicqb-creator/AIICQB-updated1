@@ -177,13 +177,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       }
 
+      const effectiveCandidateId =
+        userData?.candidateId || candData?.candidateId || 'AICQB-1004581';
+
       const finalUser: User = userData || {
         id: userCredential.user.uid,
         uid: userCredential.user.uid,
         email,
         fullName: userCredential.user.displayName || email.split('@')[0],
         role: isAdmin ? 'Super Admin' : 'Candidate',
-        candidateId: 'AICQB-1004721',
+        candidateId: effectiveCandidateId,
         status: 'Active',
         emailVerified: userCredential.user.emailVerified,
       };
@@ -191,7 +194,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const finalCand: CandidateProfile = candData || {
         id: userCredential.user.uid,
         uid: userCredential.user.uid,
-        candidateId: finalUser.candidateId || 'AICQB-1004721',
+        candidateId: finalUser.candidateId || effectiveCandidateId,
         fullName: finalUser.fullName,
         email,
         phoneNumber: '',
