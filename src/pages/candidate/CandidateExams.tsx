@@ -147,72 +147,154 @@ export const CandidateExams: React.FC = () => {
             </h2>
           )}
           {displayUpcoming.length > 0 ? (
-            displayUpcoming.map((exam) => (
-              <div
-                key={exam.id}
-                className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-slate-300 transition-all"
-              >
-                <div className="flex items-start space-x-5">
-                  {/* Date Square */}
-                  <div className="w-16 h-16 rounded-xl bg-orange-50 border border-orange-200 flex flex-col items-center justify-center text-center flex-shrink-0">
-                    <span className="text-xl font-black text-[#F47716] leading-none">
-                      {exam.scheduledDateDay || (exam.scheduledDate ? new Date(exam.scheduledDate).getDate() : '16')}
-                    </span>
-                    <span className="text-[10px] font-bold text-gray-600 uppercase mt-0.5">
-                      {exam.scheduledDateMonth || (exam.scheduledDate ? new Date(exam.scheduledDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Nov 2026')}
-                    </span>
-                  </div>
+            displayUpcoming.map((exam) => {
+              const normCode = (val?: string) => (val || '').replace(/®/g, '').trim().toLowerCase();
+              const examCodeClean = normCode(exam.certificationCode);
 
-                  <div className="space-y-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-sm sm:text-base font-bold text-[#10264B]">{exam.examName}</h3>
-                      {exam.isRetake ? (
-                        <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 font-extrabold text-[10px] rounded-full border border-amber-300 shadow-xs">
-                          Retake Chance 2 of 2
-                        </span>
-                      ) : (
-                        <span className="px-2.5 py-0.5 bg-blue-50 text-[#10264B] font-bold text-[10px] rounded-full border border-blue-200">
-                          Enrolled Certificate
-                        </span>
-                      )}
-                      <span className="px-2 py-0.5 bg-green-50 text-green-700 font-bold text-[10px] rounded-full border border-green-200">
-                        {exam.isRetake ? 'Retake Window Open' : 'Exam Scheduled'}
+              const matchedCompleted = completed.find(
+                (c) =>
+                  c.id === exam.id ||
+                  c.id === `comp_${exam.id}` ||
+                  (c.certificationCode && examCodeClean && normCode(c.certificationCode) === examCodeClean) ||
+                  (c.certificationId && exam.certificationId && c.certificationId === exam.certificationId)
+              );
+
+              const isExamPassed =
+                exam.passed === true ||
+                exam.status === 'completed' ||
+                (matchedCompleted && matchedCompleted.passed === true);
+
+              return (
+                <div
+                  key={exam.id}
+                  className={`bg-white rounded-2xl border p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all ${
+                    isExamPassed ? 'border-emerald-200 bg-emerald-50/10' : 'border-gray-200 hover:border-slate-300'
+                  }`}
+                >
+                  <div className="flex items-start space-x-5">
+                    {/* Date Square */}
+                    <div
+                      className={`w-16 h-16 rounded-xl border flex flex-col items-center justify-center text-center flex-shrink-0 ${
+                        isExamPassed
+                          ? 'bg-emerald-50 border-emerald-200'
+                          : 'bg-orange-50 border-orange-200'
+                      }`}
+                    >
+                      <span
+                        className={`text-xl font-black leading-none ${
+                          isExamPassed ? 'text-emerald-700' : 'text-[#F47716]'
+                        }`}
+                      >
+                        {exam.scheduledDateDay || (exam.scheduledDate ? new Date(exam.scheduledDate).getDate() : '16')}
+                      </span>
+                      <span className="text-[10px] font-bold text-gray-600 uppercase mt-0.5">
+                        {exam.scheduledDateMonth || (exam.scheduledDate ? new Date(exam.scheduledDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Nov 2026')}
                       </span>
                     </div>
-                    <p className="text-xs font-mono text-[#F47716] font-semibold">({exam.certificationCode})</p>
-                    <p className="text-[11px] text-gray-500">
-                      {exam.isRetake
-                        ? 'Second chance opportunity • Score 70% or higher to clear the test and unlock your official certificate'
-                        : 'Enrolled Program • Passing score (70%) unlocks official QR-verifiable certificate'}
-                    </p>
-                    <div className="flex items-center space-x-1.5 text-xs text-gray-500 pt-0.5">
-                      <Clock className="w-3.5 h-3.5 text-gray-400" />
-                      <span>{exam.scheduledTime || '10:00 AM – 11:30 AM (IST)'} • Duration: {exam.durationMinutes || exam.duration || 90} Minutes • {exam.mode || 'Online Proctored'}</span>
+
+                    <div className="space-y-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-sm sm:text-base font-bold text-[#10264B]">{exam.examName}</h3>
+                        {isExamPassed ? (
+                          <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 font-extrabold text-[10px] rounded-full border border-emerald-300 shadow-xs flex items-center space-x-1">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>Exam Done • Passed</span>
+                          </span>
+                        ) : exam.isRetake ? (
+                          <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 font-extrabold text-[10px] rounded-full border border-amber-300 shadow-xs">
+                            Retake Chance 2 of 2
+                          </span>
+                        ) : (
+                          <span className="px-2.5 py-0.5 bg-blue-50 text-[#10264B] font-bold text-[10px] rounded-full border border-blue-200">
+                            Enrolled Certificate
+                          </span>
+                        )}
+                        {!isExamPassed && (
+                          <span className="px-2 py-0.5 bg-green-50 text-green-700 font-bold text-[10px] rounded-full border border-green-200">
+                            {exam.isRetake ? 'Retake Window Open' : 'Exam Scheduled'}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs font-mono text-[#F47716] font-semibold">({exam.certificationCode})</p>
+                      <p className="text-[11px] text-gray-500">
+                        {isExamPassed
+                          ? 'Official Certificate issued and active • Passing standard (70%) achieved'
+                          : exam.isRetake
+                          ? 'Second chance opportunity • Score 70% or higher to clear the test and unlock your official certificate'
+                          : 'Enrolled Program • Passing score (70%) unlocks official QR-verifiable certificate'}
+                      </p>
+                      <div className="flex items-center space-x-1.5 text-xs text-gray-500 pt-0.5">
+                        <Clock className="w-3.5 h-3.5 text-gray-400" />
+                        <span>{exam.scheduledTime || '10:00 AM – 11:30 AM (IST)'} • Duration: {exam.durationMinutes || exam.duration || 90} Minutes • {exam.mode || 'Online Proctored'}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Action Buttons */}
-                <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 pt-3 md:pt-0 border-t md:border-t-0 border-gray-100 flex-shrink-0">
-                  <button
-                    onClick={() => {
-                      setSelectedExamForGuidelines(exam);
-                      setShowGuidelinesModal(true);
-                    }}
-                    className="px-4 py-2.5 border border-gray-300 hover:bg-gray-50 text-[#10264B] text-xs font-semibold rounded-xl transition-colors cursor-pointer"
-                  >
-                    Exam Guidelines
-                  </button>
-                  <button
-                    onClick={() => handleJoinExam(exam.id)}
-                    className="px-5 py-2.5 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>{exam.isRetake ? 'Start Retake Exam' : 'Start Exam'}</span>
-                  </button>
+                  {/* Action Buttons */}
+                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 pt-3 md:pt-0 border-t md:border-t-0 border-gray-100 flex-shrink-0">
+                    {isExamPassed ? (
+                      <>
+                        <button
+                          onClick={() => setShowScoreModal(matchedCompleted || exam)}
+                          className="px-3.5 py-2.5 border border-slate-300 hover:bg-slate-50 text-[#10264B] text-xs font-bold rounded-xl transition-colors flex items-center space-x-1.5 cursor-pointer"
+                        >
+                          <BarChart3 className="w-3.5 h-3.5 text-[#F47716]" />
+                          <span>Score Report</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            const certNo =
+                              matchedCompleted?.certificateNo ||
+                              exam.certificateNo ||
+                              `AICQB-${(exam.certificationCode || 'CERT').replace(/®/g, '')}-2026`;
+                            setShowCertificateModal({
+                              certificateNo: certNo,
+                              candidateName: candidateName,
+                              candidateId: candidateId,
+                              certificationName: exam.examName || exam.certificationName,
+                              certificationCode: exam.certificationCode,
+                              grade:
+                                (matchedCompleted?.percentage ?? exam.percentage ?? 85) >= 90
+                                  ? 'Grade A+ (Distinction)'
+                                  : 'Grade A (Merit)',
+                              issueDate: exam.scheduledDate || new Date().toISOString().split('T')[0],
+                              expiryDate: new Date(Date.now() + 86400000 * 365 * 3).toISOString().split('T')[0],
+                              ceoName: 'Pushpak Wani',
+                              ceo: 'Pushpak Wani',
+                              directorName: 'Dr. Neha Kulkarni',
+                              director: 'Dr. Neha Kulkarni',
+                            });
+                          }}
+                          className="px-5 py-2.5 bg-[#10264B] hover:bg-[#1E3A6E] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer"
+                        >
+                          <Award className="w-3.5 h-3.5 text-[#F47716]" />
+                          <span>View Certificate &gt;</span>
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => {
+                            setSelectedExamForGuidelines(exam);
+                            setShowGuidelinesModal(true);
+                          }}
+                          className="px-4 py-2.5 border border-gray-300 hover:bg-gray-50 text-[#10264B] text-xs font-semibold rounded-xl transition-colors cursor-pointer"
+                        >
+                          Exam Guidelines
+                        </button>
+                        <button
+                          onClick={() => handleJoinExam(exam.id)}
+                          className="px-5 py-2.5 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer"
+                        >
+                          <Play className="w-3.5 h-3.5 fill-current" />
+                          <span>{exam.isRetake ? 'Start Retake Exam' : 'Start Exam'}</span>
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           ) : activeTab === 'upcoming' ? (
             <div className="bg-white rounded-2xl border border-gray-200 p-10 text-center space-y-3">
               <Calendar className="w-10 h-10 text-gray-300 mx-auto" />
@@ -311,11 +393,11 @@ export const CandidateExams: React.FC = () => {
                     </button>
 
                     {/* ONLY DISPLAY CERTIFICATE BUTTON IF EXAM WAS PASSED (>= 70%) */}
-                    {isCompPassed && comp.certificateNo ? (
+                    {isCompPassed ? (
                       <button
                         onClick={() =>
                           setShowCertificateModal({
-                            certificateNo: comp.certificateNo,
+                            certificateNo: comp.certificateNo || `AICQB-${(comp.certificationCode || 'CERT').replace(/®/g, '')}-2026`,
                             candidateName: candidateName,
                             candidateId: candidateId,
                             certificationName: comp.examName || comp.certificationName,
@@ -337,9 +419,9 @@ export const CandidateExams: React.FC = () => {
                         className="px-5 py-2.5 bg-[#10264B] hover:bg-[#1E3A6E] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer"
                       >
                         <Award className="w-3.5 h-3.5 text-[#F47716]" />
-                        <span>View Certificate</span>
+                        <span>View Certificate &gt;</span>
                       </button>
-                    ) : !isCompPassed ? (
+                    ) : (
                       <button
                         onClick={() => {
                           const retake = upcoming.find(
@@ -356,7 +438,7 @@ export const CandidateExams: React.FC = () => {
                         <RotateCcw className="w-3.5 h-3.5 text-white" />
                         <span>Retake Exam (Chance 2 of 2)</span>
                       </button>
-                    ) : null}
+                    )}
                   </div>
                 </div>
               );

@@ -311,6 +311,9 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
                 localStorage.setItem('aicqb_my_certs', JSON.stringify([res.results.certificate, ...currentCerts]));
               }
             }
+            try {
+              onExamCompleted();
+            } catch (_) {}
           } catch (_) {}
         }
       } else {

@@ -138,7 +138,7 @@ export async function ensureCandidateCertificates({ uid, email, candidateId, ful
     ((uid && r.candidateUid === uid) ||
      (candidateId && (r.candidateId === candidateId || r.candidate_id === candidateId)) ||
      (cleanEmail && r.candidateEmail && r.candidateEmail.toLowerCase() === cleanEmail)) &&
-    r.passed
+    (r.passed === true || (r.percentage !== undefined && r.percentage >= 70) || (r.score !== undefined && r.score >= 70))
   );
 
   // 3. Completed / passed schedules
@@ -146,7 +146,7 @@ export async function ensureCandidateCertificates({ uid, email, candidateId, ful
     ((uid && s.candidateUid === uid) ||
      (candidateId && (s.candidateId === candidateId || s.candidate_id === candidateId)) ||
      (cleanEmail && s.candidateEmail && s.candidateEmail.toLowerCase() === cleanEmail)) &&
-    (s.passed || (s.status === 'completed' && s.certificateNo))
+    (s.passed === true || s.status === 'completed' || (s.percentage !== undefined && s.percentage >= 70) || (s.score !== undefined && s.score >= 70))
   );
 
   // 4. Completed enrollments
@@ -159,15 +159,22 @@ export async function ensureCandidateCertificates({ uid, email, candidateId, ful
 
   const passedItems = [...passedResults, ...completedSchedules, ...completedEnrollments];
 
+  const norm = (str) => (str || '').replace(/®/g, '').trim().toLowerCase();
+
   for (const item of passedItems) {
     const certId = item.certificationId || item.certification_id;
     const certCode = item.certificationCode || item.certification_code;
     const certName = item.certificationName || item.certification_name || item.name;
 
+    const normCertCode = norm(certCode);
+    const normCertName = norm(certName);
+
     const exists = certificates.some(c =>
       (certId && c.certificationId === certId) ||
-      (certCode && c.certificationCode === certCode) ||
-      (certName && c.certificationName?.toLowerCase().trim() === certName.toLowerCase().trim())
+      (certCode && norm(c.certificationCode) === normCertCode) ||
+      (normCertCode && norm(c.certificationCode).includes(normCertCode)) ||
+      (normCertCode && normCertCode.includes(norm(c.certificationCode))) ||
+      (certName && norm(c.certificationName) === normCertName)
     );
 
     if (!exists && (certId || certCode)) {

@@ -158,11 +158,53 @@ export async function getCandidateSchedules(req, res) {
       };
     });
 
+    const normCode = (val) => (val || '').replace(/®/g, '').trim().toLowerCase();
+
+    // Also include any schedules that are completed and passed into completedList
+    schedules.forEach(s => {
+      const isPassedSchedule = s.passed === true || (s.status === 'completed' && ((s.percentage !== undefined && s.percentage >= 70) || (s.score !== undefined && s.score >= 70)));
+      if (isPassedSchedule) {
+        const normSCode = normCode(s.certificationCode);
+        const alreadyInCompleted = completedList.some(c =>
+          c.certificationId === s.certificationId ||
+          (c.certificationCode && normCode(c.certificationCode) === normSCode)
+        );
+        if (!alreadyInCompleted) {
+          const matchedCert = certificates.find(c =>
+            c.certificationId === s.certificationId ||
+            (c.certificationCode && normCode(c.certificationCode) === normSCode) ||
+            (c.certificationName && normCode(c.certificationName) === normCode(s.certificationName))
+          );
+          completedList.push({
+            id: `comp_${s.id}`,
+            examName: s.examName || s.certificationName,
+            certificationCode: s.certificationCode,
+            certificationId: s.certificationId,
+            scheduledDate: s.scheduledDate || '2026-12-02',
+            scheduledDateFormatted: s.scheduledDateFormatted || '02 Dec 2026',
+            duration: `${s.durationMinutes || 90} Mins`,
+            score: s.score || s.percentage || 85,
+            percentage: s.percentage || s.score || 85,
+            passingCriteria: 70,
+            status: `Passed (${s.percentage || 85}%)`,
+            passed: true,
+            certificateNo: s.certificateNo || matchedCert?.certificateNo,
+          });
+        }
+      }
+    });
+
+    const pendingUpcoming = schedules.filter(s =>
+      s.status === 'scheduled' &&
+      !s.passed &&
+      (s.percentage === undefined || s.percentage < 70)
+    );
+
     return res.json({
       success: true,
-      upcoming: schedules.filter(s => s.status === 'scheduled'),
+      upcoming: pendingUpcoming,
       completed: completedList,
-      all: [...schedules.filter(s => s.status === 'scheduled'), ...completedList],
+      all: [...pendingUpcoming, ...completedList],
       attempts,
     });
   } catch (err) {
@@ -568,7 +610,14 @@ export async function submitExam(req, res) {
     });
 
     // Update schedule only if passed; if failed, it stays in upcoming exams only
-    const schedule = db.findOne('examSchedules', s => s.id === attempt.scheduleId);
+    const normC = (str) => (str || '').replace(/®/g, '').trim().toLowerCase();
+    let schedule = db.findOne('examSchedules', s =>
+      (attempt.scheduleId && (s.id === attempt.scheduleId || s.scheduleId === attempt.scheduleId)) ||
+      (scheduleId && (s.id === scheduleId || s.scheduleId === scheduleId)) ||
+      ((s.candidateUid === uid || (req.user?.email && s.candidateEmail?.toLowerCase() === req.user.email.toLowerCase())) &&
+       (s.certificationId === attempt.certificationId ||
+        (s.certificationCode && attempt.certificationCode && normC(s.certificationCode) === normC(attempt.certificationCode))))
+    );
     if (schedule && passed) {
       db.updateDoc('examSchedules', schedule.id, {
         status: 'completed',
@@ -643,13 +692,15 @@ export async function submitExam(req, res) {
       if (schedule) {
         db.updateDoc('examSchedules', schedule.id, {
           candidateUid: uid,
-          candidateId,
+          candidateId: effectiveCandidateId,
           candidateName,
           status: 'completed',
           passed: true,
           percentage,
           score: totalScore,
           certificateNo: certificate?.certificateNo,
+          completedAt: submitTime,
+          updatedAt: submitTime,
         });
       }
     } else {

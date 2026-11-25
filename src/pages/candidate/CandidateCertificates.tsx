@@ -39,13 +39,46 @@ export const CandidateCertificates: React.FC = () => {
     try {
       const [resCert, resSched] = await Promise.all([
         api.getMyCertificates().catch(() => ({ success: false, certificates: [] })),
-        api.getMySchedules().catch(() => ({ success: false, upcoming: [] })),
+        api.getMySchedules().catch(() => ({ success: false, upcoming: [], completed: [] })),
       ]);
 
+      let combined: Certificate[] = [];
       if (resCert.success && resCert.certificates) {
-        setCertificates(resCert.certificates);
-        try { localStorage.setItem('aicqb_my_certs', JSON.stringify(resCert.certificates)); } catch (_) {}
+        combined = [...resCert.certificates];
       }
+
+      // Merge any passed/completed exams from schedules as active earned certificates
+      if (resSched.success && resSched.completed) {
+        const normC = (val?: string) => (val || '').replace(/®/g, '').trim().toLowerCase();
+        resSched.completed.forEach((comp: any) => {
+          const compCode = normC(comp.certificationCode);
+          const exists = combined.some(
+            (c) =>
+              (c.certificateNo && comp.certificateNo && c.certificateNo === comp.certificateNo) ||
+              (c.certificationCode && compCode && normC(c.certificationCode) === compCode)
+          );
+          if (!exists) {
+            combined.push({
+              id: `cert_${comp.id}`,
+              certificateNo: comp.certificateNo || `AICQB-${(comp.certificationCode || 'CERT').replace(/®/g, '')}-2026`,
+              candidateName: candidateName,
+              candidateId: candidateId,
+              certificationName: comp.examName || comp.certificationName,
+              certificationCode: comp.certificationCode,
+              issueDate: comp.scheduledDate || new Date().toISOString().split('T')[0],
+              expiryDate: new Date(Date.now() + 86400000 * 365 * 3).toISOString().split('T')[0],
+              grade: (comp.percentage || comp.score || 85) >= 90 ? 'Grade A+ (Distinction)' : 'Grade A (Merit)',
+              status: 'Issued',
+              ceoName: 'Pushpak Wani',
+              directorName: 'Dr. Neha Kulkarni',
+            } as any);
+          }
+        });
+      }
+
+      setCertificates(combined);
+      try { localStorage.setItem('aicqb_my_certs', JSON.stringify(combined)); } catch (_) {}
+
       if (resSched.success && resSched.upcoming) {
         setEnrolledExams(resSched.upcoming);
         try { localStorage.setItem('aicqb_my_schedules', JSON.stringify(resSched.upcoming)); } catch (_) {}
