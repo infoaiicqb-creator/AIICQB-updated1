@@ -5,6 +5,11 @@ import {
   scheduleExam,
   startExam,
   submitExam,
+  saveAnswers,
+  logProctoringEvent,
+  saveIdentityVerification,
+  exitExamSession,
+  reviewSessionAdmin,
   createExamAdmin,
   updateExamAdmin,
   deleteExamAdmin,
@@ -25,6 +30,10 @@ router.get('/my-schedules', authenticate, getCandidateSchedules);
 router.post('/schedule', authenticate, scheduleExam);
 router.get('/session/:scheduleId', authenticate, startExam);
 router.post('/submit', authenticate, submitExam);
+router.post('/save-answers', authenticate, saveAnswers);
+router.post('/proctoring/log-event', authenticate, logProctoringEvent);
+router.post('/proctoring/identity-verification', authenticate, saveIdentityVerification);
+router.post('/exit', authenticate, exitExamSession);
 
 // Admin Exam CRUD
 router.post('/admin/exams', authenticate, requireAdmin, createExamAdmin);
@@ -40,6 +49,7 @@ router.delete('/admin/questions/:id', authenticate, requireAdmin, deleteQuestion
 
 // Admin Monitoring & Results
 router.get('/admin/monitoring', authenticate, requireAdmin, getExamMonitoringAdmin);
+router.post('/admin/review-session', authenticate, requireAdmin, reviewSessionAdmin);
 router.get('/admin/results', authenticate, requireAdmin, getResultsAdmin);
 
 export default router;

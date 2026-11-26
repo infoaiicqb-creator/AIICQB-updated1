@@ -19,6 +19,7 @@ import {
   ShieldCheck,
   Clock,
   Sparkles,
+  RotateCcw,
 } from 'lucide-react';
 
 export const CandidateDashboard: React.FC = () => {
@@ -248,42 +249,89 @@ export const CandidateDashboard: React.FC = () => {
           )}
         </div>
 
-        {/* Right Upcoming Exam Card */}
-        <div className="lg:col-span-5 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex flex-col justify-between">
+        {/* Right Upcoming Exam & Retake Card */}
+        <div className="lg:col-span-5 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm flex flex-col justify-between space-y-4">
           <div className="space-y-4">
             <div className="flex items-center justify-between border-b border-gray-100 pb-3">
               <h3 className="font-bold text-sm text-[#10264B] flex items-center space-x-2">
                 <CalendarCheck className="w-4 h-4 text-[#F47716]" />
-                <span>Upcoming Exam</span>
+                <span>Upcoming Examination</span>
               </h3>
-              <span className={`px-2 py-0.5 text-xs font-bold rounded-full ${upcomingExams.length > 0 ? 'bg-green-50 text-green-700' : 'bg-slate-100 text-slate-500'}`}>
-                {upcomingExams.length > 0 ? 'Scheduled' : 'None'}
+              <span className={`px-2.5 py-0.5 text-xs font-bold rounded-full ${upcomingExams.length > 0 ? (upcomingExams[0]?.isRetake ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-green-50 text-green-700') : 'bg-slate-100 text-slate-500'}`}>
+                {upcomingExams.length > 0 ? (upcomingExams[0]?.isRetake ? 'Retake Window Open' : 'Scheduled') : 'None'}
               </span>
             </div>
 
             {upcomingExams.length > 0 ? (
-              <div className="flex items-start space-x-4">
-                {/* Date Box */}
-                <div className="w-16 h-16 rounded-xl bg-orange-50 border border-orange-200 text-center flex flex-col items-center justify-center flex-shrink-0">
-                  <span className="text-xl font-black text-[#F47716] leading-none">
-                    {upcomingExams[0]?.scheduledDateDay || (upcomingExams[0]?.scheduledDate ? new Date(upcomingExams[0].scheduledDate).getDate() : '16')}
-                  </span>
-                  <span className="text-[10px] font-bold text-gray-600 uppercase mt-0.5">
-                    {upcomingExams[0]?.scheduledDateMonth || (upcomingExams[0]?.scheduledDate ? new Date(upcomingExams[0].scheduledDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Nov 2026')}
-                  </span>
+              <div className="space-y-3.5">
+                <div className="flex items-start space-x-4">
+                  {/* Date Box */}
+                  <div className="w-16 h-16 rounded-xl bg-orange-50 border border-orange-200 text-center flex flex-col items-center justify-center flex-shrink-0">
+                    <span className="text-xl font-black text-[#F47716] leading-none">
+                      {upcomingExams[0]?.scheduledDateDay || (upcomingExams[0]?.scheduledDate ? new Date(upcomingExams[0].scheduledDate).getDate() : '16')}
+                    </span>
+                    <span className="text-[10px] font-bold text-gray-600 uppercase mt-0.5">
+                      {upcomingExams[0]?.scheduledDateMonth || (upcomingExams[0]?.scheduledDate ? new Date(upcomingExams[0].scheduledDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Nov 2026')}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h4 className="text-xs sm:text-sm font-bold text-[#10264B] leading-snug">
+                      {upcomingExams[0]?.examName}
+                    </h4>
+                    <div className="flex items-center space-x-1 text-xs text-gray-500">
+                      <Clock className="w-3.5 h-3.5 text-gray-400" />
+                      <span>{upcomingExams[0]?.scheduledTime || '10:00 AM – 11:30 AM (IST)'}</span>
+                    </div>
+                    <span className="inline-block text-[11px] text-[#F47716] font-mono font-semibold">
+                      {upcomingExams[0]?.certificationCode}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="space-y-1">
-                  <h4 className="text-xs sm:text-sm font-bold text-[#10264B] leading-snug">
-                    {upcomingExams[0]?.examName}
-                  </h4>
-                  <div className="flex items-center space-x-1 text-xs text-gray-500">
-                    <Clock className="w-3.5 h-3.5 text-gray-400" />
-                    <span>{upcomingExams[0]?.scheduledTime || '10:00 AM – 11:30 AM (IST)'}</span>
+                {/* Candidate Dashboard Retake Information Panel (Requirement 9) */}
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-2">
+                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 text-[11px]">
+                    <span className="font-bold text-[#10264B] uppercase tracking-wider text-[10px]">Attempt & Retake Status</span>
+                    <span className="font-extrabold text-[#F47716]">Total Attempts Allowed: 3</span>
                   </div>
-                  <span className="inline-block text-[11px] text-[#F47716] font-mono font-semibold">
-                    {upcomingExams[0]?.certificationCode}
-                  </span>
+                  <div className="grid grid-cols-2 gap-2 text-[11px]">
+                    <div>
+                      <span className="text-gray-400 block">Attempts Completed</span>
+                      <span className="font-extrabold text-slate-800">
+                        {upcomingExams[0]?.attemptsCompleted || (upcomingExams[0]?.isRetake ? 1 : 0)} of 3
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400 block">Attempts Remaining</span>
+                      <span className={`font-extrabold ${(upcomingExams[0]?.attemptsRemaining === 0) ? 'text-red-600' : 'text-emerald-700'}`}>
+                        {upcomingExams[0]?.attemptsRemaining !== undefined ? upcomingExams[0]?.attemptsRemaining : (upcomingExams[0]?.isRetake ? 2 : 3)} Left
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400 block">Previous Score</span>
+                      <span className="font-mono font-bold text-slate-700">
+                        {upcomingExams[0]?.previousAttemptScore !== undefined && upcomingExams[0]?.previousAttemptScore !== null ? `${upcomingExams[0].previousAttemptScore}%` : 'N/A (First Attempt)'}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400 block">Previous Result</span>
+                      <span className={`font-bold ${upcomingExams[0]?.previousAttemptResult === 'Passed' ? 'text-emerald-600' : upcomingExams[0]?.previousAttemptResult === 'Failed' ? 'text-red-600' : 'text-slate-600'}`}>
+                        {upcomingExams[0]?.previousAttemptResult || (upcomingExams[0]?.isRetake ? 'Failed (< 70%)' : 'None')}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="pt-1 flex items-center justify-between text-[11px]">
+                    <span className="text-gray-500 font-medium">Next Attempt Eligibility:</span>
+                    <span className={`font-extrabold ${upcomingExams[0]?.attemptsRemaining === 0 ? 'text-red-600' : 'text-emerald-700'}`}>
+                      {upcomingExams[0]?.attemptsRemaining === 0 ? 'Exhausted' : 'Eligible for Retake ✓'}
+                    </span>
+                  </div>
+                  {upcomingExams[0]?.attemptsRemaining === 0 && (
+                    <p className="text-[10px] text-red-600 font-bold bg-red-50 p-1.5 rounded">
+                      You have used all 3 examination attempts. Please contact AIICQB support for further assistance.
+                    </p>
+                  )}
                 </div>
               </div>
             ) : (
@@ -295,14 +343,24 @@ export const CandidateDashboard: React.FC = () => {
             )}
           </div>
 
-          <div className="pt-4 border-t border-gray-100">
-            <Link
-              to="/portal/exams"
-              className="w-full py-2.5 bg-slate-50 hover:bg-[#10264B] hover:text-white text-[#10264B] text-xs font-bold rounded-lg border border-gray-200 transition-colors flex items-center justify-center space-x-1"
-            >
-              <span>{upcomingExams.length > 0 ? 'View Details & Guidelines' : 'Go to My Exams'}</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
+          <div className="pt-2 border-t border-gray-100 flex items-center gap-2">
+            {upcomingExams.length > 0 && upcomingExams[0]?.isRetake && upcomingExams[0]?.attemptsRemaining !== 0 ? (
+              <Link
+                to="/portal/exams"
+                className="flex-1 py-2.5 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-lg shadow-sm transition-all flex items-center justify-center space-x-1.5"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Retake Exam</span>
+              </Link>
+            ) : (
+              <Link
+                to="/portal/exams"
+                className="w-full py-2.5 bg-slate-50 hover:bg-[#10264B] hover:text-white text-[#10264B] text-xs font-bold rounded-lg border border-gray-200 transition-colors flex items-center justify-center space-x-1"
+              >
+                <span>{upcomingExams.length > 0 ? 'View Details & Guidelines' : 'Go to My Exams'}</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
           </div>
         </div>
       </div>

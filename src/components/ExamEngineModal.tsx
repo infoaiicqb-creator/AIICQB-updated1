@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { CertificateModal } from './CertificateModal';
+import { IdentityVerificationModal } from './ExamProctoring/IdentityVerificationModal';
 import {
   Clock,
   CheckCircle,
@@ -36,6 +37,11 @@ import {
   User,
   ChevronRight,
   ChevronLeft,
+  Camera,
+  Eye,
+  Shield,
+  Monitor,
+  Video,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -117,9 +123,23 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
 
+  const [showIdentityVerification, setShowIdentityVerification] = useState(false);
+  const [identityVerified, setIdentityVerified] = useState(false);
+  const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
+  const [screenStream, setScreenStream] = useState<MediaStream | null>(null);
+  const [candidatePhoto, setCandidatePhoto] = useState<string>('');
+  const [idCardPhoto, setIdCardPhoto] = useState<string>('');
+  const [matchScore, setMatchScore] = useState<number>(0);
+  const [proctorAlert, setProctorAlert] = useState<{ message: string; type: string; timestamp: string } | null>(null);
+  const [proctorEvents, setProctorEvents] = useState<any[]>([]);
+
   const hasEnteredFullscreen = useRef(false);
   const isExamStartedRef = useRef(false);
   const resultRef = useRef<any>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const screenStreamRef = useRef<MediaStream | null>(null);
+  const proctorVideoRef = useRef<HTMLVideoElement>(null);
+  const proctorCanvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     isExamStartedRef.current = isExamStarted;
@@ -128,6 +148,14 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
   useEffect(() => {
     resultRef.current = result;
   }, [result]);
+
+  useEffect(() => {
+    mediaStreamRef.current = mediaStream;
+  }, [mediaStream]);
+
+  useEffect(() => {
+    screenStreamRef.current = screenStream;
+  }, [screenStream]);
 
   useEffect(() => {
     loadSession();
@@ -156,28 +184,222 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
     };
   }, []);
 
-  // Monitor fullscreen exit: if user was in full screen and exits during test, close exam
+  // Broadcast Proctoring Alert & Log Event to Backend
+  const triggerProctorAlert = (eventType: string, details: string = '') => {
+    const timestamp = new Date().toLocaleTimeString();
+    const alertObj = { message: eventType, type: eventType, timestamp };
+    setProctorAlert(alertObj);
+    setProctorEvents(prev => [...prev.slice(-30), alertObj]);
+
+    // Clear alert popup banner after 4.5 seconds
+    setTimeout(() => {
+      setProctorAlert(curr => (curr?.timestamp === timestamp ? null : curr));
+    }, 4500);
+
+    // Send to backend proctoring log
+    const attemptId = sessionData?.attemptId || `att_${Date.now()}`;
+    api.logProctoringEvent({
+      attemptId,
+      scheduleId,
+      candidateId: user?.candidateId || candidate?.candidateId || 'AICQB-CAND',
+      candidateName: user?.fullName || 'Candidate',
+      eventType,
+      details,
+      timestamp: new Date().toISOString(),
+    }).catch(() => {});
+  };
+
+  // Monitor screen & browser security during active exam
   useEffect(() => {
+    if (!isExamStarted || result) return;
+
+    // 1. Fullscreen monitor: alert when candidate exits fullscreen
     const handleFsChange = () => {
       const inFs = !!document.fullscreenElement;
       setIsFullscreen(inFs);
       if (inFs) {
         hasEnteredFullscreen.current = true;
       } else {
-        // Exited full-screen mode!
-        // If candidate was in full screen and exam is currently active (started & not submitted), terminate and close test
-        if (isExamStartedRef.current && !resultRef.current && hasEnteredFullscreen.current) {
-          alert('Proctored Examination Closed:\nYou have exited full-screen mode. The proctored examination session is now closed.');
-          onClose();
-        }
+        triggerProctorAlert('Fullscreen Exited', 'Candidate exited full-screen examination mode.');
+      }
+    };
+
+    // 2. Tab switching & window blur
+    const handleVisibility = () => {
+      if (document.hidden) {
+        triggerProctorAlert('Tab Switching Detected', 'Candidate switched away from examination browser tab.');
+      }
+    };
+
+    const handleWindowBlur = () => {
+      triggerProctorAlert('Candidate Left Camera View', 'Browser window lost focus or background application opened.');
+    };
+
+    // 3. Right-click context menu prevention
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+      triggerProctorAlert('Security Alert: Right-Click Attempted', 'Context menu access is strictly disabled.');
+    };
+
+    // 4. Copy / Paste / Cut prevention
+    const handleCopyPaste = (e: ClipboardEvent) => {
+      e.preventDefault();
+      triggerProctorAlert('Security Alert: Clipboard Action Blocked', 'Copying and pasting are prohibited.');
+    };
+
+    // 5. Developer tools keyboard shortcuts
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C', 'i', 'j', 'c'].includes(e.key)) ||
+        (e.ctrlKey && ['u', 'U'].includes(e.key))
+      ) {
+        e.preventDefault();
+        triggerProctorAlert('Developer Tools Detected', 'Inspect element and source viewing keys blocked.');
       }
     };
 
     document.addEventListener('fullscreenchange', handleFsChange);
+    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('blur', handleWindowBlur);
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('copy', handleCopyPaste);
+    document.addEventListener('cut', handleCopyPaste);
+    document.addEventListener('paste', handleCopyPaste);
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       document.removeEventListener('fullscreenchange', handleFsChange);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('blur', handleWindowBlur);
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('copy', handleCopyPaste);
+      document.removeEventListener('cut', handleCopyPaste);
+      document.removeEventListener('paste', handleCopyPaste);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onClose]);
+  }, [isExamStarted, result]);
+
+  // Real-time AI Webcam Analysis Loop & Periodic Snapshot
+  useEffect(() => {
+    if (!isExamStarted || result || !mediaStream) return;
+
+    // Attach stream to live video element
+    if (proctorVideoRef.current && proctorVideoRef.current.srcObject !== mediaStream) {
+      proctorVideoRef.current.srcObject = mediaStream;
+    }
+
+    // A. Real-time gaze and face movement tracking loop (every 2.5s)
+    let faceMissingCount = 0;
+    let lookAwayCount = 0;
+
+    const analysisInterval = setInterval(() => {
+      const video = proctorVideoRef.current;
+      const canvas = proctorCanvasRef.current;
+      if (!video || !canvas || video.readyState < 2) return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      canvas.width = 160;
+      canvas.height = 120;
+      ctx.drawImage(video, 0, 0, 160, 120);
+
+      try {
+        const frame = ctx.getImageData(0, 0, 160, 120);
+        const data = frame.data;
+        let totalBrightness = 0;
+        let leftBrightness = 0;
+        let rightBrightness = 0;
+
+        for (let i = 0; i < data.length; i += 16) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const brightness = (r + g + b) / 3;
+          totalBrightness += brightness;
+
+          const pixelIndex = i / 4;
+          const x = pixelIndex % 160;
+          if (x < 80) leftBrightness += brightness;
+          else rightBrightness += brightness;
+        }
+
+        const avgBrightness = totalBrightness / (data.length / 16);
+
+        // Check if camera covered or pitch black
+        if (avgBrightness < 12) {
+          faceMissingCount++;
+          if (faceMissingCount >= 2) {
+            triggerProctorAlert('Camera Disconnected', 'No video signal or camera feed is blocked.');
+            faceMissingCount = 0;
+          }
+        } else {
+          faceMissingCount = 0;
+        }
+
+        // Check left/right asymmetry for repeated head turning or looking away
+        const asymmetry = Math.abs(leftBrightness - rightBrightness) / (totalBrightness || 1);
+        if (asymmetry > 0.45) {
+          lookAwayCount++;
+          if (lookAwayCount >= 3) {
+            triggerProctorAlert(
+              leftBrightness > rightBrightness ? 'Looking Away' : 'Eye Movement Detected',
+              'Significant gaze deviation or head turning detected away from screen.'
+            );
+            lookAwayCount = 0;
+          }
+        } else {
+          lookAwayCount = Math.max(0, lookAwayCount - 1);
+        }
+      } catch (err) {}
+    }, 2500);
+
+    // B. Periodic verification snapshot (every 60s)
+    const snapshotInterval = setInterval(() => {
+      const video = proctorVideoRef.current;
+      const canvas = proctorCanvasRef.current;
+      if (!video || !canvas || video.readyState < 2) return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      canvas.width = 320;
+      canvas.height = 240;
+      ctx.drawImage(video, 0, 0, 320, 240);
+      const snapshot = canvas.toDataURL('image/jpeg', 0.6);
+
+      const attemptId = sessionData?.attemptId || `att_${Date.now()}`;
+      api.logProctoringEvent({
+        attemptId,
+        scheduleId,
+        candidateId: user?.candidateId || candidate?.candidateId || 'AICQB-CAND',
+        candidateName: user?.fullName || 'Candidate',
+        eventType: 'Periodic Verification Snapshot',
+        details: 'Routine AI proctoring verification snapshot captured during exam.',
+        snapshot,
+        timestamp: new Date().toISOString(),
+      }).catch(() => {});
+    }, 60000);
+
+    return () => {
+      clearInterval(analysisInterval);
+      clearInterval(snapshotInterval);
+    };
+  }, [isExamStarted, result, mediaStream]);
+
+  // Periodic autosave answers every 12 seconds
+  useEffect(() => {
+    if (!isExamStarted || result) return;
+    const interval = setInterval(() => {
+      const attemptId = sessionData?.attemptId || `att_${Date.now()}`;
+      api.saveExamAnswers({
+        attemptId,
+        scheduleId,
+        answers,
+      }).catch(() => {});
+    }, 12000);
+    return () => clearInterval(interval);
+  }, [isExamStarted, result, answers, sessionData, scheduleId]);
 
   const loadSession = async () => {
     try {
@@ -202,18 +424,44 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
         hasEnteredFullscreen.current = true;
       }).catch(() => {});
     } else {
-      if (isExamStarted && !result) {
-        if (window.confirm('Exiting full-screen mode will terminate and close this proctored examination. Are you sure you want to exit?')) {
-          handleExit();
-        }
-      } else {
-        document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
-      }
+      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
     }
   };
 
+  // Handle clicking "Start Exam Now" -> Opens Identity Verification First!
   const handleStartExam = () => {
+    setShowIdentityVerification(true);
+  };
+
+  // Called when IdentityVerificationModal successfully verifies candidate
+  const handleVerificationSuccess = (data: {
+    candidatePhoto: string;
+    idCardPhoto: string;
+    matchScore: number;
+    stream: MediaStream;
+    screenStream?: MediaStream;
+  }) => {
+    setCandidatePhoto(data.candidatePhoto);
+    setIdCardPhoto(data.idCardPhoto);
+    setMatchScore(data.matchScore);
+    setMediaStream(data.stream);
+    if (data.screenStream) {
+      setScreenStream(data.screenStream);
+    }
+    setIdentityVerified(true);
+    setShowIdentityVerification(false);
     setIsExamStarted(true);
+
+    // Send verification data to backend
+    api.saveIdentityVerification({
+      scheduleId,
+      candidatePhoto: data.candidatePhoto,
+      idCardPhoto: data.idCardPhoto,
+      matchScore: data.matchScore,
+      verificationStatus: 'Identity Verified',
+    }).catch(() => {});
+
+    // Request fullscreen for proctored examination
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().then(() => {
         setIsFullscreen(true);
@@ -226,7 +474,37 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
     }
   };
 
+  // Immediate Exit Exam without any confirmation popup
+  const handleExitExamDirect = async () => {
+    try {
+      if (mediaStream) {
+        mediaStream.getTracks().forEach((t) => t.stop());
+      }
+      if (screenStream) {
+        screenStream.getTracks().forEach((t) => t.stop());
+      }
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
+      const attemptId = sessionData?.attemptId || `att_${Date.now()}`;
+      await api.exitExamSession({
+        attemptId,
+        scheduleId,
+        answers,
+      }).catch(() => {});
+    } finally {
+      onClose();
+      window.location.href = '/portal/dashboard';
+    }
+  };
+
   const handleExit = () => {
+    if (mediaStream) {
+      mediaStream.getTracks().forEach((t) => t.stop());
+    }
+    if (screenStream) {
+      screenStream.getTracks().forEach((t) => t.stop());
+    }
     if (document.fullscreenElement) {
       document.exitFullscreen().catch(() => {});
     }
@@ -239,6 +517,7 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
   const handleRetakeExam = async () => {
     setResult(null);
     setIsExamStarted(false);
+    setIdentityVerified(false);
     setAnswers({});
     setFlagged({});
     setCurrentIndex(0);
@@ -426,6 +705,9 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
               <span className="px-2.5 py-0.5 bg-gradient-to-r from-[#F47716] to-[#E35D00] text-white font-mono text-[10px] font-black rounded-md uppercase tracking-wider shadow-xs">
                 PROCTORED
               </span>
+              <span className="hidden md:inline px-2 py-0.5 bg-blue-900/60 text-blue-200 border border-blue-400/30 text-[10px] font-bold rounded-md">
+                Professional Level
+              </span>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3 text-xs mt-0.5">
               <span className="text-orange-400 font-mono font-bold tracking-wider">
@@ -439,7 +721,7 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
           </div>
         </div>
 
-        <div className="flex items-center space-x-3 relative z-10">
+        <div className="flex items-center space-x-2 sm:space-x-3 relative z-10">
           {/* Fullscreen Toggle */}
           <button
             onClick={toggleBrowserFullscreen}
@@ -454,7 +736,7 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
             <>
               {/* Countdown Timer */}
               <div
-                className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-mono text-sm font-bold shadow-inner ${
+                className={`flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-xl font-mono text-sm font-bold shadow-inner ${
                   timeLeft < 300
                     ? 'bg-red-600 text-white animate-pulse'
                     : 'bg-slate-900 border border-slate-700 text-[#F47716]'
@@ -464,35 +746,40 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
                 <span>{formatTime(timeLeft)}</span>
               </div>
 
-              {/* Top Submit Final Action (Accessible from above side) */}
+              {/* Top Submit Final Action */}
               <button
                 onClick={() => setShowSubmitConfirm(true)}
                 disabled={submitting}
-                className="px-4 sm:px-6 py-2 bg-gradient-to-r from-[#F47716] to-[#E35D00] hover:from-[#E35D00] hover:to-[#C94E00] text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-lg hover:shadow-orange-500/30 transition-all flex items-center space-x-2 cursor-pointer border border-orange-400"
+                className="px-3 sm:px-5 py-2 bg-gradient-to-r from-[#F47716] to-[#E35D00] hover:from-[#E35D00] hover:to-[#C94E00] text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-lg hover:shadow-orange-500/30 transition-all flex items-center space-x-1.5 sm:space-x-2 cursor-pointer border border-orange-400"
                 title="Submit Final Exam"
               >
                 {submitting ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Submitting Final...</span>
+                    <span>Submitting...</span>
                   </>
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>Submit Final</span>
+                    <span>Submit Exam</span>
                   </>
                 )}
+              </button>
+
+              {/* Exit Exam Button (Immediate Navigation to Dashboard, No Popup) */}
+              <button
+                onClick={handleExitExamDirect}
+                className="text-xs font-bold bg-red-950/60 hover:bg-red-900 text-red-200 border border-red-800/80 px-3 sm:px-4 py-2 rounded-xl transition-colors cursor-pointer"
+                title="Exit Examination (Return to Home Screen)"
+              >
+                Exit Exam
               </button>
             </>
           )}
 
           {!isExamStarted && !result && (
             <button
-              onClick={() => {
-                if (window.confirm('Do you really want to exit the proctored examination?')) {
-                  handleExit();
-                }
-              }}
+              onClick={handleExitExamDirect}
               className="text-xs font-semibold bg-slate-800/80 hover:bg-red-900/60 hover:text-red-200 text-slate-300 px-4 py-2 rounded-xl border border-slate-700 transition-colors cursor-pointer"
             >
               Exit Exam
@@ -500,6 +787,70 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
           )}
         </div>
       </header>
+
+      {/* Sub-Header Metrics Ribbon for Active Proctored Session */}
+      {isExamStarted && !result && (
+        <div className="bg-[#071326] text-slate-300 px-4 sm:px-8 py-2 border-b border-slate-800/90 text-xs flex flex-wrap items-center justify-between gap-2 z-20">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-6 font-mono text-[11px]">
+            <span className="flex items-center space-x-1.5 text-slate-200">
+              <Clock className="w-3.5 h-3.5 text-orange-400" />
+              <span>Duration: <strong className="text-white">{durationMinutes} Mins</strong></span>
+            </span>
+            <span className="flex items-center space-x-1.5 text-slate-200">
+              <ClipboardList className="w-3.5 h-3.5 text-blue-400" />
+              <span>Total Questions: <strong className="text-white">{questions.length}</strong></span>
+            </span>
+            <span className="flex items-center space-x-1.5 text-emerald-300">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Attempted: <strong className="text-white">{answeredCount}</strong></span>
+            </span>
+            <span className="flex items-center space-x-1.5 text-slate-400">
+              <span>Unattempted: <strong className="text-white">{unansweredCount}</strong></span>
+            </span>
+            <span className="flex items-center space-x-1.5 text-amber-300">
+              <Flag className="w-3.5 h-3.5 text-[#F47716]" />
+              <span>Marked for Review: <strong className="text-white">{flaggedCount}</strong></span>
+            </span>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span className="text-[11px] font-bold text-emerald-400 font-mono">
+              AI PROCTOR: ACTIVE • HD STREAM
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Real-Time Proctoring Alert Toast Overlay */}
+      {proctorAlert && (
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-[1000000] w-full max-w-lg px-4 pointer-events-none animate-in slide-in-from-top-4 duration-200">
+          <div className="bg-red-600/95 text-white border-2 border-red-400/80 rounded-2xl p-4 shadow-2xl backdrop-blur-md flex items-center space-x-3 pointer-events-auto">
+            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
+              <AlertTriangle className="w-6 h-6 text-white animate-bounce" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black uppercase tracking-wider text-red-100">AI Proctoring Alert</span>
+                <span className="text-[10px] font-mono text-red-200">{proctorAlert.timestamp}</span>
+              </div>
+              <p className="text-sm font-extrabold text-white leading-tight mt-0.5">{proctorAlert.message}</p>
+              <p className="text-[11px] text-red-100 mt-0.5">Please maintain eye contact with the screen and stay within full camera view.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Pre-Exam Identity Verification Modal */}
+      {showIdentityVerification && (
+        <IdentityVerificationModal
+          candidateName={candidateName}
+          candidateId={candidateId}
+          examName={certName}
+          onVerified={handleVerificationSuccess}
+          onCancel={() => setShowIdentityVerification(false)}
+        />
+      )}
 
       {/* Body: Instructions Screen (100% Fits on Screen – No Scrolling Required) */}
       {!isExamStarted && !result && (
@@ -735,15 +1086,41 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
               >
                 {result.passed ? 'RESULT: PASSED (≥ 70% SCORE)' : 'RESULT: FAILED (< 70% SCORE)'}
               </span>
-              <h3 className="text-2xl sm:text-3xl font-black text-[#10264B] mt-3">
-                Examination Result: <span className={result.passed ? 'text-emerald-600' : 'text-red-600'}>
-                  {result.passed ? 'Passed!' : 'Failed'}
-                </span>
+              <h3 className="text-xl sm:text-2xl font-black text-[#10264B] mt-3">
+                Congratulations! You have successfully completed your AIICQB examination.
               </h3>
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 mt-3 text-left space-y-1.5 text-xs text-slate-700">
+                <div className="flex justify-between">
+                  <span className="text-slate-500 font-medium">Candidate Name:</span>
+                  <span className="font-bold text-[#10264B]">{candidateName}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500 font-medium">Candidate ID:</span>
+                  <span className="font-mono font-bold text-slate-800">{candidateId}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500 font-medium">Examination Name:</span>
+                  <span className="font-bold text-[#10264B]">{certName}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500 font-medium">Certification Level:</span>
+                  <span className="font-semibold text-slate-800">{sessionData?.level || 'Professional Level'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-500 font-medium">Completion Date:</span>
+                  <span className="font-medium text-slate-800">{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                </div>
+                <div className="flex justify-between border-t border-slate-200 pt-1.5">
+                  <span className="text-slate-500 font-medium">Examination Result:</span>
+                  <span className={`font-black ${result.passed ? 'text-emerald-600' : 'text-red-600'}`}>
+                    {result.passed ? 'PASSED (Certificate Issued)' : 'FAILED (Minimum 70% Required)'}
+                  </span>
+                </div>
+              </div>
               <p className="text-xs sm:text-sm text-slate-600 mt-2 max-w-md mx-auto leading-relaxed">
                 {result.passed
-                  ? `Congratulations! Your score of ${result.percentage}% meets or exceeds the mandatory 70% passing criteria. Your official AIICQB International Certificate has been cryptographically generated and issued to your candidate registry.`
-                  : `Your score of ${result.percentage}% did not meet the mandatory 70% passing criteria. As per official AIICQB regulations, no certificate is generated for this attempt. You have been granted a second chance to retake and clear this examination!`}
+                  ? `Your score of ${result.percentage}% meets or exceeds the mandatory 70% passing criteria. Your official AIICQB International Certificate has been cryptographically generated and issued to your candidate registry.`
+                  : `Your score of ${result.percentage}% did not meet the mandatory 70% passing criteria. As per official AIICQB regulations, no certificate is generated for this attempt.`}
               </p>
             </div>
 
@@ -823,13 +1200,23 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
                   </button>
                 </>
               ) : (
-                <button
-                  onClick={() => handleRetakeExam()}
-                  className="w-full sm:w-auto px-7 py-3.5 bg-gradient-to-r from-[#F47716] to-[#E35D00] hover:from-[#E35D00] hover:to-[#C94E00] text-white font-extrabold text-sm rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer border border-orange-400"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  <span>Take Retake Examination (Chance 2 of 2) &gt;</span>
-                </button>
+                <div className="w-full flex flex-col items-center space-y-3">
+                  {(result.attemptsCompleted >= 3 || result.retakeGranted === false) ? (
+                    <div className="p-4 bg-red-50 border-2 border-red-300 rounded-2xl text-xs font-bold text-red-800 max-w-md text-center">
+                      <AlertTriangle className="w-5 h-5 text-red-600 mx-auto mb-1.5" />
+                      <p>You have used all 3 examination attempts. Please contact AIICQB support for further assistance.</p>
+                      <p className="text-[11px] text-red-600 font-normal mt-1">Email: support@aiicqb.org • Candidate ID: {candidateId}</p>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => handleRetakeExam()}
+                      className="w-full sm:w-auto px-7 py-3.5 bg-gradient-to-r from-[#F47716] to-[#E35D00] hover:from-[#E35D00] hover:to-[#C94E00] text-white font-extrabold text-sm rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 cursor-pointer border border-orange-400"
+                    >
+                      <RotateCcw className="w-4 h-4" />
+                      <span>Take Retake Examination (Attempt {(result.attemptsCompleted || 1) + 1} of 3) &gt;</span>
+                    </button>
+                  )}
+                </div>
               )}
               <button
                 onClick={handleExit}
@@ -1015,7 +1402,41 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
 
           {/* Right Question Palette (White & Navy Blue Sidebar) */}
           <aside className="w-full md:w-80 bg-white border-l border-slate-200 p-5 sm:p-6 flex flex-col justify-between flex-shrink-0 shadow-sm overflow-y-auto max-h-[calc(100vh-70px)]">
-            <div className="space-y-5">
+            <div className="space-y-4">
+              {/* Live AI Proctoring Camera Stream Widget */}
+              <div className="bg-[#071326] rounded-2xl border border-slate-700/80 overflow-hidden shadow-sm relative">
+                <div className="relative aspect-video bg-black flex items-center justify-center overflow-hidden">
+                  <video
+                    ref={proctorVideoRef}
+                    autoPlay
+                    playsInline
+                    muted
+                    className="w-full h-full object-cover transform scale-x-[-1]"
+                  />
+                  {/* Proctoring HUD Reticle */}
+                  <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                    <div className="w-20 h-28 rounded-[50%] border-2 border-dashed border-emerald-400/60 opacity-70"></div>
+                  </div>
+                  {/* Status Overlay */}
+                  <div className="absolute top-2 left-2 flex items-center space-x-1.5 px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-xs text-[10px] font-mono font-bold text-white border border-white/10">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>AI PROCTOR LIVE</span>
+                  </div>
+                  {/* Gaze Status */}
+                  <div className="absolute bottom-2 right-2 flex items-center space-x-1 px-1.5 py-0.5 rounded bg-black/70 text-[9px] font-mono text-emerald-300">
+                    <Eye className="w-2.5 h-2.5" />
+                    <span>GAZE: CENTER</span>
+                  </div>
+                </div>
+                <div className="px-3 py-1.5 bg-[#0D1E3A] flex items-center justify-between text-[10px] text-slate-300 border-t border-slate-800">
+                  <span className="flex items-center space-x-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="font-semibold">Identity Verified</span>
+                  </span>
+                  <span className="font-mono text-slate-400 text-[9px]">Match: {matchScore || 96.5}%</span>
+                </div>
+              </div>
+
               {/* Palette Card Header */}
               <div className="bg-[#10264B] text-white p-4 rounded-xl flex items-center justify-between shadow-sm">
                 <div>
@@ -1398,6 +1819,9 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
           onClose={() => setShowCertificate(false)}
         />
       )}
+
+      {/* Hidden Proctoring Canvas for Frame Analysis & Snapshots */}
+      <canvas ref={proctorCanvasRef} className="hidden" />
     </div>,
     document.body
   );

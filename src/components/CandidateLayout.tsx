@@ -87,7 +87,7 @@ export const CandidateLayout: React.FC = () => {
             {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
           <Link to="/" className="flex items-center space-x-2">
-            <img src="/aicqb-logo.png" alt="AICQB Logo" className="h-9 w-auto bg-white p-1 rounded-lg object-contain" />
+            <img src="/aicqb-logo.png" alt="AIICQB Logo" className="h-9 w-auto bg-white p-1 rounded-lg object-contain" />
           </Link>
         </div>
 
@@ -116,7 +116,7 @@ export const CandidateLayout: React.FC = () => {
               onClick={() => setSidebarOpen(false)}
               className="flex items-center space-x-2 bg-white px-4 py-2.5 rounded-xl w-full justify-center shadow-md hover:opacity-95 transition-opacity"
             >
-              <img src="/aicqb-logo.png" alt="AICQB Logo" className="h-12 sm:h-14 w-auto object-contain" />
+              <img src="/aicqb-logo.png" alt="AIICQB Logo" className="h-12 sm:h-14 w-auto object-contain" />
             </Link>
             <button
               onClick={() => setSidebarOpen(false)}

@@ -45,9 +45,9 @@ export const Navbar: React.FC = () => {
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18 sm:h-24">
-          {/* AICQB Logo */}
+          {/* AIICQB Logo */}
           <Link to="/" className="flex items-center space-x-3 group py-1.5 sm:py-2">
-            <img src="/aicqb-logo.png" alt="AICQB Logo" className="h-13 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105" />
+            <img src="/aicqb-logo.png" alt="AIICQB Logo" className="h-13 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -212,11 +212,10 @@ export const Navbar: React.FC = () => {
                     key={item.path}
                     to={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`group flex items-center justify-between px-3.5 py-3 rounded-xl transition-all relative ${
-                      active
-                        ? 'bg-gradient-to-r from-orange-100/90 via-orange-50/50 to-transparent text-[#F47716] font-bold'
-                        : 'text-[#10264B] hover:bg-gray-50 font-semibold'
-                    } ${!active ? 'border-b border-gray-100' : ''}`}
+                    className={`group flex items-center justify-between px-3.5 py-3 rounded-xl transition-all relative ${active
+                      ? 'bg-gradient-to-r from-orange-100/90 via-orange-50/50 to-transparent text-[#F47716] font-bold'
+                      : 'text-[#10264B] hover:bg-gray-50 font-semibold'
+                      } ${!active ? 'border-b border-gray-100' : ''}`}
                   >
                     {/* Active Left Indicator Pill */}
                     {active && (
@@ -227,11 +226,10 @@ export const Navbar: React.FC = () => {
                       <span className="text-[15px] sm:text-base tracking-tight">{item.label}</span>
                     </div>
                     <ChevronRight
-                      className={`w-4 h-4 flex-shrink-0 transition-transform ${
-                        active
-                          ? 'opacity-0'
-                          : 'text-gray-400 group-hover:text-[#F47716] group-hover:translate-x-0.5'
-                      }`}
+                      className={`w-4 h-4 flex-shrink-0 transition-transform ${active
+                        ? 'opacity-0'
+                        : 'text-gray-400 group-hover:text-[#F47716] group-hover:translate-x-0.5'
+                        }`}
                     />
                   </Link>
                 );

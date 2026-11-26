@@ -104,6 +104,12 @@ export interface ExamSchedule {
   status: 'scheduled' | 'in-progress' | 'completed' | 'expired';
   isRetake?: boolean;
   retakeAttemptNumber?: number;
+  totalAttemptsAllowed?: number;
+  attemptsCompleted?: number;
+  attemptsRemaining?: number;
+  previousAttemptScore?: number | null;
+  previousAttemptResult?: string | null;
+  nextAttemptEligibility?: boolean;
   instructions?: string[];
 }
 

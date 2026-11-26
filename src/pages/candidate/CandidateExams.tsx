@@ -78,7 +78,7 @@ export const CandidateExams: React.FC = () => {
         try {
           localStorage.setItem('aicqb_my_upcoming', JSON.stringify(res.upcoming || []));
           localStorage.setItem('aicqb_my_completed', JSON.stringify(res.completed || []));
-        } catch (_) {}
+        } catch (_) { }
       }
     } catch (err) {
       console.error('Failed to load schedules:', err);
@@ -163,28 +163,70 @@ export const CandidateExams: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="space-y-1">
+                  <div className="space-y-2 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-sm sm:text-base font-bold text-[#10264B]">{exam.examName}</h3>
                       {exam.isRetake ? (
                         <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 font-extrabold text-[10px] rounded-full border border-amber-300 shadow-xs">
-                          Retake Chance 2 of 2
+                          Retake Attempt {exam.retakeAttemptNumber || 2} of 3
                         </span>
                       ) : (
                         <span className="px-2.5 py-0.5 bg-blue-50 text-[#10264B] font-bold text-[10px] rounded-full border border-blue-200">
-                          Enrolled Certificate
+                          Initial Attempt (1 of 3)
                         </span>
                       )}
                       <span className="px-2 py-0.5 bg-green-50 text-green-700 font-bold text-[10px] rounded-full border border-green-200">
                         {exam.isRetake ? 'Retake Window Open' : 'Exam Scheduled'}
                       </span>
                     </div>
+
                     <p className="text-xs font-mono text-[#F47716] font-semibold">({exam.certificationCode})</p>
-                    <p className="text-[11px] text-gray-500">
-                      {exam.isRetake
-                        ? 'Second chance opportunity • Score 70% or higher to clear the test and unlock your official certificate'
-                        : 'Enrolled Program • Passing score (70%) unlocks official QR-verifiable certificate'}
-                    </p>
+
+                    {/* Official Retake Policy Information Card */}
+                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-2 max-w-xl">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px]">
+                        <div>
+                          <span className="text-gray-400 block font-medium">Total Attempts Allowed</span>
+                          <span className="font-extrabold text-[#10264B]">3 Attempts</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400 block font-medium">Attempts Completed</span>
+                          <span className="font-extrabold text-slate-800">{exam.attemptsCompleted || (exam.isRetake ? 1 : 0)} of 3</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400 block font-medium">Attempts Remaining</span>
+                          <span className={`font-extrabold ${(exam.attemptsRemaining === 0) ? 'text-red-600' : 'text-emerald-700'}`}>
+                            {exam.attemptsRemaining !== undefined ? exam.attemptsRemaining : (exam.isRetake ? 2 : 3)} Left
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400 block font-medium">Previous Attempt Score</span>
+                          <span className="font-mono font-bold text-slate-700">
+                            {exam.previousAttemptScore !== undefined && exam.previousAttemptScore !== null ? `${exam.previousAttemptScore}%` : 'N/A (First Attempt)'}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400 block font-medium">Previous Attempt Result</span>
+                          <span className={`font-bold ${exam.previousAttemptResult === 'Passed' ? 'text-emerald-600' : exam.previousAttemptResult === 'Failed' ? 'text-red-600' : 'text-slate-600'}`}>
+                            {exam.previousAttemptResult || (exam.isRetake ? 'Failed (< 70%)' : 'None')}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400 block font-medium">Next Attempt Eligibility</span>
+                          <span className={`font-extrabold ${exam.attemptsRemaining === 0 ? 'text-red-600' : 'text-emerald-700'}`}>
+                            {exam.attemptsRemaining === 0 ? 'Exhausted' : 'Eligible ✓'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {exam.attemptsRemaining === 0 && (
+                        <div className="p-2 bg-red-50 border border-red-200 rounded-lg text-[11px] text-red-800 font-semibold flex items-center space-x-1.5">
+                          <AlertTriangle className="w-4 h-4 text-red-600 flex-shrink-0" />
+                          <span>You have used all 3 examination attempts. Please contact AIICQB support for further assistance.</span>
+                        </div>
+                      )}
+                    </div>
+
                     <div className="flex items-center space-x-1.5 text-xs text-gray-500 pt-0.5">
                       <Clock className="w-3.5 h-3.5 text-gray-400" />
                       <span>{exam.scheduledTime || '10:00 AM – 11:30 AM (IST)'} • Duration: {exam.durationMinutes || exam.duration || 90} Minutes • {exam.mode || 'Online Proctored'}</span>
@@ -203,13 +245,23 @@ export const CandidateExams: React.FC = () => {
                   >
                     Exam Guidelines
                   </button>
-                  <button
-                    onClick={() => handleJoinExam(exam.id)}
-                    className="px-5 py-2.5 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>{exam.isRetake ? 'Start Retake Exam' : 'Start Exam'}</span>
-                  </button>
+                  {exam.attemptsRemaining === 0 ? (
+                    <button
+                      disabled
+                      className="px-5 py-2.5 bg-gray-200 text-gray-500 text-xs font-bold rounded-xl cursor-not-allowed opacity-60"
+                      title="All 3 attempts used"
+                    >
+                      Attempts Exhausted
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleJoinExam(exam.id)}
+                      className="px-5 py-2.5 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer"
+                    >
+                      <Play className="w-3.5 h-3.5 fill-current" />
+                      <span>{exam.isRetake ? 'Retake Exam' : 'Start Exam'}</span>
+                    </button>
+                  )}
                 </div>
               </div>
             ))

@@ -95,6 +95,29 @@ export const api = {
   startExamSession: (scheduleId: string) => request(`/exams/session/${scheduleId}`),
   submitExam: (body: { attemptId: string; answers: Record<string, any>; scheduleId?: string }) =>
     request('/exams/submit', { method: 'POST', body: JSON.stringify(body) }),
+  saveExamAnswers: (body: { attemptId: string; scheduleId?: string; answers: Record<string, any> }) =>
+    request('/exams/save-answers', { method: 'POST', body: JSON.stringify(body) }),
+  logProctoringEvent: (body: {
+    attemptId?: string;
+    scheduleId?: string;
+    candidateId?: string;
+    candidateName?: string;
+    eventType: string;
+    details?: string;
+    snapshot?: string | null;
+    timestamp?: string;
+  }) => request('/exams/proctoring/log-event', { method: 'POST', body: JSON.stringify(body) }),
+  saveIdentityVerification: (body: {
+    scheduleId: string;
+    candidatePhoto: string;
+    idCardPhoto: string;
+    matchScore?: number;
+    verificationStatus?: string;
+  }) => request('/exams/proctoring/identity-verification', { method: 'POST', body: JSON.stringify(body) }),
+  exitExamSession: (body: { attemptId?: string; scheduleId?: string; answers?: Record<string, any> }) =>
+    request('/exams/exit', { method: 'POST', body: JSON.stringify(body) }),
+  reviewSessionAdmin: (body: { scheduleId?: string; attemptId?: string; status: string; notes?: string }) =>
+    request('/exams/admin/review-session', { method: 'POST', body: JSON.stringify(body) }),
 
   // Certificates
   getMyCertificates: () => request('/certificates/my'),

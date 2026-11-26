@@ -14,10 +14,10 @@ export const Footer: React.FC = () => {
           {/* Column 1: Brand & About */}
           <div className="lg:col-span-2 space-y-4 text-center md:text-left flex flex-col items-center md:items-start">
             <div className="flex items-center space-x-3 bg-white px-4 py-2.5 rounded-xl max-w-fit shadow-md mx-auto md:mx-0">
-              <img src="/aicqb-logo.png" alt="AICQB Logo" className="h-14 sm:h-16 w-auto object-contain" />
+              <img src="/aicqb-logo.png" alt="AIICQB Logo" className="h-14 sm:h-16 w-auto object-contain" />
             </div>
             <p className="text-slate-300 text-sm leading-relaxed max-w-sm mx-auto md:mx-0">
-              AI International Certification & Qualification Board (AICQB) is an independent professional body setting
+              AI International Certification & Qualification Board (AIICQB) is an independent professional body setting
               benchmarks for global skill standards, verified assessments, and multi-industry qualifications.
             </p>
             <div className="pt-2 text-xs text-slate-400 space-y-1.5 w-full flex flex-col items-center md:items-start">
@@ -160,7 +160,7 @@ export const Footer: React.FC = () => {
         {/* Copyright and Links */}
         <div className="pt-6 pb-4 text-xs text-slate-400 text-center md:text-left">
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-between text-xs text-center md:text-left">
-            <p className="text-center md:text-left">© {new Date().getFullYear()} AICQB – AI International Certification & Qualification Board. All rights reserved.</p>
+            <p className="text-center md:text-left">© {new Date().getFullYear()} AIICQB – AI International Certification & Qualification Board. All rights reserved.</p>
             <div className="flex flex-wrap items-center justify-center md:justify-end gap-2 sm:gap-4 mt-3 md:mt-0 text-slate-400">
               <Link to="/terms" onClick={scrollToTop} className="hover:text-white transition-colors">
                 Terms of Service

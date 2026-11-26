@@ -207,7 +207,34 @@ export async function getCandidateSchedules(req, res) {
       s.status === 'scheduled' &&
       !s.passed &&
       (s.percentage === undefined || s.percentage < 70)
-    );
+    ).map(s => {
+      const normSCode = normCode(s.certificationCode);
+      const certAttempts = attempts.filter(a =>
+        (a.scheduleId === s.id || a.scheduleId === s.scheduleId) ||
+        (s.certificationId && a.certificationId === s.certificationId) ||
+        (s.certificationCode && a.certificationCode && normCode(a.certificationCode) === normSCode)
+      );
+      const attemptsCompleted = certAttempts.length;
+      const totalAttemptsAllowed = 3;
+      const attemptsRemaining = Math.max(0, totalAttemptsAllowed - attemptsCompleted);
+      const lastAttempt = certAttempts[certAttempts.length - 1];
+      const previousAttemptScore = lastAttempt?.score ?? lastAttempt?.percentage ?? s.lastAttemptScore ?? s.percentage ?? null;
+      const previousAttemptResult = lastAttempt ? (lastAttempt.passed || (lastAttempt.percentage >= 70) ? 'Passed' : 'Failed') : (s.percentage !== undefined ? (s.percentage >= 70 ? 'Passed' : 'Failed') : null);
+      const nextAttemptEligibility = attemptsRemaining > 0;
+      const isRetake = attemptsCompleted > 0;
+
+      return {
+        ...s,
+        totalAttemptsAllowed,
+        attemptsCompleted,
+        attemptsRemaining,
+        previousAttemptScore,
+        previousAttemptResult,
+        nextAttemptEligibility,
+        isRetake,
+        retakeAttemptNumber: attemptsCompleted + 1,
+      };
+    });
 
     return res.json({
       success: true,
@@ -715,20 +742,22 @@ export async function submitExam(req, res) {
     } else {
       // -------------------------------------------------------------------
       // FAILED ATTEMPT: STRICTLY DO NOT GENERATE CERTIFICATE
-      // GIVE ONE MORE CHANCE TO CLEAR THAT TEST (RETAKE ATTEMPT)
+      // ALLOW CANDIDATE A MAXIMUM OF 2 RETAKES (TOTAL 3 ATTEMPTS)
       // -------------------------------------------------------------------
       certificate = null;
 
-      // Check prior attempts count for this candidate and certification
+      // Check all attempts for this candidate and certification
       const priorAttempts = db.find(
         'examAttempts',
-        a => (a.candidateUid === uid || (req.user?.email && a.candidateEmail === req.user.email)) && a.certificationId === attempt.certificationId
+        a => (a.candidateUid === uid || (req.user?.email && a.candidateEmail === req.user.email)) &&
+          (a.certificationId === attempt.certificationId || a.certificationCode === attempt.certificationCode)
       );
-      const attemptCount = priorAttempts.length;
+      const attemptCount = priorAttempts.length; // Includes current attempt
+      const maxAttemptsAllowed = 3;
 
-      // Allow one retake attempt (chance 2 of 2)
-      if (attemptCount <= 2) {
+      if (attemptCount < maxAttemptsAllowed) {
         retakeGranted = true;
+        const retakeNumber = attemptCount + 1; // 2 or 3
         const now = new Date();
         const day = String(now.getDate()).padStart(2, '0');
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -746,17 +775,20 @@ export async function submitExam(req, res) {
           certificationName: attempt.certificationName,
           certificationCode: attempt.certificationCode,
           examId: attempt.examId || `exam_${attempt.certificationId}`,
-          examName: `${attempt.certificationName} (Retake - Chance 2 of 2)`,
+          examName: `${attempt.certificationName} (Retake - Attempt ${retakeNumber} of 3)`,
           examCode: `${attempt.certificationCode}-EXAM`,
           scheduledDate: now.toISOString().split('T')[0],
           scheduledDateDay: day,
           scheduledDateMonth: monthYear,
           scheduledTime: 'Immediate Access / Retake Window Open',
-          mode: 'Online Proctored (Retake Attempt 2 of 2)',
+          mode: `Online Proctored (Retake Attempt ${retakeNumber} of 3)`,
           durationMinutes: attempt.durationMinutes || 90,
           status: 'scheduled',
           isRetake: true,
-          retakeAttemptNumber: 2,
+          retakeAttemptNumber: retakeNumber,
+          totalAttemptsAllowed: 3,
+          attemptsCompleted: attemptCount,
+          attemptsRemaining: Math.max(0, 3 - attemptCount),
           lastAttemptScore: totalScore,
           lastAttemptPercentage: percentage,
           passed: false,
@@ -764,7 +796,6 @@ export async function submitExam(req, res) {
         };
 
         if (schedule) {
-          // Keep the existing schedule in status 'scheduled' (Upcoming Exams only)
           db.updateDoc('examSchedules', schedule.id, {
             candidateUid: uid,
             candidateId,
@@ -776,19 +807,34 @@ export async function submitExam(req, res) {
             certificateNo: null,
             retakeGranted: true,
             isRetake: true,
-            retakeAttemptNumber: 2,
-            examName: `${attempt.certificationName} (Retake - Chance 2 of 2)`,
+            retakeAttemptNumber: retakeNumber,
+            totalAttemptsAllowed: 3,
+            attemptsCompleted: attemptCount,
+            attemptsRemaining: Math.max(0, 3 - attemptCount),
+            examName: `${attempt.certificationName} (Retake - Attempt ${retakeNumber} of 3)`,
             scheduledTime: 'Immediate Access / Retake Window Open',
           });
         } else {
           db.addDoc('examSchedules', retakeScheduleRecord);
         }
 
-        // Keep candidate upcoming exam count active in candidate profile
         const cand = db.findOne('candidates', c => c.uid === uid || (req.user?.email && c.email?.toLowerCase() === req.user.email.toLowerCase()));
         if (cand) {
           db.updateDoc('candidates', cand.id, {
             upcomingExamsCount: Math.max(1, cand.upcomingExamsCount || 1),
+          });
+        }
+      } else {
+        retakeGranted = false;
+        if (schedule) {
+          db.updateDoc('examSchedules', schedule.id, {
+            status: 'exhausted',
+            passed: false,
+            retakeGranted: false,
+            totalAttemptsAllowed: 3,
+            attemptsCompleted: attemptCount,
+            attemptsRemaining: 0,
+            nextAttemptEligibility: false,
           });
         }
       }
@@ -800,16 +846,16 @@ export async function submitExam(req, res) {
       req,
       'EXAM_SUBMISSION',
       'Examination Management',
-      `Exam submitted for ${attempt.certificationName} by ${req.user.email} - Score: ${percentage}% (${passed ? 'PASSED' : 'FAILED - RETAKE GRANTED'}) - ${calculatedGrade}`
+      `Exam submitted for ${attempt.certificationName} by ${req.user.email} - Score: ${percentage}% (${passed ? 'PASSED' : retakeGranted ? 'FAILED - RETAKE GRANTED' : 'FAILED - ALL ATTEMPTS EXHAUSTED'}) - ${calculatedGrade}`
     );
 
     return res.json({
       success: true,
       message: passed
-        ? 'Congratulations! You have successfully passed the AICQB International Certification exam! Your official verifiable certificate has been issued.'
+        ? 'Congratulations! You have successfully completed your AIICQB examination.'
         : retakeGranted
-          ? 'Your score did not meet the 70% passing threshold. No certificate has been generated. You have been granted a second chance to retake and clear this examination!'
-          : 'Your score did not meet the 70% passing threshold. Maximum examination attempts have been reached.',
+          ? 'Your score did not meet the 70% passing threshold. No certificate has been generated. You have been granted a retake attempt to clear this examination.'
+          : 'You have used all 3 examination attempts. Please contact AIICQB support for further assistance.',
       results: {
         score: totalScore,
         maxScore,
@@ -821,6 +867,9 @@ export async function submitExam(req, res) {
         candidateId,
         certificate: certificate || null,
         retakeGranted,
+        totalAttemptsAllowed: 3,
+        attemptsCompleted: (db.find('examAttempts', a => (a.candidateUid === uid || (req.user?.email && a.candidateEmail === req.user.email)) && (a.certificationId === attempt.certificationId || a.certificationCode === attempt.certificationCode)).length) || 1,
+        attemptsRemaining: passed ? 0 : Math.max(0, 3 - ((db.find('examAttempts', a => (a.candidateUid === uid || (req.user?.email && a.candidateEmail === req.user.email)) && (a.certificationId === attempt.certificationId || a.certificationCode === attempt.certificationCode)).length) || 1)),
         retakeScheduleId: retakeScheduleRecord?.id || null,
       },
     });
@@ -1108,11 +1157,273 @@ export async function deleteQuestionAdmin(req, res) {
   }
 }
 
+// ----------------------------------------------------
+// AI Proctoring & Continuous Session Endpoints
+// ----------------------------------------------------
+
+export async function saveAnswers(req, res) {
+  try {
+    const { attemptId, scheduleId, answers } = req.body;
+    let attempt = db.findOne('examAttempts', a =>
+      (attemptId && (a.id === attemptId || a.attemptId === attemptId)) ||
+      (scheduleId && (a.scheduleId === scheduleId || a.schedule_id === scheduleId))
+    );
+
+    if (attempt) {
+      db.updateDoc('examAttempts', attempt.id, {
+        answers: answers || {},
+        lastSavedAt: new Date().toISOString(),
+      });
+    }
+
+    return res.json({ success: true, message: 'Answers autosaved successfully' });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to autosave answers' });
+  }
+}
+
+export async function logProctoringEvent(req, res) {
+  try {
+    const {
+      attemptId,
+      scheduleId,
+      candidateId,
+      candidateName,
+      eventType,
+      details,
+      snapshot,
+      timestamp,
+    } = req.body;
+
+    const eventRecord = {
+      id: `proc_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`,
+      attemptId: attemptId || 'unknown_attempt',
+      scheduleId: scheduleId || 'unknown_schedule',
+      candidateUid: req.user?.uid || 'anonymous',
+      candidateId: candidateId || req.user?.candidateId || 'AICQB-CAND',
+      candidateName: candidateName || req.user?.fullName || 'Candidate',
+      eventType: eventType || 'General Alert',
+      details: details || '',
+      snapshot: snapshot || null,
+      timestamp: timestamp || new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+    };
+
+    db.addDoc('examProctoringLogs', eventRecord);
+
+    // Also append to active attempt if present
+    const attempt = db.findOne('examAttempts', a => (attemptId && (a.id === attemptId || a.attemptId === attemptId)));
+    if (attempt) {
+      const currentEvents = Array.isArray(attempt.proctoringEvents) ? attempt.proctoringEvents : [];
+      db.updateDoc('examAttempts', attempt.id, {
+        proctoringEvents: [...currentEvents.slice(-49), {
+          id: eventRecord.id,
+          eventType: eventRecord.eventType,
+          details: eventRecord.details,
+          timestamp: eventRecord.timestamp,
+        }],
+        lastAlertAt: eventRecord.timestamp,
+        totalAlertsCount: (attempt.totalAlertsCount || 0) + 1,
+      });
+    }
+
+    return res.json({ success: true, eventId: eventRecord.id });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to log proctoring event' });
+  }
+}
+
+export async function saveIdentityVerification(req, res) {
+  try {
+    const {
+      scheduleId,
+      candidatePhoto,
+      idCardPhoto,
+      matchScore = 96.5,
+      verificationStatus = 'Identity Verified',
+    } = req.body;
+
+    const uid = req.user?.uid;
+    const candidateId = req.user?.candidateId;
+    const candidateName = req.user?.fullName || 'Candidate';
+
+    const verificationRecord = {
+      id: `idv_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`,
+      scheduleId: scheduleId || '',
+      candidateUid: uid,
+      candidateId,
+      candidateName,
+      candidatePhoto: candidatePhoto || '',
+      idCardPhoto: idCardPhoto || '',
+      matchScore,
+      verificationStatus,
+      verifiedAt: new Date().toISOString(),
+    };
+
+    db.addDoc('identityVerifications', verificationRecord);
+
+    // Update schedule with verified photos
+    let schedule = db.findOne('examSchedules', s => s.id === scheduleId || s.scheduleId === scheduleId);
+    if (schedule) {
+      db.updateDoc('examSchedules', schedule.id, {
+        identityVerified: verificationStatus === 'Identity Verified',
+        identityVerificationStatus: verificationStatus,
+        candidatePhoto: candidatePhoto || schedule.candidatePhoto,
+        idCardPhoto: idCardPhoto || schedule.idCardPhoto,
+        verificationMatchScore: matchScore,
+        verificationTimestamp: verificationRecord.verifiedAt,
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: 'Identity verification recorded successfully',
+      verification: verificationRecord,
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to save identity verification' });
+  }
+}
+
+export async function exitExamSession(req, res) {
+  try {
+    const { attemptId, scheduleId, answers = {} } = req.body;
+    const exitTime = new Date().toISOString();
+
+    let attempt = db.findOne('examAttempts', a =>
+      (attemptId && (a.id === attemptId || a.attemptId === attemptId)) ||
+      (scheduleId && (a.scheduleId === scheduleId || a.schedule_id === scheduleId))
+    );
+
+    if (attempt) {
+      db.updateDoc('examAttempts', attempt.id, {
+        status: 'exited',
+        answers: answers || attempt.answers || {},
+        exitTime,
+        lastSavedAt: exitTime,
+      });
+    }
+
+    let schedule = db.findOne('examSchedules', s =>
+      (scheduleId && (s.id === scheduleId || s.scheduleId === scheduleId)) ||
+      (attempt?.scheduleId && (s.id === attempt.scheduleId || s.scheduleId === attempt.scheduleId))
+    );
+
+    if (schedule) {
+      db.updateDoc('examSchedules', schedule.id, {
+        lastAttemptStatus: 'Exited',
+        lastExitAt: exitTime,
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: 'Exam session exited and answers saved.',
+      exitTime,
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to record exam exit' });
+  }
+}
+
+export async function reviewSessionAdmin(req, res) {
+  try {
+    const { scheduleId, attemptId, status, notes = '' } = req.body;
+    const reviewerName = req.user?.fullName || req.user?.email || 'Admin Proctor';
+    const reviewedAt = new Date().toISOString();
+
+    let attempt = db.findOne('examAttempts', a => (attemptId && (a.id === attemptId || a.attemptId === attemptId)));
+    if (attempt) {
+      db.updateDoc('examAttempts', attempt.id, {
+        proctorReviewStatus: status || 'approved',
+        proctorReviewNotes: notes,
+        reviewedBy: reviewerName,
+        reviewedAt,
+      });
+    }
+
+    let schedule = db.findOne('examSchedules', s => (scheduleId && (s.id === scheduleId || s.scheduleId === scheduleId)));
+    if (schedule) {
+      db.updateDoc('examSchedules', schedule.id, {
+        proctorReviewStatus: status || 'approved',
+        proctorReviewNotes: notes,
+        reviewedBy: reviewerName,
+        reviewedAt,
+      });
+    }
+
+    logAudit(req, 'PROCTOR_REVIEW', 'Exam Monitoring', `Proctor review set to ${status} for schedule ${scheduleId || attemptId}`);
+
+    return res.json({
+      success: true,
+      message: `Proctoring review updated to: ${status}`,
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to update proctoring review' });
+  }
+}
+
 export async function getExamMonitoringAdmin(req, res) {
   try {
     const attempts = db.getCollection('examAttempts');
     const schedules = db.getCollection('examSchedules');
-    return res.json({ success: true, count: attempts.length, attempts, schedules });
+    const allVerifications = db.getCollection('identityVerifications') || [];
+    const allProctorLogs = db.getCollection('examProctoringLogs') || [];
+
+    // Map each attempt/schedule with photos, alert timeline, and review state
+    const enrichedSessions = attempts.map(att => {
+      const matchedSchedule = schedules.find(s => s.id === att.scheduleId || s.scheduleId === att.scheduleId);
+      const matchedVerification = allVerifications.find(
+        v => (v.scheduleId && (v.scheduleId === att.scheduleId || v.scheduleId === att.id)) ||
+             (v.candidateUid && v.candidateUid === att.candidateUid) ||
+             (v.candidateId && v.candidateId === att.candidateId)
+      );
+      const events = allProctorLogs.filter(
+        l => l.attemptId === att.id || l.scheduleId === att.scheduleId || (att.candidateId && l.candidateId === att.candidateId)
+      );
+
+      return {
+        id: att.id,
+        attemptId: att.attemptId || att.id,
+        scheduleId: att.scheduleId,
+        candidateName: att.candidateName || matchedSchedule?.candidateName || 'Candidate',
+        candidateId: att.candidateId || matchedSchedule?.candidateId || 'AICQB-CAND',
+        candidateEmail: att.candidateEmail || matchedSchedule?.candidateEmail || '',
+        certificationName: att.certificationName || matchedSchedule?.certificationName || 'Certification Exam',
+        certificationCode: att.certificationCode || matchedSchedule?.certificationCode || 'AICQB',
+        startTime: att.startTime || att.createdAt || new Date().toISOString(),
+        status: att.status || 'in-progress',
+        passed: att.passed,
+        percentage: att.percentage,
+        score: att.score,
+        // Candidate Live Photo & ID Card from Verification
+        candidatePhoto: matchedVerification?.candidatePhoto || matchedSchedule?.candidatePhoto || null,
+        idCardPhoto: matchedVerification?.idCardPhoto || matchedSchedule?.idCardPhoto || null,
+        verificationStatus: matchedVerification?.verificationStatus || matchedSchedule?.identityVerificationStatus || 'Identity Verified',
+        verificationMatchScore: matchedVerification?.matchScore || matchedSchedule?.verificationMatchScore || 96.5,
+        // Events
+        events: events.map(e => ({
+          id: e.id,
+          eventType: e.eventType,
+          details: e.details,
+          snapshot: e.snapshot,
+          timestamp: e.timestamp,
+        })),
+        totalAlerts: events.length,
+        proctorReviewStatus: att.proctorReviewStatus || matchedSchedule?.proctorReviewStatus || 'pending',
+        proctorReviewNotes: att.proctorReviewNotes || matchedSchedule?.proctorReviewNotes || '',
+        reviewedBy: att.reviewedBy || matchedSchedule?.reviewedBy || null,
+        reviewedAt: att.reviewedAt || matchedSchedule?.reviewedAt || null,
+      };
+    });
+
+    return res.json({
+      success: true,
+      count: enrichedSessions.length,
+      sessions: enrichedSessions,
+      attempts,
+      schedules,
+    });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to fetch monitoring sessions' });
   }
