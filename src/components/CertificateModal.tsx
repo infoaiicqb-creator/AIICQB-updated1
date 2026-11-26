@@ -80,14 +80,14 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ certificate,
   };
 
   // DYNAMIC CERTIFICATE FIELDS:
-  // 1. Candidate Name: ALWAYS display the currently logged-in candidate's name when viewing in candidate portal
-  const loggedInCandidateName = user?.fullName || candidate?.fullName || '';
+  // 1. Candidate Name: ALWAYS display the name officially allocated to this specific certificate
   const candidateName =
-    (loggedInCandidateName && (user?.role === 'Candidate' || !certificate.candidateName || certificate.candidateName === 'Henry Thomas' || certificate.candidateName === 'Candidate'))
-      ? loggedInCandidateName
-      : (certificate.candidateName && certificate.candidateName !== 'Henry Thomas'
-          ? certificate.candidateName
-          : (loggedInCandidateName || 'Candidate'));
+    certificate.candidateName &&
+    certificate.candidateName.trim() !== '' &&
+    certificate.candidateName !== 'Henry Thomas' &&
+    certificate.candidateName !== 'Candidate'
+      ? certificate.candidateName
+      : (user?.fullName || candidate?.fullName || 'Certified Candidate');
 
   // 2. Certificate Specialization / Title
   const rawCertName = certificate.certificationName || 'Certified AI Practitioner';

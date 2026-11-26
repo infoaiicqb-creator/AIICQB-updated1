@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../services/api';
 import { CertificateModal } from '../../components/CertificateModal';
-import { ShieldCheck, Search, CheckCircle2, AlertCircle, Award, Loader2, ArrowRight, ExternalLink } from 'lucide-react';
+import { ShieldCheck, Search, CheckCircle2, AlertCircle, Award, Loader2, ArrowRight } from 'lucide-react';
 
 export const CandidateVerify: React.FC = () => {
   const { user, candidate } = useAuth();
-  const [certId, setCertId] = useState('');
+  const [searchParams] = useSearchParams();
+  const [certId, setCertId] = useState(searchParams.get('id') || '');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
   const [myCertList, setMyCertList] = useState<any[]>([]);
-  const [publicSamples, setPublicSamples] = useState<any[]>([]);
   const [initialChecked, setInitialChecked] = useState(false);
 
   const candidateName = user?.fullName || candidate?.fullName || 'Candidate';
@@ -21,30 +21,28 @@ export const CandidateVerify: React.FC = () => {
   useEffect(() => {
     let isMounted = true;
 
+    const queryId = searchParams.get('id');
+    if (queryId) {
+      setCertId(queryId);
+      performVerify(queryId);
+      return;
+    }
+
     const fetchInitialData = async () => {
       try {
-        const [certRes, pubRes] = await Promise.all([
-          api.getMyCertificates().catch(() => ({ success: false, certificates: [] })),
-          api.getPublicRegistry().catch(() => ({ success: false, certificates: [] })),
-        ]);
+        const certRes = await api.getMyCertificates().catch(() => ({ success: false, certificates: [] }));
 
         if (!isMounted) return;
-
-        if (pubRes && pubRes.success && pubRes.certificates) {
-          setPublicSamples(pubRes.certificates);
-        }
 
         if (certRes && certRes.success && certRes.certificates && certRes.certificates.length > 0) {
           setMyCertList(certRes.certificates);
           const firstCertNo = certRes.certificates[0].certificateNo || certRes.certificates[0].certificateNumber;
-          if (firstCertNo) {
+          if (firstCertNo && !certId) {
             setCertId(firstCertNo);
             performVerify(firstCertNo);
           }
-        } else if (candidateId) {
-          // If candidate has candidateId, set it as default search query
+        } else if (candidateId && !certId) {
           setCertId(candidateId);
-          // Try verifying candidateId in case they already have records
           performVerify(candidateId);
         }
       } catch (err) {
@@ -59,7 +57,7 @@ export const CandidateVerify: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [user, candidate]);
+  }, [user, candidate, searchParams]);
 
   const performVerify = async (idToVerify: string) => {
     if (!idToVerify || !idToVerify.trim()) return;
@@ -137,61 +135,6 @@ export const CandidateVerify: React.FC = () => {
                 className="w-full pl-10 pr-3.5 py-2.5 text-xs sm:text-sm font-mono bg-slate-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F47716]"
               />
             </div>
-
-            {/* Quick selection chips */}
-            {myCertList.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5 mt-3">
-                <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
-                  My Certificates:
-                </span>
-                {myCertList.map((c) => {
-                  const no = c.certificateNo || c.certificateNumber;
-                  return (
-                    <button
-                      key={no}
-                      type="button"
-                      onClick={() => {
-                        setCertId(no);
-                        performVerify(no);
-                      }}
-                      className={`text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full transition-all cursor-pointer border ${
-                        certId === no
-                          ? 'bg-orange-50 border-[#F47716] text-[#F47716]'
-                          : 'bg-slate-50 border-gray-200 text-slate-600 hover:border-gray-300'
-                      }`}
-                    >
-                      {no}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* Public Verified Sample Chips */}
-            {publicSamples.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
-                <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
-                  Public Registry Samples:
-                </span>
-                {publicSamples.slice(0, 4).map((c) => (
-                  <button
-                    key={c.certificateNo}
-                    type="button"
-                    onClick={() => {
-                      setCertId(c.certificateNo);
-                      performVerify(c.certificateNo);
-                    }}
-                    className={`text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full transition-all cursor-pointer border ${
-                      certId === c.certificateNo
-                        ? 'bg-orange-50 border-[#F47716] text-[#F47716]'
-                        : 'bg-slate-50 border-gray-200 text-slate-600 hover:border-gray-300'
-                    }`}
-                  >
-                    {c.certificateNo}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
 
           <button
