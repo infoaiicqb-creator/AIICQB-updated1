@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../services/api';
 import { CertificateModal } from '../../components/CertificateModal';
-import { ShieldCheck, Search, CheckCircle2, AlertCircle, Award, Loader2, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Search, CheckCircle2, AlertCircle, Award, Loader2 } from 'lucide-react';
 
 export const CandidateVerify: React.FC = () => {
   const { user, candidate } = useAuth();
@@ -12,11 +12,6 @@ export const CandidateVerify: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
-  const [myCertList, setMyCertList] = useState<any[]>([]);
-  const [initialChecked, setInitialChecked] = useState(false);
-
-  const candidateName = user?.fullName || candidate?.fullName || 'Candidate';
-  const candidateId = user?.candidateId || candidate?.candidateId || '';
 
   useEffect(() => {
     let isMounted = true;
@@ -35,20 +30,14 @@ export const CandidateVerify: React.FC = () => {
         if (!isMounted) return;
 
         if (certRes && certRes.success && certRes.certificates && certRes.certificates.length > 0) {
-          setMyCertList(certRes.certificates);
           const firstCertNo = certRes.certificates[0].certificateNo || certRes.certificates[0].certificateNumber;
           if (firstCertNo && !certId) {
             setCertId(firstCertNo);
             performVerify(firstCertNo);
           }
-        } else if (candidateId && !certId) {
-          setCertId(candidateId);
-          performVerify(candidateId);
         }
       } catch (err) {
         console.error('Error loading verification data:', err);
-      } finally {
-        if (isMounted) setInitialChecked(true);
       }
     };
 
@@ -91,32 +80,6 @@ export const CandidateVerify: React.FC = () => {
           Verify the authenticity and active standing of any AICQB certificate or candidate credential.
         </p>
       </div>
-
-      {/* Candidate Notice if no certificates earned yet */}
-      {initialChecked && myCertList.length === 0 && (
-        <div className="bg-gradient-to-r from-orange-50 via-amber-50 to-white rounded-2xl border border-orange-200/80 p-5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-start space-x-3.5">
-            <div className="w-10 h-10 rounded-xl bg-orange-100/80 text-[#F47716] flex items-center justify-center flex-shrink-0 mt-0.5">
-              <Award className="w-5 h-5" />
-            </div>
-            <div className="space-y-0.5">
-              <h3 className="text-sm font-bold text-[#10264B]">
-                {candidateName} {candidateId ? `(${candidateId})` : ''}
-              </h3>
-              <p className="text-xs text-gray-600 leading-relaxed">
-                You do not have any issued certificates yet. Pass your proctored certification exam with 70%+ score to earn an official digitally signed credential.
-              </p>
-            </div>
-          </div>
-          <Link
-            to="/portal/exams"
-            className="inline-flex items-center space-x-1.5 px-4 py-2 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-lg shadow-sm transition-all whitespace-nowrap flex-shrink-0"
-          >
-            <span>Take Exam</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-      )}
 
       {/* Input Box */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6 sm:p-8 shadow-sm space-y-4">
