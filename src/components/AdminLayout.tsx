@@ -38,7 +38,6 @@ export const AdminLayout: React.FC = () => {
     { label: 'Membership', path: '/admin/memberships', icon: BadgeCheck },
     { label: 'Certificates', path: '/admin/certificates', icon: FileCheck2 },
     { label: 'Verification', path: '/admin/verification', icon: ShieldCheck },
-    { label: 'Content (LMS)', path: '/admin/lms', icon: BookOpen },
     { label: 'Communication', path: '/admin/announcements', icon: Megaphone },
     { label: 'Reports & Analytics', path: '/admin/reports', icon: BarChart3 },
     { label: 'Finance & Payments', path: '/admin/finance', icon: CreditCard },
@@ -62,7 +61,6 @@ export const AdminLayout: React.FC = () => {
       import('../pages/admin/AdminMemberships');
       import('../pages/admin/AdminCertificates');
       import('../pages/admin/AdminVerification');
-      import('../pages/admin/AdminLMS');
       import('../pages/admin/AdminAnnouncements');
       import('../pages/admin/AdminReports');
       import('../pages/admin/AdminFinance');

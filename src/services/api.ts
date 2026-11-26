@@ -134,7 +134,10 @@ export const api = {
     request('/support/contact', { method: 'POST', body: JSON.stringify(body) }),
 
   // Super Admin
-  getAdminDashboard: () => request('/admin/dashboard'),
+  getAdminDashboard: (params?: Record<string, string>) => {
+    const q = params ? new URLSearchParams(params).toString() : '';
+    return request(`/admin/dashboard${q ? `?${q}` : ''}`);
+  },
   getAdminCandidates: (params?: any) => {
     const query = new URLSearchParams(params).toString();
     return request(`/admin/candidates${query ? `?${query}` : ''}`);
@@ -174,6 +177,7 @@ export const api = {
 
   // Admin Certificate CRUD
   getAdminCertificates: () => request('/certificates/admin/all'),
+  getAdminVerificationStats: () => request('/certificates/admin/verification-stats'),
   issueCertificateAdmin: (body: any) => request('/certificates/admin/issue', { method: 'POST', body: JSON.stringify(body) }),
   updateAdminCertificate: (id: string, body: any) => request(`/certificates/admin/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
   deleteAdminCertificate: (id: string) => request(`/certificates/admin/${id}`, { method: 'DELETE' }),
@@ -181,6 +185,16 @@ export const api = {
     request(`/certificates/admin/revoke/${id}`, { method: 'POST', body: JSON.stringify({ reason }) }),
   reinstateCertificate: (id: string) =>
     request(`/certificates/admin/reinstate/${id}`, { method: 'POST' }),
+  suspendCertificate: (id: string, reason?: string) =>
+    request(`/certificates/admin/suspend/${id}`, { method: 'POST', body: JSON.stringify({ reason }) }),
+  approveCertificate: (id: string) =>
+    request(`/certificates/admin/approve/${id}`, { method: 'POST' }),
+  rejectCertificate: (id: string, reason?: string) =>
+    request(`/certificates/admin/reject/${id}`, { method: 'POST', body: JSON.stringify({ reason }) }),
+  reissueCertificate: (id: string, reason?: string) =>
+    request(`/certificates/admin/reissue/${id}`, { method: 'POST', body: JSON.stringify({ reason }) }),
+  regenerateQrCode: (id: string) =>
+    request(`/certificates/admin/regenerate-qr/${id}`, { method: 'POST' }),
 
   // Admin Partner CRUD
   getAdminPartners: () => request('/admin/partners'),

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
+import { AdminPagination } from '../../components/AdminPagination';
 import {
   BadgeCheck,
   Plus,
@@ -57,6 +58,10 @@ export const AdminMemberships: React.FC = () => {
   const [typeFilter, setTypeFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   // Modals state
   const [isAddEditOpen, setIsAddEditOpen] = useState(false);
@@ -608,7 +613,9 @@ export const AdminMemberships: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {filteredMemberships.map((m) => (
+                {filteredMemberships
+                  .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                  .map((m) => (
                   <tr key={m.id || m.memberId} className="hover:bg-slate-50/80 transition-colors">
                     {/* Member ID */}
                     <td className="py-4 px-6 font-mono font-bold text-[#F47716]">
@@ -713,6 +720,18 @@ export const AdminMemberships: React.FC = () => {
             </table>
           </div>
         )}
+
+        <AdminPagination
+          currentPage={currentPage}
+          totalRecords={filteredMemberships.length}
+          pageSize={pageSize}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrentPage(1);
+          }}
+          pageSizeOptions={[10, 25, 50, 100]}
+        />
       </div>
 
       {/* ======================================================== */}

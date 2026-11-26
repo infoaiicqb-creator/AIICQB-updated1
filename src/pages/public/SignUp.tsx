@@ -292,7 +292,7 @@ export const SignUp: React.FC = () => {
       {/* RIGHT COLUMN: Registration Form Container - Mobile First Full Width */}
       <div className="relative w-full lg:w-[48%] xl:w-[45%] min-h-screen flex items-center justify-center px-4 py-8 sm:px-6 lg:p-8 z-10">
         <div className="w-full max-w-[460px] bg-white rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_-15px_rgba(10,30,60,0.25)] border border-gray-100 p-6 sm:p-8 transition-all my-auto backdrop-blur-xs">
-          
+
           {/* AIICQB Official Logo */}
           <div className="flex flex-col items-center mb-3">
             <Link to="/" className="inline-block transition-transform hover:scale-105">

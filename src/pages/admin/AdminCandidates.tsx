@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import { CandidateProfile } from '../../types';
+import { AdminPagination } from '../../components/AdminPagination';
 import { Users, Plus, Search, Eye, Edit3, Trash2, Power, CheckCircle2, X, Loader2, Award, Calendar } from 'lucide-react';
 
 export const AdminCandidates: React.FC = () => {
@@ -18,6 +19,10 @@ export const AdminCandidates: React.FC = () => {
   const [selectedDomain, setSelectedDomain] = useState('All Domains');
   const [activeCandidateDetail, setActiveCandidateDetail] = useState<any>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   // CRUD Modals State
   const [showAddModal, setShowAddModal] = useState(false);
@@ -41,6 +46,7 @@ export const AdminCandidates: React.FC = () => {
   });
 
   useEffect(() => {
+    setCurrentPage(1);
     loadCandidates();
   }, [searchTerm, selectedStatus, selectedDomain]);
 
@@ -244,7 +250,18 @@ export const AdminCandidates: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {displayCandidates.map((c: any) => (
+              {displayCandidates.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-12 text-center text-gray-400">
+                    <Users className="w-8 h-8 mx-auto text-gray-300 mb-2" />
+                    <p className="font-semibold text-sm">No Candidate Records Found</p>
+                    <p className="text-[11px] mt-0.5">Click "Add Candidate" to register a candidate or wait for candidate signups.</p>
+                  </td>
+                </tr>
+              ) : (
+                displayCandidates
+                  .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                  .map((c: any) => (
                 <tr key={c.id} className="hover:bg-slate-50/80 transition-colors">
                   <td className="py-4 px-6 font-mono font-bold text-[#F47716]">{c.candidateId}</td>
                   <td className="py-4 px-6 font-bold text-[#10264B]">{c.fullName}</td>
@@ -279,10 +296,22 @@ export const AdminCandidates: React.FC = () => {
                     </button>
                   </td>
                 </tr>
-              ))}
+              )))}
             </tbody>
           </table>
         </div>
+
+        <AdminPagination
+          currentPage={currentPage}
+          totalRecords={displayCandidates.length}
+          pageSize={pageSize}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrentPage(1);
+          }}
+          pageSizeOptions={[10, 25, 50, 100]}
+        />
       </div>
 
       {/* Candidate Profile Details Drawer / Modal */}

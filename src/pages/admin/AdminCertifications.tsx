@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 import { Certification } from '../../types';
+import { AdminPagination } from '../../components/AdminPagination';
 import {
   Award,
   Plus,
@@ -28,6 +29,10 @@ export const AdminCertifications: React.FC = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingCert, setEditingCert] = useState<any>(null);
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
   // New/Edit Certification Form State
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
@@ -40,6 +45,7 @@ export const AdminCertifications: React.FC = () => {
   const [creating, setCreating] = useState(false);
 
   useEffect(() => {
+    setCurrentPage(1);
     loadCertifications();
   }, [searchTerm, selectedDomain]);
 
@@ -233,7 +239,18 @@ export const AdminCertifications: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {certifications.map((cert) => (
+              {certifications.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-12 text-center text-gray-400">
+                    <Award className="w-8 h-8 mx-auto text-gray-300 mb-2" />
+                    <p className="font-semibold text-sm">No Certification Programs Found</p>
+                    <p className="text-[11px] mt-0.5">Click "Add Certification" to create a new program.</p>
+                  </td>
+                </tr>
+              ) : (
+                certifications
+                  .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                  .map((cert) => (
                 <tr key={cert.id} className="hover:bg-slate-50/80 transition-colors">
                   <td className="py-4 px-6 font-mono font-bold text-[#F47716]">{cert.code}</td>
                   <td className="py-4 px-6 font-bold text-[#10264B]">{cert.name}</td>
@@ -279,10 +296,22 @@ export const AdminCertifications: React.FC = () => {
                     </button>
                   </td>
                 </tr>
-              ))}
+              )))}
             </tbody>
           </table>
         </div>
+
+        <AdminPagination
+          currentPage={currentPage}
+          totalRecords={certifications.length}
+          pageSize={pageSize}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrentPage(1);
+          }}
+          pageSizeOptions={[10, 25, 50, 100]}
+        />
       </div>
 
       {/* Add Certification Modal */}

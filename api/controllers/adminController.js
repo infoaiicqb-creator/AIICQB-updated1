@@ -4,23 +4,84 @@ import { getFirebaseStatus, testFirebaseConnection, initFirebase } from '../conf
 
 export async function getDashboardStats(req, res) {
   try {
-    const candidates = db.getCollection('candidates');
-    const users = db.getCollection('users');
-    const certifications = db.getCollection('certifications');
-    const exams = db.getCollection('exams');
-    const examAttempts = db.getCollection('examAttempts');
-    const examSchedules = db.getCollection('examSchedules');
-    const results = db.getCollection('results');
-    const certificates = db.getCollection('certificates');
-    const payments = db.getCollection('payments');
-    const trainingPartners = db.getCollection('trainingPartners');
-    const memberships = db.getCollection('memberships');
-    const auditLogs = db.getCollection('auditLogs');
-    const enrollments = db.getCollection('enrollments');
-    const verifications = db.getCollection('certificateVerification');
+    const { dateFilter = 'all', startDate, endDate } = req.query;
+
+    const candidates = db.getCollection('candidates') || [];
+    const users = db.getCollection('users') || [];
+    const certifications = db.getCollection('certifications') || [];
+    const exams = db.getCollection('exams') || [];
+    const examAttempts = db.getCollection('examAttempts') || [];
+    const examSchedules = db.getCollection('examSchedules') || [];
+    const results = db.getCollection('results') || [];
+    const certificates = db.getCollection('certificates') || [];
+    const payments = db.getCollection('payments') || [];
+    const trainingPartners = db.getCollection('trainingPartners') || [];
+    const memberships = db.getCollection('memberships') || [];
+    const auditLogs = db.getCollection('auditLogs') || [];
+    const enrollments = db.getCollection('enrollments') || [];
+    const verifications = db.getCollection('certificateVerification') || [];
+
+    // Date filtering bounds
+    const now = new Date();
+    let filterStart = null;
+    let filterEnd = null;
+
+    if (dateFilter === 'today') {
+      filterStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+      filterEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+    } else if (dateFilter === 'last7days') {
+      filterStart = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      filterEnd = now;
+    } else if (dateFilter === 'last30days') {
+      filterStart = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      filterEnd = now;
+    } else if (dateFilter === 'thismonth') {
+      filterStart = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0);
+      filterEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+    } else if (dateFilter === 'lastmonth') {
+      filterStart = new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0);
+      filterEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
+    } else if (dateFilter === 'thisyear') {
+      filterStart = new Date(now.getFullYear(), 0, 1, 0, 0, 0);
+      filterEnd = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999);
+    } else if (dateFilter === 'custom' && startDate) {
+      filterStart = new Date(startDate);
+      filterEnd = endDate ? new Date(endDate + 'T23:59:59.999Z') : now;
+    }
+
+    const matchesDate = (val) => {
+      if (!filterStart) return true;
+      if (!val) return false;
+      const dt = new Date(val);
+      if (isNaN(dt.getTime())) return false;
+      if (filterStart && dt < filterStart) return false;
+      if (filterEnd && dt > filterEnd) return false;
+      return true;
+    };
+
+    // Filter collections by date if dateFilter is active
+    const filteredPayments = dateFilter === 'all'
+      ? payments
+      : payments.filter(p => matchesDate(p.paidAt || p.createdAt || p.date));
+
+    const filteredCandidates = dateFilter === 'all'
+      ? candidates
+      : candidates.filter(c => matchesDate(c.createdAt || c.registeredAt || c.date));
+
+    const filteredAttempts = dateFilter === 'all'
+      ? examAttempts
+      : examAttempts.filter(a => matchesDate(a.startedAt || a.completedAt || a.createdAt));
+
+    const filteredResults = dateFilter === 'all'
+      ? results
+      : results.filter(r => matchesDate(r.completedAt || r.date || r.createdAt));
+
+    const filteredCertificates = dateFilter === 'all'
+      ? certificates
+      : certificates.filter(c => matchesDate(c.issueDate || c.createdAt));
 
     // 1. Candidate & Payment conversion (100% REAL & DYNAMIC)
-    const successfulPayments = payments.filter(
+    const successfulPayments = filteredPayments.filter(
       p => p.paymentStatus === 'success' || p.status === 'Successful'
     );
     const paidCandidateIds = new Set(
@@ -31,14 +92,14 @@ export async function getDashboardStats(req, res) {
     const totalPaidCandidates = paidCandidateIds.size;
 
     const allRegisteredCandidateKeys = new Set();
-    candidates.forEach(c => allRegisteredCandidateKeys.add(c.candidateId || c.email || c.id));
-    users.filter(u => u.role === 'candidate').forEach(u => allRegisteredCandidateKeys.add(u.candidateId || u.email || u.id));
-    enrollments.forEach(e => allRegisteredCandidateKeys.add(e.candidateId || e.candidateEmail || e.candidateUid));
+    filteredCandidates.forEach(c => allRegisteredCandidateKeys.add(c.candidateId || c.email || c.id));
+    users.filter(u => u.role === 'candidate' && matchesDate(u.createdAt)).forEach(u => allRegisteredCandidateKeys.add(u.candidateId || u.email || u.id));
+    enrollments.filter(e => matchesDate(e.enrolledAt || e.createdAt)).forEach(e => allRegisteredCandidateKeys.add(e.candidateId || e.candidateEmail || e.candidateUid));
     paidCandidateIds.forEach(id => allRegisteredCandidateKeys.add(id));
 
-    const totalCandidates = Math.max(candidates.length, allRegisteredCandidateKeys.size, totalPaidCandidates);
+    const totalCandidates = Math.max(filteredCandidates.length, allRegisteredCandidateKeys.size, totalPaidCandidates);
 
-    const pendingPaymentsCount = payments.filter(
+    const pendingPaymentsCount = filteredPayments.filter(
       p => p.paymentStatus === 'pending' || p.status === 'Pending'
     ).length;
 
@@ -47,13 +108,14 @@ export async function getDashboardStats(req, res) {
     // 2. Real Revenue (100% REAL)
     const totalRevenue = successfulPayments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
 
-    const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonth = now.getMonth();
 
-    const monthlyRevenue = successfulPayments
+    const monthlyRevenue = (payments.filter(
+      p => p.paymentStatus === 'success' || p.status === 'Successful'
+    ))
       .filter(p => {
-        const d = p.paidAt || p.createdAt;
+        const d = p.paidAt || p.createdAt || p.date;
         if (!d) return false;
         const dt = new Date(d);
         return dt.getFullYear() === currentYear && dt.getMonth() === currentMonth;
@@ -61,15 +123,15 @@ export async function getDashboardStats(req, res) {
       .reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
 
     // 3. Real Examinations (100% REAL)
-    const totalExams = (exams.length || 0) + (examAttempts.length || 0) + (examSchedules.length || 0);
+    const totalExams = (exams.length || 0) + (filteredAttempts.length || 0) + (examSchedules.length || 0);
     const activeExams =
-      examAttempts.filter(a => a.status === 'in_progress').length +
+      filteredAttempts.filter(a => a.status === 'in_progress').length +
       examSchedules.filter(s => s.status === 'scheduled').length;
     const completedExams = Math.max(0, totalExams - activeExams);
 
     // 4. Results & Quality Standard (100% REAL)
-    const passedResults = results.filter(r => r.passed === true);
-    const failedResults = results.filter(r => r.passed === false);
+    const passedResults = filteredResults.filter(r => r.passed === true);
+    const failedResults = filteredResults.filter(r => r.passed === false);
     const passedCandidates = passedResults.length;
     const failedCandidates = failedResults.length;
     const totalExamined = passedCandidates + failedCandidates;
@@ -77,8 +139,8 @@ export async function getDashboardStats(req, res) {
     const retakeRate = Math.max(0, 100 - passRate);
 
     // 5. Certificates (100% REAL)
-    const certificatesIssued = certificates.filter(c => c.status === 'Issued').length;
-    const certificatesRevoked = certificates.filter(c => c.status === 'Revoked').length;
+    const certificatesIssued = filteredCertificates.filter(c => c.status === 'Issued' || c.status === 'Active').length;
+    const certificatesRevoked = filteredCertificates.filter(c => c.status === 'Revoked').length;
     const certificatesPending = Math.max(0, passedCandidates - certificatesIssued);
 
     // 6. Partners & Memberships (100% REAL)
@@ -105,7 +167,7 @@ export async function getDashboardStats(req, res) {
     };
 
     const countryMap = {};
-    candidates.forEach(c => {
+    filteredCandidates.forEach(c => {
       const country = c.country?.trim() || 'India';
       countryMap[country] = (countryMap[country] || 0) + 1;
     });
@@ -142,6 +204,9 @@ export async function getDashboardStats(req, res) {
     // 9. Real Registration & Revenue Trajectory for past 6 months (100% REAL)
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const trajectory = [];
+    const allSuccessfulPayments = payments.filter(
+      p => p.paymentStatus === 'success' || p.status === 'Successful'
+    );
     for (let i = 5; i >= 0; i--) {
       const d = new Date(currentYear, currentMonth - i, 1);
       const mIdx = d.getMonth();
@@ -149,14 +214,14 @@ export async function getDashboardStats(req, res) {
       const mName = monthNames[mIdx];
 
       const mCandidates = candidates.filter(c => {
-        if (!c.createdAt) return false;
-        const cd = new Date(c.createdAt);
+        const cd = c.createdAt ? new Date(c.createdAt) : null;
+        if (!cd) return false;
         return cd.getFullYear() === yr && cd.getMonth() === mIdx;
       }).length;
 
-      const mRev = successfulPayments
+      const mRev = allSuccessfulPayments
         .filter(p => {
-          const pd = p.paidAt || p.createdAt;
+          const pd = p.paidAt || p.createdAt || p.date;
           if (!pd) return false;
           const pdt = new Date(pd);
           return pdt.getFullYear() === yr && pdt.getMonth() === mIdx;
@@ -175,11 +240,12 @@ export async function getDashboardStats(req, res) {
     const totalVerifications = verifications.length;
     const verificationUptime = totalVerifications > 0
       ? (Math.min(99.99, (validVerifications / totalVerifications) * 100)).toFixed(2) + '%'
-      : '99.98%';
+      : '100%';
 
     return res.json({
       success: true,
       stats: {
+        dateFilter,
         totalCandidates,
         totalPaidCandidates,
         pendingPayments: pendingPaymentsCount,
@@ -195,6 +261,7 @@ export async function getDashboardStats(req, res) {
         retakeRate,
         certificatesIssued,
         certificatesPending,
+        certificatesRevoked,
         trainingInstitutes,
         corporatePartners,
         affiliatePartners,

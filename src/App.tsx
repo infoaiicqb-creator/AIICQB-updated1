@@ -58,7 +58,6 @@ const AdminPartners = lazy(() => import('./pages/admin/AdminPartners').then(m =>
 const AdminMemberships = lazy(() => import('./pages/admin/AdminMemberships').then(m => ({ default: m.AdminMemberships })));
 const AdminCertificates = lazy(() => import('./pages/admin/AdminCertificates').then(m => ({ default: m.AdminCertificates })));
 const AdminVerification = lazy(() => import('./pages/admin/AdminVerification').then(m => ({ default: m.AdminVerification })));
-const AdminLMS = lazy(() => import('./pages/admin/AdminLMS').then(m => ({ default: m.AdminLMS })));
 const AdminAnnouncements = lazy(() => import('./pages/admin/AdminAnnouncements').then(m => ({ default: m.AdminAnnouncements })));
 const AdminReports = lazy(() => import('./pages/admin/AdminReports').then(m => ({ default: m.AdminReports })));
 const AdminFinance = lazy(() => import('./pages/admin/AdminFinance').then(m => ({ default: m.AdminFinance })));
@@ -257,7 +256,6 @@ export const App: React.FC = () => {
         <Route path="memberships" element={<AdminMemberships />} />
         <Route path="certificates" element={<AdminCertificates />} />
         <Route path="verification" element={<AdminVerification />} />
-        <Route path="lms" element={<AdminLMS />} />
         <Route path="announcements" element={<AdminAnnouncements />} />
         <Route path="reports" element={<AdminReports />} />
         <Route path="finance" element={<AdminFinance />} />

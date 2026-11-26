@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
+import { AdminPagination } from '../../components/AdminPagination';
 import {
   Building2,
   Plus,
@@ -53,6 +54,10 @@ export const AdminPartners: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [countryFilter, setCountryFilter] = useState('All');
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   // Modals state
   const [isAddEditOpen, setIsAddEditOpen] = useState(false);
@@ -433,7 +438,9 @@ export const AdminPartners: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {filteredPartners.map((p) => (
+                {filteredPartners
+                  .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                  .map((p) => (
                   <tr key={p.id || p.partnerId} className="hover:bg-slate-50/80 transition-colors">
                     {/* Partner ID */}
                     <td className="py-4 px-6 font-mono font-bold text-[#F47716]">
@@ -525,6 +532,18 @@ export const AdminPartners: React.FC = () => {
             </table>
           </div>
         )}
+
+        <AdminPagination
+          currentPage={currentPage}
+          totalRecords={filteredPartners.length}
+          pageSize={pageSize}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrentPage(1);
+          }}
+          pageSizeOptions={[10, 25, 50, 100]}
+        />
       </div>
 
       {/* ======================================================== */}

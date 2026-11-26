@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../../services/api';
+import { AdminPagination } from '../../components/AdminPagination';
 import {
   CalendarCheck,
   Plus,
@@ -117,9 +118,13 @@ export const AdminExaminations: React.FC = () => {
   // Search & Filter States
   const [examSearch, setExamSearch] = useState('');
   const [examStatusFilter, setExamStatusFilter] = useState('All');
+  const [examPage, setExamPage] = useState(1);
+  const [examPageSize, setExamPageSize] = useState(10);
 
   const [questionSearch, setQuestionSearch] = useState('');
   const [questionCertFilter, setQuestionCertFilter] = useState('All');
+  const [questionPage, setQuestionPage] = useState(1);
+  const [questionPageSize, setQuestionPageSize] = useState(10);
 
   const [monitoringSearch, setMonitoringSearch] = useState('');
   const [resultFilter, setResultFilter] = useState<'ALL' | 'PASSED' | 'FAILED'>('ALL');
@@ -911,7 +916,9 @@ export const AdminExaminations: React.FC = () => {
                       </td>
                     </tr>
                   ) : (
-                    filteredExams.map((exam) => (
+                    filteredExams
+                      .slice((examPage - 1) * examPageSize, examPage * examPageSize)
+                      .map((exam) => (
                       <tr key={exam.id || exam.examCode} className="hover:bg-slate-50/80 transition-colors">
                         <td className="py-4 px-6 font-mono font-bold text-[#F47716]">{exam.examCode}</td>
                         <td className="py-4 px-6">
@@ -954,6 +961,18 @@ export const AdminExaminations: React.FC = () => {
                 </tbody>
               </table>
             </div>
+
+            <AdminPagination
+              currentPage={examPage}
+              totalRecords={filteredExams.length}
+              pageSize={examPageSize}
+              onPageChange={(page) => setExamPage(page)}
+              onPageSizeChange={(size) => {
+                setExamPageSize(size);
+                setExamPage(1);
+              }}
+              pageSizeOptions={[10, 25, 50, 100]}
+            />
           </div>
         </div>
       )}
@@ -1106,7 +1125,9 @@ export const AdminExaminations: React.FC = () => {
                       </td>
                     </tr>
                   ) : (
-                    filteredQuestions.map((q) => (
+                    filteredQuestions
+                      .slice((questionPage - 1) * questionPageSize, questionPage * questionPageSize)
+                      .map((q) => (
                       <tr key={q.id} className="hover:bg-slate-50/80 transition-colors">
                         <td className="py-4 px-6">
                           <span className="font-mono font-bold text-[#F47716] block">{q.id}</span>
@@ -1171,10 +1192,17 @@ export const AdminExaminations: React.FC = () => {
               </table>
             </div>
 
-            <div className="p-3 bg-slate-50 border-t border-gray-200 text-[11px] text-gray-500 flex items-center justify-between">
-              <span>Showing {filteredQuestions.length} of {questions.length} Question Bank Items</span>
-              <span className="text-gray-400">Auto-randomized on candidate sessions</span>
-            </div>
+            <AdminPagination
+              currentPage={questionPage}
+              totalRecords={filteredQuestions.length}
+              pageSize={questionPageSize}
+              onPageChange={(page) => setQuestionPage(page)}
+              onPageSizeChange={(size) => {
+                setQuestionPageSize(size);
+                setQuestionPage(1);
+              }}
+              pageSizeOptions={[10, 25, 50, 100]}
+            />
           </div>
         </div>
       )}
@@ -1329,6 +1357,18 @@ export const AdminExaminations: React.FC = () => {
                 </tbody>
               </table>
             </div>
+
+            <AdminPagination
+              currentPage={examPage}
+              totalRecords={filteredExams.length}
+              pageSize={examPageSize}
+              onPageChange={(page) => setExamPage(page)}
+              onPageSizeChange={(size) => {
+                setExamPageSize(size);
+                setExamPage(1);
+              }}
+              pageSizeOptions={[10, 25, 50, 100]}
+            />
           </div>
         </div>
       )}

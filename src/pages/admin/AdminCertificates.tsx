@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../../services/api';
 import { Certificate } from '../../types';
 import { CertificateModal } from '../../components/CertificateModal';
+import { AdminPagination } from '../../components/AdminPagination';
 import {
   FileCheck2,
   Plus,
@@ -83,6 +84,10 @@ export const AdminCertificates: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'All Status' | 'Issued' | 'Revoked'>('All Status');
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   // Issue Modal State
   const [showIssueModal, setShowIssueModal] = useState(false);
@@ -449,7 +454,9 @@ export const AdminCertificates: React.FC = () => {
             <p className="text-xs text-gray-400 mt-1">Try clearing your search query</p>
           </div>
         ) : (
-          filteredCertificates.map((cert: any) => (
+          filteredCertificates
+            .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+            .map((cert: any) => (
             <div
               key={cert.id || cert.certificateNo}
               className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs space-y-3 transition-shadow hover:shadow-md"
@@ -609,7 +616,9 @@ export const AdminCertificates: React.FC = () => {
                   </td>
                 </tr>
               ) : (
-                filteredCertificates.map((cert: any) => (
+                filteredCertificates
+                  .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                  .map((cert: any) => (
                   <tr key={cert.id || cert.certificateNo} className="hover:bg-slate-50/80 transition-colors">
                     <td className="py-4 px-6 font-mono font-bold text-[#F47716]">
                       <button
@@ -730,13 +739,17 @@ export const AdminCertificates: React.FC = () => {
         </div>
 
         {/* Table Footer */}
-        <div className="p-3 bg-slate-50 border-t border-gray-200 text-[11px] text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>
-            Showing <strong className="text-gray-700">{filteredCertificates.length}</strong> of{' '}
-            <strong className="text-gray-700">{certificates.length}</strong> real credentials in database
-          </span>
-          <span className="text-gray-400">Cryptographically Signed & Synchronized with /api/certificates</span>
-        </div>
+        <AdminPagination
+          currentPage={currentPage}
+          totalRecords={filteredCertificates.length}
+          pageSize={pageSize}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrentPage(1);
+          }}
+          pageSizeOptions={[10, 25, 50, 100]}
+        />
       </div>
 
       {/* CREATE / ISSUE MODAL */}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
+import { AdminPagination } from '../../components/AdminPagination';
 import {
   CreditCard,
   DollarSign,
@@ -39,6 +40,10 @@ export const AdminFinance: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [filterTab, setFilterTab] = useState<'all' | 'success' | 'failed' | 'pending' | 'inr' | 'usd'>('all');
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   // Modals state
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -544,7 +549,9 @@ export const AdminFinance: React.FC = () => {
                   </td>
                 </tr>
               ) : (
-                filteredPayments.map((p: any, idx: number) => {
+                filteredPayments
+                  .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+                  .map((p: any, idx: number) => {
                   const status = (p.paymentStatus || p.payment_status || p.status || 'pending').toLowerCase();
                   const isSuccess = status === 'success' || status === 'successful';
                   const isFailed = status === 'failed';
@@ -684,6 +691,18 @@ export const AdminFinance: React.FC = () => {
             </tbody>
           </table>
         </div>
+
+        <AdminPagination
+          currentPage={currentPage}
+          totalRecords={filteredPayments.length}
+          pageSize={pageSize}
+          onPageChange={(page) => setCurrentPage(page)}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrentPage(1);
+          }}
+          pageSizeOptions={[10, 25, 50, 100]}
+        />
       </div>
 
       {/* ======================================================== */}

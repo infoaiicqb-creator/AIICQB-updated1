@@ -340,6 +340,155 @@ export async function reinstateCertificate(req, res) {
   }
 }
 
+export async function suspendCertificateAdmin(req, res) {
+  try {
+    const { id } = req.params;
+    const { reason = 'Administrative suspension pending review' } = req.body;
+    const cert = db.findOne('certificates', c => c.id === id || c.certificateNo === id);
+    if (!cert) return res.status(404).json({ success: false, message: 'Certificate not found' });
+
+    const updated = db.updateDoc('certificates', cert.id, {
+      status: 'Suspended',
+      suspensionReason: reason,
+      suspendedAt: new Date().toISOString(),
+      suspendedBy: req.user?.email || 'admin@aicqb.org',
+      updatedAt: new Date().toISOString(),
+    });
+
+    logAudit(req, 'SUSPEND_CERTIFICATE', 'Certificate Management', `Suspended ${cert.certificateNo} - Reason: ${reason}`);
+    return res.json({ success: true, message: `Certificate ${cert.certificateNo} has been suspended.`, certificate: updated });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to suspend certificate' });
+  }
+}
+
+export async function approveCertificateAdmin(req, res) {
+  try {
+    const { id } = req.params;
+    const cert = db.findOne('certificates', c => c.id === id || c.certificateNo === id);
+    if (!cert) return res.status(404).json({ success: false, message: 'Certificate not found' });
+
+    const updated = db.updateDoc('certificates', cert.id, {
+      status: 'Issued',
+      verificationStatus: 'Verified',
+      approvedAt: new Date().toISOString(),
+      approvedBy: req.user?.email || 'admin@aicqb.org',
+      updatedAt: new Date().toISOString(),
+    });
+
+    logAudit(req, 'APPROVE_CERTIFICATE', 'Certificate Management', `Approved and verified ${cert.certificateNo}`);
+    return res.json({ success: true, message: `Certificate ${cert.certificateNo} approved and verified.`, certificate: updated });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to approve certificate' });
+  }
+}
+
+export async function rejectCertificateAdmin(req, res) {
+  try {
+    const { id } = req.params;
+    const { reason = 'Verification criteria not satisfied' } = req.body;
+    const cert = db.findOne('certificates', c => c.id === id || c.certificateNo === id);
+    if (!cert) return res.status(404).json({ success: false, message: 'Certificate not found' });
+
+    const updated = db.updateDoc('certificates', cert.id, {
+      status: 'Rejected',
+      verificationStatus: 'Rejected',
+      rejectionReason: reason,
+      rejectedAt: new Date().toISOString(),
+      rejectedBy: req.user?.email || 'admin@aicqb.org',
+      updatedAt: new Date().toISOString(),
+    });
+
+    logAudit(req, 'REJECT_CERTIFICATE', 'Certificate Management', `Rejected ${cert.certificateNo} - Reason: ${reason}`);
+    return res.json({ success: true, message: `Certificate ${cert.certificateNo} marked as Rejected.`, certificate: updated });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to reject certificate' });
+  }
+}
+
+export async function getVerificationStatsAdmin(req, res) {
+  try {
+    const list = db.getCollection('certificates') || [];
+    const verifications = db.getCollection('certificateVerification') || [];
+
+    const now = new Date();
+    const todayStr = now.toISOString().split('T')[0];
+
+    const totalIssued = list.filter(c => c.status === 'Issued' || !c.status).length;
+    const totalVerified = verifications.filter(v => v.isValid !== false).length;
+    const pendingVerification = list.filter(c => c.status === 'Pending').length;
+    const rejectedCertificates = list.filter(c => c.status === 'Rejected').length;
+    const suspendedCertificates = list.filter(c => c.status === 'Suspended').length;
+    const revokedCertificates = list.filter(c => c.status === 'Revoked').length;
+
+    const expiredCertificates = list.filter(c => {
+      if (c.status === 'Expired') return true;
+      if (c.validUntil) {
+        return new Date(c.validUntil) < now;
+      }
+      return false;
+    }).length;
+
+    const activeCertificates = list.filter(c => {
+      const isIssued = c.status === 'Issued' || !c.status;
+      const notExpired = !c.validUntil || new Date(c.validUntil) >= now;
+      return isIssued && notExpired;
+    }).length;
+
+    const requestsToday = verifications.filter(v => {
+      const d = v.verifiedAt || v.createdAt || v.timestamp;
+      return d && d.startsWith(todayStr);
+    }).length;
+
+    // Monthly Verification activity
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthlyStats = [];
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(currentYear, currentMonth - i, 1);
+      const mIdx = d.getMonth();
+      const yr = d.getFullYear();
+      const mName = monthNames[mIdx];
+
+      const count = verifications.filter(v => {
+        const dateStr = v.verifiedAt || v.createdAt || v.timestamp;
+        if (!dateStr) return false;
+        const dt = new Date(dateStr);
+        return dt.getFullYear() === yr && dt.getMonth() === mIdx;
+      }).length;
+
+      const issuedCount = list.filter(c => {
+        const dateStr = c.issueDate || c.createdAt;
+        if (!dateStr) return false;
+        const dt = new Date(dateStr);
+        return dt.getFullYear() === yr && dt.getMonth() === mIdx;
+      }).length;
+
+      monthlyStats.push({ month: mName, verifications: count, issued: issuedCount });
+    }
+
+    return res.json({
+      success: true,
+      stats: {
+        totalIssued,
+        totalVerified,
+        pendingVerification,
+        rejectedCertificates,
+        suspendedCertificates,
+        revokedCertificates,
+        expiredCertificates,
+        activeCertificates,
+        requestsToday,
+        monthlyStats,
+      },
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to fetch verification statistics' });
+  }
+}
+
 export async function updateCertificateAdmin(req, res) {
   try {
     const { id } = req.params;
@@ -448,6 +597,41 @@ export async function reissueCertificateAdmin(req, res) {
     });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message || 'Failed to reissue certificate' });
+  }
+}
+
+export async function regenerateQrAdmin(req, res) {
+  try {
+    const { id } = req.params;
+    const cert = db.findOne('certificates', c => c.id === id || c.certificateNo === id);
+    if (!cert) {
+      return res.status(404).json({ success: false, message: 'Certificate not found' });
+    }
+
+    const clientUrl = process.env.CLIENT_URL || 'http://localhost:5000';
+    const certNo = cert.certificateNo || cert.id;
+    const verificationUrl = `${clientUrl}/verification/${encodeURIComponent(certNo)}`;
+    const qrCodeDataUrl = await QRCode.toDataURL(verificationUrl, {
+      errorCorrectionLevel: 'H',
+      margin: 1,
+      width: 250,
+      color: { dark: '#10264B', light: '#FFFFFF' },
+    });
+
+    const updated = db.updateDoc('certificates', cert.id, {
+      verificationUrl,
+      qrCodeDataUrl,
+      updatedAt: new Date().toISOString(),
+    });
+
+    logAudit(req, 'REGENERATE_QR', 'Certificate Verification', `Regenerated QR code for ${certNo}`);
+    return res.json({
+      success: true,
+      message: `Dynamic QR Code regenerated successfully for ${certNo}`,
+      certificate: updated,
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to regenerate QR code' });
   }
 }
 
