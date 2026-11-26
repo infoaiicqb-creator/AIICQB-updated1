@@ -1794,5 +1794,77 @@
     "id": "certificateVerification_1795686373459_9bfd4",
     "createdAt": "2026-11-26T09:46:13.459Z",
     "updatedAt": "2026-11-26T09:46:13.459Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-FND-2026-000001",
+    "candidateName": "Pushpak Wani",
+    "certificationName": "AIICQB Certified Automation Testing - Foundation",
+    "verifiedCount": 0,
+    "createdAt": "2026-01-15T10:00:00.000Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-PRF-2026-000002",
+    "candidateName": "Pushpak Wani",
+    "certificationName": "AIICQB Certified Automation Testing - Professional",
+    "verifiedCount": 0,
+    "createdAt": "2026-02-20T10:00:00.000Z"
+  },
+  {
+    "certificateNo": "AIICQB-AI-FND-2026-000003",
+    "candidateName": "Gaurav Patil",
+    "certificationName": "AIICQB Certified Artificial Intelligence - Foundation",
+    "verifiedCount": 0,
+    "createdAt": "2026-03-10T10:00:00.000Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-EXP-2026-000004",
+    "candidateName": "Rahul Deshmukh",
+    "certificationName": "AIICQB Certified Automation Testing - Expert",
+    "verifiedCount": 0,
+    "createdAt": "2026-04-25T10:00:00.000Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-FND-2026-000001",
+    "candidateName": "Pushpak Wani",
+    "certificationName": "AIICQB Certified Automation Testing - Foundation",
+    "verifiedAt": "2026-11-26T10:03:13.902Z",
+    "ipAddress": "::1",
+    "userAgent": "curl/8.22.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795687393906_8x6q3",
+    "createdAt": "2026-11-26T10:03:13.906Z",
+    "updatedAt": "2026-11-26T10:03:13.906Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-EXP-2026-000004",
+    "candidateName": "Rahul Deshmukh",
+    "certificationName": "AIICQB Certified Automation Testing - Expert",
+    "verifiedAt": "2026-11-26T10:04:49.740Z",
+    "ipAddress": "::1",
+    "userAgent": "curl/8.22.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795687489740_2yffd",
+    "createdAt": "2026-11-26T10:04:49.740Z",
+    "updatedAt": "2026-11-26T10:04:49.740Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-FND-2026-000005",
+    "candidateName": "Priya Sharma",
+    "certificationName": "AIICQB Certified Automation Testing - Foundation",
+    "verifiedCount": 0,
+    "createdAt": "2026-11-26T10:05:03.602Z",
+    "id": "certificateVerification_1795687503604_qn139",
+    "updatedAt": "2026-11-26T10:05:03.604Z"
+  },
+  {
+    "certificateNo": "AIICQB-AI-PRF-2026-000006",
+    "candidateName": "Priya Sharma",
+    "certificationName": "AIICQB Certified Artificial Intelligence - Professional",
+    "verifiedCount": 0,
+    "createdAt": "2026-11-26T10:05:03.625Z",
+    "id": "certificateVerification_1795687503625_1ad6z",
+    "updatedAt": "2026-11-26T10:05:03.625Z"
   }
 ]

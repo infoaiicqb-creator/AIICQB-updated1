@@ -193,6 +193,9 @@ export const App: React.FC = () => {
       <Route path="/exams" element={<PublicLayout><Exams /></PublicLayout>} />
       <Route path="/learning" element={<PublicLayout><Learning /></PublicLayout>} />
       <Route path="/verify" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
+      <Route path="/verify/:certificateId" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
+      <Route path="/verification" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
+      <Route path="/verification/:certificateId" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
       <Route path="/pricing" element={<PublicLayout><PricingPlans /></PublicLayout>} />
       <Route path="/events" element={<PublicLayout><EventsWebinars /></PublicLayout>} />
       <Route path="/partners" element={<PublicLayout><Partners /></PublicLayout>} />

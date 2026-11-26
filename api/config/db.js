@@ -115,6 +115,21 @@ export const db = {
   addDoc(name, data) {
     const list = loadCollection(name);
     const id = data.id || `${name}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
+    // Unique constraint validation for critical collections
+    if (name === 'certificates') {
+      const existingId = list.find(item => item && (item.id === id || item.certificateId === id));
+      if (existingId) {
+        throw new Error(`Database Constraint Violation: Certificate ID '${id}' already exists.`);
+      }
+      if (data.certificateNo) {
+        const existingNo = list.find(item => item && (item.certificateNo === data.certificateNo || item.certificateNumber === data.certificateNo));
+        if (existingNo) {
+          throw new Error(`Database Constraint Violation: Certificate Number '${data.certificateNo}' already exists.`);
+        }
+      }
+    }
+
     const docData = {
       ...data,
       id,
@@ -126,6 +141,41 @@ export const db = {
     // Real-time asynchronous Firebase Firestore mirror
     syncDocToFirestore(name, docData.id, docData).catch(() => {});
     return docData;
+  },
+
+  getNextSequence(sequenceName, initialVal = 1) {
+    const counters = loadCollection('counters');
+    let counter = counters.find(c => c && (c.id === sequenceName || c.name === sequenceName));
+    if (!counter) {
+      counter = { id: sequenceName, name: sequenceName, currentVal: initialVal, updatedAt: new Date().toISOString() };
+      counters.push(counter);
+      saveCollection('counters', counters);
+      return initialVal;
+    }
+    counter.currentVal = Number(counter.currentVal || 0) + 1;
+    counter.updatedAt = new Date().toISOString();
+    saveCollection('counters', counters);
+    return counter.currentVal;
+  },
+
+  getCurrentSequence(sequenceName) {
+    const counters = loadCollection('counters');
+    const counter = counters.find(c => c && (c.id === sequenceName || c.name === sequenceName));
+    return counter ? Number(counter.currentVal || 0) : 0;
+  },
+
+  setSequence(sequenceName, val) {
+    const counters = loadCollection('counters');
+    let counter = counters.find(c => c && (c.id === sequenceName || c.name === sequenceName));
+    if (!counter) {
+      counter = { id: sequenceName, name: sequenceName, currentVal: Number(val), updatedAt: new Date().toISOString() };
+      counters.push(counter);
+    } else {
+      counter.currentVal = Number(val);
+      counter.updatedAt = new Date().toISOString();
+    }
+    saveCollection('counters', counters);
+    return counter.currentVal;
   },
 
   updateDoc(name, id, updates) {

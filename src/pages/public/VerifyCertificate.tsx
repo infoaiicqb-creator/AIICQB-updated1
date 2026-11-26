@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useParams } from 'react-router-dom';
 import { api } from '../../services/api';
 import { Certificate } from '../../types';
 import { CertificateModal } from '../../components/CertificateModal';
-import { ShieldCheck, Search, CheckCircle2, AlertCircle, Award, Calendar, ExternalLink, Loader2 } from 'lucide-react';
+import { ShieldCheck, Search, CheckCircle2, AlertCircle, Award, Calendar, Download, ExternalLink, Loader2 } from 'lucide-react';
 
 export const VerifyCertificate: React.FC = () => {
+  const { certificateId: routeId } = useParams<{ certificateId?: string }>();
   const [searchParams] = useSearchParams();
-  const [certificateId, setCertificateId] = useState(searchParams.get('id') || '');
+  const initialId = routeId || searchParams.get('id') || '';
+  const [certificateId, setCertificateId] = useState(initialId);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ isValid: boolean; certificate?: Certificate; message?: string } | null>(null);
+  const [result, setResult] = useState<{ isValid: boolean; certificate?: any; message?: string } | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [publicRegistry, setPublicRegistry] = useState<any[]>([]);
 
@@ -25,12 +27,12 @@ export const VerifyCertificate: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const idFromQuery = searchParams.get('id');
-    if (idFromQuery) {
-      setCertificateId(idFromQuery);
-      performVerify(idFromQuery);
+    const idToVerify = routeId || searchParams.get('id');
+    if (idToVerify) {
+      setCertificateId(idToVerify);
+      performVerify(idToVerify);
     }
-  }, [searchParams]);
+  }, [routeId, searchParams]);
 
   const performVerify = async (idToVerify: string) => {
     if (!idToVerify.trim()) return;
@@ -39,6 +41,9 @@ export const VerifyCertificate: React.FC = () => {
       setResult(null);
       const res = await api.verifyCertificate(idToVerify.trim());
       setResult(res);
+      if (searchParams.get('download') === 'true' && res?.isValid) {
+        setShowModal(true);
+      }
     } catch (err: any) {
       setResult({
         isValid: false,
@@ -141,13 +146,22 @@ export const VerifyCertificate: React.FC = () => {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => setShowModal(true)}
-                  className="px-4 py-2 bg-[#10264B] hover:bg-[#1E3A6E] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center space-x-2 cursor-pointer"
-                >
-                  <Award className="w-4 h-4 text-[#F47716]" />
-                  <span>View Official Certificate</span>
-                </button>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="px-4 py-2 bg-[#10264B] hover:bg-[#1E3A6E] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center space-x-2 cursor-pointer"
+                  >
+                    <Award className="w-4 h-4 text-[#F47716]" />
+                    <span>View Full Certificate</span>
+                  </button>
+                  <button
+                    onClick={() => setShowModal(true)}
+                    className="px-4 py-2 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center space-x-2 cursor-pointer"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download PDF</span>
+                  </button>
+                </div>
               </div>
 
               {/* Data Table */}

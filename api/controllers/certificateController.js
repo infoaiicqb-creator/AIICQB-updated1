@@ -123,8 +123,15 @@ export async function verifyCertificate(req, res) {
       });
     }
 
-    const isIssued = cert.status === 'Issued';
-    const isRevoked = cert.status === 'Revoked';
+    const isRevoked = cert.status === 'Revoked' || cert.certificateStatus === 'Revoked';
+    const isExpired = cert.status === 'Expired' || cert.certificateStatus === 'Expired' || (
+      cert.expiryDate && new Date(cert.expiryDate) < new Date()
+    ) || (
+      cert.validUntil && new Date(cert.validUntil) < new Date()
+    );
+    const isIssued = !isRevoked && !isExpired && (cert.status === 'Issued' || cert.certificateStatus === 'Issued');
+
+    const effectiveStatus = isRevoked ? 'Revoked' : isExpired ? 'Expired' : 'Issued';
 
     // Record verified lookup
     db.addDoc('certificateVerification', {
@@ -135,36 +142,49 @@ export async function verifyCertificate(req, res) {
       ipAddress: cert.certificateNo === 'AICQB-CERT-100567' ? '103.21.14.88' : ipAddress,
       userAgent,
       isValid: isIssued,
-      status: isIssued ? 'Valid Record' : isRevoked ? 'Invalid / Revoked' : cert.status,
+      status: isIssued ? 'Valid Record' : isRevoked ? 'Invalid / Revoked' : isExpired ? 'Invalid / Expired' : cert.status,
     });
 
     return res.json({
       success: true,
       isValid: isIssued,
       isRevoked: isRevoked,
-      status: cert.status,
+      isExpired: isExpired,
+      status: effectiveStatus,
+      certificateStatus: effectiveStatus,
       revocationReason: cert.revocationReason || (isRevoked ? 'Credential revoked by AICQB Academic & Certification Council.' : null),
       revokedAt: cert.revokedAt,
       message: isIssued
         ? 'Certificate is valid and officially verified in AICQB registry.'
-        : `Certificate status is ${cert.status}. ${cert.revocationReason || ''}`,
+        : isRevoked
+        ? `Certificate is Revoked. ${cert.revocationReason || ''}`
+        : 'Certificate has expired.',
       certificate: {
-        id: cert.id,
-        certificateNo: cert.certificateNo,
+        id: cert.id || cert.certificateId,
+        certificateId: cert.certificateId || cert.id,
+        certificateNo: cert.certificateNo || cert.certificateNumber,
+        certificateNumber: cert.certificateNumber || cert.certificateNo,
         candidateName: cert.candidateName,
         candidateId: cert.candidateId,
+        candidateEmail: cert.candidateEmail,
         certificationName: cert.certificationName,
         certificationCode: cert.certificationCode,
-        credentialLevel: cert.credentialLevel || 'Professional Level',
+        certificationLevel: cert.certificationLevel || cert.credentialLevel || 'Professional Level',
+        credentialLevel: cert.credentialLevel || cert.certificationLevel || 'Professional Level',
         grade: cert.grade || 'Grade A',
-        score: cert.score || 85,
+        examScore: cert.examScore !== undefined ? cert.examScore : (cert.score !== undefined ? cert.score : 85),
+        score: cert.score !== undefined ? cert.score : (cert.examScore !== undefined ? cert.examScore : 85),
         issueDate: cert.issueDateFormatted || cert.issueDate,
-        validUntil: cert.validUntilFormatted || cert.validUntil,
-        status: cert.status,
+        expiryDate: cert.validUntilFormatted || cert.validUntil || cert.expiryDate,
+        validUntil: cert.validUntilFormatted || cert.validUntil || cert.expiryDate,
+        status: effectiveStatus,
+        certificateStatus: effectiveStatus,
+        certificatePdfUrl: cert.certificatePdfUrl || `/api/certificates/download/${encodeURIComponent(cert.certificateNo || cert.id)}`,
         revocationReason: cert.revocationReason,
         revokedAt: cert.revokedAt,
         qrCodeDataUrl: cert.qrCodeDataUrl,
         verificationUrl: cert.verificationUrl,
+        createdTimestamp: cert.createdTimestamp || cert.createdAt,
         issuer: cert.issuer,
         disclaimer: cert.disclaimer,
       },
@@ -376,4 +396,79 @@ export async function deleteCertificateAdmin(req, res) {
     return res.status(500).json({ success: false, message: 'Failed to delete certificate' });
   }
 }
+
+export async function reissueCertificateAdmin(req, res) {
+  try {
+    const { id } = req.params;
+    const { reason = 'Certificate reissuance by board decision' } = req.body;
+
+    const oldCert = db.findOne('certificates', c => c.id === id || c.certificateNo === id);
+    if (!oldCert) {
+      return res.status(404).json({ success: false, message: 'Original certificate not found' });
+    }
+
+    // Reissuing a certificate must create a new issuance record and unique number, retaining the original history
+    const newCert = await generateCertificate({
+      candidateUid: oldCert.candidateUid,
+      candidateName: oldCert.candidateName,
+      candidateId: oldCert.candidateId,
+      candidateEmail: oldCert.candidateEmail,
+      certificationId: oldCert.certificationId,
+      certificationName: oldCert.certificationName,
+      certificationCode: oldCert.certificationCode,
+      certificationLevel: oldCert.certificationLevel || oldCert.credentialLevel,
+      credentialLevel: oldCert.credentialLevel || oldCert.certificationLevel,
+      grade: oldCert.grade,
+      score: oldCert.examScore || oldCert.score,
+      forceNew: true, // Forces brand new unique Certificate ID and Certificate Number
+    });
+
+    // Mark previous certificate as superseded in history
+    db.updateDoc('certificates', oldCert.id, {
+      status: 'Superseded',
+      certificateStatus: 'Superseded',
+      supersededBy: newCert.certificateNo,
+      supersededAt: new Date().toISOString(),
+      reissueReason: reason,
+      updatedAt: new Date().toISOString(),
+    });
+
+    logAudit(
+      req,
+      'REISSUE_CERTIFICATE',
+      'Certificate Management',
+      `Reissued certificate for ${oldCert.candidateName}. Old: ${oldCert.certificateNo}, New: ${newCert.certificateNo}`
+    );
+
+    return res.status(201).json({
+      success: true,
+      message: `Certificate successfully reissued. New Certificate Number: ${newCert.certificateNo}`,
+      certificate: newCert,
+      previousCertificateNo: oldCert.certificateNo,
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message || 'Failed to reissue certificate' });
+  }
+}
+
+export async function downloadCertificatePdf(req, res) {
+  try {
+    const { certificateNo } = req.params;
+    const cleanNo = decodeURIComponent(certificateNo).trim();
+    const cert = db.findOne(
+      'certificates',
+      c =>
+        (c.certificateNo && c.certificateNo.toLowerCase() === cleanNo.toLowerCase()) ||
+        (c.id && c.id === cleanNo)
+    );
+    if (!cert) {
+      return res.status(404).json({ success: false, message: 'Certificate not found' });
+    }
+    const clientUrl = process.env.CLIENT_URL || 'http://localhost:5000';
+    return res.redirect(`${clientUrl}/verification/${encodeURIComponent(cert.certificateNo || cert.id)}?download=true`);
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to process certificate download' });
+  }
+}
+
 
