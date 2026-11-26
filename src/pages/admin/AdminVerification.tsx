@@ -26,21 +26,21 @@ interface VerificationLog {
 }
 
 export const AdminVerification: React.FC = () => {
-  const [certNo, setCertNo] = useState('AICQB-CERT-100567');
+  const [certNo, setCertNo] = useState('AIICQB-AT-PRF-2026-000002');
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [selectedCertForModal, setSelectedCertForModal] = useState<Certificate | null>(null);
 
   const [verificationLogs, setVerificationLogs] = useState<VerificationLog[]>([
     {
-      certNo: 'AICQB-CERT-100567',
-      name: 'Rohan Sharma',
+      certNo: 'AIICQB-AT-PRF-2026-000002',
+      name: 'Pushpak Wani',
       ip: '103.21.14.88',
       time: '10 mins ago',
       status: 'Valid Record',
     },
     {
-      certNo: 'AICQB-INVALID-99',
+      certNo: 'AIICQB-INVALID-99',
       name: 'Unknown',
       ip: '192.168.1.1',
       time: '1 hour ago',
@@ -149,7 +149,7 @@ export const AdminVerification: React.FC = () => {
         <form onSubmit={handleVerify} className="max-w-xl space-y-3">
           <div className="flex items-center justify-between">
             <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-              Enter Certificate No. (e.g., AICQB-CERT-100567)
+              Enter Certificate No. (e.g., AIICQB-AT-PRF-2026-000002)
             </label>
             <span className="text-[11px] text-gray-400">Press enter or click Verify</span>
           </div>
@@ -161,7 +161,7 @@ export const AdminVerification: React.FC = () => {
                 type="text"
                 value={certNo}
                 onChange={(e) => setCertNo(e.target.value)}
-                placeholder="e.g. AICQB-CERT-100567"
+                placeholder="e.g. AIICQB-AT-PRF-2026-000002"
                 className="w-full pl-10 pr-3.5 py-2.5 text-xs bg-slate-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F47716] font-mono text-gray-800"
               />
             </div>
@@ -180,17 +180,17 @@ export const AdminVerification: React.FC = () => {
             <span className="font-semibold text-gray-400">Quick Test:</span>
             <button
               type="button"
-              onClick={() => handleQuickSelect('AICQB-CERT-100567')}
+              onClick={() => handleQuickSelect('AIICQB-AT-PRF-2026-000002')}
               className="px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-[#10264B] font-mono font-medium transition-colors border border-gray-200"
             >
-              AICQB-CERT-100567 (Valid)
+              AIICQB-AT-PRF-2026-000002 (Valid)
             </button>
             <button
               type="button"
-              onClick={() => handleQuickSelect('AICQB-INVALID-99')}
+              onClick={() => handleQuickSelect('AIICQB-INVALID-99')}
               className="px-2 py-0.5 rounded bg-red-50 hover:bg-red-100 text-red-700 font-mono font-medium transition-colors border border-red-200"
             >
-              AICQB-INVALID-99 (Revoked)
+              AIICQB-INVALID-99 (Revoked)
             </button>
           </div>
         </form>

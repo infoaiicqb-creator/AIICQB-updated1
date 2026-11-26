@@ -86,7 +86,7 @@ export const VerifyCertificate: React.FC = () => {
                 type="text"
                 value={certificateId}
                 onChange={(e) => setCertificateId(e.target.value)}
-                placeholder="e.g., AICQB-ST-2026-000123 or AICQB-1004704"
+                placeholder="e.g., AIICQB-AT-FND-2026-000001 or AICQB-1004704"
                 className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-gray-300 rounded-xl text-xs sm:text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#F47716]"
                 required
               />

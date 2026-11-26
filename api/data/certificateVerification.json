@@ -1850,21 +1850,68 @@
     "updatedAt": "2026-11-26T10:04:49.740Z"
   },
   {
-    "certificateNo": "AIICQB-AT-FND-2026-000005",
-    "candidateName": "Priya Sharma",
-    "certificationName": "AIICQB Certified Automation Testing - Foundation",
-    "verifiedCount": 0,
-    "createdAt": "2026-11-26T10:05:03.602Z",
-    "id": "certificateVerification_1795687503604_qn139",
-    "updatedAt": "2026-11-26T10:05:03.604Z"
+    "certificateNo": "AICQB-AI-2026-000124",
+    "candidateName": "Gaurav Patil",
+    "certificationName": "AICQB Certified AI Professional",
+    "verifiedAt": "2026-11-26T10:09:01.524Z",
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795687741524_m6aet",
+    "createdAt": "2026-11-26T10:09:01.524Z",
+    "updatedAt": "2026-11-26T10:09:01.524Z"
   },
   {
-    "certificateNo": "AIICQB-AI-PRF-2026-000006",
-    "candidateName": "Priya Sharma",
-    "certificationName": "AIICQB Certified Artificial Intelligence - Professional",
-    "verifiedCount": 0,
-    "createdAt": "2026-11-26T10:05:03.625Z",
-    "id": "certificateVerification_1795687503625_1ad6z",
-    "updatedAt": "2026-11-26T10:05:03.625Z"
+    "certificateNo": "AICQB-AICQBAICP-2026-001248",
+    "candidateName": "Unknown",
+    "certificationName": "Unregistered Record",
+    "verifiedAt": "2026-11-26T10:09:31.138Z",
+    "ipAddress": "192.168.1.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "isValid": false,
+    "status": "Invalid / Not Found",
+    "id": "certificateVerification_1795687771138_vtj6x",
+    "createdAt": "2026-11-26T10:09:31.138Z",
+    "updatedAt": "2026-11-26T10:09:31.138Z"
+  },
+  {
+    "certificateNo": "AICQB-AI-2026-000124",
+    "candidateName": "Gaurav Patil",
+    "certificationName": "AICQB Certified AI Professional",
+    "verifiedAt": "2026-11-26T10:10:07.637Z",
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795687807637_0b8tq",
+    "createdAt": "2026-11-26T10:10:07.637Z",
+    "updatedAt": "2026-11-26T10:10:07.637Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-FND-2026-000001",
+    "candidateName": "Pushpak Wani",
+    "certificationName": "AIICQB Certified Automation Testing - Foundation",
+    "verifiedAt": "2026-11-26T10:13:50.550Z",
+    "ipAddress": "::1",
+    "userAgent": "curl/8.22.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795688030550_59btp",
+    "createdAt": "2026-11-26T10:13:50.550Z",
+    "updatedAt": "2026-11-26T10:13:50.550Z"
+  },
+  {
+    "certificateNo": "AIICQB-AI-FND-2026-000003",
+    "candidateName": "Gaurav Patil",
+    "certificationName": "AIICQB Certified Artificial Intelligence - Foundation",
+    "verifiedAt": "2026-11-26T10:13:50.639Z",
+    "ipAddress": "::1",
+    "userAgent": "curl/8.22.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795688030639_2jgex",
+    "createdAt": "2026-11-26T10:13:50.639Z",
+    "updatedAt": "2026-11-26T10:13:50.639Z"
   }
 ]

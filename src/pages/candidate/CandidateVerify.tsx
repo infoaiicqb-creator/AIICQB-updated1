@@ -94,7 +94,7 @@ export const CandidateVerify: React.FC = () => {
                 type="text"
                 value={certId}
                 onChange={(e) => setCertId(e.target.value)}
-                placeholder="e.g. AICQB-ST-2026-000123 or AICQB-1004704"
+                placeholder="e.g. AIICQB-AT-FND-2026-000001 or AICQB-1004704"
                 className="w-full pl-10 pr-3.5 py-2.5 text-xs sm:text-sm font-mono bg-slate-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F47716]"
               />
             </div>
