@@ -3522,5 +3522,251 @@
     ],
     "createdAt": "2026-11-26T08:40:57.936Z",
     "updatedAt": "2026-11-26T08:40:57.936Z"
+  },
+  {
+    "id": "att_1795695354400_d1p7zw",
+    "attemptId": "att_1795695354400_d1p7zw",
+    "scheduleId": "SCH-AICQB-332246",
+    "candidateUid": "usr_1795161584876_gigns6",
+    "candidateId": "AICQB-1004704",
+    "candidateName": "Gaurav Patil",
+    "certificationId": "cert_aicqb_ds_201",
+    "certificationName": "AICQB Certified Data Science Professional",
+    "certificationCode": "AICQB-DS-201",
+    "startTime": "2026-11-26T12:15:54.400Z",
+    "durationMinutes": 90,
+    "totalQuestions": 6,
+    "status": "completed",
+    "answers": {
+      "q1": 0,
+      "q4": 0,
+      "q3": 0,
+      "q6": 1,
+      "q5": 1,
+      "q2": 1
+    },
+    "questionMap": {
+      "q5": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q1": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q4": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q3": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q6": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 10,
+        "questionType": "mcq"
+      },
+      "q2": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      }
+    },
+    "questionOrder": [
+      "q5",
+      "q1",
+      "q4",
+      "q3",
+      "q6",
+      "q2"
+    ],
+    "createdAt": "2026-11-26T12:15:54.400Z",
+    "updatedAt": "2026-11-26T12:23:31.262Z",
+    "exitTime": "2026-11-26T12:16:25.908Z",
+    "lastSavedAt": "2026-11-26T12:23:08.532Z",
+    "score": 0,
+    "maxScore": 30,
+    "percentage": 0,
+    "passed": false,
+    "submitTime": "2026-11-26T12:23:31.262Z"
+  },
+  {
+    "id": "att_1795695371501_vxk0qk",
+    "attemptId": "att_1795695371501_vxk0qk",
+    "scheduleId": "SCH-AICQB-332246",
+    "candidateUid": "usr_1795161584876_gigns6",
+    "candidateId": "AICQB-1004704",
+    "candidateName": "Gaurav Patil",
+    "certificationId": "cert_aicqb_ds_201",
+    "certificationName": "AICQB Certified Data Science Professional",
+    "certificationCode": "AICQB-DS-201",
+    "startTime": "2026-11-26T12:16:11.501Z",
+    "durationMinutes": 90,
+    "totalQuestions": 6,
+    "status": "in-progress",
+    "answers": {},
+    "questionMap": {
+      "q4": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q2": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q5": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q1": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q3": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q6": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 10,
+        "questionType": "mcq"
+      }
+    },
+    "questionOrder": [
+      "q4",
+      "q2",
+      "q5",
+      "q1",
+      "q3",
+      "q6"
+    ],
+    "createdAt": "2026-11-26T12:16:11.501Z",
+    "updatedAt": "2026-11-26T12:16:11.501Z"
+  },
+  {
+    "id": "att_1795695617956_4ts7tc",
+    "attemptId": "att_1795695617956_4ts7tc",
+    "scheduleId": "SCH-AICQB-332246",
+    "candidateUid": "usr_1795161584876_gigns6",
+    "candidateId": "AICQB-1004704",
+    "candidateName": "Gaurav Patil",
+    "certificationId": "cert_aicqb_ds_201",
+    "certificationName": "AICQB Certified Data Science Professional",
+    "certificationCode": "AICQB-DS-201",
+    "startTime": "2026-11-26T12:20:17.956Z",
+    "durationMinutes": 90,
+    "totalQuestions": 6,
+    "status": "in-progress",
+    "answers": {},
+    "questionMap": {
+      "q1": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q4": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q3": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q6": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 10,
+        "questionType": "mcq"
+      },
+      "q5": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q2": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      }
+    },
+    "questionOrder": [
+      "q1",
+      "q4",
+      "q3",
+      "q6",
+      "q5",
+      "q2"
+    ],
+    "createdAt": "2026-11-26T12:20:17.956Z",
+    "updatedAt": "2026-11-26T12:23:26.825Z",
+    "proctoringEvents": [
+      {
+        "id": "proc_1795695734374_4jjmd6",
+        "eventType": "Candidate Left Camera View",
+        "details": "Browser window lost focus or background application opened.",
+        "timestamp": "2026-11-26T12:22:14.327Z"
+      },
+      {
+        "id": "proc_1795695739678_2ixxvn",
+        "eventType": "Candidate Left Camera View",
+        "details": "Browser window lost focus or background application opened.",
+        "timestamp": "2026-11-26T12:22:19.594Z"
+      },
+      {
+        "id": "proc_1795695746683_sq5uv2",
+        "eventType": "Periodic Verification Snapshot",
+        "details": "Routine AI proctoring verification snapshot captured during exam.",
+        "timestamp": "2026-11-26T12:22:26.665Z"
+      },
+      {
+        "id": "proc_1795695749390_7w6jz5",
+        "eventType": "Candidate Left Camera View",
+        "details": "Browser window lost focus or background application opened.",
+        "timestamp": "2026-11-26T12:22:29.228Z"
+      },
+      {
+        "id": "proc_1795695755990_uav6dk",
+        "eventType": "Candidate Left Camera View",
+        "details": "Browser window lost focus or background application opened.",
+        "timestamp": "2026-11-26T12:22:35.925Z"
+      },
+      {
+        "id": "proc_1795695806815_ek5b9n",
+        "eventType": "Periodic Verification Snapshot",
+        "details": "Routine AI proctoring verification snapshot captured during exam.",
+        "timestamp": "2026-11-26T12:23:26.781Z"
+      }
+    ],
+    "lastAlertAt": "2026-11-26T12:23:26.781Z",
+    "totalAlertsCount": 6
   }
 ]

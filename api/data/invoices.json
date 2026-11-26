@@ -918,5 +918,35 @@
     "status": "Paid",
     "createdAt": "2026-11-25T10:31:35.902Z",
     "updatedAt": "2026-11-25T10:31:35.902Z"
+  },
+  {
+    "id": "INV-AICQB-2026-1007",
+    "invoice_id": "INV-AICQB-2026-1007",
+    "invoiceId": "INV-AICQB-2026-1007",
+    "payment_id": "pay_1795695330863_vrmgcv",
+    "paymentId": "pay_1795695330863_vrmgcv",
+    "enrollment_id": "ENR-AICQB-2026-754246",
+    "candidate_id": "AICQB-1004704",
+    "candidateUid": "usr_1795161584876_gigns6",
+    "candidate_name": "Gaurav Patil",
+    "candidateName": "Gaurav Patil",
+    "candidate_email": "gaurav@gmail.com",
+    "candidateEmail": "gaurav@gmail.com",
+    "country": "India",
+    "amount": 4502,
+    "currency": "INR",
+    "certification_name": "AICQB Certified Data Science Professional",
+    "certification_level": "Professional Level",
+    "items": [
+      {
+        "description": "AICQB Professional Certification: AICQB Certified Data Science Professional (Professional Level)",
+        "amount": 4502
+      }
+    ],
+    "date": "2026-11-26T12:15:32.236Z",
+    "created_at": "2026-11-26T12:15:32.236Z",
+    "status": "Paid",
+    "createdAt": "2026-11-26T12:15:32.244Z",
+    "updatedAt": "2026-11-26T12:15:32.244Z"
   }
 ]

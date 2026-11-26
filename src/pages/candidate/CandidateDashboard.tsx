@@ -257,8 +257,8 @@ export const CandidateDashboard: React.FC = () => {
                 <CalendarCheck className="w-4 h-4 text-[#F47716]" />
                 <span>Upcoming Examination</span>
               </h3>
-              <span className={`px-2.5 py-0.5 text-xs font-bold rounded-full ${upcomingExams.length > 0 ? (upcomingExams[0]?.isRetake ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-green-50 text-green-700') : 'bg-slate-100 text-slate-500'}`}>
-                {upcomingExams.length > 0 ? (upcomingExams[0]?.isRetake ? 'Retake Window Open' : 'Scheduled') : 'None'}
+              <span className={`px-2.5 py-0.5 text-xs font-bold rounded-full ${upcomingExams.length > 0 ? (upcomingExams[0]?.attemptsRemaining === 0 ? 'bg-red-50 text-red-700 border border-red-200' : upcomingExams[0]?.isRetake ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-green-50 text-green-700') : 'bg-slate-100 text-slate-500'}`}>
+                {upcomingExams.length > 0 ? (upcomingExams[0]?.attemptsRemaining === 0 ? 'Attempts Exhausted' : upcomingExams[0]?.isRetake ? 'Retake Window Open' : 'Scheduled') : 'None'}
               </span>
             </div>
 
@@ -281,7 +281,7 @@ export const CandidateDashboard: React.FC = () => {
                     </h4>
                     <div className="flex items-center space-x-1 text-xs text-gray-500">
                       <Clock className="w-3.5 h-3.5 text-gray-400" />
-                      <span>{upcomingExams[0]?.scheduledTime || '10:00 AM – 11:30 AM (IST)'}</span>
+                      <span>{upcomingExams[0]?.scheduledTime && !upcomingExams[0].scheduledTime.includes('Retake Window Open') ? upcomingExams[0].scheduledTime : '10:00 AM – 11:30 AM (IST)'}</span>
                     </div>
                     <span className="inline-block text-[11px] text-[#F47716] font-mono font-semibold">
                       {upcomingExams[0]?.certificationCode}
@@ -299,7 +299,7 @@ export const CandidateDashboard: React.FC = () => {
                     <div>
                       <span className="text-gray-400 block">Attempts Completed</span>
                       <span className="font-extrabold text-slate-800">
-                        {upcomingExams[0]?.attemptsCompleted || (upcomingExams[0]?.isRetake ? 1 : 0)} of 3
+                        {Math.min(3, upcomingExams[0]?.attemptsCompleted || (upcomingExams[0]?.isRetake ? 1 : 0))} of 3
                       </span>
                     </div>
                     <div>

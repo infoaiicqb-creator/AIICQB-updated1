@@ -7937,5 +7937,44 @@
     "id": "auditLogs_1795688176820_m4t59",
     "createdAt": "2026-11-26T10:16:16.821Z",
     "updatedAt": "2026-11-26T10:16:16.821Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "QR_SCAN_PAYMENT_SUCCESS",
+    "module": "Finance & Payments",
+    "details": "Test QR code scanned & verified for AICQB Certified Data Science Professional (4502 INR)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T12:15:32.257Z",
+    "id": "auditLogs_1795695332267_7q3te",
+    "createdAt": "2026-11-26T12:15:32.267Z",
+    "updatedAt": "2026-11-26T12:15:32.267Z"
+  },
+  {
+    "userId": "usr_1795161584876_gigns6",
+    "userEmail": "gaurav@gmail.com",
+    "userRole": "Candidate",
+    "action": "CANDIDATE_ENROLLED",
+    "module": "Certifications",
+    "details": "Candidate Gaurav Patil enrolled in AICQB Certified Data Science Professional (AICQB-DS-201) and scheduled for examination.",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T12:15:32.296Z",
+    "id": "auditLogs_1795695332296_53muk",
+    "createdAt": "2026-11-26T12:15:32.296Z",
+    "updatedAt": "2026-11-26T12:15:32.296Z"
+  },
+  {
+    "userId": "usr_1795161584876_gigns6",
+    "userEmail": "gaurav@gmail.com",
+    "userRole": "Candidate",
+    "action": "EXAM_SUBMISSION",
+    "module": "Examination Management",
+    "details": "Exam submitted for AICQB Certified Data Science Professional by gaurav@gmail.com - Score: 0% (FAILED - ALL ATTEMPTS EXHAUSTED) - Fail",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T12:23:31.327Z",
+    "id": "auditLogs_1795695811363_dro8w",
+    "createdAt": "2026-11-26T12:23:31.363Z",
+    "updatedAt": "2026-11-26T12:23:31.364Z"
   }
 ]

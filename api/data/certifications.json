@@ -274,10 +274,10 @@
     "validityYears": 3,
     "version": "2026.1",
     "status": "Active",
-    "enrolledCount": 896,
+    "enrolledCount": 897,
     "icon": "Database",
     "popular": false,
-    "updatedAt": "2026-11-20T08:21:16.180Z",
+    "updatedAt": "2026-11-26T12:15:32.238Z",
     "createdAt": "2026-11-09T15:40:37.381Z",
     "examFeeUSD": 79
   },

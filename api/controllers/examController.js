@@ -214,17 +214,22 @@ export async function getCandidateSchedules(req, res) {
         (s.certificationId && a.certificationId === s.certificationId) ||
         (s.certificationCode && a.certificationCode && normCode(a.certificationCode) === normSCode)
       );
-      const attemptsCompleted = certAttempts.length;
       const totalAttemptsAllowed = 3;
+      const attemptsCompleted = Math.min(totalAttemptsAllowed, certAttempts.length);
       const attemptsRemaining = Math.max(0, totalAttemptsAllowed - attemptsCompleted);
       const lastAttempt = certAttempts[certAttempts.length - 1];
       const previousAttemptScore = lastAttempt?.score ?? lastAttempt?.percentage ?? s.lastAttemptScore ?? s.percentage ?? null;
       const previousAttemptResult = lastAttempt ? (lastAttempt.passed || (lastAttempt.percentage >= 70) ? 'Passed' : 'Failed') : (s.percentage !== undefined ? (s.percentage >= 70 ? 'Passed' : 'Failed') : null);
       const nextAttemptEligibility = attemptsRemaining > 0;
       const isRetake = attemptsCompleted > 0;
+      let scheduledTime = s.scheduledTime;
+      if (!scheduledTime || scheduledTime.includes('Retake Window Open')) {
+        scheduledTime = '10:00 AM – 11:30 AM (IST)';
+      }
 
       return {
         ...s,
+        scheduledTime,
         totalAttemptsAllowed,
         attemptsCompleted,
         attemptsRemaining,
@@ -232,7 +237,7 @@ export async function getCandidateSchedules(req, res) {
         previousAttemptResult,
         nextAttemptEligibility,
         isRetake,
-        retakeAttemptNumber: attemptsCompleted + 1,
+        retakeAttemptNumber: Math.min(3, attemptsCompleted + 1),
       };
     });
 
@@ -780,14 +785,14 @@ export async function submitExam(req, res) {
           scheduledDate: now.toISOString().split('T')[0],
           scheduledDateDay: day,
           scheduledDateMonth: monthYear,
-          scheduledTime: 'Immediate Access / Retake Window Open',
+          scheduledTime: '10:00 AM – 11:30 AM (IST)',
           mode: `Online Proctored (Retake Attempt ${retakeNumber} of 3)`,
           durationMinutes: attempt.durationMinutes || 90,
           status: 'scheduled',
           isRetake: true,
           retakeAttemptNumber: retakeNumber,
           totalAttemptsAllowed: 3,
-          attemptsCompleted: attemptCount,
+          attemptsCompleted: Math.min(3, attemptCount),
           attemptsRemaining: Math.max(0, 3 - attemptCount),
           lastAttemptScore: totalScore,
           lastAttemptPercentage: percentage,
@@ -809,10 +814,10 @@ export async function submitExam(req, res) {
             isRetake: true,
             retakeAttemptNumber: retakeNumber,
             totalAttemptsAllowed: 3,
-            attemptsCompleted: attemptCount,
+            attemptsCompleted: Math.min(3, attemptCount),
             attemptsRemaining: Math.max(0, 3 - attemptCount),
             examName: `${attempt.certificationName} (Retake - Attempt ${retakeNumber} of 3)`,
-            scheduledTime: 'Immediate Access / Retake Window Open',
+            scheduledTime: '10:00 AM – 11:30 AM (IST)',
           });
         } else {
           db.addDoc('examSchedules', retakeScheduleRecord);

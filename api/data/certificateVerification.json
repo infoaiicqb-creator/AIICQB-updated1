@@ -1913,5 +1913,31 @@
     "id": "certificateVerification_1795688030639_2jgex",
     "createdAt": "2026-11-26T10:13:50.639Z",
     "updatedAt": "2026-11-26T10:13:50.639Z"
+  },
+  {
+    "certificateNo": "AICQB-AI-2026-000124",
+    "candidateName": "Gaurav Patil",
+    "certificationName": "AICQB Certified AI Professional",
+    "verifiedAt": "2026-11-26T12:13:22.873Z",
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795695202878_2zs5y",
+    "createdAt": "2026-11-26T12:13:22.880Z",
+    "updatedAt": "2026-11-26T12:13:22.880Z"
+  },
+  {
+    "certificateNo": "AICQB-AI-2026-000124",
+    "candidateName": "Gaurav Patil",
+    "certificationName": "AICQB Certified AI Professional",
+    "verifiedAt": "2026-11-26T12:13:30.540Z",
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795695210540_09uid",
+    "createdAt": "2026-11-26T12:13:30.540Z",
+    "updatedAt": "2026-11-26T12:13:30.540Z"
   }
 ]
