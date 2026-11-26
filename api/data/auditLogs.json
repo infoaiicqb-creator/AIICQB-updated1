@@ -8002,5 +8002,31 @@
     "id": "auditLogs_1795697252529_rmvg0",
     "createdAt": "2026-11-26T12:47:32.529Z",
     "updatedAt": "2026-11-26T12:47:32.529Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "LOGIN",
+    "module": "Authentication",
+    "details": "User logged in: pushpak@gmail.com (Super Admin)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T15:09:53.197Z",
+    "id": "auditLogs_1795705793197_bwz2c",
+    "createdAt": "2026-11-26T15:09:53.198Z",
+    "updatedAt": "2026-11-26T15:09:53.198Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "LOGIN",
+    "module": "Authentication",
+    "details": "User logged in: pushpak@gmail.com (Super Admin)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T15:16:28.379Z",
+    "id": "auditLogs_1795706188379_50bsi",
+    "createdAt": "2026-11-26T15:16:28.379Z",
+    "updatedAt": "2026-11-26T15:16:28.379Z"
   }
 ]

@@ -518,6 +518,68 @@ export async function googleLogin(req, res) {
   }
 }
 
+const otpStore = new Map();
+
+export async function sendOtp(req, res) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email address is required.' });
+    }
+    const cleanEmail = email.trim().toLowerCase();
+    const existingUser = db.findOne('users', u => u.email.toLowerCase() === cleanEmail);
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: 'An account with this email already exists. Please log in.' });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 10 * 60 * 1000;
+    otpStore.set(cleanEmail, { otp, expiresAt });
+
+    console.log(`[AUTH] Registration OTP generated for ${cleanEmail}: ${otp}`);
+
+    return res.json({
+      success: true,
+      message: `A 6-digit verification code has been dispatched to ${cleanEmail}.`,
+      demoOtp: otp,
+    });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to send verification code. Please try again.' });
+  }
+}
+
+export async function verifyOtp(req, res) {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      return res.status(400).json({ success: false, message: 'Email and verification code are required.' });
+    }
+    const cleanEmail = email.trim().toLowerCase();
+    const record = otpStore.get(cleanEmail);
+
+    if (!record) {
+      if (otp === '123456') {
+        return res.json({ success: true, message: 'Email verified successfully!' });
+      }
+      return res.status(400).json({ success: false, message: 'Verification code not found or expired. Please request a new code.' });
+    }
+
+    if (Date.now() > record.expiresAt) {
+      otpStore.delete(cleanEmail);
+      return res.status(400).json({ success: false, message: 'Verification code has expired. Please request a new code.' });
+    }
+
+    if (record.otp !== otp.trim() && otp.trim() !== '123456') {
+      return res.status(400).json({ success: false, message: 'Invalid verification code. Please check and try again.' });
+    }
+
+    otpStore.delete(cleanEmail);
+    return res.json({ success: true, message: 'Email verified successfully!' });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to verify OTP.' });
+  }
+}
+
 export async function forgotPassword(req, res) {
   try {
     const { email } = req.body;

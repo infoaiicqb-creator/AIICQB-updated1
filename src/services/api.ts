@@ -54,6 +54,8 @@ export const api = {
   changePassword: (body: { currentPassword: string; newPassword: string; confirmPassword?: string }) =>
     request('/auth/change-password', { method: 'PUT', body: JSON.stringify(body) }),
   verifyEmail: () => request('/auth/verify-email', { method: 'POST' }),
+  sendOtp: (body: { email: string; fullName?: string }) => request('/auth/send-otp', { method: 'POST', body: JSON.stringify(body) }),
+  verifyOtp: (body: { email: string; otp: string }) => request('/auth/verify-otp', { method: 'POST', body: JSON.stringify(body) }),
   forgotPassword: (email: string) => request('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),
 
   // Certifications
