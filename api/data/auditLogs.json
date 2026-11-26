@@ -7976,5 +7976,31 @@
     "id": "auditLogs_1795695811363_dro8w",
     "createdAt": "2026-11-26T12:23:31.363Z",
     "updatedAt": "2026-11-26T12:23:31.364Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "QR_SCAN_PAYMENT_SUCCESS",
+    "module": "Finance & Payments",
+    "details": "Test QR code scanned & verified for AICQB Certified Cybersecurity Specialist (5500 INR)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T12:47:32.486Z",
+    "id": "auditLogs_1795697252497_mx2yq",
+    "createdAt": "2026-11-26T12:47:32.497Z",
+    "updatedAt": "2026-11-26T12:47:32.497Z"
+  },
+  {
+    "userId": "usr_1795161584876_gigns6",
+    "userEmail": "gaurav@gmail.com",
+    "userRole": "Candidate",
+    "action": "CANDIDATE_ENROLLED",
+    "module": "Certifications",
+    "details": "Candidate Gaurav Patil enrolled in AICQB Certified Cybersecurity Specialist (AICQB-CY-301) and scheduled for examination.",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T12:47:32.529Z",
+    "id": "auditLogs_1795697252529_rmvg0",
+    "createdAt": "2026-11-26T12:47:32.529Z",
+    "updatedAt": "2026-11-26T12:47:32.529Z"
   }
 ]

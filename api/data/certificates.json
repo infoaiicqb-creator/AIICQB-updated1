@@ -309,5 +309,44 @@
       "organization": "AI International Certification & Qualification Board (AIICQB)"
     },
     "disclaimer": "Issued by AIICQB under its independent certification scheme. This is a private professional certification and is not a government qualification or licence."
+  },
+  {
+    "id": "cert_1795705145679_z75a4v",
+    "certificateId": "cert_1795705145679_z75a4v",
+    "certificateNo": "AIICQB-AI-PRF-2026-000005",
+    "certificateNumber": "AIICQB-AI-PRF-2026-000005",
+    "candidateName": "pushpak Wani",
+    "candidateId": "AICQB-1004581",
+    "candidateEmail": "pushpak@gmail.com",
+    "candidateUid": "usr_1794238898604_8636ld",
+    "certificationName": "AICQB Certified AI Professional",
+    "certificationId": "cert_aicqb_ai_cp",
+    "certificationCode": "AICQB-AI-CP",
+    "certificationLevel": "Professional Level",
+    "credentialLevel": "Professional Level",
+    "examScore": 94,
+    "score": 94,
+    "grade": "Grade A+ (Distinction)",
+    "issueDate": "2026-11-26T14:59:05.673Z",
+    "issueDateFormatted": "26 Nov 2026",
+    "expiryDate": "2029-11-26T14:59:05.673Z",
+    "validUntil": "2029-11-26T14:59:05.673Z",
+    "validUntilFormatted": "26 Nov 2029",
+    "certificateStatus": "Issued",
+    "status": "Issued",
+    "certificatePdfUrl": "/api/certificates/download/AIICQB-AI-PRF-2026-000005",
+    "verificationUrl": "http://localhost:5000/verification/AIICQB-AI-PRF-2026-000005",
+    "qrCodeDataUrl": "data:image/png;base64,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",
+    "createdTimestamp": "2026-11-26T14:59:05.778Z",
+    "createdAt": "2026-11-26T14:59:05.778Z",
+    "updatedAt": "2026-11-26T14:59:05.778Z",
+    "issuer": {
+      "director": "Dr. Neha Kulkarni",
+      "directorTitle": "Director – Certification",
+      "ceo": "Kalik sham",
+      "ceoTitle": "Chief Executive Officer (CEO)",
+      "organization": "AI International Certification & Qualification Board (AIICQB)"
+    },
+    "disclaimer": "Issued by AIICQB under its independent certification scheme. This is a private professional certification and is not a government qualification or licence."
   }
 ]

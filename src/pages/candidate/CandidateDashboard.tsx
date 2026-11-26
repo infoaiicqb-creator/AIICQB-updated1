@@ -288,51 +288,6 @@ export const CandidateDashboard: React.FC = () => {
                     </span>
                   </div>
                 </div>
-
-                {/* Candidate Dashboard Retake Information Panel (Requirement 9) */}
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-2">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 text-[11px]">
-                    <span className="font-bold text-[#10264B] uppercase tracking-wider text-[10px]">Attempt & Retake Status</span>
-                    <span className="font-extrabold text-[#F47716]">Total Attempts Allowed: 3</span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 text-[11px]">
-                    <div>
-                      <span className="text-gray-400 block">Attempts Completed</span>
-                      <span className="font-extrabold text-slate-800">
-                        {Math.min(3, upcomingExams[0]?.attemptsCompleted || (upcomingExams[0]?.isRetake ? 1 : 0))} of 3
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400 block">Attempts Remaining</span>
-                      <span className={`font-extrabold ${(upcomingExams[0]?.attemptsRemaining === 0) ? 'text-red-600' : 'text-emerald-700'}`}>
-                        {upcomingExams[0]?.attemptsRemaining !== undefined ? upcomingExams[0]?.attemptsRemaining : (upcomingExams[0]?.isRetake ? 2 : 3)} Left
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400 block">Previous Score</span>
-                      <span className="font-mono font-bold text-slate-700">
-                        {upcomingExams[0]?.previousAttemptScore !== undefined && upcomingExams[0]?.previousAttemptScore !== null ? `${upcomingExams[0].previousAttemptScore}%` : 'N/A (First Attempt)'}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-gray-400 block">Previous Result</span>
-                      <span className={`font-bold ${upcomingExams[0]?.previousAttemptResult === 'Passed' ? 'text-emerald-600' : upcomingExams[0]?.previousAttemptResult === 'Failed' ? 'text-red-600' : 'text-slate-600'}`}>
-                        {upcomingExams[0]?.previousAttemptResult || (upcomingExams[0]?.isRetake ? 'Failed (< 70%)' : 'None')}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="pt-1 flex items-center justify-between text-[11px]">
-                    <span className="text-gray-500 font-medium">Next Attempt Eligibility:</span>
-                    <span className={`font-extrabold ${upcomingExams[0]?.attemptsRemaining === 0 ? 'text-red-600' : 'text-emerald-700'}`}>
-                      {upcomingExams[0]?.attemptsRemaining === 0 ? 'Exhausted' : 'Eligible for Retake ✓'}
-                    </span>
-                  </div>
-                  {upcomingExams[0]?.attemptsRemaining === 0 && (
-                    <p className="text-[10px] text-red-600 font-bold bg-red-50 p-1.5 rounded">
-                      You have used all 3 examination attempts. Please contact AIICQB support for further assistance.
-                    </p>
-                  )}
-                </div>
               </div>
             ) : (
               <div className="py-6 text-center space-y-2">

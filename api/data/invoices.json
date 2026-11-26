@@ -948,5 +948,35 @@
     "status": "Paid",
     "createdAt": "2026-11-26T12:15:32.244Z",
     "updatedAt": "2026-11-26T12:15:32.244Z"
+  },
+  {
+    "id": "INV-AICQB-2026-1009",
+    "invoice_id": "INV-AICQB-2026-1009",
+    "invoiceId": "INV-AICQB-2026-1009",
+    "payment_id": "pay_1795697251307_4per7r",
+    "paymentId": "pay_1795697251307_4per7r",
+    "enrollment_id": "ENR-AICQB-2026-921409",
+    "candidate_id": "AICQB-1004704",
+    "candidateUid": "usr_1795161584876_gigns6",
+    "candidate_name": "Gaurav Patil",
+    "candidateName": "Gaurav Patil",
+    "candidate_email": "gaurav@gmail.com",
+    "candidateEmail": "gaurav@gmail.com",
+    "country": "India",
+    "amount": 5500,
+    "currency": "INR",
+    "certification_name": "AICQB Certified Cybersecurity Specialist",
+    "certification_level": "Advanced Level",
+    "items": [
+      {
+        "description": "AICQB Professional Certification: AICQB Certified Cybersecurity Specialist (Advanced Level)",
+        "amount": 5500
+      }
+    ],
+    "date": "2026-11-26T12:47:32.465Z",
+    "created_at": "2026-11-26T12:47:32.465Z",
+    "status": "Paid",
+    "createdAt": "2026-11-26T12:47:32.469Z",
+    "updatedAt": "2026-11-26T12:47:32.469Z"
   }
 ]

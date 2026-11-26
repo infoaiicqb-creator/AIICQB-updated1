@@ -1939,5 +1939,27 @@
     "id": "certificateVerification_1795695210540_09uid",
     "createdAt": "2026-11-26T12:13:30.540Z",
     "updatedAt": "2026-11-26T12:13:30.540Z"
+  },
+  {
+    "certificateNo": "AIICQB-AI-PRF-2026-000005",
+    "candidateName": "pushpak Wani",
+    "certificationName": "AICQB Certified AI Professional",
+    "verifiedCount": 0,
+    "createdAt": "2026-11-26T14:59:05.780Z",
+    "id": "certificateVerification_1795705145783_ycfxp",
+    "updatedAt": "2026-11-26T14:59:05.783Z"
+  },
+  {
+    "certificateNo": "AICQB-PW-2026-000125",
+    "candidateName": "pushpak Wani",
+    "certificationName": "AICQB Certified Playwright Automation",
+    "verifiedAt": "2026-11-26T15:00:40.331Z",
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795705240331_6zs6h",
+    "createdAt": "2026-11-26T15:00:40.332Z",
+    "updatedAt": "2026-11-26T15:00:40.332Z"
   }
 ]
