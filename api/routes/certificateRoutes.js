@@ -2,6 +2,7 @@ import express from 'express';
 import {
   getCandidateCertificates,
   verifyCertificate,
+  getPublicCertificatesRegistry,
   getAllCertificatesAdmin,
   issueCertificateAdmin,
   revokeCertificate,
@@ -14,6 +15,7 @@ import { authenticate, requireAdmin } from '../middleware/auth.js';
 const router = express.Router();
 
 // Public certificate verification
+router.get('/public-registry', getPublicCertificatesRegistry);
 router.get('/verify/:certificateNo', verifyCertificate);
 
 // Candidate certificates

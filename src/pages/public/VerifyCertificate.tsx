@@ -11,6 +11,18 @@ export const VerifyCertificate: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ isValid: boolean; certificate?: Certificate; message?: string } | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [publicRegistry, setPublicRegistry] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Dynamically fetch public registry sample IDs from backend
+    api.getPublicRegistry()
+      .then(res => {
+        if (res.success && res.certificates && res.certificates.length > 0) {
+          setPublicRegistry(res.certificates);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const idFromQuery = searchParams.get('id');
@@ -44,7 +56,7 @@ export const VerifyCertificate: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-      {/* Title matching Image 3 #7 */}
+      {/* Title */}
       <div className="text-center space-y-3">
         <div className="inline-flex items-center space-x-2 px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-semibold border border-green-200">
           <ShieldCheck className="w-4 h-4 text-green-600" />
@@ -60,7 +72,7 @@ export const VerifyCertificate: React.FC = () => {
       <div className="bg-white rounded-2xl border border-gray-200 shadow-md p-6 sm:p-8 space-y-4">
         <form onSubmit={handleFormSubmit} className="space-y-3">
           <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-            Enter Certificate ID
+            Enter Certificate ID or Candidate ID
           </label>
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
@@ -69,45 +81,51 @@ export const VerifyCertificate: React.FC = () => {
                 type="text"
                 value={certificateId}
                 onChange={(e) => setCertificateId(e.target.value)}
-                placeholder="e.g., AICQB-ST-2026-000123"
+                placeholder="e.g., AICQB-ST-2026-000123 or AICQB-1004704"
                 className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-gray-300 rounded-xl text-xs sm:text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#F47716]"
                 required
               />
             </div>
             <button
               type="submit"
-              disabled={loading}
-              className="px-8 py-3 bg-[#F47716] hover:bg-[#DC660E] text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
+              disabled={loading || !certificateId.trim()}
+              className="px-8 py-3 bg-[#F47716] hover:bg-[#DC660E] text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 disabled:opacity-50 cursor-pointer"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
               <span>Verify Certificate</span>
             </button>
           </div>
-          {/* Quick Verified Examples */}
-          <div className="flex flex-wrap items-center gap-2 pt-1">
-            <span className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Sample IDs:</span>
-            {['AICQB-ST-2026-000123', 'AICQB-CERT-100567', 'AICQB-PW-2026-000125', 'AICQB-AI-2026-000124'].map(id => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => {
-                  setCertificateId(id);
-                  performVerify(id);
-                }}
-                className={`text-xs font-mono font-bold px-3 py-1 rounded-full transition-all cursor-pointer border ${
-                  certificateId === id
-                    ? 'bg-orange-50 border-[#F47716] text-[#F47716]'
-                    : 'bg-slate-50 border-gray-200 text-slate-600 hover:border-[#F47716] hover:text-[#F47716]'
-                }`}
-              >
-                {id}
-              </button>
-            ))}
-          </div>
+
+          {/* Quick Verified Examples - Dynamically loaded */}
+          {publicRegistry.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <span className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Recent Verified IDs:</span>
+              {publicRegistry.slice(0, 5).map((c) => {
+                const id = c.certificateNo;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => {
+                      setCertificateId(id);
+                      performVerify(id);
+                    }}
+                    className={`text-xs font-mono font-bold px-3 py-1 rounded-full transition-all cursor-pointer border ${
+                      certificateId === id
+                        ? 'bg-orange-50 border-[#F47716] text-[#F47716]'
+                        : 'bg-slate-50 border-gray-200 text-slate-600 hover:border-[#F47716] hover:text-[#F47716]'
+                    }`}
+                  >
+                    {id}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </form>
       </div>
 
-      {/* Verification Result Display matching Image 3 #7 & Image 2 #7 */}
+      {/* Verification Result Display */}
       {result && (
         <div className="transition-all animate-fadeIn">
           {result.isValid && result.certificate ? (
@@ -125,7 +143,7 @@ export const VerifyCertificate: React.FC = () => {
 
                 <button
                   onClick={() => setShowModal(true)}
-                  className="px-4 py-2 bg-[#10264B] hover:bg-[#1E3A6E] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center space-x-2"
+                  className="px-4 py-2 bg-[#10264B] hover:bg-[#1E3A6E] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center space-x-2 cursor-pointer"
                 >
                   <Award className="w-4 h-4 text-[#F47716]" />
                   <span>View Official Certificate</span>
@@ -150,6 +168,11 @@ export const VerifyCertificate: React.FC = () => {
                 </div>
 
                 <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
+                  <span className="text-gray-400 block font-medium">Candidate ID</span>
+                  <span className="text-sm font-mono font-bold text-[#10264B]">{result.certificate.candidateId || 'N/A'}</span>
+                </div>
+
+                <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
                   <span className="text-gray-400 block font-medium">Credential Level</span>
                   <span className="text-sm font-bold text-[#10264B]">{result.certificate.credentialLevel}</span>
                 </div>
@@ -161,7 +184,7 @@ export const VerifyCertificate: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200">
+                <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200 sm:col-span-2">
                   <span className="text-gray-400 block font-medium">Validity Standing</span>
                   <span className="text-sm font-bold text-green-600">
                     Active • Valid until {result.certificate.validUntilFormatted || result.certificate.validUntil}
@@ -214,7 +237,7 @@ export const VerifyCertificate: React.FC = () => {
               </div>
               <h3 className="text-lg font-bold text-[#10264B]">No Verified Credential Found</h3>
               <p className="text-xs text-gray-600 max-w-md mx-auto">
-                {result.message || 'The specified Certificate ID does not match any active record in the AICQB central database.'}
+                {result.message || 'The specified Certificate ID or Candidate ID does not match any active record in the AICQB central database.'}
               </p>
             </div>
           )}
@@ -228,4 +251,3 @@ export const VerifyCertificate: React.FC = () => {
     </div>
   );
 };
-

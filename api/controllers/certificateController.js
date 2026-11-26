@@ -174,6 +174,30 @@ export async function verifyCertificate(req, res) {
   }
 }
 
+export async function getPublicCertificatesRegistry(req, res) {
+  try {
+    const list = db.getCollection('certificates') || [];
+    const publicList = list
+      .filter(c => c && c.status === 'Issued')
+      .map(c => ({
+        certificateNo: c.certificateNo,
+        candidateName: c.candidateName,
+        candidateId: c.candidateId,
+        certificationName: c.certificationName,
+        certificationCode: c.certificationCode,
+        issueDateFormatted: c.issueDateFormatted || c.issueDate,
+        validUntilFormatted: c.validUntilFormatted || c.validUntil,
+        status: c.status,
+      }))
+      .slice(-10)
+      .reverse();
+
+    return res.json({ success: true, count: publicList.length, certificates: publicList });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to fetch public registry' });
+  }
+}
+
 export async function getAllCertificatesAdmin(req, res) {
   try {
     const list = db.getCollection('certificates');

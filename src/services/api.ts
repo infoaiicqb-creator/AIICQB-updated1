@@ -98,6 +98,7 @@ export const api = {
 
   // Certificates
   getMyCertificates: () => request('/certificates/my'),
+  getPublicRegistry: () => request('/certificates/public-registry'),
   verifyCertificate: (certificateNo: string) => request(`/certificates/verify/${encodeURIComponent(certificateNo)}`),
 
   // Support

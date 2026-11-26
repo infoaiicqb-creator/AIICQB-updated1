@@ -7898,5 +7898,18 @@
     "id": "auditLogs_1795682540138_qcmu5",
     "createdAt": "2026-11-26T08:42:20.138Z",
     "updatedAt": "2026-11-26T08:42:20.138Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "LOGIN",
+    "module": "Authentication",
+    "details": "User logged in: gaurav@gmail.com (Candidate)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T09:10:06.524Z",
+    "id": "auditLogs_1795684206542_a7qxq",
+    "createdAt": "2026-11-26T09:10:06.542Z",
+    "updatedAt": "2026-11-26T09:10:06.542Z"
   }
 ]
