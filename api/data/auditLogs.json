@@ -7833,5 +7833,70 @@
     "id": "auditLogs_1795606709613_xdyfn",
     "createdAt": "2026-11-25T11:38:29.613Z",
     "updatedAt": "2026-11-25T11:38:29.613Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "LOGIN",
+    "module": "Authentication",
+    "details": "User logged in: gaurav@gmail.com (Candidate)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T08:39:14.622Z",
+    "id": "auditLogs_1795682354712_x3gui",
+    "createdAt": "2026-11-26T08:39:14.712Z",
+    "updatedAt": "2026-11-26T08:39:14.713Z"
+  },
+  {
+    "userId": "usr_1795161584876_gigns6",
+    "userEmail": "gaurav@gmail.com",
+    "userRole": "Candidate",
+    "action": "EXAM_SUBMISSION",
+    "module": "Examination Management",
+    "details": "Exam submitted for AICQB Certified Software Tester by gaurav@gmail.com - Score: 33% (FAILED - RETAKE GRANTED) - Fail",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T08:39:45.472Z",
+    "id": "auditLogs_1795682385472_89fwo",
+    "createdAt": "2026-11-26T08:39:45.472Z",
+    "updatedAt": "2026-11-26T08:39:45.473Z"
+  },
+  {
+    "userId": "usr_1795161584876_gigns6",
+    "userEmail": "gaurav@gmail.com",
+    "userRole": "Candidate",
+    "action": "EXAM_SUBMISSION",
+    "module": "Examination Management",
+    "details": "Exam submitted for AICQB Certified Software Tester by gaurav@gmail.com - Score: 47% (FAILED - RETAKE GRANTED) - Fail",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T08:40:03.782Z",
+    "id": "auditLogs_1795682403782_u06v4",
+    "createdAt": "2026-11-26T08:40:03.783Z",
+    "updatedAt": "2026-11-26T08:40:03.783Z"
+  },
+  {
+    "userId": "usr_1795161584876_gigns6",
+    "userEmail": "gaurav@gmail.com",
+    "userRole": "Candidate",
+    "action": "UPDATE_PROFILE",
+    "module": "Candidate Management",
+    "details": "Profile updated by candidate: gaurav@gmail.com",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T08:42:16.516Z",
+    "id": "auditLogs_1795682536516_pnnuk",
+    "createdAt": "2026-11-26T08:42:16.516Z",
+    "updatedAt": "2026-11-26T08:42:16.516Z"
+  },
+  {
+    "userId": "usr_1795161584876_gigns6",
+    "userEmail": "gaurav@gmail.com",
+    "userRole": "Candidate",
+    "action": "UPDATE_PROFILE",
+    "module": "Candidate Management",
+    "details": "Profile updated by candidate: gaurav@gmail.com",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-26T08:42:20.138Z",
+    "id": "auditLogs_1795682540138_qcmu5",
+    "createdAt": "2026-11-26T08:42:20.138Z",
+    "updatedAt": "2026-11-26T08:42:20.138Z"
   }
 ]

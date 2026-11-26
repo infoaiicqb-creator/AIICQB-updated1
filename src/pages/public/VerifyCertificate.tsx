@@ -69,7 +69,7 @@ export const VerifyCertificate: React.FC = () => {
                 type="text"
                 value={certificateId}
                 onChange={(e) => setCertificateId(e.target.value)}
-                placeholder="e.g., AICQB-CERT-100567"
+                placeholder="e.g., AICQB-ST-2026-000123"
                 className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-gray-300 rounded-xl text-xs sm:text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#F47716]"
                 required
               />
@@ -82,6 +82,27 @@ export const VerifyCertificate: React.FC = () => {
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
               <span>Verify Certificate</span>
             </button>
+          </div>
+          {/* Quick Verified Examples */}
+          <div className="flex flex-wrap items-center gap-2 pt-1">
+            <span className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Sample IDs:</span>
+            {['AICQB-ST-2026-000123', 'AICQB-CERT-100567', 'AICQB-PW-2026-000125', 'AICQB-AI-2026-000124'].map(id => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => {
+                  setCertificateId(id);
+                  performVerify(id);
+                }}
+                className={`text-xs font-mono font-bold px-3 py-1 rounded-full transition-all cursor-pointer border ${
+                  certificateId === id
+                    ? 'bg-orange-50 border-[#F47716] text-[#F47716]'
+                    : 'bg-slate-50 border-gray-200 text-slate-600 hover:border-[#F47716] hover:text-[#F47716]'
+                }`}
+              >
+                {id}
+              </button>
+            ))}
           </div>
         </form>
       </div>

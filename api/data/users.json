@@ -41,7 +41,24 @@
     "status": "Active",
     "emailVerified": false,
     "createdAt": "2026-11-20T07:59:44.877Z",
-    "updatedAt": "2026-11-25T11:38:29.610Z"
+    "updatedAt": "2026-11-26T08:42:20.126Z",
+    "preferences": {
+      "notifications": {
+        "emailExams": true,
+        "emailResults": true,
+        "emailNews": false,
+        "smsReminders": true,
+        "smsSecurity": true,
+        "inAppAlerts": true
+      },
+      "privacy": {
+        "twoFactorAuth": false,
+        "publicCertVerification": true,
+        "hideContactInfo": true,
+        "sessionTimeout": "1 Hour"
+      },
+      "language": "English"
+    }
   },
   {
     "uid": "usr_candidate_rahul_001",

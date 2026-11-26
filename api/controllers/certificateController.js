@@ -35,24 +35,69 @@ export async function verifyCertificate(req, res) {
       return res.status(400).json({ success: false, message: 'Certificate ID is required' });
     }
 
-    const cleanNo = certificateNo.trim();
+    // Extract ID if URL or query parameter was provided
+    let cleanNo = decodeURIComponent(certificateNo).trim();
+    if (cleanNo.includes('id=')) {
+      const match = cleanNo.match(/[?&]id=([^&]+)/) || cleanNo.match(/id=([^&]+)/);
+      if (match) cleanNo = decodeURIComponent(match[1]).trim();
+    }
+    if (cleanNo.startsWith('http://') || cleanNo.startsWith('https://')) {
+      try {
+        const u = new URL(cleanNo);
+        const qId = u.searchParams.get('id');
+        if (qId) cleanNo = qId.trim();
+      } catch (_) {}
+    }
+
     const cleanNorm = cleanNo.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-    const cert = db.findOne('certificates', c => {
+    let cert = db.findOne('certificates', c => {
       if (!c) return false;
       const certNo = (c.certificateNo || '').trim();
       const certNoNorm = certNo.toLowerCase().replace(/[^a-z0-9]/g, '');
       const idNorm = (c.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-      const candIdNorm = (c.candidateId || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const candId = (c.candidateId || '').trim();
+      const candIdNorm = candId.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const candEmail = (c.candidateEmail || '').toLowerCase().trim();
 
       return (
         certNo.toLowerCase() === cleanNo.toLowerCase() ||
         certNoNorm === cleanNorm ||
         idNorm === cleanNorm ||
+        candId.toLowerCase() === cleanNo.toLowerCase() ||
         candIdNorm === cleanNorm ||
+        candEmail === cleanNo.toLowerCase() ||
+        (cleanNorm.length >= 6 && certNoNorm.includes(cleanNorm)) ||
+        (cleanNorm.length >= 6 && cleanNorm.includes(certNoNorm)) ||
+        (cleanNorm.length >= 5 && candIdNorm.includes(cleanNorm)) ||
         (c.verificationUrl && c.verificationUrl.toLowerCase().includes(cleanNo.toLowerCase()))
       );
     });
+
+    // If not found in certificates, check if candidate has passed exams/results and auto-generate certificate
+    if (!cert && cleanNorm.length >= 3) {
+      const candidateUser = db.findOne('candidates', c =>
+        (c.candidateId && c.candidateId.toLowerCase() === cleanNo.toLowerCase()) ||
+        (c.candidateId && c.candidateId.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanNorm) ||
+        (c.email && c.email.toLowerCase() === cleanNo.toLowerCase())
+      ) || db.findOne('users', u =>
+        (u.candidateId && u.candidateId.toLowerCase() === cleanNo.toLowerCase()) ||
+        (u.candidateId && u.candidateId.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanNorm) ||
+        (u.email && u.email.toLowerCase() === cleanNo.toLowerCase())
+      );
+
+      if (candidateUser) {
+        const candidateCerts = await ensureCandidateCertificates({
+          uid: candidateUser.uid || candidateUser.id,
+          email: candidateUser.email,
+          candidateId: candidateUser.candidateId,
+          fullName: candidateUser.fullName,
+        });
+        if (candidateCerts && candidateCerts.length > 0) {
+          cert = candidateCerts[0];
+        }
+      }
+    }
 
     const ipAddress = req.ip || req.connection?.remoteAddress || '127.0.0.1';
     const userAgent = req.headers['user-agent'] || 'Unknown';

@@ -130,9 +130,10 @@ export const SelectExamLevelModal: React.FC<SelectExamLevelModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-[480px] w-full p-4 sm:p-5 relative my-auto animate-scaleUp border border-slate-100">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-[490px] w-full p-4 sm:p-5 relative my-auto animate-scaleUp border border-slate-100">
         {/* Close Button Top-Right Matching Screenshot */}
         <button
+          type="button"
           onClick={onClose}
           className="absolute right-3.5 top-3.5 sm:right-4 sm:top-4 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F47716] hover:bg-[#E35D00] text-white flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105"
           title="Close"
@@ -143,22 +144,22 @@ export const SelectExamLevelModal: React.FC<SelectExamLevelModalProps> = ({
         {/* Modal Header */}
         <div className="text-center space-y-1 pt-0.5 pr-6 sm:pr-0">
           <div className="flex items-center justify-center space-x-2">
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-[#F47716] to-[#FF8C38] text-white flex items-center justify-center shadow-xs">
-              <GraduationCap className="w-4 h-4 stroke-[2.5]" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F47716] text-white flex items-center justify-center shadow-xs">
+              <GraduationCap className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
             </div>
-            <h2 className="text-lg sm:text-xl font-black tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-black tracking-tight">
               <span className="text-[#10264B]">Select </span>
               <span className="text-[#F47716]">Exam Level</span>
             </h2>
           </div>
-          <p className="text-[11px] text-slate-500 font-medium max-w-sm mx-auto leading-tight">
+          <p className="text-[11px] sm:text-xs text-slate-500 font-medium max-w-sm mx-auto leading-tight">
             Choose the exam level for this certification based on your experience and career goal.
           </p>
         </div>
 
         {/* Selected Certification Banner */}
         <div className="mt-2.5 bg-[#F0F4FD] border border-[#DCE4F8] rounded-xl p-2.5 sm:p-3 flex items-center space-x-2.5 shadow-xs">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#F47716] to-[#FF7F24] text-white flex items-center justify-center font-mono font-bold text-xs flex-shrink-0 shadow-xs">
+          <div className="w-8 h-8 rounded-lg bg-[#F47716] text-white flex items-center justify-center font-mono font-bold text-xs flex-shrink-0 shadow-xs">
             <Code2 className="w-4 h-4 stroke-[2.5]" />
           </div>
           <div className="min-w-0 flex-1">
@@ -167,7 +168,7 @@ export const SelectExamLevelModal: React.FC<SelectExamLevelModalProps> = ({
             </h4>
             <p className="text-[10px] text-slate-600 truncate mt-0.5">
               <span className="font-semibold text-slate-700">Code: {certification.code}</span>
-              <span className="mx-1 text-slate-300">|</span>
+              <span className="mx-1.5 text-slate-300">|</span>
               <span>Domain: {certification.domain}</span>
             </p>
           </div>
@@ -183,19 +184,21 @@ export const SelectExamLevelModal: React.FC<SelectExamLevelModalProps> = ({
               <div
                 key={lvl.id}
                 onClick={() => setSelectedLevelId(lvl.id)}
-                className={`rounded-xl p-2.5 sm:p-3 border-2 transition-all cursor-pointer flex items-center justify-between gap-2.5 select-none ${
-                  isSelected
-                    ? 'border-[#F47716] bg-[#FFFBF7] shadow-xs ring-1 ring-orange-200'
-                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
-                }`}
+                className={`rounded-xl p-2.5 sm:p-3 border transition-all cursor-pointer flex items-center justify-between gap-2.5 select-none ${isSelected
+                  ? 'border-2 border-[#F47716] bg-[#FFF8F3] shadow-xs'
+                  : lvl.id === 'foundation'
+                    ? 'border-blue-200 bg-white hover:border-blue-300 hover:bg-blue-50/20'
+                    : lvl.id === 'expert'
+                      ? 'border-purple-200 bg-white hover:border-purple-300 hover:bg-purple-50/20'
+                      : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
+                  }`}
               >
                 {/* Left: Radio + Icon + Info */}
                 <div className="flex items-center space-x-2.5 min-w-0">
                   {/* Radio Indicator */}
                   <div
-                    className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                      isSelected ? 'border-[#F47716]' : 'border-slate-300'
-                    }`}
+                    className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${isSelected ? 'border-[#F47716]' : 'border-slate-300'
+                      }`}
                   >
                     {isSelected && (
                       <div className="w-2 h-2 rounded-full bg-[#F47716]" />
@@ -204,13 +207,12 @@ export const SelectExamLevelModal: React.FC<SelectExamLevelModalProps> = ({
 
                   {/* Level Graduation Cap Icon */}
                   <div
-                    className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 ${
-                      lvl.id === 'foundation'
-                        ? 'text-blue-600'
-                        : lvl.id === 'professional'
+                    className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 ${lvl.id === 'foundation'
+                      ? 'text-blue-600'
+                      : lvl.id === 'professional'
                         ? 'text-[#F47716]'
                         : 'text-purple-600'
-                    }`}
+                      }`}
                   >
                     <GraduationCap className="w-5 h-5 stroke-[2]" />
                   </div>

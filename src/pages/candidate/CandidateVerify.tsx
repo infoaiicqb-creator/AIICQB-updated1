@@ -9,15 +9,31 @@ export const CandidateVerify: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
+  const [myCertList, setMyCertList] = useState<any[]>([]);
 
-  const handleVerify = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!certId.trim()) return;
+  React.useEffect(() => {
+    api.getMyCertificates().then(res => {
+      if (res.success && res.certificates && res.certificates.length > 0) {
+        setMyCertList(res.certificates);
+        if (res.certificates[0].certificateNo) {
+          setCertId(res.certificates[0].certificateNo);
+          performVerify(res.certificates[0].certificateNo);
+        }
+      } else {
+        performVerify('AICQB-ST-2026-000123');
+      }
+    }).catch(() => {
+      performVerify('AICQB-ST-2026-000123');
+    });
+  }, []);
+
+  const performVerify = async (idToVerify: string) => {
+    if (!idToVerify.trim()) return;
 
     try {
       setLoading(true);
       setResult(null);
-      const res = await api.verifyCertificate(certId.trim());
+      const res = await api.verifyCertificate(idToVerify.trim());
       setResult(res);
     } catch (err: any) {
       setResult({
@@ -27,6 +43,11 @@ export const CandidateVerify: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleVerify = async (e: React.FormEvent) => {
+    e.preventDefault();
+    performVerify(certId);
   };
 
   return (
@@ -55,6 +76,46 @@ export const CandidateVerify: React.FC = () => {
                 placeholder="e.g. AICQB-ST-2026-000123"
                 className="w-full pl-10 pr-3.5 py-2.5 text-xs sm:text-sm font-mono bg-slate-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F47716]"
               />
+            </div>
+            {/* Quick selection chips */}
+            <div className="flex flex-wrap items-center gap-1.5 mt-2">
+              <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Quick Select:</span>
+              {myCertList.map(c => (
+                <button
+                  key={c.certificateNo}
+                  type="button"
+                  onClick={() => {
+                    setCertId(c.certificateNo);
+                    performVerify(c.certificateNo);
+                  }}
+                  className={`text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full transition-all cursor-pointer border ${
+                    certId === c.certificateNo
+                      ? 'bg-orange-50 border-[#F47716] text-[#F47716]'
+                      : 'bg-slate-50 border-gray-200 text-slate-600 hover:border-gray-300'
+                  }`}
+                >
+                  {c.certificateNo}
+                </button>
+              ))}
+              {['AICQB-ST-2026-000123', 'AICQB-CERT-100567', 'AICQB-PW-2026-000125'].map(id => (
+                !myCertList.some(c => c.certificateNo === id) && (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => {
+                      setCertId(id);
+                      performVerify(id);
+                    }}
+                    className={`text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full transition-all cursor-pointer border ${
+                      certId === id
+                        ? 'bg-orange-50 border-[#F47716] text-[#F47716]'
+                        : 'bg-slate-50 border-gray-200 text-slate-600 hover:border-gray-300'
+                    }`}
+                  >
+                    {id}
+                  </button>
+                )
+              ))}
             </div>
           </div>
 
