@@ -88,10 +88,16 @@ export const CandidateExams: React.FC = () => {
   };
 
   // Candidate's live upcoming and completed exams:
-  // Rule: If any test fails, do NOT add to Completed Exams section; keep in Upcoming Exams only if attempts remain.
-  const displayUpcoming = upcoming.filter(
-    (u) => u.attemptsRemaining === undefined || u.attemptsRemaining > 0
-  );
+  // Rule: If any test fails, do NOT add to Completed Exams section; keep in Upcoming Exams.
+  const displayUpcoming = upcoming.filter((u) => {
+    // Only exclude from upcoming if already completed and passed in completed list
+    const isCompletedAndPassed = completed.some(
+      (c) =>
+        (c.certificationId && c.certificationId === u.certificationId) ||
+        (c.certificationCode && c.certificationCode === u.certificationCode)
+    );
+    return !isCompletedAndPassed;
+  });
   const displayCompleted = completed.filter(
     (c) =>
       c.passed === true &&

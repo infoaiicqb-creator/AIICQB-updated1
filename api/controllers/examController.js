@@ -13,43 +13,48 @@ export async function getExams(req, res) {
 
 export async function getCandidateSchedules(req, res) {
   try {
-    const uid = req.user.uid;
-    const candidateId = req.user.candidateId;
-    const email = req.user.email?.toLowerCase();
-    const fullName = req.user.fullName?.toLowerCase();
+    const norm = (str) => (str || '').toString().trim().toLowerCase();
+    const cleanCandId = (id) => norm(id).replace(/[^a-z0-9]/g, '');
+
+    const userUid = norm(req.user.uid);
+    const userCandId = cleanCandId(req.user.candidateId);
+    const userEmail = norm(req.user.email);
+    const userFullName = norm(req.user.fullName);
+
+    const isMatch = (item) => {
+      if (!item) return false;
+      if (userUid && (norm(item.candidateUid) === userUid || norm(item.uid) === userUid)) return true;
+      if (userEmail && (norm(item.candidateEmail) === userEmail || norm(item.candidate_email) === userEmail || norm(item.email) === userEmail)) return true;
+      if (userCandId && (cleanCandId(item.candidateId) === userCandId || cleanCandId(item.candidate_id) === userCandId)) return true;
+      if (userFullName && (norm(item.candidateName) === userFullName || norm(item.candidate_name) === userFullName || norm(item.fullName) === userFullName)) return true;
+      return false;
+    };
 
     // 1. Fetch existing exam schedules strictly for this candidate
-    let schedules = db.find(
-      'examSchedules',
-      s =>
-        (uid && s.candidateUid === uid) ||
-        (email && s.candidateEmail && s.candidateEmail.toLowerCase() === email) ||
-        (candidateId && (s.candidateId === candidateId || s.candidate_id === candidateId)) ||
-        (fullName && s.candidateName && s.candidateName.toLowerCase() === fullName)
-    );
+    let schedules = db.find('examSchedules', s => isMatch(s));
 
     // 2. Fetch candidate's enrollments from payments/courses taken
-    const enrollments = db.find(
-      'enrollments',
-      e =>
-        (uid && e.candidateUid === uid) ||
-        (email && e.candidateEmail && e.candidateEmail.toLowerCase() === email) ||
-        (candidateId && (e.candidateId === candidateId || e.candidate_id === candidateId)) ||
-        (fullName && e.candidateName && e.candidateName.toLowerCase() === fullName)
-    );
+    const enrollments = db.find('enrollments', e => isMatch(e));
+    const validEnrollmentStatuses = ['enrolled', 'in-progress', 'PAID', 'paid', 'active', 'success', 'confirmed'];
+    const activeEnrollments = enrollments.filter(e => !e.status || validEnrollmentStatuses.includes(e.status));
+
+    const normCode = (val) => (val || '').replace(/®/g, '').trim().toLowerCase();
 
     // 3. For any course enrollment without an exam schedule, automatically add it to My Exams!
-    for (const enr of enrollments) {
+    for (const enr of activeEnrollments) {
+      const enrCertId = enr.certificationId || enr.certification_id;
+      const enrCertCode = enr.certificationCode;
+
       const alreadyScheduled = schedules.some(
-        s => (enr.certificationId && s.certificationId === enr.certificationId) ||
-          (enr.certificationCode && s.certificationCode === enr.certificationCode) ||
-          (enr.certificationId && s.examId === `exam_${enr.certificationId}`)
+        s => (enrCertId && (s.certificationId === enrCertId || s.certification_id === enrCertId)) ||
+          (enrCertCode && s.certificationCode && normCode(s.certificationCode) === normCode(enrCertCode)) ||
+          (enrCertId && s.examId === `exam_${enrCertId}`)
       );
 
       if (!alreadyScheduled) {
         const cert = db.findOne(
           'certifications',
-          c => c.id === enr.certificationId || c.code === enr.certificationCode
+          c => c.id === enrCertId || c.code === enrCertCode
         );
 
         const examDate = new Date();
@@ -61,16 +66,17 @@ export async function getCandidateSchedules(req, res) {
         const autoSchedule = {
           id: `sch_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
           scheduleId: `sch_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
-          candidateUid: uid || enr.candidateUid,
-          candidateEmail: email || enr.candidateEmail,
-          candidateId: candidateId || enr.candidateId || req.user.candidateId || 'AICQB-1004581',
+          candidateUid: req.user.uid || enr.candidateUid,
+          candidateEmail: req.user.email || enr.candidateEmail,
+          candidateId: req.user.candidateId || enr.candidateId || 'AICQB-1004581',
           candidateName: req.user.fullName || enr.candidateName || 'Candidate',
-          certificationId: enr.certificationId || cert?.id,
+          certificationId: enrCertId || cert?.id,
           certificationName: enr.certificationName || cert?.name || 'Certification Exam',
-          certificationCode: enr.certificationCode || cert?.code || 'AICQB-CERT',
-          examId: `exam_${enr.certificationId || cert?.id}`,
+          certificationCode: enrCertCode || cert?.code || 'AICQB-CERT',
+          certificationLevel: enr.certificationLevel || cert?.level || 'Professional Level',
+          examId: `exam_${enrCertId || cert?.id}`,
           examName: enr.certificationName || cert?.name || 'Certification Exam',
-          examCode: `${enr.certificationCode || cert?.code || 'AICQB'}-EXAM`,
+          examCode: `${enrCertCode || cert?.code || 'AICQB'}-EXAM`,
           scheduledDate: examDate.toISOString().split('T')[0],
           scheduledDateDay: day,
           scheduledDateMonth: monthYear,
@@ -79,7 +85,7 @@ export async function getCandidateSchedules(req, res) {
           mode: 'Online Proctored',
           durationMinutes: cert?.duration ? parseInt(cert.duration) : 90,
           status: 'scheduled',
-          enrollmentId: enr.id,
+          enrollmentId: enr.id || enr.enrollment_id,
           instructions: [
             'Ensure a stable high-speed internet connection.',
             'Keep your camera and microphone enabled for AI proctoring.',
@@ -94,38 +100,17 @@ export async function getCandidateSchedules(req, res) {
       }
     }
 
-    const attempts = db.find(
-      'examAttempts',
-      a =>
-        (a.candidateUid && a.candidateUid === uid) ||
-        (email && a.candidateEmail && a.candidateEmail.toLowerCase() === email) ||
-        (candidateId && a.candidateId === candidateId) ||
-        (fullName && a.candidateName && a.candidateName.toLowerCase() === fullName)
-    );
+    const attempts = db.find('examAttempts', a => isMatch(a));
 
     // Completed attempts taken strictly by this candidate
-    const completedAttempts = attempts.filter(a => a.status === 'completed');
+    const completedAttempts = attempts.filter(a => a.status === 'completed' || a.submitted === true || (a.percentage !== undefined && a.percentage !== null));
     const completedAttemptIds = new Set(completedAttempts.map(a => a.id || a.attemptId).filter(Boolean));
     const completedAttemptCertIds = new Set(completedAttempts.map(a => a.certificationId).filter(Boolean));
-    const completedAttemptCertCodes = new Set(completedAttempts.map(a => a.certificationCode).filter(Boolean));
+    const completedAttemptCertCodes = new Set(completedAttempts.map(a => normCode(a.certificationCode)).filter(Boolean));
 
     // 4. Fetch candidate's completed results & certificates strictly for this candidate
-    const results = db.find(
-      'results',
-      r =>
-        (r.candidateUid && r.candidateUid === uid) ||
-        (email && r.candidateEmail && r.candidateEmail.toLowerCase() === email) ||
-        (candidateId && r.candidateId === candidateId) ||
-        (fullName && r.candidateName && r.candidateName.toLowerCase() === fullName)
-    );
-    const certificates = db.find(
-      'certificates',
-      c =>
-        (c.candidateUid && c.candidateUid === uid) ||
-        (email && c.candidateEmail && c.candidateEmail.toLowerCase() === email) ||
-        (candidateId && (c.candidateId === candidateId || c.candidate_id === candidateId)) ||
-        (fullName && c.candidateName && c.candidateName.toLowerCase() === fullName)
-    );
+    const results = db.find('results', r => isMatch(r));
+    const certificates = db.find('certificates', c => isMatch(c));
 
     // RULES IMPLEMENTATION:
     // Rule 1: "Without exam do not show score report" -> A result/score report can ONLY be shown if the candidate ACTUALLY took the exam (completed attempt exists).
@@ -167,8 +152,6 @@ export async function getCandidateSchedules(req, res) {
       };
     });
 
-    const normCode = (val) => (val || '').replace(/®/g, '').trim().toLowerCase();
-
     // Also include any schedules that are completed and passed into completedList
     schedules.forEach(s => {
       const isPassedSchedule = s.passed === true || (s.status === 'completed' && ((s.percentage !== undefined && s.percentage >= 70) || (s.score !== undefined && s.score >= 70)));
@@ -203,21 +186,34 @@ export async function getCandidateSchedules(req, res) {
       }
     });
 
-    const pendingUpcoming = schedules.filter(s =>
-      s.status === 'scheduled' &&
-      !s.passed &&
-      (s.percentage === undefined || s.percentage < 70)
-    ).map(s => {
+    const passedCertIds = new Set(completedList.map(c => c.certificationId).filter(Boolean));
+    const passedCertCodes = new Set(completedList.map(c => normCode(c.certificationCode)).filter(Boolean));
+
+    // STRICT RULE: If any test is enrolled and not passed, it MUST remain in Upcoming Exams!
+    const pendingUpcoming = schedules.filter(s => {
+      const normSCode = normCode(s.certificationCode);
+      const isPassed = s.passed === true ||
+        (s.percentage !== undefined && s.percentage >= 70) ||
+        (s.score !== undefined && s.score >= 70) ||
+        (s.certificationId && passedCertIds.has(s.certificationId)) ||
+        (normSCode && passedCertCodes.has(normSCode));
+
+      return !isPassed;
+    }).map(s => {
       const normSCode = normCode(s.certificationCode);
       const certAttempts = attempts.filter(a =>
         (a.scheduleId === s.id || a.scheduleId === s.scheduleId) ||
         (s.certificationId && a.certificationId === s.certificationId) ||
         (s.certificationCode && a.certificationCode && normCode(a.certificationCode) === normSCode)
       );
+      // ONLY COMPLETED / SUBMITTED ATTEMPTS COUNT AGAINST THE ATTEMPT LIMIT
+      const completedCertAttempts = certAttempts.filter(a =>
+        a.status === 'completed' || a.submitted === true || (a.percentage !== undefined && a.percentage !== null)
+      );
       const totalAttemptsAllowed = 3;
-      const attemptsCompleted = Math.min(totalAttemptsAllowed, certAttempts.length);
+      const attemptsCompleted = Math.min(totalAttemptsAllowed, completedCertAttempts.length);
       const attemptsRemaining = Math.max(0, totalAttemptsAllowed - attemptsCompleted);
-      const lastAttempt = certAttempts[certAttempts.length - 1];
+      const lastAttempt = completedCertAttempts[completedCertAttempts.length - 1];
       const previousAttemptScore = lastAttempt?.score ?? lastAttempt?.percentage ?? s.lastAttemptScore ?? s.percentage ?? null;
       const previousAttemptResult = lastAttempt ? (lastAttempt.passed || (lastAttempt.percentage >= 70) ? 'Passed' : 'Failed') : (s.percentage !== undefined ? (s.percentage >= 70 ? 'Passed' : 'Failed') : null);
       const nextAttemptEligibility = attemptsRemaining > 0;
@@ -229,6 +225,7 @@ export async function getCandidateSchedules(req, res) {
 
       return {
         ...s,
+        status: 'scheduled',
         scheduledTime,
         totalAttemptsAllowed,
         attemptsCompleted,
@@ -241,11 +238,22 @@ export async function getCandidateSchedules(req, res) {
       };
     });
 
+    // Deduplicate upcoming so there's one card per enrolled certification
+    const uniqueUpcoming = [];
+    const seenCerts = new Set();
+    for (const u of pendingUpcoming) {
+      const key = u.certificationId || normCode(u.certificationCode);
+      if (!seenCerts.has(key)) {
+        seenCerts.add(key);
+        uniqueUpcoming.push(u);
+      }
+    }
+
     return res.json({
       success: true,
-      upcoming: pendingUpcoming,
+      upcoming: uniqueUpcoming,
       completed: completedList,
-      all: [...pendingUpcoming, ...completedList],
+      all: [...uniqueUpcoming, ...completedList],
       attempts,
     });
   } catch (err) {
@@ -555,28 +563,42 @@ export async function startExam(req, res) {
       };
     });
 
-    // Create active attempt with randomized question and answer mapping
-    const attemptId = `att_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
-    const attempt = {
-      id: attemptId,
-      attemptId,
-      scheduleId: schedule.id,
-      candidateUid: uid,
-      candidateId: schedule.candidateId,
-      candidateName: schedule.candidateName,
-      certificationId: schedule.certificationId,
-      certificationName: schedule.certificationName,
-      certificationCode: schedule.certificationCode,
-      startTime: new Date().toISOString(),
-      durationMinutes: schedule.durationMinutes || 90,
-      totalQuestions: sanitizedQuestions.length,
-      status: 'in-progress',
-      answers: {},
-      questionMap,
-      questionOrder: sanitizedQuestions.map(q => q.id),
-    };
+    // Check if there is already an unsubmitted in-progress attempt for this candidate and schedule
+    let attempt = db.findOne('examAttempts', a =>
+      (a.scheduleId === schedule.id || a.scheduleId === schedule.scheduleId) &&
+      (a.candidateUid === uid || a.candidateId === schedule.candidateId) &&
+      a.status === 'in-progress' &&
+      (!a.answers || Object.keys(a.answers).length === 0)
+    );
 
-    db.addDoc('examAttempts', attempt);
+    let attemptId;
+    if (attempt) {
+      attemptId = attempt.id || attempt.attemptId;
+      attempt.questionMap = questionMap;
+      attempt.questionOrder = sanitizedQuestions.map(q => q.id);
+      db.updateDoc('examAttempts', attempt.id, attempt);
+    } else {
+      attemptId = `att_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+      attempt = {
+        id: attemptId,
+        attemptId,
+        scheduleId: schedule.id,
+        candidateUid: uid,
+        candidateId: schedule.candidateId,
+        candidateName: schedule.candidateName,
+        certificationId: schedule.certificationId,
+        certificationName: schedule.certificationName,
+        certificationCode: schedule.certificationCode,
+        startTime: new Date().toISOString(),
+        durationMinutes: schedule.durationMinutes || 90,
+        totalQuestions: sanitizedQuestions.length,
+        status: 'in-progress',
+        answers: {},
+        questionMap,
+        questionOrder: sanitizedQuestions.map(q => q.id),
+      };
+      db.addDoc('examAttempts', attempt);
+    }
 
     return res.json({
       success: true,
