@@ -515,9 +515,20 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
   };
 
   const handleRetakeExam = async () => {
+    if (mediaStream) {
+      mediaStream.getTracks().forEach((t) => t.stop());
+    }
+    if (screenStream) {
+      screenStream.getTracks().forEach((t) => t.stop());
+    }
+    setMediaStream(null);
+    setScreenStream(null);
+    mediaStreamRef.current = null;
+    screenStreamRef.current = null;
     setResult(null);
     setIsExamStarted(false);
     setIdentityVerified(false);
+    setShowIdentityVerification(false);
     setAnswers({});
     setFlagged({});
     setCurrentIndex(0);
