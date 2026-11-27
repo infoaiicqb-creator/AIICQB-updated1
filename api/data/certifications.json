@@ -1,230 +1,5 @@
 [
   {
-    "id": "cert_aicqb_ai_cp",
-    "code": "AICQB-AI-CP",
-    "name": "AICQB Certified AI Professional",
-    "domain": "AI & Machine Learning",
-    "domainCode": "AI",
-    "domainSlug": "ai-ml",
-    "level": "Professional Level",
-    "description": "Validate your expertise in Artificial Intelligence, Machine Learning and real-world AI applications.",
-    "learningObjectives": [
-      "Build strong AI & ML fundamentals and mathematical foundations",
-      "Hands-on practical assessment on neural networks & transformers",
-      "Industry-relevant use cases across finance, healthcare & tech",
-      "Globally verifiable digital certificate with QR authentication"
-    ],
-    "syllabus": [
-      {
-        "title": "Module 1: Foundations of Artificial Intelligence & Math",
-        "hours": 12,
-        "topics": [
-          "Linear Algebra",
-          "Calculus",
-          "Probability & Statistics",
-          "Search Algorithms"
-        ]
-      },
-      {
-        "title": "Module 2: Machine Learning Algorithms & Optimization",
-        "hours": 18,
-        "topics": [
-          "Supervised vs Unsupervised",
-          "Regression",
-          "Classification",
-          "Gradient Descent"
-        ]
-      },
-      {
-        "title": "Module 3: Deep Learning, Neural Networks & PyTorch",
-        "hours": 20,
-        "topics": [
-          "CNNs",
-          "RNNs & LSTMs",
-          "Attention Mechanisms",
-          "Transformers"
-        ]
-      },
-      {
-        "title": "Module 4: Generative AI, LLMs & Prompt Engineering",
-        "hours": 15,
-        "topics": [
-          "GPT Architecture",
-          "Embeddings & Vector Databases",
-          "RAG Pipelines",
-          "Fine-tuning"
-        ]
-      },
-      {
-        "title": "Module 5: Responsible AI, Ethics & Deployment",
-        "hours": 10,
-        "topics": [
-          "Model Explainability (SHAP/LIME)",
-          "Bias Mitigation",
-          "ONNX & TensorRT",
-          "Serving via REST APIs"
-        ]
-      }
-    ],
-    "eligibility": "Degree or diploma in Computer Science, Engineering, Statistics, or 1+ year practical coding experience.",
-    "examPattern": "Online proctored exam, 60 MCQ questions & 1 coding challenge, 90 minutes.",
-    "examFee": 45000,
-    "currency": "INR",
-    "duration": "90 Minutes",
-    "passingCriteria": 70,
-    "validityYears": 3,
-    "version": "2026.1",
-    "status": "Inactive",
-    "enrolledCount": 1454,
-    "icon": "Cpu",
-    "popular": true,
-    "updatedAt": "2026-11-27T18:06:39.347Z",
-    "createdAt": "2026-11-09T15:40:37.376Z",
-    "examFeeUSD": 692,
-    "updatedBy": "admin@aicqb.org"
-  },
-  {
-    "id": "cert_aicqb_ds_201",
-    "code": "AICQB-DS-201",
-    "name": "AICQB Certified Data Science Professional",
-    "domain": "Data Science & Analytics",
-    "domainCode": "DS",
-    "domainSlug": "data-science",
-    "level": "Professional Level",
-    "description": "Extract business insights from complex data through statistical modeling, Python data stack, and visualization.",
-    "learningObjectives": [
-      "Exploratory data analysis with Pandas, NumPy, and Seaborn",
-      "Predictive modeling and hypothesis testing",
-      "Feature engineering and dimensionality reduction",
-      "Translating data insights into executive strategy"
-    ],
-    "syllabus": [
-      {
-        "title": "Module 1: Statistical Analysis & Probability",
-        "hours": 12,
-        "topics": [
-          "Hypothesis Testing",
-          "ANOVA",
-          "Distributions",
-          "Bayesian Inference"
-        ]
-      },
-      {
-        "title": "Module 2: Python Data Manipulation Stack",
-        "hours": 15,
-        "topics": [
-          "Pandas Advanced Indexing",
-          "Data Cleaning",
-          "Vectorization"
-        ]
-      },
-      {
-        "title": "Module 3: Machine Learning with Scikit-Learn",
-        "hours": 18,
-        "topics": [
-          "Ensemble Methods",
-          "Cross-Validation",
-          "Hyperparameter Tuning"
-        ]
-      }
-    ],
-    "eligibility": "Familiarity with Python or R, and basic statistics.",
-    "examPattern": "Online proctored exam, 50 MCQ questions, 90 minutes.",
-    "examFee": 450242,
-    "currency": "INR",
-    "duration": "90 Minutes",
-    "passingCriteria": 70,
-    "validityYears": 3,
-    "version": "2026.1",
-    "status": "Inactive",
-    "enrolledCount": 898,
-    "icon": "Database",
-    "popular": false,
-    "updatedAt": "2026-11-27T18:06:38.598Z",
-    "createdAt": "2026-11-09T15:40:37.381Z",
-    "examFeeUSD": 5296.96,
-    "updatedBy": "admin@aicqb.org",
-    "domainId": "",
-    "levelId": "",
-    "exchangeRate": 85,
-    "durationUnit": "Minutes",
-    "examFeeINR": 450242,
-    "passingThreshold": 70,
-    "examDuration": 90,
-    "certificationName": "AICQB Certified Data Science Professional",
-    "eligibilityCriteria": "Familiarity with Python or R, and basic statistics."
-  },
-  {
-    "id": "cert_aicqb_cy_301",
-    "code": "AICQB-CY-301",
-    "name": "AICQB Certified Cybersecurity Specialist",
-    "domain": "Cybersecurity",
-    "domainCode": "CY",
-    "domainSlug": "cybersecurity",
-    "level": "Advanced Level",
-    "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
-    "learningObjectives": [
-      "Network security defense and intrusion detection systems",
-      "Vulnerability assessments and ethical penetration methodologies",
-      "Zero-trust identity access management and cryptographic standards",
-      "SOC incident triage and digital forensics"
-    ],
-    "syllabus": [
-      {
-        "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
-        "hours": 10,
-        "topics": [
-          "MITRE ATT&CK",
-          "OWASP Top 10",
-          "Malware Analysis"
-        ]
-      },
-      {
-        "title": "Module 2: Network Defense & Cryptography",
-        "hours": 16,
-        "topics": [
-          "Firewalls & IDS/IPS",
-          "PKI & TLS 1.3",
-          "Zero-Trust Architecture"
-        ]
-      },
-      {
-        "title": "Module 3: Incident Response & Forensics",
-        "hours": 14,
-        "topics": [
-          "SIEM / SOC Workflows",
-          "Memory Forensics",
-          "Disaster Recovery"
-        ]
-      }
-    ],
-    "eligibility": "Knowledge of networking protocols and operating systems internals.",
-    "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
-    "examFee": 50,
-    "currency": "INR",
-    "duration": "90 Minutes",
-    "passingCriteria": 70,
-    "validityYears": 3,
-    "version": "2026.1",
-    "status": "Inactive",
-    "enrolledCount": 1127,
-    "icon": "Lock",
-    "popular": true,
-    "updatedAt": "2026-11-27T18:06:37.211Z",
-    "createdAt": "2026-11-09T15:40:37.382Z",
-    "examFeeUSD": 0.59,
-    "updatedBy": "admin@aicqb.org",
-    "domainId": "",
-    "levelId": "",
-    "exchangeRate": 85,
-    "durationUnit": "Minutes",
-    "examFeeINR": 50,
-    "passingThreshold": 70,
-    "examDuration": 90,
-    "certificationName": "AICQB Certified Cybersecurity Specialist",
-    "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
-  },
-  {
     "id": "cert_aiicqb_st_cp_001",
     "certificationId": "cert_aiicqb_st_cp_001",
     "certificationCode": "AIICQB-ST-CP-001",
@@ -283,5 +58,65 @@
     "updatedBy": "pushpak@gmail.com",
     "createdAt": "2026-11-27T18:14:21.959Z",
     "updatedAt": "2026-11-27T18:14:21.959Z"
+  },
+  {
+    "id": "cert_aiicqb_wd_cp_001",
+    "certificationId": "cert_aiicqb_wd_cp_001",
+    "certificationCode": "AIICQB-WD-CP-001",
+    "name": "Java developer",
+    "certificationName": "Java developer",
+    "code": "AIICQB-WD-CP-001",
+    "domain": "Web Development",
+    "domainId": "dom_web_dev",
+    "domainCode": "WD",
+    "level": "Foundation Level",
+    "levelId": "lvl_fnd",
+    "description": "java",
+    "learningObjectives": [
+      "Core conceptual mastery",
+      "Practical applied assessment"
+    ],
+    "syllabus": [
+      {
+        "title": "Module 1: Principles & Fundamentals",
+        "hours": 10,
+        "topics": [
+          "Overview",
+          "Architecture"
+        ]
+      },
+      {
+        "title": "Module 2: Advanced Implementation",
+        "hours": 15,
+        "topics": [
+          "Hands-on",
+          "Case Studies"
+        ]
+      }
+    ],
+    "eligibility": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
+    "eligibilityCriteria": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
+    "examPattern": "Online proctored examination, 60 MCQ questions, 90 minutes duration.",
+    "examFee": 25000,
+    "examFeeINR": 25000,
+    "examFeeUSD": 294.12,
+    "exchangeRate": 85,
+    "exchangeRateSnapshot": 85,
+    "currency": "INR",
+    "duration": "90 Minutes",
+    "examDuration": 90,
+    "durationUnit": "Minutes",
+    "passingCriteria": 70,
+    "passingThreshold": 70,
+    "validityYears": 3,
+    "version": "2026.1",
+    "status": "Active",
+    "isDeleted": false,
+    "tags": [],
+    "enrolledCount": 0,
+    "createdBy": "pushpak@gmail.com",
+    "updatedBy": "pushpak@gmail.com",
+    "createdAt": "2026-11-27T18:35:42.714Z",
+    "updatedAt": "2026-11-27T18:35:42.714Z"
   }
 ]

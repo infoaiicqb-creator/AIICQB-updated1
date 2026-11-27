@@ -23,5 +23,30 @@
     "id": "syllabi_1795803261962_4qyzn",
     "createdAt": "2026-11-27T18:14:21.962Z",
     "updatedAt": "2026-11-27T18:14:21.962Z"
+  },
+  {
+    "certificationId": "cert_aiicqb_wd_cp_001",
+    "certificationCode": "AIICQB-WD-CP-001",
+    "modules": [
+      {
+        "title": "Module 1: Principles & Fundamentals",
+        "hours": 10,
+        "topics": [
+          "Overview",
+          "Architecture"
+        ]
+      },
+      {
+        "title": "Module 2: Advanced Implementation",
+        "hours": 15,
+        "topics": [
+          "Hands-on",
+          "Case Studies"
+        ]
+      }
+    ],
+    "id": "syllabi_1795804542716_02jmg",
+    "createdAt": "2026-11-27T18:35:42.716Z",
+    "updatedAt": "2026-11-27T18:35:42.716Z"
   }
 ]

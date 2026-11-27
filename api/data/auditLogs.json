@@ -9198,5 +9198,70 @@
     "id": "auditLogs_1795803261968_yl5zb",
     "createdAt": "2026-11-27T18:14:21.968Z",
     "updatedAt": "2026-11-27T18:14:21.968Z"
+  },
+  {
+    "userId": "usr_1794238898604_8636ld",
+    "userEmail": "pushpak@gmail.com",
+    "userRole": "Super Admin",
+    "action": "Certification Deleted",
+    "module": "Certification Management",
+    "details": "Certification Deleted: AICQB-CY-301",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T18:34:17.306Z",
+    "id": "auditLogs_1795804457306_m23q6",
+    "createdAt": "2026-11-27T18:34:17.306Z",
+    "updatedAt": "2026-11-27T18:34:17.306Z"
+  },
+  {
+    "userId": "usr_1794238898604_8636ld",
+    "userEmail": "pushpak@gmail.com",
+    "userRole": "Super Admin",
+    "action": "Certification Deleted",
+    "module": "Certification Management",
+    "details": "Certification Deleted: AICQB-DS-201",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T18:34:18.800Z",
+    "id": "auditLogs_1795804458800_6ludu",
+    "createdAt": "2026-11-27T18:34:18.800Z",
+    "updatedAt": "2026-11-27T18:34:18.800Z"
+  },
+  {
+    "userId": "usr_1794238898604_8636ld",
+    "userEmail": "pushpak@gmail.com",
+    "userRole": "Super Admin",
+    "action": "Certification Activated",
+    "module": "Certification Management",
+    "details": "Certification Activated: AICQB-AI-CP",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T18:34:32.730Z",
+    "id": "auditLogs_1795804472730_922cl",
+    "createdAt": "2026-11-27T18:34:32.730Z",
+    "updatedAt": "2026-11-27T18:34:32.730Z"
+  },
+  {
+    "userId": "usr_1794238898604_8636ld",
+    "userEmail": "pushpak@gmail.com",
+    "userRole": "Super Admin",
+    "action": "Certification Deleted",
+    "module": "Certification Management",
+    "details": "Certification Deleted: AICQB-AI-CP",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T18:34:49.428Z",
+    "id": "auditLogs_1795804489428_gwe7d",
+    "createdAt": "2026-11-27T18:34:49.428Z",
+    "updatedAt": "2026-11-27T18:34:49.428Z"
+  },
+  {
+    "userId": "usr_1794238898604_8636ld",
+    "userEmail": "pushpak@gmail.com",
+    "userRole": "Super Admin",
+    "action": "Certification Created",
+    "module": "Certification Management",
+    "details": "Certification Created: AIICQB-WD-CP-001",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T18:35:42.720Z",
+    "id": "auditLogs_1795804542720_6wa97",
+    "createdAt": "2026-11-27T18:35:42.720Z",
+    "updatedAt": "2026-11-27T18:35:42.720Z"
   }
 ]
