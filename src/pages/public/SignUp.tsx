@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../services/api';
 import { AuthLeftBanner } from '../../components/AuthLeftBanner';
@@ -44,7 +44,7 @@ export const SignUp: React.FC = () => {
   }, [user, authLoading, navigate]);
 
   if (user && !authLoading) {
-    return null;
+    return <Navigate to="/portal/dashboard" replace />;
   }
 
   // Form Fields State
@@ -162,18 +162,9 @@ export const SignUp: React.FC = () => {
 
       if (regRes && regRes.success) {
         setSuccessMessage('Congratulations! Your AIICQB account has been created successfully.');
-
-        // Navigate candidate to Dashboard or Target certification
-        setTimeout(() => {
-          const redirect = searchParams.get('redirect');
-          if (redirect) {
-            navigate(redirect);
-          } else if (selectedCertificationId) {
-            navigate('/portal/certifications');
-          } else {
-            navigate('/portal/dashboard');
-          }
-        }, 800);
+        // Show dashboard directly
+        navigate('/portal/dashboard', { replace: true });
+        return;
       } else {
         setError(regRes?.message || 'Registration failed. Please try again.');
       }

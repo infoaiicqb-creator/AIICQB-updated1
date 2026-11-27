@@ -311,5 +311,29 @@
     "coursesInProgressCount": 0,
     "createdAt": "2026-11-27T13:56:43.464Z",
     "updatedAt": "2026-11-27T13:57:19.469Z"
+  },
+  {
+    "id": "usr_1795795488107_xtzg00",
+    "uid": "usr_1795795488107_xtzg00",
+    "candidateId": "AICQB-1004723",
+    "fullName": "pavankumar",
+    "email": "pavankumar@gmail.com",
+    "phoneNumber": "+91 9834341830",
+    "country": "India",
+    "organization": "",
+    "employeeId": "",
+    "address": "",
+    "gender": "Not specified",
+    "dateOfBirth": "",
+    "aboutMe": "",
+    "profileCompletion": 45,
+    "emailVerified": true,
+    "rewardPoints": 0,
+    "activeCertificationsCount": 0,
+    "upcomingExamsCount": 0,
+    "certificatesEarnedCount": 0,
+    "coursesInProgressCount": 0,
+    "createdAt": "2026-11-27T16:04:48.457Z",
+    "updatedAt": "2026-11-27T16:04:48.457Z"
   }
 ]

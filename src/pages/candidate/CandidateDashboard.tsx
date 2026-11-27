@@ -205,7 +205,7 @@ export const CandidateDashboard: React.FC = () => {
               <span className="text-sm font-bold text-[#10264B]">Your Progress</span>
             </div>
             <span className="text-xs font-medium text-gray-500">
-              {earnedCertsCount > 0 ? earnedCertsCount : 1} of 3 Certifications Completed
+              {earnedCertsCount} of 3 Certifications Completed
             </span>
           </div>
 

@@ -276,5 +276,22 @@
     "emailVerified": false,
     "createdAt": "2026-11-27T13:56:43.458Z",
     "updatedAt": "2026-11-27T13:56:43.458Z"
+  },
+  {
+    "uid": "usr_1795795488107_xtzg00",
+    "id": "usr_1795795488107_xtzg00",
+    "email": "pavankumar@gmail.com",
+    "fullName": "pavankumar",
+    "phoneNumber": "+91 9834341830",
+    "country": "India",
+    "organization": "",
+    "employeeId": "",
+    "password": "$2b$10$98GmO48WjTFVbKT29KdaDebRUT20UgyFuP89N6wU5lGtdnM18Ydcm",
+    "role": "Candidate",
+    "candidateId": "AICQB-1004723",
+    "status": "Active",
+    "emailVerified": true,
+    "createdAt": "2026-11-27T16:04:48.453Z",
+    "updatedAt": "2026-11-27T16:04:48.454Z"
   }
 ]

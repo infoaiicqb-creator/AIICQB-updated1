@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { AuthLeftBanner } from '../../components/AuthLeftBanner';
 import { NetworkStarsBackground } from '../../components/NetworkStarsBackground';
@@ -58,7 +58,10 @@ export const Login: React.FC = () => {
 
   // Prevent flash of login screen if session is already active
   if (user && !authLoading) {
-    return null;
+    const dest = (user.role === 'Super Admin' || user.role !== 'Candidate')
+      ? '/admin/dashboard'
+      : (redirect || '/portal/dashboard');
+    return <Navigate to={dest} replace />;
   }
 
   // Pre-load admin credentials if requested

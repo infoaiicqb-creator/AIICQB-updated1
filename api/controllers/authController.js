@@ -146,7 +146,7 @@ export async function register(req, res) {
 
     return res.status(201).json({
       success: true,
-      message: 'Account created successfully! Verification email sent.',
+      message: 'Account created successfully!',
       token,
       user: {
         uid,
@@ -154,7 +154,7 @@ export async function register(req, res) {
         fullName: fullName.trim(),
         role: 'Candidate',
         candidateId,
-        emailVerified: false,
+        emailVerified: true,
       },
       candidate: candidateProfile,
     });
