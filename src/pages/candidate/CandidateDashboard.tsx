@@ -20,6 +20,14 @@ import {
   Clock,
   Sparkles,
   RotateCcw,
+  User,
+  MonitorPlay,
+  ClipboardCheck,
+  BarChart2,
+  Users,
+  Copy,
+  Check,
+  X,
 } from 'lucide-react';
 
 export const CandidateDashboard: React.FC = () => {
@@ -44,6 +52,8 @@ export const CandidateDashboard: React.FC = () => {
   });
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showReferModal, setShowReferModal] = useState(false);
+  const [copiedReferral, setCopiedReferral] = useState(false);
 
   useEffect(() => {
     loadDashboardData();
@@ -79,8 +89,140 @@ export const CandidateDashboard: React.FC = () => {
   const earnedCertsCount = activeCertificates.length;
   const coursesInProgressCount = upcomingExams.length;
 
+  const progressPercent = Math.min(100, Math.round(((earnedCertsCount || 1) / 3) * 100));
+
   return (
-    <div className="space-y-6">
+    <div>
+      {/* ============================================================ */}
+      {/* MOBILE SCREEN LAYOUT (< md) - EXACT MATCH FOR USER SCREENSHOT 2 */}
+      {/* ============================================================ */}
+      <div className="md:hidden space-y-4">
+        {/* Candidate Profile Welcome Card */}
+        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center space-x-3.5">
+          <div className="w-12 h-12 rounded-full bg-[#10264B] flex items-center justify-center text-white flex-shrink-0 shadow-inner">
+            <User className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h2 className="text-base font-bold text-[#10264B] leading-tight">
+              Hello, {displayName}
+            </h2>
+            <p className="text-xs text-gray-500 font-medium mt-0.5">
+              Candidate Portal
+            </p>
+          </div>
+        </div>
+
+        {/* 6 Quick Action Grid Cards (2 columns x 3 rows) */}
+        <div className="grid grid-cols-2 gap-3.5">
+          {/* Card 1: My Certifications */}
+          <Link
+            to="/portal/certifications"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
+              <Award className="w-7 h-7" />
+            </div>
+            <span className="text-xs font-bold text-[#10264B]">
+              My Certifications
+            </span>
+          </Link>
+
+          {/* Card 2: Enroll Exam */}
+          <Link
+            to="/portal/certifications"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
+              <MonitorPlay className="w-7 h-7" />
+            </div>
+            <span className="text-xs font-bold text-[#10264B]">
+              Enroll Exam
+            </span>
+          </Link>
+
+          {/* Card 3: My Exams */}
+          <Link
+            to="/portal/exams"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
+              <ClipboardCheck className="w-7 h-7" />
+            </div>
+            <span className="text-xs font-bold text-[#10264B]">
+              My Exams
+            </span>
+          </Link>
+
+          {/* Card 4: Certificates */}
+          <Link
+            to="/portal/certificates"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
+              <FileCheck2 className="w-7 h-7" />
+            </div>
+            <span className="text-xs font-bold text-[#10264B]">
+              Certificates
+            </span>
+          </Link>
+
+          {/* Card 5: Verification */}
+          <Link
+            to="/portal/verification"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
+              <ShieldCheck className="w-7 h-7" />
+            </div>
+            <span className="text-xs font-bold text-[#10264B]">
+              Verification
+            </span>
+          </Link>
+
+          {/* Card 6: Refer & Earn */}
+          <button
+            onClick={() => setShowReferModal(true)}
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
+              <Users className="w-7 h-7" />
+            </div>
+            <span className="text-xs font-bold text-[#10264B]">
+              Refer &amp; Earn
+            </span>
+          </button>
+        </div>
+
+        {/* Your Progress Card */}
+        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <BarChart2 className="w-5 h-5 text-[#F47716]" />
+              <span className="text-sm font-bold text-[#10264B]">Your Progress</span>
+            </div>
+            <span className="text-xs font-medium text-gray-500">
+              {earnedCertsCount > 0 ? earnedCertsCount : 1} of 3 Certifications Completed
+            </span>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden">
+              <div
+                className="bg-[#F47716] h-full rounded-full transition-all duration-500"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+            <span className="text-xs font-bold text-gray-700 w-8 text-right">
+              {progressPercent}%
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ============================================================ */}
+      {/* DESKTOP SCREEN LAYOUT (>= md) - FULL POWER USER DASHBOARD     */}
+      {/* ============================================================ */}
+      <div className="hidden md:block space-y-6">
       {/* Welcome Banner matching Image 2 #1 */}
       <div>
         <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">
@@ -412,6 +554,57 @@ export const CandidateDashboard: React.FC = () => {
           </Link>
         </div>
       </div>
+      </div>
+
+      {/* Refer & Earn Modal */}
+      {showReferModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl relative">
+            <button
+              onClick={() => setShowReferModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 p-1 rounded-lg"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center mx-auto">
+              <Users className="w-8 h-8" />
+            </div>
+            <div className="text-center space-y-1">
+              <h3 className="text-lg font-bold text-[#10264B]">Refer &amp; Earn</h3>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Invite fellow candidates or colleagues to take AIICQB certifications and earn reward points or exam discounts!
+              </p>
+            </div>
+            <div className="bg-gray-50 rounded-xl p-3 border border-gray-200 space-y-1">
+              <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Your Referral Link</p>
+              <div className="flex items-center space-x-2">
+                <input
+                  readOnly
+                  value={`https://aicqb.org/register?ref=${candidateId || 'AIICQB'}`}
+                  className="bg-transparent text-xs text-gray-700 flex-1 outline-none font-mono select-all truncate"
+                />
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(`https://aicqb.org/register?ref=${candidateId || 'AIICQB'}`);
+                    setCopiedReferral(true);
+                    setTimeout(() => setCopiedReferral(false), 2000);
+                  }}
+                  className="p-1.5 bg-[#F47716] text-white rounded-lg hover:bg-[#DC660E] transition-colors"
+                  title="Copy"
+                >
+                  {copiedReferral ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowReferModal(false)}
+              className="w-full py-2.5 bg-[#10264B] text-white text-xs font-bold rounded-xl hover:bg-[#0c1e3d] transition-colors"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Certificate Modal View */}
       {selectedCert && (

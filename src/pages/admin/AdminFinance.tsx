@@ -82,7 +82,7 @@ export const AdminFinance: React.FC = () => {
       const res = await api.getAdminPayments();
       if (res.success) {
         setFinanceData(res);
-        try { localStorage.setItem('aicqb_admin_finance', JSON.stringify(res)); } catch (_) {}
+        try { localStorage.setItem('aicqb_admin_finance', JSON.stringify(res)); } catch (_) { }
       }
     } catch (err) {
       console.error('Failed to load finance data:', err);
@@ -327,11 +327,10 @@ export const AdminFinance: React.FC = () => {
       {/* Toast Notification */}
       {toast && (
         <div
-          className={`fixed bottom-6 right-6 z-[1000] px-5 py-3.5 rounded-2xl shadow-2xl border text-xs font-bold flex items-center space-x-2.5 animate-in slide-in-from-bottom duration-200 ${
-            toast.type === 'success'
-              ? 'bg-emerald-950 text-emerald-100 border-emerald-500/50 shadow-emerald-950/40'
-              : 'bg-red-950 text-red-100 border-red-500/50 shadow-red-950/40'
-          }`}
+          className={`fixed bottom-6 right-6 z-[1000] px-5 py-3.5 rounded-2xl shadow-2xl border text-xs font-bold flex items-center space-x-2.5 animate-in slide-in-from-bottom duration-200 ${toast.type === 'success'
+            ? 'bg-emerald-950 text-emerald-100 border-emerald-500/50 shadow-emerald-950/40'
+            : 'bg-red-950 text-red-100 border-red-500/50 shadow-red-950/40'
+            }`}
         >
           {toast.type === 'success' ? (
             <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
@@ -500,17 +499,15 @@ export const AdminFinance: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setFilterTab(tab.id as any)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${
-                  filterTab === tab.id
-                    ? 'bg-[#10264B] text-white shadow-xs'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer ${filterTab === tab.id
+                  ? 'bg-[#10264B] text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
               >
                 <span>{tab.label}</span>
                 <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                    filterTab === tab.id ? 'bg-white/20 text-white' : 'bg-white text-slate-700'
-                  }`}
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${filterTab === tab.id ? 'bg-white/20 text-white' : 'bg-white text-slate-700'
+                    }`}
                 >
                   {tab.count}
                 </span>
@@ -552,141 +549,141 @@ export const AdminFinance: React.FC = () => {
                 filteredPayments
                   .slice((currentPage - 1) * pageSize, currentPage * pageSize)
                   .map((p: any, idx: number) => {
-                  const status = (p.paymentStatus || p.payment_status || p.status || 'pending').toLowerCase();
-                  const isSuccess = status === 'success' || status === 'successful';
-                  const isFailed = status === 'failed';
-                  const isPending = status === 'pending';
-                  const cur = (p.currency || 'INR').toUpperCase();
-                  const symbol = cur === 'INR' ? '₹' : '$';
+                    const status = (p.paymentStatus || p.payment_status || p.status || 'pending').toLowerCase();
+                    const isSuccess = status === 'success' || status === 'successful';
+                    const isFailed = status === 'failed';
+                    const isPending = status === 'pending';
+                    const cur = (p.currency || 'INR').toUpperCase();
+                    const symbol = cur === 'INR' ? '₹' : '$';
 
-                  return (
-                    <tr key={p.id || p.paymentId || idx} className="hover:bg-slate-50/80 transition-colors">
-                      {/* Candidate Name & Email */}
-                      <td className="py-3.5 px-4">
-                        <div className="font-bold text-[#10264B] text-[13px]">
-                          {p.candidateName || p.candidate_name || 'Candidate'}
-                        </div>
-                        <div className="text-gray-500 font-mono text-[11px]">
-                          {p.candidateEmail || p.candidate_email || '—'}
-                        </div>
-                      </td>
+                    return (
+                      <tr key={p.id || p.paymentId || idx} className="hover:bg-slate-50/80 transition-colors">
+                        {/* Candidate Name & Email */}
+                        <td className="py-3.5 px-4">
+                          <div className="font-bold text-[#10264B] text-[13px]">
+                            {p.candidateName || p.candidate_name || 'Candidate'}
+                          </div>
+                          <div className="text-gray-500 font-mono text-[11px]">
+                            {p.candidateEmail || p.candidate_email || '—'}
+                          </div>
+                        </td>
 
-                      {/* Country */}
-                      <td className="py-3.5 px-4 font-medium text-slate-700">
-                        <span className="inline-flex items-center space-x-1">
-                          {p.country?.toLowerCase() === 'india' || !p.country ? (
-                            <span>🇮🇳 India</span>
+                        {/* Country */}
+                        <td className="py-3.5 px-4 font-medium text-slate-700">
+                          <span className="inline-flex items-center space-x-1">
+                            {p.country?.toLowerCase() === 'india' || !p.country ? (
+                              <span>🇮🇳 India</span>
+                            ) : (
+                              <span>🌐 {p.country}</span>
+                            )}
+                          </span>
+                        </td>
+
+                        {/* Certification */}
+                        <td className="py-3.5 px-4">
+                          <div className="font-semibold text-[#10264B] max-w-[220px] truncate" title={p.certificationName || p.certification_name}>
+                            {p.certificationName || p.certification_name || 'AI Certification'}
+                          </div>
+                          <span className="px-1.5 py-0.5 rounded text-[9.5px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+                            {p.certificationLevel || p.certification_level || 'Professional Level'}
+                          </span>
+                        </td>
+
+                        {/* Payment Amount & Currency */}
+                        <td className="py-3.5 px-4">
+                          <span className="font-black text-[#F47716] text-sm">
+                            {symbol} {(p.amount || 0).toLocaleString(cur === 'INR' ? 'en-IN' : 'en-US')}
+                          </span>
+                          <span className="text-[10px] text-gray-400 font-bold ml-1">{cur}</span>
+                        </td>
+
+                        {/* Razorpay Order & Payment ID */}
+                        <td className="py-3.5 px-4 font-mono text-[11px]">
+                          <div className="text-slate-800 font-bold">
+                            {p.razorpayPaymentId || p.razorpay_payment_id || p.paymentId || '—'}
+                          </div>
+                          <div className="text-slate-400 text-[10px]">
+                            {p.razorpayOrderId || p.razorpay_order_id || '—'}
+                          </div>
+                        </td>
+
+                        {/* Payment Status */}
+                        <td className="py-3.5 px-4">
+                          {isSuccess ? (
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-50 text-green-700 border border-green-200 inline-flex items-center space-x-1">
+                              <CheckCircle2 className="w-3 h-3 text-green-600" />
+                              <span>Successful</span>
+                            </span>
+                          ) : isFailed ? (
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200 inline-flex items-center space-x-1">
+                              <XCircle className="w-3 h-3 text-red-600" />
+                              <span>Failed</span>
+                            </span>
                           ) : (
-                            <span>🌐 {p.country}</span>
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 inline-flex items-center space-x-1">
+                              <Clock className="w-3 h-3 text-amber-600" />
+                              <span>Pending</span>
+                            </span>
                           )}
-                        </span>
-                      </td>
+                        </td>
 
-                      {/* Certification */}
-                      <td className="py-3.5 px-4">
-                        <div className="font-semibold text-[#10264B] max-w-[220px] truncate" title={p.certificationName || p.certification_name}>
-                          {p.certificationName || p.certification_name || 'AI Certification'}
-                        </div>
-                        <span className="px-1.5 py-0.5 rounded text-[9.5px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">
-                          {p.certificationLevel || p.certification_level || 'Professional Level'}
-                        </span>
-                      </td>
-
-                      {/* Payment Amount & Currency */}
-                      <td className="py-3.5 px-4">
-                        <span className="font-black text-[#F47716] text-sm">
-                          {symbol} {(p.amount || 0).toLocaleString(cur === 'INR' ? 'en-IN' : 'en-US')}
-                        </span>
-                        <span className="text-[10px] text-gray-400 font-bold ml-1">{cur}</span>
-                      </td>
-
-                      {/* Razorpay Order & Payment ID */}
-                      <td className="py-3.5 px-4 font-mono text-[11px]">
-                        <div className="text-slate-800 font-bold">
-                          {p.razorpayPaymentId || p.razorpay_payment_id || p.paymentId || '—'}
-                        </div>
-                        <div className="text-slate-400 text-[10px]">
-                          {p.razorpayOrderId || p.razorpay_order_id || '—'}
-                        </div>
-                      </td>
-
-                      {/* Payment Status */}
-                      <td className="py-3.5 px-4">
-                        {isSuccess ? (
-                          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-50 text-green-700 border border-green-200 inline-flex items-center space-x-1">
-                            <CheckCircle2 className="w-3 h-3 text-green-600" />
-                            <span>Successful</span>
-                          </span>
-                        ) : isFailed ? (
-                          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200 inline-flex items-center space-x-1">
-                            <XCircle className="w-3 h-3 text-red-600" />
-                            <span>Failed</span>
-                          </span>
-                        ) : (
-                          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 inline-flex items-center space-x-1">
-                            <Clock className="w-3 h-3 text-amber-600" />
-                            <span>Pending</span>
-                          </span>
-                        )}
-                      </td>
-
-                      {/* Transaction Date */}
-                      <td className="py-3.5 px-4 text-gray-500 text-[11px] font-medium">
-                        {p.paidAt || p.createdAt || p.created_at
-                          ? new Date(p.paidAt || p.createdAt || p.created_at).toLocaleDateString('en-GB', {
+                        {/* Transaction Date */}
+                        <td className="py-3.5 px-4 text-gray-500 text-[11px] font-medium">
+                          {p.paidAt || p.createdAt || p.created_at
+                            ? new Date(p.paidAt || p.createdAt || p.created_at).toLocaleDateString('en-GB', {
                               day: '2-digit',
                               month: 'short',
                               year: 'numeric',
                             })
-                          : '—'}
-                      </td>
+                            : '—'}
+                        </td>
 
-                      {/* Actions: View, Edit, Delete, Refund */}
-                      <td className="py-3.5 px-4 text-right">
-                        <div className="flex items-center justify-end space-x-1">
-                          {/* View Audit */}
-                          <button
-                            onClick={() => setViewingPayment(p)}
-                            className="p-1.5 rounded-lg text-slate-500 hover:text-[#10264B] hover:bg-slate-100 transition-colors cursor-pointer"
-                            title="View Transaction Breakdown"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </button>
-
-                          {/* Edit Record */}
-                          <button
-                            onClick={() => handleOpenEdit(p)}
-                            className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors cursor-pointer"
-                            title="Edit Payment Record"
-                          >
-                            <Edit2 className="w-4 h-4" />
-                          </button>
-
-                          {/* Delete Record (Instant delete without popup) */}
-                          <button
-                            onClick={() => handleDeletePayment(p)}
-                            className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
-                            title="Delete Payment Record"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-
-                          {/* Refund Button for Successful Payments */}
-                          {isSuccess && (
+                        {/* Actions: View, Edit, Delete, Refund */}
+                        <td className="py-3.5 px-4 text-right">
+                          <div className="flex items-center justify-end space-x-1">
+                            {/* View Audit */}
                             <button
-                              onClick={() => handleRefund(p.paymentId || p.id)}
-                              className="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-[10px] font-bold flex items-center space-x-1 cursor-pointer transition-colors"
-                              title="Process Razorpay Refund"
+                              onClick={() => setViewingPayment(p)}
+                              className="p-1.5 rounded-lg text-slate-500 hover:text-[#10264B] hover:bg-slate-100 transition-colors cursor-pointer"
+                              title="View Transaction Breakdown"
                             >
-                              <RotateCcw className="w-3 h-3 text-amber-600" />
-                              <span>Refund</span>
+                              <Eye className="w-4 h-4" />
                             </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
+
+                            {/* Edit Record */}
+                            <button
+                              onClick={() => handleOpenEdit(p)}
+                              className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors cursor-pointer"
+                              title="Edit Payment Record"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </button>
+
+                            {/* Delete Record (Instant delete without popup) */}
+                            <button
+                              onClick={() => handleDeletePayment(p)}
+                              className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
+                              title="Delete Payment Record"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+
+                            {/* Refund Button for Successful Payments */}
+                            {isSuccess && (
+                              <button
+                                onClick={() => handleRefund(p.paymentId || p.id)}
+                                className="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-[10px] font-bold flex items-center space-x-1 cursor-pointer transition-colors"
+                                title="Process Razorpay Refund"
+                              >
+                                <RotateCcw className="w-3 h-3 text-amber-600" />
+                                <span>Refund</span>
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
               )}
             </tbody>
           </table>

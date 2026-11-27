@@ -66,7 +66,7 @@ export const AdminDashboard: React.FC = () => {
       if (res && res.success && res.stats) {
         setStats(res.stats);
         setLastRefreshed(new Date());
-        try { localStorage.setItem('aicqb_admin_stats', JSON.stringify(res.stats)); } catch (_) {}
+        try { localStorage.setItem('aicqb_admin_stats', JSON.stringify(res.stats)); } catch (_) { }
       }
     } catch (err) {
       console.error('Failed to load admin stats:', err);

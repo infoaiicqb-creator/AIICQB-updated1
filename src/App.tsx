@@ -184,89 +184,89 @@ export const App: React.FC = () => {
       <ScrollToTop />
       <Suspense fallback={<PageLoadingFallback />}>
         <Routes>
-      {/* 17 Public Pages */}
-      <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
-      <Route path="/about" element={<PublicLayout><AboutUs /></PublicLayout>} />
-      <Route path="/certifications" element={<PublicLayout><Certifications /></PublicLayout>} />
-      <Route path="/certifications/:id" element={<PublicLayout><CertificationDetails /></PublicLayout>} />
-      <Route path="/exams" element={<PublicLayout><Exams /></PublicLayout>} />
-      <Route path="/learning" element={<PublicLayout><Learning /></PublicLayout>} />
-      <Route path="/verify" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
-      <Route path="/verify/:certificateId" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
-      <Route path="/verification" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
-      <Route path="/verification/:certificateId" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
-      <Route path="/pricing" element={<PublicLayout><PricingPlans /></PublicLayout>} />
-      <Route path="/events" element={<PublicLayout><EventsWebinars /></PublicLayout>} />
-      <Route path="/partners" element={<PublicLayout><Partners /></PublicLayout>} />
-      <Route path="/resources" element={<PublicLayout><Resources /></PublicLayout>} />
-      <Route path="/careers" element={<PublicLayout><Careers /></PublicLayout>} />
-      <Route path="/support" element={<PublicLayout><SupportHelpCenter /></PublicLayout>} />
-      <Route path="/blog" element={<PublicLayout><BlogInsights /></PublicLayout>} />
-      <Route path="/contact" element={<PublicLayout><ContactUs /></PublicLayout>} />
-      <Route path="/terms" element={<PublicLayout><TermsOfService /></PublicLayout>} />
-      <Route path="/privacy" element={<PublicLayout><PrivacyPolicy /></PublicLayout>} />
-      <Route path="/code-of-ethics" element={<PublicLayout><ExaminationCodeOfEthics /></PublicLayout>} />
-      <Route path="/ethics" element={<Navigate to="/code-of-ethics" replace />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/register" element={<SignUp />} />
+          {/* 17 Public Pages */}
+          <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+          <Route path="/about" element={<PublicLayout><AboutUs /></PublicLayout>} />
+          <Route path="/certifications" element={<PublicLayout><Certifications /></PublicLayout>} />
+          <Route path="/certifications/:id" element={<PublicLayout><CertificationDetails /></PublicLayout>} />
+          <Route path="/exams" element={<PublicLayout><Exams /></PublicLayout>} />
+          <Route path="/learning" element={<PublicLayout><Learning /></PublicLayout>} />
+          <Route path="/verify" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
+          <Route path="/verify/:certificateId" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
+          <Route path="/verification" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
+          <Route path="/verification/:certificateId" element={<PublicLayout><VerifyCertificate /></PublicLayout>} />
+          <Route path="/pricing" element={<PublicLayout><PricingPlans /></PublicLayout>} />
+          <Route path="/events" element={<PublicLayout><EventsWebinars /></PublicLayout>} />
+          <Route path="/partners" element={<PublicLayout><Partners /></PublicLayout>} />
+          <Route path="/resources" element={<PublicLayout><Resources /></PublicLayout>} />
+          <Route path="/careers" element={<PublicLayout><Careers /></PublicLayout>} />
+          <Route path="/support" element={<PublicLayout><SupportHelpCenter /></PublicLayout>} />
+          <Route path="/blog" element={<PublicLayout><BlogInsights /></PublicLayout>} />
+          <Route path="/contact" element={<PublicLayout><ContactUs /></PublicLayout>} />
+          <Route path="/terms" element={<PublicLayout><TermsOfService /></PublicLayout>} />
+          <Route path="/privacy" element={<PublicLayout><PrivacyPolicy /></PublicLayout>} />
+          <Route path="/code-of-ethics" element={<PublicLayout><ExaminationCodeOfEthics /></PublicLayout>} />
+          <Route path="/ethics" element={<Navigate to="/code-of-ethics" replace />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/register" element={<SignUp />} />
 
-      {/* Aliases for direct URL navigation & refresh */}
-      <Route path="/dashboard" element={<Navigate to="/portal/dashboard" replace />} />
-      <Route path="/certificate" element={<Navigate to="/verify" replace />} />
-      <Route path="/exam" element={<Navigate to="/exams" replace />} />
+          {/* Aliases for direct URL navigation & refresh */}
+          <Route path="/dashboard" element={<Navigate to="/portal/dashboard" replace />} />
+          <Route path="/certificate" element={<Navigate to="/verify" replace />} />
+          <Route path="/exam" element={<Navigate to="/exams" replace />} />
 
-      {/* 10 Candidate Portal Pages */}
-      <Route
-        path="/portal"
-        element={
-          <ProtectedCandidateRoute>
-            <CandidateLayout />
-          </ProtectedCandidateRoute>
-        }
-      >
-        <Route index element={<Navigate to="/portal/dashboard" replace />} />
-        <Route path="dashboard" element={<CandidateDashboard />} />
-        <Route path="profile" element={<CandidateProfile />} />
-        <Route path="certifications" element={<CandidateCertifications />} />
-        <Route path="exams" element={<CandidateExams />} />
-        <Route path="learning" element={<CandidateLearning />} />
-        <Route path="certificates" element={<CandidateCertificates />} />
-        <Route path="verification" element={<CandidateVerify />} />
-        <Route path="payments" element={<CandidatePayments />} />
-        <Route path="support" element={<CandidateSupport />} />
-        <Route path="settings" element={<CandidateSettings />} />
-      </Route>
+          {/* 10 Candidate Portal Pages */}
+          <Route
+            path="/portal"
+            element={
+              <ProtectedCandidateRoute>
+                <CandidateLayout />
+              </ProtectedCandidateRoute>
+            }
+          >
+            <Route index element={<Navigate to="/portal/dashboard" replace />} />
+            <Route path="dashboard" element={<CandidateDashboard />} />
+            <Route path="profile" element={<CandidateProfile />} />
+            <Route path="certifications" element={<CandidateCertifications />} />
+            <Route path="exams" element={<CandidateExams />} />
+            <Route path="learning" element={<CandidateLearning />} />
+            <Route path="certificates" element={<CandidateCertificates />} />
+            <Route path="verification" element={<CandidateVerify />} />
+            <Route path="payments" element={<CandidatePayments />} />
+            <Route path="support" element={<CandidateSupport />} />
+            <Route path="settings" element={<CandidateSettings />} />
+          </Route>
 
-      {/* 13 Super Admin Portal Modules */}
-      <Route
-        path="/admin"
-        element={
-          <ProtectedAdminRoute>
-            <AdminLayout />
-          </ProtectedAdminRoute>
-        }
-      >
-        <Route index element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="dashboard" element={<AdminDashboard />} />
-        <Route path="certifications" element={<AdminCertifications />} />
-        <Route path="examinations" element={<AdminExaminations />} />
-        <Route path="candidates" element={<AdminCandidates />} />
-        <Route path="partners" element={<AdminPartners />} />
-        <Route path="memberships" element={<AdminMemberships />} />
-        <Route path="certificates" element={<AdminCertificates />} />
-        <Route path="verification" element={<AdminVerification />} />
-        <Route path="announcements" element={<AdminAnnouncements />} />
-        <Route path="reports" element={<AdminReports />} />
-        <Route path="finance" element={<AdminFinance />} />
-        <Route path="firebase" element={<AdminFirebase />} />
-        <Route path="settings" element={<AdminSettings />} />
-      </Route>
+          {/* 13 Super Admin Portal Modules */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedAdminRoute>
+                <AdminLayout />
+              </ProtectedAdminRoute>
+            }
+          >
+            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="certifications" element={<AdminCertifications />} />
+            <Route path="examinations" element={<AdminExaminations />} />
+            <Route path="candidates" element={<AdminCandidates />} />
+            <Route path="partners" element={<AdminPartners />} />
+            <Route path="memberships" element={<AdminMemberships />} />
+            <Route path="certificates" element={<AdminCertificates />} />
+            <Route path="verification" element={<AdminVerification />} />
+            <Route path="announcements" element={<AdminAnnouncements />} />
+            <Route path="reports" element={<AdminReports />} />
+            <Route path="finance" element={<AdminFinance />} />
+            <Route path="firebase" element={<AdminFirebase />} />
+            <Route path="settings" element={<AdminSettings />} />
+          </Route>
 
-      {/* 404 Catch-all */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
-    </Suspense>
+          {/* 404 Catch-all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     </>
   );
 };

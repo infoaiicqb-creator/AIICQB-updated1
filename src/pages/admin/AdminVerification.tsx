@@ -118,9 +118,9 @@ export const AdminVerification: React.FC = () => {
           ip: item.ipAddress || '103.21.14.88',
           time: item.verifiedAt
             ? new Date(item.verifiedAt).toLocaleString('en-IN', {
-                dateStyle: 'short',
-                timeStyle: 'short',
-              })
+              dateStyle: 'short',
+              timeStyle: 'short',
+            })
             : 'Recent',
           status: item.isValid ? 'Valid Record' : item.status || 'Invalid / Revoked',
           action: item.action || 'Verification Request',
@@ -379,11 +379,10 @@ export const AdminVerification: React.FC = () => {
       {/* Notification Banner */}
       {banner && (
         <div
-          className={`p-4 rounded-xl border flex items-center justify-between transition-all ${
-            banner.type === 'success'
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-              : 'bg-red-50 border-red-200 text-red-800'
-          }`}
+          className={`p-4 rounded-xl border flex items-center justify-between transition-all ${banner.type === 'success'
+            ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+            : 'bg-red-50 border-red-200 text-red-800'
+            }`}
         >
           <div className="flex items-center space-x-2.5 text-xs font-bold">
             {banner.type === 'success' ? (
@@ -590,11 +589,10 @@ export const AdminVerification: React.FC = () => {
         {/* Lookup Result Box */}
         {lookupResult && (
           <div
-            className={`p-4 rounded-xl border text-xs transition-all ${
-              lookupResult.isValid
-                ? 'bg-emerald-50 border-emerald-200'
-                : 'bg-red-50 border-red-200'
-            }`}
+            className={`p-4 rounded-xl border text-xs transition-all ${lookupResult.isValid
+              ? 'bg-emerald-50 border-emerald-200'
+              : 'bg-red-50 border-red-200'
+              }`}
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-start space-x-3">
@@ -609,11 +607,10 @@ export const AdminVerification: React.FC = () => {
                       {lookupResult.isValid ? 'Authentic Verified Credential' : 'Verification Unsuccessful'}
                     </span>
                     <span
-                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                        lookupResult.isValid
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : 'bg-red-100 text-red-800'
-                      }`}
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${lookupResult.isValid
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-red-100 text-red-800'
+                        }`}
                     >
                       {lookupResult.status || (lookupResult.isValid ? 'Valid' : 'Invalid')}
                     </span>
@@ -821,19 +818,18 @@ export const AdminVerification: React.FC = () => {
                       {/* Status */}
                       <td className="py-3.5 px-4">
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                            isIssued
-                              ? 'bg-emerald-100 text-emerald-800'
-                              : isSuspended
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold ${isIssued
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : isSuspended
                               ? 'bg-orange-100 text-orange-800'
                               : isRevoked
-                              ? 'bg-red-100 text-red-800'
-                              : isRejected
-                              ? 'bg-rose-100 text-rose-800'
-                              : isPending
-                              ? 'bg-amber-100 text-amber-800'
-                              : 'bg-gray-100 text-gray-800'
-                          }`}
+                                ? 'bg-red-100 text-red-800'
+                                : isRejected
+                                  ? 'bg-rose-100 text-rose-800'
+                                  : isPending
+                                    ? 'bg-amber-100 text-amber-800'
+                                    : 'bg-gray-100 text-gray-800'
+                            }`}
                         >
                           {certStatus}
                         </span>
@@ -986,11 +982,10 @@ export const AdminVerification: React.FC = () => {
                     <td className="py-2.5 px-3 text-gray-500">{log.time}</td>
                     <td className="py-2.5 px-3">
                       <span
-                        className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold ${
-                          log.status.includes('Valid')
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : 'bg-red-50 text-red-700 border border-red-200'
-                        }`}
+                        className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold ${log.status.includes('Valid')
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          : 'bg-red-50 text-red-700 border border-red-200'
+                          }`}
                       >
                         {log.status}
                       </span>
@@ -1171,7 +1166,7 @@ export const AdminVerification: React.FC = () => {
                   onClick={() =>
                     copyToClipboard(
                       selectedCertDetail.verificationUrl ||
-                        `http://localhost:5000/verify?id=${encodeURIComponent(selectedCertDetail.certificateNo || '')}`
+                      `http://localhost:5000/verify?id=${encodeURIComponent(selectedCertDetail.certificateNo || '')}`
                     )
                   }
                   className="px-3 py-2 bg-[#10264B] text-white text-xs font-bold rounded-xl flex items-center space-x-1 cursor-pointer flex-shrink-0"

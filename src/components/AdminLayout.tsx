@@ -111,9 +111,8 @@ export const AdminLayout: React.FC = () => {
 
       {/* Admin Left Sidebar: Slide-over drawer on mobile, sticky w-80 on desktop */}
       <aside
-        className={`fixed inset-y-0 left-0 w-80 max-w-[85vw] z-50 bg-[#10264B] text-white flex flex-col justify-between flex-shrink-0 select-none border-r border-slate-800 shadow-2xl transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 md:static md:sticky md:top-0 md:h-screen md:w-80 md:shadow-xl`}
+        className={`fixed inset-y-0 left-0 w-80 max-w-[85vw] z-50 bg-[#10264B] text-white flex flex-col justify-between flex-shrink-0 select-none border-r border-slate-800 shadow-2xl transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          } md:translate-x-0 md:static md:sticky md:top-0 md:h-screen md:w-80 md:shadow-xl`}
       >
         {/* Top: Pinned Logo Header */}
         <div className="p-4 border-b border-slate-700/60 flex items-center justify-between flex-shrink-0 bg-[#10264B]">
@@ -143,11 +142,10 @@ export const AdminLayout: React.FC = () => {
                 key={item.path}
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center space-x-3.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
-                  active
-                    ? 'bg-[#F47716] text-white shadow-md font-bold scale-[1.01]'
-                    : 'text-slate-300 hover:bg-[#1E3A6E] hover:text-white'
-                }`}
+                className={`flex items-center space-x-3.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${active
+                  ? 'bg-[#F47716] text-white shadow-md font-bold scale-[1.01]'
+                  : 'text-slate-300 hover:bg-[#1E3A6E] hover:text-white'
+                  }`}
               >
                 <Icon className={`w-5 h-5 flex-shrink-0 ${active ? 'text-white' : 'text-slate-400'}`} />
                 <span className="truncate tracking-wide text-[14px]">{item.label}</span>

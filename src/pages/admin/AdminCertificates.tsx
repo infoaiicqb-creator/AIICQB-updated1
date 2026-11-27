@@ -457,132 +457,132 @@ export const AdminCertificates: React.FC = () => {
           filteredCertificates
             .slice((currentPage - 1) * pageSize, currentPage * pageSize)
             .map((cert: any) => (
-            <div
-              key={cert.id || cert.certificateNo}
-              className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs space-y-3 transition-shadow hover:shadow-md"
-            >
-              {/* Card Header */}
-              <div className="flex items-start justify-between gap-2 border-b border-gray-100 pb-2.5">
-                <div>
-                  <button
-                    onClick={() => setSelectedCert(cert)}
-                    className="font-mono font-bold text-sm text-[#F47716] hover:underline text-left cursor-pointer"
+              <div
+                key={cert.id || cert.certificateNo}
+                className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs space-y-3 transition-shadow hover:shadow-md"
+              >
+                {/* Card Header */}
+                <div className="flex items-start justify-between gap-2 border-b border-gray-100 pb-2.5">
+                  <div>
+                    <button
+                      onClick={() => setSelectedCert(cert)}
+                      className="font-mono font-bold text-sm text-[#F47716] hover:underline text-left cursor-pointer"
+                    >
+                      {cert.certificateNo || cert.certificateNumber}
+                    </button>
+                    {cert.candidateId && (
+                      <p className="text-[10px] text-gray-400 font-mono">{cert.candidateId}</p>
+                    )}
+                  </div>
+                  <span
+                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${cert.status === 'Issued'
+                      ? 'bg-green-50 text-green-700 border border-green-200'
+                      : 'bg-red-50 text-red-700 border border-red-200'
+                      }`}
                   >
-                    {cert.certificateNo || cert.certificateNumber}
-                  </button>
-                  {cert.candidateId && (
-                    <p className="text-[10px] text-gray-400 font-mono">{cert.candidateId}</p>
-                  )}
-                </div>
-                <span
-                  className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${cert.status === 'Issued'
-                    ? 'bg-green-50 text-green-700 border border-green-200'
-                    : 'bg-red-50 text-red-700 border border-red-200'
-                    }`}
-                >
-                  {cert.status}
-                </span>
-              </div>
-
-              {/* Candidate Info */}
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div>
-                  <p className="text-[10px] text-gray-400 font-medium">Candidate</p>
-                  <p className="font-bold text-[#10264B] truncate">{cert.candidateName}</p>
-                  {cert.candidateEmail && (
-                    <p className="text-[10px] text-gray-400 truncate">{cert.candidateEmail}</p>
-                  )}
-                </div>
-
-                <div>
-                  <p className="text-[10px] text-gray-400 font-medium">Certification</p>
-                  <p className="font-medium text-gray-800 truncate">{cert.certificationName}</p>
-                  <p className="text-[10px] text-gray-500 font-mono">{cert.certificationCode}</p>
-                </div>
-              </div>
-
-              {/* Issue Date & Grade */}
-              <div className="flex items-center justify-between text-[11px] bg-slate-50 p-2 rounded-lg text-gray-600">
-                <span className="flex items-center space-x-1">
-                  <Calendar className="w-3.5 h-3.5 text-gray-400" />
-                  <span>{cert.issueDateFormatted || cert.issueDate?.split('T')[0]}</span>
-                </span>
-                {cert.grade && (
-                  <span className="font-bold text-[#10264B] bg-white px-2 py-0.5 rounded border border-gray-200 text-[10px]">
-                    {cert.grade}
+                    {cert.status}
                   </span>
-                )}
-              </div>
+                </div>
 
-              {/* Action Buttons: Touch-friendly */}
-              <div className="flex items-center justify-between gap-1 pt-1 border-t border-gray-100">
-                <div className="flex items-center space-x-1">
-                  {/* View */}
-                  <button
-                    onClick={() => setSelectedCert(cert)}
-                    className="p-2 rounded-lg bg-slate-100 text-[#10264B] hover:bg-slate-200 transition-colors"
-                    title="View Certificate"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                  </button>
+                {/* Candidate Info */}
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div>
+                    <p className="text-[10px] text-gray-400 font-medium">Candidate</p>
+                    <p className="font-bold text-[#10264B] truncate">{cert.candidateName}</p>
+                    {cert.candidateEmail && (
+                      <p className="text-[10px] text-gray-400 truncate">{cert.candidateEmail}</p>
+                    )}
+                  </div>
 
-                  {/* Edit */}
-                  <button
-                    onClick={() => handleOpenEdit(cert)}
-                    className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
-                    title="Edit Certificate"
-                  >
-                    <Edit className="w-3.5 h-3.5" />
-                  </button>
+                  <div>
+                    <p className="text-[10px] text-gray-400 font-medium">Certification</p>
+                    <p className="font-medium text-gray-800 truncate">{cert.certificationName}</p>
+                    <p className="text-[10px] text-gray-500 font-mono">{cert.certificationCode}</p>
+                  </div>
+                </div>
 
-                  {/* Verify Link */}
-                  <a
-                    href={`/verify?id=${encodeURIComponent(cert.certificateNo || cert.certificateNumber)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors"
-                    title="Public Verification"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-
-                  {/* Revoke / Reinstate */}
-                  {cert.status === 'Issued' ? (
-                    <button
-                      onClick={() => handleRevoke(cert.id, cert.certificateNo || cert.certificateNumber)}
-                      className="p-2 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 transition-colors"
-                      title="Revoke Certificate"
-                    >
-                      <AlertOctagon className="w-3.5 h-3.5" />
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleReinstate(cert.id, cert.certificateNo || cert.certificateNumber)}
-                      className="p-2 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 transition-colors"
-                      title="Reinstate to Active"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                    </button>
+                {/* Issue Date & Grade */}
+                <div className="flex items-center justify-between text-[11px] bg-slate-50 p-2 rounded-lg text-gray-600">
+                  <span className="flex items-center space-x-1">
+                    <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                    <span>{cert.issueDateFormatted || cert.issueDate?.split('T')[0]}</span>
+                  </span>
+                  {cert.grade && (
+                    <span className="font-bold text-[#10264B] bg-white px-2 py-0.5 rounded border border-gray-200 text-[10px]">
+                      {cert.grade}
+                    </span>
                   )}
                 </div>
 
-                {/* Direct Delete (No popup) */}
-                <button
-                  onClick={() => handleDeleteDirect(cert.id, cert.certificateNo || cert.certificateNumber)}
-                  disabled={deletingId === cert.id}
-                  className="px-2.5 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors text-xs font-semibold flex items-center space-x-1 cursor-pointer"
-                  title="Direct Delete without popup"
-                >
-                  {deletingId === cert.id ? (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  ) : (
-                    <Trash2 className="w-3.5 h-3.5" />
-                  )}
-                  <span>Delete</span>
-                </button>
+                {/* Action Buttons: Touch-friendly */}
+                <div className="flex items-center justify-between gap-1 pt-1 border-t border-gray-100">
+                  <div className="flex items-center space-x-1">
+                    {/* View */}
+                    <button
+                      onClick={() => setSelectedCert(cert)}
+                      className="p-2 rounded-lg bg-slate-100 text-[#10264B] hover:bg-slate-200 transition-colors"
+                      title="View Certificate"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                    </button>
+
+                    {/* Edit */}
+                    <button
+                      onClick={() => handleOpenEdit(cert)}
+                      className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                      title="Edit Certificate"
+                    >
+                      <Edit className="w-3.5 h-3.5" />
+                    </button>
+
+                    {/* Verify Link */}
+                    <a
+                      href={`/verify?id=${encodeURIComponent(cert.certificateNo || cert.certificateNumber)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-colors"
+                      title="Public Verification"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+
+                    {/* Revoke / Reinstate */}
+                    {cert.status === 'Issued' ? (
+                      <button
+                        onClick={() => handleRevoke(cert.id, cert.certificateNo || cert.certificateNumber)}
+                        className="p-2 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 transition-colors"
+                        title="Revoke Certificate"
+                      >
+                        <AlertOctagon className="w-3.5 h-3.5" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleReinstate(cert.id, cert.certificateNo || cert.certificateNumber)}
+                        className="p-2 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 transition-colors"
+                        title="Reinstate to Active"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Direct Delete (No popup) */}
+                  <button
+                    onClick={() => handleDeleteDirect(cert.id, cert.certificateNo || cert.certificateNumber)}
+                    disabled={deletingId === cert.id}
+                    className="px-2.5 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors text-xs font-semibold flex items-center space-x-1 cursor-pointer"
+                    title="Direct Delete without popup"
+                  >
+                    {deletingId === cert.id ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Trash2 className="w-3.5 h-3.5" />
+                    )}
+                    <span>Delete</span>
+                  </button>
+                </div>
               </div>
-            </div>
-          ))
+            ))
         )}
       </div>
 
@@ -619,120 +619,120 @@ export const AdminCertificates: React.FC = () => {
                 filteredCertificates
                   .slice((currentPage - 1) * pageSize, currentPage * pageSize)
                   .map((cert: any) => (
-                  <tr key={cert.id || cert.certificateNo} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-4 px-6 font-mono font-bold text-[#F47716]">
-                      <button
-                        onClick={() => setSelectedCert(cert)}
-                        className="hover:underline flex items-center space-x-1.5 cursor-pointer text-left"
-                        title="Click to view full credential"
-                      >
-                        <span>{cert.certificateNo || cert.certificateNumber}</span>
-                      </button>
-                      {cert.candidateId && (
-                        <p className="text-[10px] text-gray-400 font-mono font-normal">{cert.candidateId}</p>
-                      )}
-                    </td>
-
-                    <td className="py-4 px-6">
-                      <p className="font-bold text-[#10264B]">{cert.candidateName}</p>
-                      {cert.candidateEmail && (
-                        <p className="text-[11px] text-gray-400">{cert.candidateEmail}</p>
-                      )}
-                    </td>
-
-                    <td className="py-4 px-6">
-                      <p className="text-gray-800 font-medium">{cert.certificationName}</p>
-                      <p className="text-[10px] text-gray-500 font-mono">{cert.certificationCode || cert.credentialLevel}</p>
-                    </td>
-
-                    <td className="py-4 px-6 text-gray-600">
-                      <p>{cert.issueDateFormatted || cert.issueDate?.split('T')[0]}</p>
-                      {cert.grade && (
-                        <span className="text-[10px] text-slate-500 font-semibold">{cert.grade}</span>
-                      )}
-                    </td>
-
-                    <td className="py-4 px-6">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold ${cert.status === 'Issued'
-                          ? 'bg-green-50 text-green-700 border border-green-200'
-                          : 'bg-red-50 text-red-700 border border-red-200'
-                          }`}
-                      >
-                        {cert.status}
-                      </span>
-                      {cert.status === 'Revoked' && cert.revocationReason && (
-                        <p className="text-[10px] text-red-500 italic mt-0.5 max-w-xs truncate" title={cert.revocationReason}>
-                          {cert.revocationReason}
-                        </p>
-                      )}
-                    </td>
-
-                    <td className="py-4 px-6 text-right space-x-1 whitespace-nowrap">
-                      {/* VIEW / PREVIEW */}
-                      <button
-                        onClick={() => setSelectedCert(cert)}
-                        className="p-1.5 rounded-lg text-gray-500 hover:text-[#10264B] hover:bg-slate-100 transition-colors inline-flex cursor-pointer"
-                        title="View Official Certificate"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                      </button>
-
-                      {/* EDIT (UPDATE) */}
-                      <button
-                        onClick={() => handleOpenEdit(cert)}
-                        className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors inline-flex cursor-pointer"
-                        title="Edit Certificate Details"
-                      >
-                        <Edit className="w-3.5 h-3.5" />
-                      </button>
-
-                      {/* PUBLIC VERIFICATION LINK */}
-                      <a
-                        href={`/verify?id=${encodeURIComponent(cert.certificateNo || cert.certificateNumber)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg text-gray-500 hover:text-emerald-700 hover:bg-emerald-50 transition-colors inline-flex cursor-pointer"
-                        title="Verify in Public Registry"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
-
-                      {/* REVOKE OR REINSTATE */}
-                      {cert.status === 'Issued' ? (
+                    <tr key={cert.id || cert.certificateNo} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="py-4 px-6 font-mono font-bold text-[#F47716]">
                         <button
-                          onClick={() => handleRevoke(cert.id, cert.certificateNo || cert.certificateNumber)}
-                          className="p-1.5 rounded-lg text-amber-500 hover:text-amber-700 hover:bg-amber-50 transition-colors inline-flex cursor-pointer"
-                          title="Revoke Certificate"
+                          onClick={() => setSelectedCert(cert)}
+                          className="hover:underline flex items-center space-x-1.5 cursor-pointer text-left"
+                          title="Click to view full credential"
                         >
-                          <AlertOctagon className="w-3.5 h-3.5" />
+                          <span>{cert.certificateNo || cert.certificateNumber}</span>
                         </button>
-                      ) : (
-                        <button
-                          onClick={() => handleReinstate(cert.id, cert.certificateNo || cert.certificateNumber)}
-                          className="p-1.5 rounded-lg text-green-600 hover:text-green-800 hover:bg-green-50 transition-colors inline-flex cursor-pointer"
-                          title="Reinstate to Active Issued Status"
-                        >
-                          <RotateCcw className="w-3.5 h-3.5" />
-                        </button>
-                      )}
-
-                      {/* DIRECT DELETE (NO POPUP) */}
-                      <button
-                        onClick={() => handleDeleteDirect(cert.id, cert.certificateNo || cert.certificateNumber)}
-                        disabled={deletingId === cert.id}
-                        className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors inline-flex cursor-pointer"
-                        title="Direct Delete (Instant, no popup)"
-                      >
-                        {deletingId === cert.id ? (
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        ) : (
-                          <Trash2 className="w-3.5 h-3.5" />
+                        {cert.candidateId && (
+                          <p className="text-[10px] text-gray-400 font-mono font-normal">{cert.candidateId}</p>
                         )}
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                      </td>
+
+                      <td className="py-4 px-6">
+                        <p className="font-bold text-[#10264B]">{cert.candidateName}</p>
+                        {cert.candidateEmail && (
+                          <p className="text-[11px] text-gray-400">{cert.candidateEmail}</p>
+                        )}
+                      </td>
+
+                      <td className="py-4 px-6">
+                        <p className="text-gray-800 font-medium">{cert.certificationName}</p>
+                        <p className="text-[10px] text-gray-500 font-mono">{cert.certificationCode || cert.credentialLevel}</p>
+                      </td>
+
+                      <td className="py-4 px-6 text-gray-600">
+                        <p>{cert.issueDateFormatted || cert.issueDate?.split('T')[0]}</p>
+                        {cert.grade && (
+                          <span className="text-[10px] text-slate-500 font-semibold">{cert.grade}</span>
+                        )}
+                      </td>
+
+                      <td className="py-4 px-6">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold ${cert.status === 'Issued'
+                            ? 'bg-green-50 text-green-700 border border-green-200'
+                            : 'bg-red-50 text-red-700 border border-red-200'
+                            }`}
+                        >
+                          {cert.status}
+                        </span>
+                        {cert.status === 'Revoked' && cert.revocationReason && (
+                          <p className="text-[10px] text-red-500 italic mt-0.5 max-w-xs truncate" title={cert.revocationReason}>
+                            {cert.revocationReason}
+                          </p>
+                        )}
+                      </td>
+
+                      <td className="py-4 px-6 text-right space-x-1 whitespace-nowrap">
+                        {/* VIEW / PREVIEW */}
+                        <button
+                          onClick={() => setSelectedCert(cert)}
+                          className="p-1.5 rounded-lg text-gray-500 hover:text-[#10264B] hover:bg-slate-100 transition-colors inline-flex cursor-pointer"
+                          title="View Official Certificate"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                        </button>
+
+                        {/* EDIT (UPDATE) */}
+                        <button
+                          onClick={() => handleOpenEdit(cert)}
+                          className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors inline-flex cursor-pointer"
+                          title="Edit Certificate Details"
+                        >
+                          <Edit className="w-3.5 h-3.5" />
+                        </button>
+
+                        {/* PUBLIC VERIFICATION LINK */}
+                        <a
+                          href={`/verify?id=${encodeURIComponent(cert.certificateNo || cert.certificateNumber)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 rounded-lg text-gray-500 hover:text-emerald-700 hover:bg-emerald-50 transition-colors inline-flex cursor-pointer"
+                          title="Verify in Public Registry"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+
+                        {/* REVOKE OR REINSTATE */}
+                        {cert.status === 'Issued' ? (
+                          <button
+                            onClick={() => handleRevoke(cert.id, cert.certificateNo || cert.certificateNumber)}
+                            className="p-1.5 rounded-lg text-amber-500 hover:text-amber-700 hover:bg-amber-50 transition-colors inline-flex cursor-pointer"
+                            title="Revoke Certificate"
+                          >
+                            <AlertOctagon className="w-3.5 h-3.5" />
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleReinstate(cert.id, cert.certificateNo || cert.certificateNumber)}
+                            className="p-1.5 rounded-lg text-green-600 hover:text-green-800 hover:bg-green-50 transition-colors inline-flex cursor-pointer"
+                            title="Reinstate to Active Issued Status"
+                          >
+                            <RotateCcw className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+
+                        {/* DIRECT DELETE (NO POPUP) */}
+                        <button
+                          onClick={() => handleDeleteDirect(cert.id, cert.certificateNo || cert.certificateNumber)}
+                          disabled={deletingId === cert.id}
+                          className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors inline-flex cursor-pointer"
+                          title="Direct Delete (Instant, no popup)"
+                        >
+                          {deletingId === cert.id ? (
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          ) : (
+                            <Trash2 className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+                      </td>
+                    </tr>
+                  ))
               )}
             </tbody>
           </table>

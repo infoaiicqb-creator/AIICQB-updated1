@@ -15,6 +15,9 @@ import {
   LogOut,
   Menu,
   X,
+  Bell,
+  Home,
+  Calendar,
 } from 'lucide-react';
 
 export const CandidateLayout: React.FC = () => {
@@ -76,37 +79,47 @@ export const CandidateLayout: React.FC = () => {
         />
       )}
 
-      {/* Mobile Header */}
-      <div className="md:hidden bg-[#10264B] text-white px-4 py-3 flex items-center justify-between sticky top-0 z-40 border-b border-slate-800 shadow-md">
-        <div className="flex items-center space-x-2.5">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-1.5 -ml-1 rounded-lg text-white hover:bg-slate-800 active:scale-95 transition-all cursor-pointer"
-            aria-label="Toggle Navigation Menu"
-          >
-            {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-          <Link to="/" className="flex items-center space-x-2">
-            <img src="/aicqb-logo.png" alt="AIICQB Logo" className="h-9 w-auto bg-white p-1 rounded-lg object-contain" />
-          </Link>
-        </div>
+      {/* Mobile Header matching Screen 2 Screenshot */}
+      <div className="md:hidden bg-white text-gray-800 px-4 py-2.5 flex items-center justify-between sticky top-0 z-40 border-b border-gray-100 shadow-xs relative overflow-hidden">
+        {/* Subtle top curved orange accent wave */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#F47716] via-[#FF933B] to-[#F47716]" />
 
-        <div className="flex items-center space-x-2">
-          {candidateId && (
-            <span className="text-[10px] sm:text-xs font-mono font-bold text-[#F47716] bg-[#0A1D37] px-2 py-0.5 rounded border border-slate-700 truncate max-w-[120px] sm:max-w-none">
-              {candidateId}
-            </span>
-          )}
-          <div className="w-7 h-7 rounded-full bg-[#F47716] text-white flex items-center justify-center font-bold text-xs ring-1 ring-white/30">
-            {displayName.charAt(0).toUpperCase()}
-          </div>
+        {/* Hamburger Menu on Left */}
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="p-2 -ml-1 rounded-xl text-[#10264B] hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
+          aria-label="Toggle Navigation Menu"
+        >
+          {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+
+        {/* Center Logo matching Screenshot */}
+        <Link to="/portal/dashboard" className="flex items-center">
+          <img
+            src="/aiicqb-full-logo.png"
+            alt="AIICQB Logo"
+            className="h-8 sm:h-9 w-auto object-contain drop-shadow-2xs"
+          />
+        </Link>
+
+        {/* Right Notification Bell with Red Badge Dot matching Screenshot */}
+        <div className="relative">
+          <button
+            onClick={() => navigate('/portal/support')}
+            className="p-2 -mr-1 rounded-xl text-[#10264B] hover:bg-slate-100 transition-colors cursor-pointer"
+            aria-label="Notifications"
+          >
+            <Bell className="w-5 h-5 text-[#10264B]" />
+            <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white" />
+          </button>
         </div>
       </div>
 
       {/* Candidate Left Sidebar: Slide-over drawer on mobile, sticky w-80 on desktop */}
       <aside
-        className={`fixed inset-y-0 left-0 w-80 max-w-[85vw] z-50 bg-[#10264B] text-white flex flex-col justify-between flex-shrink-0 select-none border-r border-slate-800 shadow-2xl transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          } md:translate-x-0 md:static md:sticky md:top-0 md:h-screen md:w-80 md:shadow-xl`}
+        className={`fixed inset-y-0 left-0 w-80 max-w-[85vw] z-50 bg-[#10264B] text-white flex flex-col justify-between flex-shrink-0 select-none border-r border-slate-800 shadow-2xl transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0 md:static md:sticky md:top-0 md:h-screen md:w-80 md:shadow-xl`}
       >
         {/* Top: AICQB Logo Header & Navigation */}
         <div className="flex flex-col flex-1 min-h-0 justify-start">
@@ -116,7 +129,7 @@ export const CandidateLayout: React.FC = () => {
               onClick={() => setSidebarOpen(false)}
               className="flex items-center space-x-2 bg-white px-4 py-2.5 rounded-xl w-full justify-center shadow-md hover:opacity-95 transition-opacity"
             >
-              <img src="/aicqb-logo.png" alt="AIICQB Logo" className="h-12 sm:h-14 w-auto object-contain" />
+              <img src="/aiicqb-full-logo.png" alt="AIICQB Logo" className="h-10 sm:h-12 w-auto object-contain" />
             </Link>
             <button
               onClick={() => setSidebarOpen(false)}
@@ -137,10 +150,11 @@ export const CandidateLayout: React.FC = () => {
                   key={item.path}
                   to={item.path}
                   onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center space-x-3.5 px-4 py-2.5 rounded-xl text-sm sm:text-[15px] font-semibold transition-all ${active
-                    ? 'bg-[#F47716] text-white shadow-lg font-bold scale-[1.01]'
-                    : 'text-slate-300 hover:bg-[#1E3A6E] hover:text-white'
-                    }`}
+                  className={`flex items-center space-x-3.5 px-4 py-2.5 rounded-xl text-sm sm:text-[15px] font-semibold transition-all ${
+                    active
+                      ? 'bg-[#F47716] text-white shadow-lg font-bold scale-[1.01]'
+                      : 'text-slate-300 hover:bg-[#1E3A6E] hover:text-white'
+                  }`}
                 >
                   <Icon className={`w-5 h-5 flex-shrink-0 ${active ? 'text-white' : 'text-slate-400'}`} />
                   <span className="truncate tracking-wide">{item.label}</span>
@@ -164,8 +178,8 @@ export const CandidateLayout: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Candidate Topbar */}
-        <header className="bg-white border-b border-gray-200 h-14 sm:h-16 flex items-center justify-between px-3 sm:px-6 lg:px-8 sticky top-0 z-20 shadow-xs">
+        {/* Candidate Topbar - Hidden on Mobile, Shown on Desktop */}
+        <header className="hidden md:flex bg-white border-b border-gray-200 h-14 sm:h-16 items-center justify-between px-3 sm:px-6 lg:px-8 sticky top-0 z-20 shadow-xs">
           <div className="flex items-center space-x-2 sm:space-x-3">
             <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#10264B] bg-slate-100 px-2.5 py-1 rounded-md">
               Candidate Portal
@@ -189,13 +203,76 @@ export const CandidateLayout: React.FC = () => {
           </div>
         </header>
 
-        {/* Page View Body */}
-        <main className="flex-1 p-3.5 sm:p-6 lg:p-8">
+        {/* Page View Body with Safe Bottom Padding for Mobile Nav */}
+        <main className="flex-1 p-3.5 sm:p-6 lg:p-8 pb-24 md:pb-8">
           <Suspense fallback={<div className="h-0.5 w-full bg-gradient-to-r from-transparent via-[#F47716] to-transparent animate-pulse" />}>
             <Outlet />
           </Suspense>
         </main>
       </div>
+
+      {/* Mobile Fixed Bottom Navigation Bar matching Screen 2 Screenshot */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-[#10264B] text-white px-3 py-2 flex items-center justify-around shadow-[0_-5px_25px_rgba(0,0,0,0.3)] border-t border-slate-800">
+        <Link
+          to="/portal/dashboard"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-all ${
+            location.pathname === '/portal/dashboard' || location.pathname === '/portal'
+              ? 'text-[#F47716]'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <Home className="w-5 h-5 mb-0.5" />
+          <span>Home</span>
+        </Link>
+
+        <Link
+          to="/portal/exams"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-all ${
+            location.pathname.startsWith('/portal/exams')
+              ? 'text-[#F47716]'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <Calendar className="w-5 h-5 mb-0.5" />
+          <span>Exams</span>
+        </Link>
+
+        <Link
+          to="/portal/certificates"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-all ${
+            location.pathname.startsWith('/portal/certificates')
+              ? 'text-[#F47716]'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <Award className="w-5 h-5 mb-0.5" />
+          <span>Certificates</span>
+        </Link>
+
+        <Link
+          to="/portal/verification"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-all ${
+            location.pathname.startsWith('/portal/verification')
+              ? 'text-[#F47716]'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <ShieldCheck className="w-5 h-5 mb-0.5" />
+          <span>Verify</span>
+        </Link>
+
+        <Link
+          to="/portal/profile"
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition-all ${
+            location.pathname.startsWith('/portal/profile')
+              ? 'text-[#F47716]'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <User className="w-5 h-5 mb-0.5" />
+          <span>Profile</span>
+        </Link>
+      </nav>
     </div>
   );
 };

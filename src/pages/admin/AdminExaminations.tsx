@@ -919,44 +919,44 @@ export const AdminExaminations: React.FC = () => {
                     filteredExams
                       .slice((examPage - 1) * examPageSize, examPage * examPageSize)
                       .map((exam) => (
-                      <tr key={exam.id || exam.examCode} className="hover:bg-slate-50/80 transition-colors">
-                        <td className="py-4 px-6 font-mono font-bold text-[#F47716]">{exam.examCode}</td>
-                        <td className="py-4 px-6">
-                          <div className="font-bold text-[#10264B] text-[13px]">{exam.examName}</div>
-                          <span className="text-[11px] text-gray-500 font-mono">{exam.certificationCode || 'AICQB-CERT'}</span>
-                        </td>
-                        <td className="py-4 px-6 text-gray-700 font-medium">
-                          <div>{exam.dateFormatted || exam.scheduledDate}</div>
-                          <div className="text-[11px] text-gray-400 font-mono">{exam.timeFormatted || exam.scheduledTime}</div>
-                        </td>
-                        <td className="py-4 px-6 font-mono font-bold text-gray-700">{exam.durationMinutes || 90} Mins</td>
-                        <td className="py-4 px-6 font-bold text-[#10264B]">
-                          <span className="px-2.5 py-1 bg-slate-100 rounded-lg">{exam.candidatesCount || 0} Enrolled</span>
-                        </td>
-                        <td className="py-4 px-6">
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-[#10264B] border border-blue-200">
-                            {exam.status || 'Scheduled'}
-                          </span>
-                        </td>
-                        <td className="py-4 px-6 text-right space-x-1 whitespace-nowrap">
-                          <button
-                            onClick={() => handleOpenEditExam(exam)}
-                            className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors inline-flex cursor-pointer"
-                            title="Edit Exam Window"
-                          >
-                            <Edit2 className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteExamDirect(exam.id, exam.examCode)}
-                            disabled={deletingId === exam.id}
-                            className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors inline-flex cursor-pointer"
-                            title="Delete Exam (Direct, no popup)"
-                          >
-                            {deletingId === exam.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                        <tr key={exam.id || exam.examCode} className="hover:bg-slate-50/80 transition-colors">
+                          <td className="py-4 px-6 font-mono font-bold text-[#F47716]">{exam.examCode}</td>
+                          <td className="py-4 px-6">
+                            <div className="font-bold text-[#10264B] text-[13px]">{exam.examName}</div>
+                            <span className="text-[11px] text-gray-500 font-mono">{exam.certificationCode || 'AICQB-CERT'}</span>
+                          </td>
+                          <td className="py-4 px-6 text-gray-700 font-medium">
+                            <div>{exam.dateFormatted || exam.scheduledDate}</div>
+                            <div className="text-[11px] text-gray-400 font-mono">{exam.timeFormatted || exam.scheduledTime}</div>
+                          </td>
+                          <td className="py-4 px-6 font-mono font-bold text-gray-700">{exam.durationMinutes || 90} Mins</td>
+                          <td className="py-4 px-6 font-bold text-[#10264B]">
+                            <span className="px-2.5 py-1 bg-slate-100 rounded-lg">{exam.candidatesCount || 0} Enrolled</span>
+                          </td>
+                          <td className="py-4 px-6">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-[#10264B] border border-blue-200">
+                              {exam.status || 'Scheduled'}
+                            </span>
+                          </td>
+                          <td className="py-4 px-6 text-right space-x-1 whitespace-nowrap">
+                            <button
+                              onClick={() => handleOpenEditExam(exam)}
+                              className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors inline-flex cursor-pointer"
+                              title="Edit Exam Window"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteExamDirect(exam.id, exam.examCode)}
+                              disabled={deletingId === exam.id}
+                              className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors inline-flex cursor-pointer"
+                              title="Delete Exam (Direct, no popup)"
+                            >
+                              {deletingId === exam.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+                            </button>
+                          </td>
+                        </tr>
+                      ))
                   )}
                 </tbody>
               </table>
@@ -1128,65 +1128,65 @@ export const AdminExaminations: React.FC = () => {
                     filteredQuestions
                       .slice((questionPage - 1) * questionPageSize, questionPage * questionPageSize)
                       .map((q) => (
-                      <tr key={q.id} className="hover:bg-slate-50/80 transition-colors">
-                        <td className="py-4 px-6">
-                          <span className="font-mono font-bold text-[#F47716] block">{q.id}</span>
-                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#10264B]/10 text-[#10264B] font-mono mt-1 inline-block">
-                            {q.certificationCode || 'AICQB'}
-                          </span>
-                        </td>
+                        <tr key={q.id} className="hover:bg-slate-50/80 transition-colors">
+                          <td className="py-4 px-6">
+                            <span className="font-mono font-bold text-[#F47716] block">{q.id}</span>
+                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#10264B]/10 text-[#10264B] font-mono mt-1 inline-block">
+                              {q.certificationCode || 'AICQB'}
+                            </span>
+                          </td>
 
-                        <td className="py-4 px-6 max-w-md">
-                          <p className="font-bold text-[#10264B] leading-relaxed text-[13px] line-clamp-2">{q.question}</p>
-                          <span className="text-[11px] text-gray-400 mt-1 block">
-                            {q.options?.length || 4} Randomized Answer Choices
-                          </span>
-                        </td>
+                          <td className="py-4 px-6 max-w-md">
+                            <p className="font-bold text-[#10264B] leading-relaxed text-[13px] line-clamp-2">{q.question}</p>
+                            <span className="text-[11px] text-gray-400 mt-1 block">
+                              {q.options?.length || 4} Randomized Answer Choices
+                            </span>
+                          </td>
 
-                        <td className="py-4 px-6">
-                          <span className="font-bold uppercase text-[10px] px-2.5 py-1 bg-slate-100 rounded-md text-slate-700 block w-max">
-                            {q.questionType || q.type || 'MCQ'}
-                          </span>
-                          <span className="font-mono text-xs text-[#F47716] font-bold mt-1 block">
-                            +{q.points || 10} Marks
-                          </span>
-                        </td>
+                          <td className="py-4 px-6">
+                            <span className="font-bold uppercase text-[10px] px-2.5 py-1 bg-slate-100 rounded-md text-slate-700 block w-max">
+                              {q.questionType || q.type || 'MCQ'}
+                            </span>
+                            <span className="font-mono text-xs text-[#F47716] font-bold mt-1 block">
+                              +{q.points || 10} Marks
+                            </span>
+                          </td>
 
-                        <td className="py-4 px-6">
-                          <span className="font-mono font-bold px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg inline-block">
-                            Option {String.fromCharCode(65 + (q.correctAnswer ?? 0))}
-                          </span>
-                          <p className="text-[11px] text-gray-600 truncate max-w-xs mt-1">
-                            {q.options?.[q.correctAnswer ?? 0]}
-                          </p>
-                        </td>
+                          <td className="py-4 px-6">
+                            <span className="font-mono font-bold px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg inline-block">
+                              Option {String.fromCharCode(65 + (q.correctAnswer ?? 0))}
+                            </span>
+                            <p className="text-[11px] text-gray-600 truncate max-w-xs mt-1">
+                              {q.options?.[q.correctAnswer ?? 0]}
+                            </p>
+                          </td>
 
-                        <td className="py-4 px-6 text-right space-x-1 whitespace-nowrap">
-                          <button
-                            onClick={() => setPreviewQuestion(q)}
-                            className="p-1.5 rounded-lg text-slate-500 hover:text-[#10264B] hover:bg-slate-100 transition-colors cursor-pointer"
-                            title="Preview Question"
-                          >
-                            <Eye className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => handleOpenEditQuestion(q)}
-                            className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors cursor-pointer"
-                            title="Edit Question"
-                          >
-                            <Edit2 className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteQuestionDirect(q.id)}
-                            disabled={deletingId === q.id}
-                            className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
-                            title="Delete Question (Direct, no popup)"
-                          >
-                            {deletingId === q.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                          <td className="py-4 px-6 text-right space-x-1 whitespace-nowrap">
+                            <button
+                              onClick={() => setPreviewQuestion(q)}
+                              className="p-1.5 rounded-lg text-slate-500 hover:text-[#10264B] hover:bg-slate-100 transition-colors cursor-pointer"
+                              title="Preview Question"
+                            >
+                              <Eye className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={() => handleOpenEditQuestion(q)}
+                              className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors cursor-pointer"
+                              title="Edit Question"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteQuestionDirect(q.id)}
+                              disabled={deletingId === q.id}
+                              className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
+                              title="Delete Question (Direct, no popup)"
+                            >
+                              {deletingId === q.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+                            </button>
+                          </td>
+                        </tr>
+                      ))
                   )}
                 </tbody>
               </table>
@@ -1324,15 +1324,14 @@ export const AdminExaminations: React.FC = () => {
                       </td>
 
                       <td className="py-4 px-6">
-                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold border ${
-                          s.proctorReviewStatus === 'approved'
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                            : s.proctorReviewStatus === 'rejected'
-                              ? 'bg-red-50 text-red-700 border-red-200'
-                              : s.proctorReviewStatus === 'flagged'
-                                ? 'bg-amber-50 text-amber-800 border-amber-200'
-                                : 'bg-slate-100 text-slate-700 border-slate-200'
-                        }`}>
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold border ${s.proctorReviewStatus === 'approved'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : s.proctorReviewStatus === 'rejected'
+                            ? 'bg-red-50 text-red-700 border-red-200'
+                            : s.proctorReviewStatus === 'flagged'
+                              ? 'bg-amber-50 text-amber-800 border-amber-200'
+                              : 'bg-slate-100 text-slate-700 border-slate-200'
+                          }`}>
                           {s.proctorReviewStatus ? s.proctorReviewStatus.toUpperCase() : 'PENDING REVIEW'}
                         </span>
                       </td>

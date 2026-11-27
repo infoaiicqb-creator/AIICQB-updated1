@@ -8028,5 +8028,18 @@
     "id": "auditLogs_1795706188379_50bsi",
     "createdAt": "2026-11-26T15:16:28.379Z",
     "updatedAt": "2026-11-26T15:16:28.379Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "LOGIN",
+    "module": "Authentication",
+    "details": "User logged in: pushpak@gmail.com (Super Admin)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T07:35:13.614Z",
+    "id": "auditLogs_1795764913680_5n4ax",
+    "createdAt": "2026-11-27T07:35:13.693Z",
+    "updatedAt": "2026-11-27T07:35:13.693Z"
   }
 ]

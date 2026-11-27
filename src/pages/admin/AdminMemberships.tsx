@@ -616,106 +616,106 @@ export const AdminMemberships: React.FC = () => {
                 {filteredMemberships
                   .slice((currentPage - 1) * pageSize, currentPage * pageSize)
                   .map((m) => (
-                  <tr key={m.id || m.memberId} className="hover:bg-slate-50/80 transition-colors">
-                    {/* Member ID */}
-                    <td className="py-4 px-6 font-mono font-bold text-[#F47716]">
-                      {m.memberId}
-                    </td>
+                    <tr key={m.id || m.memberId} className="hover:bg-slate-50/80 transition-colors">
+                      {/* Member ID */}
+                      <td className="py-4 px-6 font-mono font-bold text-[#F47716]">
+                        {m.memberId}
+                      </td>
 
-                    {/* Name / Organization */}
-                    <td className="py-4 px-6">
-                      <div className="font-bold text-[#10264B] text-[13px]">{m.name}</div>
-                      {m.email && (
-                        <div className="text-[11px] text-gray-500 flex items-center space-x-1 mt-0.5">
-                          <Mail className="w-3 h-3 text-gray-400" />
-                          <span>{m.email}</span>
-                        </div>
-                      )}
-                    </td>
-
-                    {/* Type: Organization vs Individual */}
-                    <td className="py-4 px-6">
-                      <span
-                        className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-lg font-bold text-xs ${m.type === 'Organization'
-                          ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                          : 'bg-purple-50 text-purple-700 border border-purple-200'
-                          }`}
-                      >
-                        {m.type === 'Organization' ? (
-                          <Building2 className="w-3.5 h-3.5 text-blue-600" />
-                        ) : (
-                          <User className="w-3.5 h-3.5 text-purple-600" />
+                      {/* Name / Organization */}
+                      <td className="py-4 px-6">
+                        <div className="font-bold text-[#10264B] text-[13px]">{m.name}</div>
+                        {m.email && (
+                          <div className="text-[11px] text-gray-500 flex items-center space-x-1 mt-0.5">
+                            <Mail className="w-3 h-3 text-gray-400" />
+                            <span>{m.email}</span>
+                          </div>
                         )}
-                        <span>{m.type}</span>
-                      </span>
-                    </td>
+                      </td>
 
-                    {/* Plan */}
-                    <td className="py-4 px-6">
-                      <span className="font-bold text-[#10264B] text-xs bg-slate-100 px-2.5 py-1 rounded-lg">
-                        {m.plan}
-                      </span>
-                    </td>
-
-                    {/* Valid Till */}
-                    <td className="py-4 px-6 text-gray-600 font-medium">
-                      <div className="flex items-center space-x-1.5 font-mono text-[11px]">
-                        <Calendar className="w-3.5 h-3.5 text-gray-400" />
-                        <span>{m.validTill}</span>
-                      </div>
-                    </td>
-
-                    {/* Status with Quick Toggle */}
-                    <td className="py-4 px-6">
-                      <button
-                        onClick={() => handleQuickToggleStatus(m)}
-                        className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border transition-all cursor-pointer ${m.status === 'Active'
-                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
-                          : 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
-                          }`}
-                        title="Click to toggle status (Active/Expired)"
-                      >
+                      {/* Type: Organization vs Individual */}
+                      <td className="py-4 px-6">
                         <span
-                          className={`w-1.5 h-1.5 rounded-full ${m.status === 'Active' ? 'bg-emerald-500' : 'bg-amber-500'
+                          className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-lg font-bold text-xs ${m.type === 'Organization'
+                            ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                            : 'bg-purple-50 text-purple-700 border border-purple-200'
                             }`}
-                        />
-                        <span>{m.status}</span>
-                      </button>
-                    </td>
-
-                    {/* Actions: View, Edit, Delete */}
-                    <td className="py-4 px-6 text-right">
-                      <div className="flex items-center justify-end space-x-1.5">
-                        {/* View */}
-                        <button
-                          onClick={() => setViewingMember(m)}
-                          className="p-1.5 rounded-lg text-slate-500 hover:text-[#10264B] hover:bg-slate-100 transition-colors cursor-pointer"
-                          title="View Details"
                         >
-                          <Eye className="w-4 h-4" />
-                        </button>
+                          {m.type === 'Organization' ? (
+                            <Building2 className="w-3.5 h-3.5 text-blue-600" />
+                          ) : (
+                            <User className="w-3.5 h-3.5 text-purple-600" />
+                          )}
+                          <span>{m.type}</span>
+                        </span>
+                      </td>
 
-                        {/* Edit */}
-                        <button
-                          onClick={() => openEditModal(m)}
-                          className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors cursor-pointer"
-                          title="Edit Membership"
-                        >
-                          <Edit2 className="w-4 h-4" />
-                        </button>
+                      {/* Plan */}
+                      <td className="py-4 px-6">
+                        <span className="font-bold text-[#10264B] text-xs bg-slate-100 px-2.5 py-1 rounded-lg">
+                          {m.plan}
+                        </span>
+                      </td>
 
-                        {/* Delete */}
+                      {/* Valid Till */}
+                      <td className="py-4 px-6 text-gray-600 font-medium">
+                        <div className="flex items-center space-x-1.5 font-mono text-[11px]">
+                          <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                          <span>{m.validTill}</span>
+                        </div>
+                      </td>
+
+                      {/* Status with Quick Toggle */}
+                      <td className="py-4 px-6">
                         <button
-                          onClick={() => setDeleteTarget(m)}
-                          className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
-                          title="Delete Membership"
+                          onClick={() => handleQuickToggleStatus(m)}
+                          className={`inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border transition-all cursor-pointer ${m.status === 'Active'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
+                            : 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
+                            }`}
+                          title="Click to toggle status (Active/Expired)"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <span
+                            className={`w-1.5 h-1.5 rounded-full ${m.status === 'Active' ? 'bg-emerald-500' : 'bg-amber-500'
+                              }`}
+                          />
+                          <span>{m.status}</span>
                         </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+
+                      {/* Actions: View, Edit, Delete */}
+                      <td className="py-4 px-6 text-right">
+                        <div className="flex items-center justify-end space-x-1.5">
+                          {/* View */}
+                          <button
+                            onClick={() => setViewingMember(m)}
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-[#10264B] hover:bg-slate-100 transition-colors cursor-pointer"
+                            title="View Details"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
+
+                          {/* Edit */}
+                          <button
+                            onClick={() => openEditModal(m)}
+                            className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors cursor-pointer"
+                            title="Edit Membership"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+
+                          {/* Delete */}
+                          <button
+                            onClick={() => setDeleteTarget(m)}
+                            className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
+                            title="Delete Membership"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
