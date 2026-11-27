@@ -15,9 +15,6 @@ import {
   AlertCircle,
   Loader2,
   CheckCircle2,
-  ShieldCheck,
-  X,
-  RotateCcw,
 } from 'lucide-react';
 
 const COUNTRY_CODES = [
@@ -66,15 +63,6 @@ export const SignUp: React.FC = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  // OTP Verification Modal State
-  const [showOtpModal, setShowOtpModal] = useState(false);
-  const [otpCode, setOtpCode] = useState('');
-  const [demoOtp, setDemoOtp] = useState('');
-  const [otpLoading, setOtpLoading] = useState(false);
-  const [otpError, setOtpError] = useState('');
-  const [resendTimer, setResendTimer] = useState(30);
-  const [canResend, setCanResend] = useState(false);
-
   // Optional Target Certification
   const [certList, setCertList] = useState<any[]>(() => {
     try {
@@ -89,22 +77,6 @@ export const SignUp: React.FC = () => {
   useEffect(() => {
     loadCertifications();
   }, []);
-
-  // Timer for OTP Resend
-  useEffect(() => {
-    let interval: any = null;
-    if (showOtpModal && resendTimer > 0) {
-      interval = setInterval(() => {
-        setResendTimer((prev) => prev - 1);
-      }, 1000);
-    } else if (resendTimer === 0) {
-      setCanResend(true);
-      if (interval) clearInterval(interval);
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [showOtpModal, resendTimer]);
 
   const loadCertifications = async () => {
     try {
@@ -165,8 +137,8 @@ export const SignUp: React.FC = () => {
     return true;
   };
 
-  // Step 1: Submit Form -> Send OTP Verification Code
-  const handleInitiateSignup = async (e: React.FormEvent) => {
+  // Direct Account Registration without OTP requirement
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
@@ -175,69 +147,7 @@ export const SignUp: React.FC = () => {
 
     try {
       setLoading(true);
-      // Dispatch OTP to email
-      const res = await api.sendOtp({ email: email.trim(), fullName: fullName.trim() });
-      if (res && res.success) {
-        setDemoOtp(res.demoOtp || '');
-        setResendTimer(30);
-        setCanResend(false);
-        setOtpCode('');
-        setOtpError('');
-        setShowOtpModal(true);
-      } else {
-        setError(res?.message || 'Unable to send verification code. Please check your email.');
-      }
-    } catch (err: any) {
-      setError(err?.message || 'Registration check failed. An account with this email may already exist.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  // Step 2: Resend OTP
-  const handleResendOtp = async () => {
-    if (!canResend) return;
-    try {
-      setOtpError('');
-      setOtpLoading(true);
-      const res = await api.sendOtp({ email: email.trim(), fullName: fullName.trim() });
-      if (res && res.success) {
-        setDemoOtp(res.demoOtp || '');
-        setResendTimer(30);
-        setCanResend(false);
-      } else {
-        setOtpError(res?.message || 'Failed to resend code.');
-      }
-    } catch (err: any) {
-      setOtpError(err?.message || 'Failed to resend verification code.');
-    } finally {
-      setOtpLoading(false);
-    }
-  };
-
-  // Step 3: Verify OTP & Activate Registration
-  const handleVerifyOtpAndRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setOtpError('');
-
-    const cleanOtp = otpCode.trim();
-    if (!cleanOtp || cleanOtp.length < 6) {
-      setOtpError('Please enter the complete 6-digit verification code.');
-      return;
-    }
-
-    try {
-      setOtpLoading(true);
-
-      // Verify OTP on backend
-      const otpRes = await api.verifyOtp({ email: email.trim(), otp: cleanOtp });
-      if (!otpRes || !otpRes.success) {
-        setOtpError(otpRes?.message || 'Invalid verification code. Please try again.');
-        setOtpLoading(false);
-        return;
-      }
-
-      // Finalize Account Registration
       const regRes = await register({
         fullName: fullName.trim(),
         email: email.trim(),
@@ -251,8 +161,7 @@ export const SignUp: React.FC = () => {
       });
 
       if (regRes && regRes.success) {
-        setShowOtpModal(false);
-        setSuccessMessage('Congratulations! Your AIICQB account has been verified and created successfully.');
+        setSuccessMessage('Congratulations! Your AIICQB account has been created successfully.');
 
         // Navigate candidate to Dashboard or Target certification
         setTimeout(() => {
@@ -260,18 +169,18 @@ export const SignUp: React.FC = () => {
           if (redirect) {
             navigate(redirect);
           } else if (selectedCertificationId) {
-            navigate('/portal/exams');
+            navigate('/portal/certifications');
           } else {
             navigate('/portal/dashboard');
           }
         }, 800);
       } else {
-        setOtpError(regRes?.message || 'Registration failed after verification. Please try again.');
+        setError(regRes?.message || 'Registration failed. Please try again.');
       }
     } catch (err: any) {
-      setOtpError(err?.message || 'Registration failed. Please check your connection.');
+      setError(err?.message || 'Registration failed. An account with this email may already exist.');
     } finally {
-      setOtpLoading(false);
+      setLoading(false);
     }
   };
 
@@ -331,7 +240,7 @@ export const SignUp: React.FC = () => {
           )}
 
           {/* Registration Form */}
-          <form onSubmit={handleInitiateSignup} className="space-y-3.5" noValidate>
+          <form onSubmit={handleRegister} className="space-y-3.5" noValidate>
             {/* Full Name */}
             <div>
               <label className="block text-xs font-bold text-gray-700 mb-1">
@@ -518,7 +427,7 @@ export const SignUp: React.FC = () => {
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Sending Verification Code...</span>
+                  <span>Creating Account...</span>
                 </>
               ) : (
                 <>
@@ -543,100 +452,6 @@ export const SignUp: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Email OTP Verification Modal */}
-      {showOtpModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4 animate-scaleUp">
-            <div className="flex items-center justify-between pb-2 border-b border-gray-100">
-              <div className="flex items-center space-x-2">
-                <ShieldCheck className="w-5 h-5 text-[#F47716]" />
-                <h3 className="text-sm font-bold text-[#10264B]">Email OTP Verification</h3>
-              </div>
-              <button
-                onClick={() => setShowOtpModal(false)}
-                className="text-gray-400 hover:text-gray-600 p-1 cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="text-xs text-gray-600 space-y-1">
-              <p>We have dispatched a 6-digit verification code to:</p>
-              <p className="font-bold text-[#10264B] font-mono break-all">{email}</p>
-            </div>
-
-            {demoOtp && (
-              <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-xs flex items-center justify-between text-amber-900">
-                <span>Verification Code: <strong className="font-mono text-sm tracking-wider text-[#F47716]">{demoOtp}</strong></span>
-                <button
-                  type="button"
-                  onClick={() => setOtpCode(demoOtp)}
-                  className="px-2 py-1 bg-amber-200/80 hover:bg-amber-300 text-[11px] font-bold rounded-lg transition-colors cursor-pointer"
-                >
-                  Auto-fill
-                </button>
-              </div>
-            )}
-
-            {otpError && (
-              <div className="p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 font-semibold flex items-start space-x-1.5">
-                <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                <span>{otpError}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleVerifyOtpAndRegister} className="space-y-3.5">
-              <div>
-                <label className="block text-[11px] font-bold text-gray-700 mb-1">
-                  Enter 6-Digit Code
-                </label>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={6}
-                  required
-                  autoFocus
-                  value={otpCode}
-                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                  placeholder="• • • • • •"
-                  className="w-full text-center tracking-widest text-lg font-mono font-bold h-12 bg-slate-50 border border-gray-300 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#10264B]"
-                />
-              </div>
-
-              <div className="flex items-center justify-between text-xs text-gray-500">
-                <span>Didn't receive code?</span>
-                {canResend ? (
-                  <button
-                    type="button"
-                    onClick={handleResendOtp}
-                    className="font-bold text-[#F47716] hover:underline cursor-pointer"
-                  >
-                    Resend Code
-                  </button>
-                ) : (
-                  <span>Resend in {resendTimer}s</span>
-                )}
-              </div>
-
-              <button
-                type="submit"
-                disabled={otpLoading || otpCode.length < 6}
-                className="w-full h-11 bg-[#10264B] hover:bg-[#1B365D] text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center space-x-1.5 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {otpLoading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Verifying & Activating...</span>
-                  </>
-                ) : (
-                  <span>Verify & Activate Account</span>
-                )}
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

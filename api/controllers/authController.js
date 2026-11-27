@@ -102,7 +102,7 @@ export async function register(req, res) {
       role: 'Candidate',
       candidateId,
       status: 'Active',
-      emailVerified: false,
+      emailVerified: true,
       createdAt: new Date().toISOString(),
     };
 
@@ -124,8 +124,8 @@ export async function register(req, res) {
       dateOfBirth: '',
       aboutMe: '',
       profileCompletion: 45,
-      emailVerified: false,
-      rewardPoints: 100,
+      emailVerified: true,
+      rewardPoints: 0,
       activeCertificationsCount: 0,
       upcomingExamsCount: 0,
       certificatesEarnedCount: 0,
@@ -136,99 +136,7 @@ export async function register(req, res) {
 
     db.addDoc('candidates', candidateProfile);
 
-    // Automatically enroll new user in selected certification if specified
-    const targetCertId = certificationId || selectedCertificationId || enrolledCertification;
-    let enrolledCertDoc = null;
-    if (targetCertId) {
-      enrolledCertDoc = db.findOne(
-        'certifications',
-        c => c.id === targetCertId || c.code === targetCertId || c.name.toLowerCase().includes(targetCertId.toLowerCase())
-      );
-    }
-
-    if (enrolledCertDoc) {
-      const enrollmentId = `enr_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
-      const enrollment = {
-        id: enrollmentId,
-        candidateUid: uid,
-        candidateId,
-        candidateName: fullName.trim(),
-        candidateEmail: cleanEmail,
-        certificationId: enrolledCertDoc.id,
-        certificationName: enrolledCertDoc.name,
-        certificationCode: enrolledCertDoc.code,
-        domain: enrolledCertDoc.domain,
-        enrollmentDate: new Date().toISOString(),
-        status: 'enrolled',
-        progressPercentage: 0,
-        paymentId: `reg_init_${Date.now()}`,
-        amount: enrolledCertDoc.examFee || 0,
-        createdAt: new Date().toISOString(),
-      };
-      db.addDoc('enrollments', enrollment);
-
-      // Increment enrolledCount on certification
-      db.updateDoc('certifications', enrolledCertDoc.id, {
-        enrolledCount: (enrolledCertDoc.enrolledCount || 0) + 1,
-      });
-
-      // Update candidate profile stats
-      candidateProfile.activeCertificationsCount = 1;
-      candidateProfile.upcomingExamsCount = 1;
-      candidateProfile.coursesInProgressCount = 1;
-      db.updateDoc('candidates', uid, {
-        activeCertificationsCount: 1,
-        upcomingExamsCount: 1,
-        coursesInProgressCount: 1,
-      });
-
-      // Auto-schedule online proctored exam for this new enrollment
-      const examDate = new Date();
-      examDate.setDate(examDate.getDate() + 7);
-      const day = String(examDate.getDate()).padStart(2, '0');
-      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      const monthYear = `${monthNames[examDate.getMonth()]} ${examDate.getFullYear()}`;
-
-      const scheduleRecord = {
-        id: `sch_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`,
-        scheduleId: `sch_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`,
-        candidateUid: uid,
-        candidateId,
-        candidateName: fullName.trim(),
-        candidateEmail: cleanEmail,
-        certificationId: enrolledCertDoc.id,
-        certificationName: enrolledCertDoc.name,
-        certificationCode: enrolledCertDoc.code,
-        examId: `exam_${enrolledCertDoc.id}`,
-        examName: enrolledCertDoc.name,
-        examCode: `${enrolledCertDoc.code}-EXAM`,
-        scheduledDate: examDate.toISOString().split('T')[0],
-        scheduledDateDay: day,
-        scheduledDateMonth: monthYear,
-        scheduledTime: '10:00 AM – 11:30 AM (IST)',
-        mode: 'Online Proctored',
-        durationMinutes: enrolledCertDoc.duration ? parseInt(enrolledCertDoc.duration) : 90,
-        status: 'scheduled',
-        enrollmentId: enrollment.id,
-        instructions: [
-          'Ensure a stable high-speed internet connection.',
-          'Keep your camera and microphone enabled for AI proctoring.',
-          'No external tabs or notes permitted during the examination.',
-          'Exam will auto-submit when the countdown timer reaches 00:00.',
-        ],
-        createdAt: new Date().toISOString(),
-      };
-      db.addDoc('examSchedules', scheduleRecord);
-
-      logAudit(
-        req,
-        'NEW_USER_ENROLLMENT',
-        'Candidate Management',
-        `New candidate ${fullName} registered and enrolled in ${enrolledCertDoc.name} (${enrolledCertDoc.code})`
-      );
-    } else {
-      logAudit(req, 'REGISTRATION', 'Candidate Management', `New candidate registered: ${fullName} (${candidateId})`);
-    }
+    logAudit(req, 'REGISTRATION', 'Candidate Management', `New candidate registered: ${fullName.trim()} (${candidateId})`);
 
     const token = jwt.sign(
       { uid, email: cleanEmail, role: 'Candidate', fullName: fullName.trim(), candidateId },
