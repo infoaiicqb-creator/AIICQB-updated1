@@ -8041,5 +8041,18 @@
     "id": "auditLogs_1795764913680_5n4ax",
     "createdAt": "2026-11-27T07:35:13.693Z",
     "updatedAt": "2026-11-27T07:35:13.693Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "LOGIN",
+    "module": "Authentication",
+    "details": "User logged in: admin@aicqb.org (Super Admin)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T09:25:44.037Z",
+    "id": "auditLogs_1795771544037_1a5tq",
+    "createdAt": "2026-11-27T09:25:44.037Z",
+    "updatedAt": "2026-11-27T09:25:44.037Z"
   }
 ]

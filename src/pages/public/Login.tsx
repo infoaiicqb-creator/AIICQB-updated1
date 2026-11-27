@@ -285,12 +285,12 @@ export const Login: React.FC = () => {
           )}
 
           {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-            {/* Email Address Input */}
+          <form onSubmit={handleSubmit} className="space-y-4 lg:space-y-5" noValidate>
+            {/* Email Address Input - Enhanced standard height on web/desktop (h-14 / 56px) */}
             <div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-700">
-                  <Mail className="w-5 h-5 stroke-[1.8]" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 lg:pl-4 flex items-center pointer-events-none text-gray-500">
+                  <Mail className="w-5 h-5 lg:w-5.5 lg:h-5.5 stroke-[1.8]" />
                 </div>
                 <input
                   type="email"
@@ -301,16 +301,16 @@ export const Login: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email Address"
-                  className="w-full pl-11 pr-4 h-13 text-sm bg-white border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#F47716] focus:border-transparent transition-all shadow-2xs"
+                  className="w-full pl-11 lg:pl-12 pr-4 h-13 lg:h-14 text-sm lg:text-base bg-white border border-gray-300 lg:border-gray-300 rounded-xl lg:rounded-2xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F47716] focus:border-transparent transition-all shadow-2xs hover:border-gray-400"
                 />
               </div>
             </div>
 
-            {/* Password Input */}
+            {/* Password Input - Enhanced standard height on web/desktop (h-14 / 56px) */}
             <div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-700">
-                  <Lock className="w-5 h-5 stroke-[1.8]" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 lg:pl-4 flex items-center pointer-events-none text-gray-500">
+                  <Lock className="w-5 h-5 lg:w-5.5 lg:h-5.5 stroke-[1.8]" />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -318,12 +318,12 @@ export const Login: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full pl-11 pr-11 h-13 text-sm bg-white border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#F47716] focus:border-transparent transition-all shadow-2xs"
+                  className="w-full pl-11 lg:pl-12 pr-11 lg:pr-12 h-13 lg:h-14 text-sm lg:text-base bg-white border border-gray-300 lg:border-gray-300 rounded-xl lg:rounded-2xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F47716] focus:border-transparent transition-all shadow-2xs hover:border-gray-400"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 w-11 h-full flex items-center justify-center text-gray-700 hover:text-black transition-colors cursor-pointer"
+                  className="absolute inset-y-0 right-0 w-11 lg:w-12 h-full flex items-center justify-center text-gray-500 hover:text-gray-800 transition-colors cursor-pointer"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-5 h-5 stroke-[1.8]" /> : <Eye className="w-5 h-5 stroke-[1.8]" />}
@@ -338,9 +338,9 @@ export const Login: React.FC = () => {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded text-[#F47716] border-gray-300 focus:ring-[#F47716]"
+                  className="w-4 h-4 lg:w-4.5 lg:h-4.5 rounded text-[#F47716] border-gray-300 focus:ring-[#F47716]"
                 />
-                <span className="text-gray-800 font-medium">Remember Me</span>
+                <span className="text-gray-700 lg:text-gray-800 font-medium lg:text-sm">Remember Me</span>
               </label>
 
               <button
@@ -349,21 +349,21 @@ export const Login: React.FC = () => {
                   setForgotEmail(email);
                   setShowForgotModal(true);
                 }}
-                className="font-bold text-[#F47716] hover:text-[#DC660E] transition-colors py-1 cursor-pointer"
+                className="font-bold text-[#F47716] hover:text-[#DC660E] transition-colors py-1 cursor-pointer lg:text-sm"
               >
                 Forgot Password?
               </button>
             </div>
 
-            {/* Login Primary Button - Exact vibrant orange pill button with Login text */}
+            {/* Login Primary Button - Exact vibrant orange pill button with standard web height (h-14 on lg) */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-12 bg-[#F47716] hover:bg-[#E35D00] active:bg-[#C95000] text-white font-bold text-base rounded-xl shadow-md hover:shadow-orange-500/25 flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed mt-3"
+              className="w-full h-12 lg:h-14 bg-[#F47716] hover:bg-[#E35D00] active:bg-[#C95000] text-white font-bold text-base lg:text-lg rounded-xl lg:rounded-2xl shadow-md hover:shadow-orange-500/25 flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed mt-3 lg:mt-4"
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 lg:w-5 lg:h-5 animate-spin" />
                   <span>Logging In...</span>
                 </>
               ) : (
@@ -373,23 +373,23 @@ export const Login: React.FC = () => {
           </form>
 
           {/* OR Divider matching Screenshot */}
-          <div className="relative my-4 sm:my-5">
+          <div className="relative my-4 sm:my-5 lg:my-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300"></div>
             </div>
-            <div className="relative flex justify-center text-xs">
+            <div className="relative flex justify-center text-xs lg:text-sm">
               <span className="px-3 bg-white text-gray-700 font-bold tracking-wider">OR</span>
             </div>
           </div>
 
-          {/* Continue with Google Button matching Screenshot */}
+          {/* Continue with Google Button matching Screenshot with standard web height */}
           <div>
             <button
               type="button"
               onClick={() => setShowGoogleModal(true)}
-              className="w-full h-12 flex items-center justify-center space-x-2.5 bg-white border border-gray-300 hover:border-gray-400 hover:bg-gray-50 rounded-xl text-sm font-bold text-[#10264B] shadow-2xs transition-all cursor-pointer"
+              className="w-full h-12 lg:h-14 flex items-center justify-center space-x-2.5 bg-white border border-gray-300 hover:border-gray-400 hover:bg-gray-50 rounded-xl lg:rounded-2xl text-sm lg:text-base font-bold text-[#10264B] shadow-2xs transition-all cursor-pointer"
             >
-              <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 lg:w-5.5 lg:h-5.5 flex-shrink-0" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.88c2.27-2.09 3.665-5.17 3.665-9.14z" />
                 <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.04c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.13C3.26 21.36 7.33 24 12 24z" />
                 <path fill="#FBBC05" d="M5.28 14.28c-.25-.72-.38-1.49-.38-2.28s.14-1.56.38-2.28V6.59H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.41l4.03-3.13z" />
