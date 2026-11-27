@@ -80,7 +80,7 @@ app.get(['/api/health', '/health'], (req, res) => {
 });
 
 // Mount API Routes under /api
-const mountRoutes = (prefix = '') => {
+const mountRoutes = (prefix = '/api') => {
   app.use(`${prefix}/auth`, authRoutes);
   app.use(`${prefix}/certifications`, certificationRoutes);
   app.use(`${prefix}/payment`, paymentRoutes);
@@ -93,42 +93,39 @@ const mountRoutes = (prefix = '') => {
 
 mountRoutes('/api');
 
-// Static Client Serving (Production or Built Client)
-const clientDist = [
-  path.resolve(process.cwd(), 'dist'),
-  path.resolve(__dirname, '../dist'),
-].find(p => fs.existsSync(p)) || path.resolve(process.cwd(), 'dist');
-
-if (fs.existsSync(clientDist)) {
-  app.use(express.static(clientDist));
-
-  // SPA fallback for all browser navigations (including /admin, /admin/*, /portal, /portal/*, etc.)
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api')) return next();
-    res.sendFile(path.join(clientDist, 'index.html'));
-  });
-}
-
-// Fallback: Mount legacy root API only for explicit non-HTML or programmatic API calls
-const isDirectApiCall = (req) => {
-  if (req.method !== 'GET') return true;
-  if (req.headers.authorization) return true;
-  if (req.headers['x-requested-with'] === 'XMLHttpRequest') return true;
-  if (req.headers.accept && req.headers.accept.includes('application/json') && !req.headers.accept.includes('text/html')) return true;
-  return false;
+// Helper to reliably locate the compiled client dist directory
+const getClientDist = () => {
+  const candidates = [
+    path.resolve(process.cwd(), 'dist'),
+    path.resolve(__dirname, '../dist'),
+  ];
+  return candidates.find(p => fs.existsSync(path.join(p, 'index.html'))) || candidates[0];
 };
 
+// Serve static client assets
 app.use((req, res, next) => {
-  if (isDirectApiCall(req)) {
-    return next();
-  }
-  if (fs.existsSync(clientDist)) {
-    return res.sendFile(path.join(clientDist, 'index.html'));
+  const distDir = getClientDist();
+  if (fs.existsSync(distDir)) {
+    return express.static(distDir)(req, res, next);
   }
   next();
 });
 
-mountRoutes('');
+// Single Page Application (SPA) fallback:
+// Any browser navigation (e.g. /admin, /admin/certifications, /portal, /portal/*, etc.)
+// must return index.html so React Router renders the page on refresh.
+app.get('*', (req, res, next) => {
+  if (req.path.startsWith('/api')) return next();
+  const distDir = getClientDist();
+  const indexPath = path.join(distDir, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+  next();
+});
+
+// Legacy non-prefixed auth fallback (only for /auth endpoints, never /admin or SPA routes)
+app.use('/auth', authRoutes);
 
 // 404 handler for API
 app.use('/api/*', (req, res) => {
@@ -149,7 +146,8 @@ if (isDirectRun && !process.env.VERCEL) {
     console.log(` AICQB International Certification Platform`);
     console.log(` Running on: http://localhost:${PORT}`);
     console.log(` Health Check: http://localhost:${PORT}/api/health`);
-    console.log(` Client Frontend served from: ${fs.existsSync(clientDist) ? clientDist : 'Vite Dev Server (Port 5173)'}`);
+    const distDir = getClientDist();
+    console.log(` Client Frontend served from: ${fs.existsSync(distDir) ? distDir : 'Vite Dev Server (Port 5173)'}`);
     console.log(`====================================================`);
   });
 }

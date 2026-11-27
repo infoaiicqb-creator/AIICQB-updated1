@@ -68,157 +68,20 @@
     ],
     "eligibility": "Degree or diploma in Computer Science, Engineering, Statistics, or 1+ year practical coding experience.",
     "examPattern": "Online proctored exam, 60 MCQ questions & 1 coding challenge, 90 minutes.",
-    "examFee": 4500,
+    "examFee": 45000,
     "currency": "INR",
     "duration": "90 Minutes",
     "passingCriteria": 70,
     "validityYears": 3,
     "version": "2026.1",
-    "status": "Active",
+    "status": "Inactive",
     "enrolledCount": 1454,
     "icon": "Cpu",
     "popular": true,
-    "updatedAt": "2026-11-27T17:13:35.137Z",
+    "updatedAt": "2026-11-27T18:06:39.347Z",
     "createdAt": "2026-11-09T15:40:37.376Z",
-    "examFeeUSD": 79
-  },
-  {
-    "id": "cert_aicqb_st_cp",
-    "code": "AICQB-ST-CP",
-    "name": "AICQB Certified Software Tester",
-    "domain": "Software Testing & Quality Engineering",
-    "domainCode": "ST",
-    "domainSlug": "testing",
-    "level": "Professional Level",
-    "description": "Master manual testing, automation principles, API verification, and modern quality engineering workflows.",
-    "learningObjectives": [
-      "End-to-end SDLC and STLC test phase execution",
-      "Test case design, boundary value analysis and equivalence partitioning",
-      "API testing with Postman and automated test collections",
-      "Defect lifecycle and Jira integration"
-    ],
-    "syllabus": [
-      {
-        "title": "Module 1: Quality Engineering Principles & Agile STLC",
-        "hours": 10,
-        "topics": [
-          "Test Levels",
-          "Test Types",
-          "Agile Scrum & Kanban Testing"
-        ]
-      },
-      {
-        "title": "Module 2: Test Analysis & Design Techniques",
-        "hours": 12,
-        "topics": [
-          "Black-box Techniques",
-          "White-box Techniques",
-          "Risk-Based Testing"
-        ]
-      },
-      {
-        "title": "Module 3: API & Web Services Testing",
-        "hours": 14,
-        "topics": [
-          "REST & SOAP Protocols",
-          "HTTP Status Codes",
-          "Postman Automation"
-        ]
-      },
-      {
-        "title": "Module 4: Continuous Quality in CI/CD",
-        "hours": 10,
-        "topics": [
-          "Git Integration",
-          "GitHub Actions Test Runs",
-          "Automated Reporting"
-        ]
-      }
-    ],
-    "eligibility": "Open to fresh graduates, QA analysts, and engineers transitioning into Quality Engineering.",
-    "examPattern": "Online proctored exam, 50 MCQ questions, 75 minutes.",
-    "examFee": 9999,
-    "currency": "INR",
-    "duration": "75 Minutes",
-    "passingCriteria": 70,
-    "validityYears": 3,
-    "version": "2026.1",
-    "status": "Active",
-    "enrolledCount": 2187,
-    "icon": "ShieldCheck",
-    "popular": true,
-    "updatedAt": "2026-11-27T16:24:35.225Z",
-    "createdAt": "2026-11-09T15:40:37.379Z",
-    "examFeeUSD": 149
-  },
-  {
-    "id": "cert_aicqb_pw_cp",
-    "code": "AIICQB-PW-CP",
-    "name": "AICQB Certified Playwright Automation",
-    "domain": "Software Testing & Quality Engineering",
-    "domainCode": "PW",
-    "domainSlug": "testing",
-    "level": "Advance Level",
-    "description": "High-speed browser automation with TypeScript, Playwright Test runner, visual regression, and CI/CD.",
-    "learningObjectives": [
-      "Modern browser automation across Chromium, Firefox and WebKit",
-      "Page Object Models (POM) and modular test architecture",
-      "Network interception, API mocking, and auth state reuse",
-      "Automated CI/CD test execution with trace viewers"
-    ],
-    "syllabus": [
-      {
-        "title": "Module 1: Playwright Architecture & Setup",
-        "hours": 8,
-        "topics": [
-          "Node.js & TypeScript",
-          "Browser Contexts",
-          "Locators & Assertions"
-        ]
-      },
-      {
-        "title": "Module 2: Advanced Interaction & POM",
-        "hours": 14,
-        "topics": [
-          "Auto-waiting",
-          "Page Object Models",
-          "Fixtures & Test Hooks"
-        ]
-      },
-      {
-        "title": "Module 3: Network & API Automation",
-        "hours": 12,
-        "topics": [
-          "Route Interception",
-          "Mocking API Responses",
-          "Har Logging"
-        ]
-      },
-      {
-        "title": "Module 4: CI/CD & Trace Analysis",
-        "hours": 10,
-        "topics": [
-          "Dockerization",
-          "GitHub Actions Matrix Runs",
-          "HTML Reports & Traces"
-        ]
-      }
-    ],
-    "eligibility": "Knowledge of JavaScript/TypeScript and basic software testing concepts.",
-    "examPattern": "Online proctored exam, 40 MCQs and 1 hands-on automation script, 90 minutes.",
-    "examFee": 9999,
-    "currency": "INR",
-    "duration": "90 Minutes",
-    "passingCriteria": 70,
-    "validityYears": 3,
-    "version": "2026.1",
-    "status": "Active",
-    "enrolledCount": 1661,
-    "icon": "Terminal",
-    "popular": true,
-    "updatedAt": "2026-11-27T16:56:49.657Z",
-    "createdAt": "2026-11-09T15:40:37.380Z",
-    "examFeeUSD": 149
+    "examFeeUSD": 692,
+    "updatedBy": "admin@aicqb.org"
   },
   {
     "id": "cert_aicqb_ds_201",
@@ -267,19 +130,29 @@
     ],
     "eligibility": "Familiarity with Python or R, and basic statistics.",
     "examPattern": "Online proctored exam, 50 MCQ questions, 90 minutes.",
-    "examFee": 4502,
+    "examFee": 450242,
     "currency": "INR",
     "duration": "90 Minutes",
     "passingCriteria": 70,
     "validityYears": 3,
     "version": "2026.1",
-    "status": "Active",
+    "status": "Inactive",
     "enrolledCount": 898,
     "icon": "Database",
     "popular": false,
-    "updatedAt": "2026-11-27T16:47:41.569Z",
+    "updatedAt": "2026-11-27T18:06:38.598Z",
     "createdAt": "2026-11-09T15:40:37.381Z",
-    "examFeeUSD": 79
+    "examFeeUSD": 5296.96,
+    "updatedBy": "admin@aicqb.org",
+    "domainId": "",
+    "levelId": "",
+    "exchangeRate": 85,
+    "durationUnit": "Minutes",
+    "examFeeINR": 450242,
+    "passingThreshold": 70,
+    "examDuration": 90,
+    "certificationName": "AICQB Certified Data Science Professional",
+    "eligibilityCriteria": "Familiarity with Python or R, and basic statistics."
   },
   {
     "id": "cert_aicqb_cy_301",
@@ -327,18 +200,88 @@
     ],
     "eligibility": "Knowledge of networking protocols and operating systems internals.",
     "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
-    "examFee": 5500,
+    "examFee": 50,
     "currency": "INR",
     "duration": "90 Minutes",
     "passingCriteria": 70,
     "validityYears": 3,
     "version": "2026.1",
-    "status": "Active",
+    "status": "Inactive",
     "enrolledCount": 1127,
     "icon": "Lock",
     "popular": true,
-    "updatedAt": "2026-11-26T12:47:32.467Z",
+    "updatedAt": "2026-11-27T18:06:37.211Z",
     "createdAt": "2026-11-09T15:40:37.382Z",
-    "examFeeUSD": 99
+    "examFeeUSD": 0.59,
+    "updatedBy": "admin@aicqb.org",
+    "domainId": "",
+    "levelId": "",
+    "exchangeRate": 85,
+    "durationUnit": "Minutes",
+    "examFeeINR": 50,
+    "passingThreshold": 70,
+    "examDuration": 90,
+    "certificationName": "AICQB Certified Cybersecurity Specialist",
+    "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+  },
+  {
+    "id": "cert_aiicqb_st_cp_001",
+    "certificationId": "cert_aiicqb_st_cp_001",
+    "certificationCode": "AIICQB-ST-CP-001",
+    "name": "Aiicqb-Playwright",
+    "certificationName": "Aiicqb-Playwright",
+    "code": "AIICQB-ST-CP-001",
+    "domain": "Software Testing & Quality Engineering",
+    "domainId": "dom_software_testing",
+    "domainCode": "ST",
+    "level": "Foundation Level",
+    "levelId": "lvl_fnd",
+    "description": "PlayWright",
+    "learningObjectives": [
+      "Core conceptual mastery",
+      "Practical applied assessment"
+    ],
+    "syllabus": [
+      {
+        "title": "Module 1: Principles & Fundamentals",
+        "hours": 10,
+        "topics": [
+          "Overview",
+          "Architecture"
+        ]
+      },
+      {
+        "title": "Module 2: Advanced Implementation",
+        "hours": 15,
+        "topics": [
+          "Hands-on",
+          "Case Studies"
+        ]
+      }
+    ],
+    "eligibility": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
+    "eligibilityCriteria": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
+    "examPattern": "Online proctored examination, 60 MCQ questions, 90 minutes duration.",
+    "examFee": 9999,
+    "examFeeINR": 9999,
+    "examFeeUSD": 117.64,
+    "exchangeRate": 85,
+    "exchangeRateSnapshot": 85,
+    "currency": "INR",
+    "duration": "90 Minutes",
+    "examDuration": 90,
+    "durationUnit": "Minutes",
+    "passingCriteria": 70,
+    "passingThreshold": 70,
+    "validityYears": 3,
+    "version": "2026.1",
+    "status": "Active",
+    "isDeleted": false,
+    "tags": [],
+    "enrolledCount": 0,
+    "createdBy": "pushpak@gmail.com",
+    "updatedBy": "pushpak@gmail.com",
+    "createdAt": "2026-11-27T18:14:21.959Z",
+    "updatedAt": "2026-11-27T18:14:21.959Z"
   }
 ]

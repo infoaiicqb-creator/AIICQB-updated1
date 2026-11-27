@@ -116,10 +116,12 @@ export const AdminCertifications: React.FC = () => {
         search: searchTerm,
         sortBy,
         sortOrder,
+        adminView: 'true',
       };
       if (selectedDomain && selectedDomain !== 'All') params.domain = selectedDomain;
       if (selectedLevel && selectedLevel !== 'All') params.level = selectedLevel;
       if (selectedStatus && selectedStatus !== 'All') params.status = selectedStatus;
+      else params.status = 'All';
 
       const res = await api.getCertifications(params);
       if (res.success && res.certifications) {

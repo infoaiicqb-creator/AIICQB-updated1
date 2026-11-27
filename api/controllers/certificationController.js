@@ -56,15 +56,16 @@ export async function getCertifications(req, res) {
 
     // Filter by status / archive
     let list = [...allList];
-    const isPublicOnly = req.query.publicOnly === 'true' || (req.user && req.user.role === 'Candidate');
+    const isPublicCandidate = req.query.publicOnly === 'true';
 
-    if (isPublicOnly) {
+    if (isPublicCandidate) {
       list = list.filter(c => !c.isDeleted && (c.status === 'Active' || c.status === 'Published'));
     } else if (status === 'Archived') {
       list = list.filter(c => c.isDeleted === true || c.status === 'Archived');
     } else if (status && status !== 'All') {
       list = list.filter(c => !c.isDeleted && (c.status || 'Active').toLowerCase() === status.toLowerCase());
-    } else if (includeArchived !== 'true') {
+    } else {
+      // Show ALL certifications (both Active and Inactive)
       list = list.filter(c => !c.isDeleted && c.status !== 'Archived');
     }
 

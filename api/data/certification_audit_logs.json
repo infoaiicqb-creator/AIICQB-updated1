@@ -1,1 +1,1530 @@
-[]
+[
+  {
+    "logId": "log_1795801775475_xqf88m",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:49:35.475Z",
+    "id": "certification_audit_logs_1795801775476_jx7wj",
+    "createdAt": "2026-11-27T17:49:35.476Z",
+    "updatedAt": "2026-11-27T17:49:35.476Z"
+  },
+  {
+    "logId": "log_1795801777153_o9mmuz",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Activated",
+    "previousData": {
+      "status": "Inactive"
+    },
+    "updatedData": {
+      "status": "Active"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:49:37.153Z",
+    "id": "certification_audit_logs_1795801777153_qv7qk",
+    "createdAt": "2026-11-27T17:49:37.154Z",
+    "updatedAt": "2026-11-27T17:49:37.154Z"
+  },
+  {
+    "logId": "log_1795801778248_m5jd9q",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:49:38.248Z",
+    "id": "certification_audit_logs_1795801778248_4fkyf",
+    "createdAt": "2026-11-27T17:49:38.248Z",
+    "updatedAt": "2026-11-27T17:49:38.248Z"
+  },
+  {
+    "logId": "log_1795801778899_pvwtn7",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Activated",
+    "previousData": {
+      "status": "Inactive"
+    },
+    "updatedData": {
+      "status": "Active"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:49:38.899Z",
+    "id": "certification_audit_logs_1795801778899_o5z2y",
+    "createdAt": "2026-11-27T17:49:38.899Z",
+    "updatedAt": "2026-11-27T17:49:38.899Z"
+  },
+  {
+    "logId": "log_1795801779756_x27rpp",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:49:39.756Z",
+    "id": "certification_audit_logs_1795801779756_hnc7d",
+    "createdAt": "2026-11-27T17:49:39.756Z",
+    "updatedAt": "2026-11-27T17:49:39.756Z"
+  },
+  {
+    "logId": "log_1795801783601_qjgjez",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Activated",
+    "previousData": {
+      "status": "Inactive"
+    },
+    "updatedData": {
+      "status": "Active"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:49:43.601Z",
+    "id": "certification_audit_logs_1795801783601_fnm2m",
+    "createdAt": "2026-11-27T17:49:43.601Z",
+    "updatedAt": "2026-11-27T17:49:43.601Z"
+  },
+  {
+    "logId": "log_1795801790797_k1r9bg",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:49:50.797Z",
+    "id": "certification_audit_logs_1795801790797_bk64h",
+    "createdAt": "2026-11-27T17:49:50.797Z",
+    "updatedAt": "2026-11-27T17:49:50.797Z"
+  },
+  {
+    "logId": "log_1795801796526_fg8w8s",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Activated",
+    "previousData": {
+      "status": "Inactive"
+    },
+    "updatedData": {
+      "status": "Active"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:49:56.526Z",
+    "id": "certification_audit_logs_1795801796526_c70cv",
+    "createdAt": "2026-11-27T17:49:56.526Z",
+    "updatedAt": "2026-11-27T17:49:56.526Z"
+  },
+  {
+    "logId": "log_1795801800230_bn7wnt",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:50:00.230Z",
+    "id": "certification_audit_logs_1795801800230_ynls0",
+    "createdAt": "2026-11-27T17:50:00.230Z",
+    "updatedAt": "2026-11-27T17:50:00.230Z"
+  },
+  {
+    "logId": "log_1795801800914_4983vs",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Activated",
+    "previousData": {
+      "status": "Inactive"
+    },
+    "updatedData": {
+      "status": "Active"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:50:00.914Z",
+    "id": "certification_audit_logs_1795801800914_7ogdy",
+    "createdAt": "2026-11-27T17:50:00.914Z",
+    "updatedAt": "2026-11-27T17:50:00.914Z"
+  },
+  {
+    "logId": "log_1795801801428_za42ih",
+    "certificationId": "cert_aicqb_ds_201",
+    "certificationCode": "AICQB-DS-201",
+    "action": "Certification Activated",
+    "previousData": {
+      "status": "Inactive"
+    },
+    "updatedData": {
+      "status": "Active"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:50:01.428Z",
+    "id": "certification_audit_logs_1795801801428_gt4nu",
+    "createdAt": "2026-11-27T17:50:01.428Z",
+    "updatedAt": "2026-11-27T17:50:01.428Z"
+  },
+  {
+    "logId": "log_1795801815270_15peg6",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Updated",
+    "previousData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cybersecurity",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 5500,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T17:50:00.913Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 99,
+      "updatedBy": "admin@aicqb.org"
+    },
+    "updatedData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cybersecurity",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 55000,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T17:50:15.269Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 647.06,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 55000,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:50:15.270Z",
+    "id": "certification_audit_logs_1795801815270_ietck",
+    "createdAt": "2026-11-27T17:50:15.270Z",
+    "updatedAt": "2026-11-27T17:50:15.270Z"
+  },
+  {
+    "logId": "log_1795802322540_tp1q6v",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:58:42.540Z",
+    "id": "certification_audit_logs_1795802322543_i4iax",
+    "createdAt": "2026-11-27T17:58:42.543Z",
+    "updatedAt": "2026-11-27T17:58:42.543Z"
+  },
+  {
+    "logId": "log_1795802324319_3jnjpj",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Activated",
+    "previousData": {
+      "status": "Inactive"
+    },
+    "updatedData": {
+      "status": "Active"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:58:44.319Z",
+    "id": "certification_audit_logs_1795802324319_5l9s8",
+    "createdAt": "2026-11-27T17:58:44.319Z",
+    "updatedAt": "2026-11-27T17:58:44.319Z"
+  },
+  {
+    "logId": "log_1795802325197_4b2fbd",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:58:45.197Z",
+    "id": "certification_audit_logs_1795802325197_anqbz",
+    "createdAt": "2026-11-27T17:58:45.197Z",
+    "updatedAt": "2026-11-27T17:58:45.197Z"
+  },
+  {
+    "logId": "log_1795802325987_hn3k58",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Activated",
+    "previousData": {
+      "status": "Inactive"
+    },
+    "updatedData": {
+      "status": "Active"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:58:45.987Z",
+    "id": "certification_audit_logs_1795802325987_v4glq",
+    "createdAt": "2026-11-27T17:58:45.987Z",
+    "updatedAt": "2026-11-27T17:58:45.987Z"
+  },
+  {
+    "logId": "log_1795802335539_og000v",
+    "certificationId": "cert_aicqb_ds_201",
+    "certificationCode": "AICQB-DS-201",
+    "action": "Certification Updated",
+    "previousData": {
+      "id": "cert_aicqb_ds_201",
+      "code": "AICQB-DS-201",
+      "name": "AICQB Certified Data Science Professional",
+      "domain": "Data Science & Analytics",
+      "domainCode": "DS",
+      "domainSlug": "data-science",
+      "level": "Professional Level",
+      "description": "Extract business insights from complex data through statistical modeling, Python data stack, and visualization.",
+      "learningObjectives": [
+        "Exploratory data analysis with Pandas, NumPy, and Seaborn",
+        "Predictive modeling and hypothesis testing",
+        "Feature engineering and dimensionality reduction",
+        "Translating data insights into executive strategy"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Statistical Analysis & Probability",
+          "hours": 12,
+          "topics": [
+            "Hypothesis Testing",
+            "ANOVA",
+            "Distributions",
+            "Bayesian Inference"
+          ]
+        },
+        {
+          "title": "Module 2: Python Data Manipulation Stack",
+          "hours": 15,
+          "topics": [
+            "Pandas Advanced Indexing",
+            "Data Cleaning",
+            "Vectorization"
+          ]
+        },
+        {
+          "title": "Module 3: Machine Learning with Scikit-Learn",
+          "hours": 18,
+          "topics": [
+            "Ensemble Methods",
+            "Cross-Validation",
+            "Hyperparameter Tuning"
+          ]
+        }
+      ],
+      "eligibility": "Familiarity with Python or R, and basic statistics.",
+      "examPattern": "Online proctored exam, 50 MCQ questions, 90 minutes.",
+      "examFee": 4502,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 898,
+      "icon": "Database",
+      "popular": false,
+      "updatedAt": "2026-11-27T17:50:01.427Z",
+      "createdAt": "2026-11-09T15:40:37.381Z",
+      "examFeeUSD": 79,
+      "updatedBy": "admin@aicqb.org"
+    },
+    "updatedData": {
+      "id": "cert_aicqb_ds_201",
+      "code": "AICQB-DS-201",
+      "name": "AICQB Certified Data Science Professional",
+      "domain": "Data Science & Analytics",
+      "domainCode": "DS",
+      "domainSlug": "data-science",
+      "level": "Professional Level",
+      "description": "Extract business insights from complex data through statistical modeling, Python data stack, and visualization.",
+      "learningObjectives": [
+        "Exploratory data analysis with Pandas, NumPy, and Seaborn",
+        "Predictive modeling and hypothesis testing",
+        "Feature engineering and dimensionality reduction",
+        "Translating data insights into executive strategy"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Statistical Analysis & Probability",
+          "hours": 12,
+          "topics": [
+            "Hypothesis Testing",
+            "ANOVA",
+            "Distributions",
+            "Bayesian Inference"
+          ]
+        },
+        {
+          "title": "Module 2: Python Data Manipulation Stack",
+          "hours": 15,
+          "topics": [
+            "Pandas Advanced Indexing",
+            "Data Cleaning",
+            "Vectorization"
+          ]
+        },
+        {
+          "title": "Module 3: Machine Learning with Scikit-Learn",
+          "hours": 18,
+          "topics": [
+            "Ensemble Methods",
+            "Cross-Validation",
+            "Hyperparameter Tuning"
+          ]
+        }
+      ],
+      "eligibility": "Familiarity with Python or R, and basic statistics.",
+      "examPattern": "Online proctored exam, 50 MCQ questions, 90 minutes.",
+      "examFee": 450242,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 898,
+      "icon": "Database",
+      "popular": false,
+      "updatedAt": "2026-11-27T17:58:55.538Z",
+      "createdAt": "2026-11-09T15:40:37.381Z",
+      "examFeeUSD": 5296.96,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 450242,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Data Science Professional",
+      "eligibilityCriteria": "Familiarity with Python or R, and basic statistics."
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:58:55.539Z",
+    "id": "certification_audit_logs_1795802335539_lizqs",
+    "createdAt": "2026-11-27T17:58:55.539Z",
+    "updatedAt": "2026-11-27T17:58:55.539Z"
+  },
+  {
+    "logId": "log_1795802350067_vcfvux",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Updated",
+    "previousData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cybersecurity",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 55000,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T17:58:45.986Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 647.06,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 55000,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "updatedData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cybersecurity",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 55,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T17:59:10.066Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 0.65,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 55,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T17:59:10.067Z",
+    "id": "certification_audit_logs_1795802350067_k6i4q",
+    "createdAt": "2026-11-27T17:59:10.067Z",
+    "updatedAt": "2026-11-27T17:59:10.067Z"
+  },
+  {
+    "logId": "log_1795802459546_5i23ok",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Updated",
+    "previousData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cybersecurity",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 55,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T17:59:10.066Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 0.65,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 55,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "updatedData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cybersecurity",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 50,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T18:00:59.545Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 0.59,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 50,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T18:00:59.546Z",
+    "id": "certification_audit_logs_1795802459546_u4e0y",
+    "createdAt": "2026-11-27T18:00:59.546Z",
+    "updatedAt": "2026-11-27T18:00:59.546Z"
+  },
+  {
+    "logId": "log_1795802471523_l6zbv8",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Updated",
+    "previousData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cybersecurity",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 50,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T18:00:59.545Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 0.59,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 50,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "updatedData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cybersecurity",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 50,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Inactive",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T18:01:11.521Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 0.59,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 50,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T18:01:11.523Z",
+    "id": "certification_audit_logs_1795802471523_cekd1",
+    "createdAt": "2026-11-27T18:01:11.523Z",
+    "updatedAt": "2026-11-27T18:01:11.523Z"
+  },
+  {
+    "logId": "log_1795802473258_jfa41a",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Activated",
+    "previousData": {
+      "status": "Inactive"
+    },
+    "updatedData": {
+      "status": "Active"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T18:01:13.258Z",
+    "id": "certification_audit_logs_1795802473258_hxi60",
+    "createdAt": "2026-11-27T18:01:13.258Z",
+    "updatedAt": "2026-11-27T18:01:13.258Z"
+  },
+  {
+    "logId": "log_1795802478859_uf0td3",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Updated",
+    "previousData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cybersecurity",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 50,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T18:01:13.257Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 0.59,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 50,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "updatedData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cloud Computing",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 50,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T18:01:18.858Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 0.59,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 50,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T18:01:18.859Z",
+    "id": "certification_audit_logs_1795802478859_jt8ft",
+    "createdAt": "2026-11-27T18:01:18.859Z",
+    "updatedAt": "2026-11-27T18:01:18.859Z"
+  },
+  {
+    "logId": "log_1795802487242_kq6flr",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Updated",
+    "previousData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cloud Computing",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 50,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T18:01:18.858Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 0.59,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 50,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "updatedData": {
+      "id": "cert_aicqb_cy_301",
+      "code": "AICQB-CY-301",
+      "name": "AICQB Certified Cybersecurity Specialist",
+      "domain": "Cybersecurity",
+      "domainCode": "CY",
+      "domainSlug": "cybersecurity",
+      "level": "Advanced Level",
+      "description": "Master threat intelligence, penetration testing principles, zero-trust architecture, and incident response.",
+      "learningObjectives": [
+        "Network security defense and intrusion detection systems",
+        "Vulnerability assessments and ethical penetration methodologies",
+        "Zero-trust identity access management and cryptographic standards",
+        "SOC incident triage and digital forensics"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Threat Vectors & Cyber Warfare Landscape",
+          "hours": 10,
+          "topics": [
+            "MITRE ATT&CK",
+            "OWASP Top 10",
+            "Malware Analysis"
+          ]
+        },
+        {
+          "title": "Module 2: Network Defense & Cryptography",
+          "hours": 16,
+          "topics": [
+            "Firewalls & IDS/IPS",
+            "PKI & TLS 1.3",
+            "Zero-Trust Architecture"
+          ]
+        },
+        {
+          "title": "Module 3: Incident Response & Forensics",
+          "hours": 14,
+          "topics": [
+            "SIEM / SOC Workflows",
+            "Memory Forensics",
+            "Disaster Recovery"
+          ]
+        }
+      ],
+      "eligibility": "Knowledge of networking protocols and operating systems internals.",
+      "examPattern": "Online proctored exam, 60 MCQs, 90 minutes.",
+      "examFee": 50,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "passingCriteria": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "enrolledCount": 1127,
+      "icon": "Lock",
+      "popular": true,
+      "updatedAt": "2026-11-27T18:01:27.237Z",
+      "createdAt": "2026-11-09T15:40:37.382Z",
+      "examFeeUSD": 0.59,
+      "updatedBy": "admin@aicqb.org",
+      "domainId": "",
+      "levelId": "",
+      "exchangeRate": 85,
+      "durationUnit": "Minutes",
+      "examFeeINR": 50,
+      "passingThreshold": 70,
+      "examDuration": 90,
+      "certificationName": "AICQB Certified Cybersecurity Specialist",
+      "eligibilityCriteria": "Knowledge of networking protocols and operating systems internals."
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T18:01:27.242Z",
+    "id": "certification_audit_logs_1795802487242_t1s13",
+    "createdAt": "2026-11-27T18:01:27.242Z",
+    "updatedAt": "2026-11-27T18:01:27.242Z"
+  },
+  {
+    "logId": "log_1795802491264_kxeir7",
+    "certificationId": "cert_aicqb_ai_cp",
+    "certificationCode": "AICQB-AI-CP",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T18:01:31.264Z",
+    "id": "certification_audit_logs_1795802491264_f1qa0",
+    "createdAt": "2026-11-27T18:01:31.264Z",
+    "updatedAt": "2026-11-27T18:01:31.264Z"
+  },
+  {
+    "logId": "log_1795802492104_6vi0kc",
+    "certificationId": "cert_aicqb_ai_cp",
+    "certificationCode": "AICQB-AI-CP",
+    "action": "Certification Activated",
+    "previousData": {
+      "status": "Inactive"
+    },
+    "updatedData": {
+      "status": "Active"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T18:01:32.104Z",
+    "id": "certification_audit_logs_1795802492104_c8xga",
+    "createdAt": "2026-11-27T18:01:32.104Z",
+    "updatedAt": "2026-11-27T18:01:32.104Z"
+  },
+  {
+    "logId": "log_1795802797214_h8ggup",
+    "certificationId": "cert_aicqb_cy_301",
+    "certificationCode": "AICQB-CY-301",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T18:06:37.214Z",
+    "id": "certification_audit_logs_1795802797214_pcw43",
+    "createdAt": "2026-11-27T18:06:37.214Z",
+    "updatedAt": "2026-11-27T18:06:37.214Z"
+  },
+  {
+    "logId": "log_1795802798599_q7j3wo",
+    "certificationId": "cert_aicqb_ds_201",
+    "certificationCode": "AICQB-DS-201",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T18:06:38.599Z",
+    "id": "certification_audit_logs_1795802798599_hwmkx",
+    "createdAt": "2026-11-27T18:06:38.599Z",
+    "updatedAt": "2026-11-27T18:06:38.599Z"
+  },
+  {
+    "logId": "log_1795802799348_hcggc2",
+    "certificationId": "cert_aicqb_ai_cp",
+    "certificationCode": "AICQB-AI-CP",
+    "action": "Certification Deactivated",
+    "previousData": {
+      "status": "Active"
+    },
+    "updatedData": {
+      "status": "Inactive"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-27T18:06:39.348Z",
+    "id": "certification_audit_logs_1795802799348_hizxp",
+    "createdAt": "2026-11-27T18:06:39.348Z",
+    "updatedAt": "2026-11-27T18:06:39.348Z"
+  },
+  {
+    "logId": "log_1795803261963_2umc1w",
+    "certificationId": "cert_aiicqb_st_cp_001",
+    "certificationCode": "AIICQB-ST-CP-001",
+    "action": "Certification Created",
+    "previousData": null,
+    "updatedData": {
+      "id": "cert_aiicqb_st_cp_001",
+      "certificationId": "cert_aiicqb_st_cp_001",
+      "certificationCode": "AIICQB-ST-CP-001",
+      "name": "Aiicqb-Playwright",
+      "certificationName": "Aiicqb-Playwright",
+      "code": "AIICQB-ST-CP-001",
+      "domain": "Software Testing & Quality Engineering",
+      "domainId": "dom_software_testing",
+      "domainCode": "ST",
+      "level": "Foundation Level",
+      "levelId": "lvl_fnd",
+      "description": "PlayWright",
+      "learningObjectives": [
+        "Core conceptual mastery",
+        "Practical applied assessment"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Principles & Fundamentals",
+          "hours": 10,
+          "topics": [
+            "Overview",
+            "Architecture"
+          ]
+        },
+        {
+          "title": "Module 2: Advanced Implementation",
+          "hours": 15,
+          "topics": [
+            "Hands-on",
+            "Case Studies"
+          ]
+        }
+      ],
+      "eligibility": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
+      "eligibilityCriteria": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
+      "examPattern": "Online proctored examination, 60 MCQ questions, 90 minutes duration.",
+      "examFee": 9999,
+      "examFeeINR": 9999,
+      "examFeeUSD": 117.64,
+      "exchangeRate": 85,
+      "exchangeRateSnapshot": 85,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "examDuration": 90,
+      "durationUnit": "Minutes",
+      "passingCriteria": 70,
+      "passingThreshold": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "isDeleted": false,
+      "tags": [],
+      "enrolledCount": 0,
+      "createdBy": "pushpak@gmail.com",
+      "updatedBy": "pushpak@gmail.com",
+      "createdAt": "2026-11-27T18:14:21.959Z",
+      "updatedAt": "2026-11-27T18:14:21.959Z"
+    },
+    "adminId": "usr_1794238898604_8636ld",
+    "adminEmail": "pushpak@gmail.com",
+    "adminName": "pushpak Wani",
+    "timestamp": "2026-11-27T18:14:21.963Z",
+    "id": "certification_audit_logs_1795803261967_s0w3i",
+    "createdAt": "2026-11-27T18:14:21.967Z",
+    "updatedAt": "2026-11-27T18:14:21.967Z"
+  }
+]

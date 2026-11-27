@@ -59,7 +59,17 @@ export const api = {
   forgotPassword: (email: string) => request('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),
 
   // Certifications
-  getCertifications: (params?: { domain?: string; level?: string; search?: string; status?: string }) => {
+  getCertifications: (params?: {
+    domain?: string;
+    level?: string;
+    search?: string;
+    status?: string;
+    publicOnly?: string;
+    adminView?: string;
+    sortBy?: string;
+    sortOrder?: string;
+    [key: string]: any;
+  }) => {
     const query = new URLSearchParams(params as any).toString();
     return request(`/certifications${query ? `?${query}` : ''}`);
   },

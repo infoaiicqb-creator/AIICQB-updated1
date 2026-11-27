@@ -78,6 +78,7 @@ export const CandidateCertifications: React.FC = () => {
         api.getCertifications({
           search: searchTerm,
           domain: selectedDomain === 'All Categories' ? 'All' : selectedDomain,
+          publicOnly: 'true',
         }).catch(() => ({ success: false, certifications: [] })),
         api.getCandidateCertificationStatus().catch(() => ({ success: false, enrolledCertIds: [], completedCertIds: [] })),
       ]);
