@@ -42,7 +42,6 @@ const CandidateDashboard = lazy(() => import('./pages/candidate/CandidateDashboa
 const CandidateProfile = lazy(() => import('./pages/candidate/CandidateProfile').then(m => ({ default: m.CandidateProfile })));
 const CandidateCertifications = lazy(() => import('./pages/candidate/CandidateCertifications').then(m => ({ default: m.CandidateCertifications })));
 const CandidateExams = lazy(() => import('./pages/candidate/CandidateExams').then(m => ({ default: m.CandidateExams })));
-const CandidateLearning = lazy(() => import('./pages/candidate/CandidateLearning').then(m => ({ default: m.CandidateLearning })));
 const CandidateCertificates = lazy(() => import('./pages/candidate/CandidateCertificates').then(m => ({ default: m.CandidateCertificates })));
 const CandidateVerify = lazy(() => import('./pages/candidate/CandidateVerify').then(m => ({ default: m.CandidateVerify })));
 const CandidatePayments = lazy(() => import('./pages/candidate/CandidatePayments').then(m => ({ default: m.CandidatePayments })));
@@ -230,7 +229,6 @@ export const App: React.FC = () => {
             <Route path="profile" element={<CandidateProfile />} />
             <Route path="certifications" element={<CandidateCertifications />} />
             <Route path="exams" element={<CandidateExams />} />
-            <Route path="learning" element={<CandidateLearning />} />
             <Route path="certificates" element={<CandidateCertificates />} />
             <Route path="verification" element={<CandidateVerify />} />
             <Route path="payments" element={<CandidatePayments />} />

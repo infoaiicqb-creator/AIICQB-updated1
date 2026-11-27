@@ -8,7 +8,6 @@ import {
   Award,
   CalendarCheck,
   FileCheck2,
-  BookOpen,
   Coins,
   ChevronRight,
   ArrowRight,
@@ -87,7 +86,6 @@ export const CandidateDashboard: React.FC = () => {
   const activeCertsCount = upcomingExams.length;
   const upcomingCount = upcomingExams.length;
   const earnedCertsCount = activeCertificates.length;
-  const coursesInProgressCount = upcomingExams.length;
 
   const totalTracked = activeCertsCount + earnedCertsCount;
   const progressPercent = totalTracked > 0 ? Math.min(100, Math.round((earnedCertsCount / totalTracked) * 100)) : 0;
@@ -237,8 +235,8 @@ export const CandidateDashboard: React.FC = () => {
         </p>
       </div>
 
-      {/* 5 Top Stat Cards matching Image 2 #1 */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+      {/* 4 Top Stat Cards matching Image 2 #1 */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3.5">
         {/* Stat 1 */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm flex items-center justify-between">
           <div>
@@ -274,17 +272,6 @@ export const CandidateDashboard: React.FC = () => {
 
         {/* Stat 4 */}
         <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-2xl font-black text-[#10264B]">{coursesInProgressCount}</p>
-            <p className="text-[11px] font-medium text-gray-500 leading-tight mt-0.5">Courses in Progress</p>
-          </div>
-          <div className="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
-            <BookOpen className="w-5 h-5" />
-          </div>
-        </div>
-
-        {/* Stat 5 */}
-        <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm flex items-center justify-between col-span-2 sm:col-span-1">
           <div>
             <p className="text-2xl font-black text-[#10264B]">{rewardPoints}</p>
             <p className="text-[11px] font-medium text-gray-500 leading-tight mt-0.5">Reward Points</p>
@@ -354,7 +341,7 @@ export const CandidateDashboard: React.FC = () => {
                   </div>
                   <div className="space-y-1">
                     <div className="w-full h-1.5 bg-[#F47716] rounded-full"></div>
-                    <span className="text-[#F47716]">Learning</span>
+                    <span className="text-[#F47716]">Preparation</span>
                   </div>
                   <div className="space-y-1">
                     <div className="w-full h-1.5 bg-orange-300 rounded-full"></div>
@@ -368,10 +355,10 @@ export const CandidateDashboard: React.FC = () => {
 
                 <div className="pt-1">
                   <Link
-                    to="/portal/learning"
+                    to="/portal/exams"
                     className="inline-flex items-center space-x-1.5 px-4 py-2 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-lg shadow-sm transition-all"
                   >
-                    <span>View Learning Modules</span>
+                    <span>View Exam Details</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>

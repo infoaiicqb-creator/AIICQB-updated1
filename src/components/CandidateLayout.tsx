@@ -6,7 +6,6 @@ import {
   User,
   Award,
   CalendarCheck,
-  BookOpen,
   FileCheck2,
   ShieldCheck,
   CreditCard,
@@ -31,7 +30,6 @@ export const CandidateLayout: React.FC = () => {
     { label: 'My Profile', path: '/portal/profile', icon: User },
     { label: 'Certifications', path: '/portal/certifications', icon: Award },
     { label: 'My Exams', path: '/portal/exams', icon: CalendarCheck },
-    { label: 'My Learning', path: '/portal/learning', icon: BookOpen },
     { label: 'My Certificates', path: '/portal/certificates', icon: FileCheck2 },
     { label: 'Verification', path: '/portal/verification', icon: ShieldCheck },
     { label: 'Payments', path: '/portal/payments', icon: CreditCard },
@@ -54,7 +52,6 @@ export const CandidateLayout: React.FC = () => {
       import('../pages/candidate/CandidateProfile');
       import('../pages/candidate/CandidateCertifications');
       import('../pages/candidate/CandidateExams');
-      import('../pages/candidate/CandidateLearning');
       import('../pages/candidate/CandidateCertificates');
       import('../pages/candidate/CandidateVerify');
       import('../pages/candidate/CandidatePayments');

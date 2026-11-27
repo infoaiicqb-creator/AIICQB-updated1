@@ -8340,5 +8340,31 @@
     "id": "auditLogs_1795795769558_phl53",
     "createdAt": "2026-11-27T16:09:29.558Z",
     "updatedAt": "2026-11-27T16:09:29.558Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "LOGIN",
+    "module": "Authentication",
+    "details": "User logged in: pushpak@gmail.com (Super Admin)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T16:13:17.031Z",
+    "id": "auditLogs_1795795997041_ox8ql",
+    "createdAt": "2026-11-27T16:13:17.041Z",
+    "updatedAt": "2026-11-27T16:13:17.041Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "LOGIN",
+    "module": "Authentication",
+    "details": "User logged in: pavankumar@gmail.com (Candidate)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T16:13:31.570Z",
+    "id": "auditLogs_1795796011570_n92dq",
+    "createdAt": "2026-11-27T16:13:31.570Z",
+    "updatedAt": "2026-11-27T16:13:31.570Z"
   }
 ]
