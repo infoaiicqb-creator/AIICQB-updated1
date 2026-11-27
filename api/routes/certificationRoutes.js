@@ -13,7 +13,7 @@ import { authenticate, optionalAuthenticate, requireAdmin } from '../middleware/
 
 const router = express.Router();
 
-router.get('/', getCertifications);
+router.get('/', optionalAuthenticate, getCertifications);
 router.get('/candidate-status', authenticate, getCandidateCertificationStatus);
 router.post('/enroll', optionalAuthenticate, enrollCertification);
 router.get('/:id', getCertificationById);

@@ -7,12 +7,12 @@ export async function getCertifications(req, res) {
     const { domain, level, search, status } = req.query;
     let list = db.getCollection('certifications');
 
-    // Only return published certifications for public/candidates unless admin
-    const isAdmin = req.user && req.user.role !== 'Candidate';
-    if (!isAdmin) {
+    // Filter by status or public access
+    const isPublicOnly = req.query.publicOnly === 'true' || (req.user && req.user.role === 'Candidate');
+    if (status && status !== 'All') {
+      list = list.filter(c => (c.status || 'Active').toLowerCase() === status.toLowerCase());
+    } else if (isPublicOnly) {
       list = list.filter(c => c.status === 'Active' || c.status === 'Published');
-    } else if (status) {
-      list = list.filter(c => c.status.toLowerCase() === status.toLowerCase());
     }
 
     if (domain && domain !== 'All') {
@@ -25,7 +25,7 @@ export async function getCertifications(req, res) {
     }
 
     if (level && level !== 'All') {
-      list = list.filter(c => c.level.toLowerCase() === level.toLowerCase());
+      list = list.filter(c => (c.level || '').toLowerCase().includes(level.toLowerCase()) || level.toLowerCase().includes((c.level || '').toLowerCase()));
     }
 
     if (search) {
@@ -454,13 +454,26 @@ export async function createCertification(req, res) {
 export async function updateCertification(req, res) {
   try {
     const { id } = req.params;
-    const cert = db.findOne('certifications', c => c.id === id || c.code === id);
+    const cert = db.findOne('certifications', c => c.id === id || c.code === id || (c.code && id && c.code.toLowerCase() === id.toLowerCase()));
     if (!cert) {
       return res.status(404).json({ success: false, message: 'Certification not found' });
     }
 
-    const updated = db.updateDoc('certifications', cert.id, req.body);
-    logAudit(req, 'UPDATE_CERTIFICATION', 'Certification Management', `Updated program: ${cert.code}`);
+    const updates = { ...req.body };
+    if (updates.examFee !== undefined && updates.examFee !== '') {
+      updates.examFee = Number(updates.examFee);
+    }
+    if (updates.examFeeUSD !== undefined && updates.examFeeUSD !== '') {
+      updates.examFeeUSD = Number(updates.examFeeUSD);
+    } else if (updates.examFee !== undefined) {
+      updates.examFeeUSD = Math.round(Number(updates.examFee) / 65) || 79;
+    }
+    if (updates.passingCriteria !== undefined && updates.passingCriteria !== '') {
+      updates.passingCriteria = Number(updates.passingCriteria);
+    }
+
+    const updated = db.updateDoc('certifications', cert.id, updates);
+    logAudit(req, 'UPDATE_CERTIFICATION', 'Certification Management', `Updated program: ${cert.code} (${cert.name})`);
 
     return res.json({ success: true, message: 'Certification updated successfully', certification: updated });
   } catch (err) {
@@ -471,12 +484,13 @@ export async function updateCertification(req, res) {
 export async function toggleStatus(req, res) {
   try {
     const { id } = req.params;
-    const cert = db.findOne('certifications', c => c.id === id);
+    const cert = db.findOne('certifications', c => c.id === id || c.code === id || (c.code && id && c.code.toLowerCase() === id.toLowerCase()));
     if (!cert) {
       return res.status(404).json({ success: false, message: 'Certification not found' });
     }
 
-    const newStatus = cert.status === 'Active' ? 'Inactive' : 'Active';
+    const currentStatus = cert.status || 'Active';
+    const newStatus = (currentStatus.toLowerCase() === 'active' || currentStatus.toLowerCase() === 'published') ? 'Inactive' : 'Active';
     const updated = db.updateDoc('certifications', cert.id, { status: newStatus });
     logAudit(req, 'TOGGLE_STATUS', 'Certification Management', `Toggled ${cert.code} to ${newStatus}`);
 

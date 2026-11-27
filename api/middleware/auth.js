@@ -106,14 +106,16 @@ export function requireRole(allowedRoles = []) {
       return res.status(401).json({ success: false, message: 'Unauthorized' });
     }
 
-    const userRole = req.user.role || 'Super Admin';
+    const userRole = (req.user.role || 'Super Admin').toString().trim();
+    const norm = (s) => (s || '').toString().trim().toLowerCase();
     // Super Admin and Admin always possess full global permissions
     if (
-      userRole === 'Super Admin' ||
-      userRole === 'Admin' ||
-      req.user.email === 'pushpak@gmail.com' ||
-      req.user.email === 'admin@aicqb.org' ||
-      allowedRoles.includes(userRole)
+      norm(userRole) === 'super admin' ||
+      norm(userRole) === 'admin' ||
+      norm(userRole) === 'super_admin' ||
+      norm(req.user.email) === 'pushpak@gmail.com' ||
+      norm(req.user.email) === 'admin@aicqb.org' ||
+      allowedRoles.some(r => norm(r) === norm(userRole))
     ) {
       return next();
     }
@@ -154,7 +156,7 @@ export function logAudit(req, action, module, details) {
       action,
       module,
       details,
-      ipAddress: req.ip || req.connection.remoteAddress || '127.0.0.1',
+      ipAddress: req.ip || req.connection?.remoteAddress || req.socket?.remoteAddress || '127.0.0.1',
       timestamp: new Date().toISOString(),
     });
   } catch (e) {
