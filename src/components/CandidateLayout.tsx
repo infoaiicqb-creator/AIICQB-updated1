@@ -80,21 +80,32 @@ export const CandidateLayout: React.FC = () => {
       )}
 
       {/* Mobile Header matching Screen 2 Screenshot */}
-      <div className="md:hidden bg-white text-gray-800 px-4 py-2.5 flex items-center justify-between sticky top-0 z-40 border-b border-gray-100 shadow-xs relative overflow-hidden">
-        {/* Subtle top curved orange accent wave */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#F47716] via-[#FF933B] to-[#F47716]" />
+      <div className="md:hidden bg-white text-gray-800 px-4 pt-3 pb-2.5 flex items-center justify-between sticky top-0 z-40 border-b border-gray-100 shadow-xs relative overflow-hidden">
+        {/* Top Organic Orange Curved Accent Wave matching Screenshot 2 */}
+        <div className="absolute top-0 left-0 right-0 h-10 overflow-hidden pointer-events-none z-0">
+          <svg viewBox="0 0 500 80" preserveAspectRatio="none" className="w-full h-full opacity-90">
+            <path d="M0,0 L500,0 L500,25 C350,65 150,15 0,45 Z" fill="url(#candOrangeGradTop)" />
+            <defs>
+              <linearGradient id="candOrangeGradTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F47716" />
+                <stop offset="50%" stopColor="#FF933B" />
+                <stop offset="100%" stopColor="#FFA654" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
 
         {/* Hamburger Menu on Left */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 -ml-1 rounded-xl text-[#10264B] hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
+          className="relative z-10 p-2 -ml-1 rounded-xl text-[#10264B] hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
           aria-label="Toggle Navigation Menu"
         >
           {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
 
         {/* Center Logo matching Screenshot */}
-        <Link to="/portal/dashboard" className="flex items-center">
+        <Link to="/portal/dashboard" className="relative z-10 flex items-center">
           <img
             src="/aiicqb-full-logo.png"
             alt="AIICQB Logo"
@@ -103,7 +114,7 @@ export const CandidateLayout: React.FC = () => {
         </Link>
 
         {/* Right Notification Bell with Red Badge Dot matching Screenshot */}
-        <div className="relative">
+        <div className="relative z-10">
           <button
             onClick={() => navigate('/portal/support')}
             className="p-2 -mr-1 rounded-xl text-[#10264B] hover:bg-slate-100 transition-colors cursor-pointer"

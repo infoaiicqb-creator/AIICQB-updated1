@@ -96,9 +96,12 @@ export const CandidateDashboard: React.FC = () => {
       {/* ============================================================ */}
       {/* MOBILE SCREEN LAYOUT (< md) - EXACT MATCH FOR USER SCREENSHOT 2 */}
       {/* ============================================================ */}
-      <div className="md:hidden space-y-4">
+      <div className="md:hidden space-y-4 relative">
+        {/* Subtle background orange gradient wash on upper area */}
+        <div className="absolute -top-6 -left-6 -right-6 h-36 bg-gradient-to-b from-orange-50/60 to-transparent pointer-events-none -z-10" />
+
         {/* Candidate Profile Welcome Card */}
-        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center space-x-3.5">
+        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] flex items-center space-x-3.5">
           <div className="w-12 h-12 rounded-full bg-[#10264B] flex items-center justify-center text-white flex-shrink-0 shadow-inner">
             <User className="w-6 h-6 text-white" />
           </div>
@@ -117,10 +120,10 @@ export const CandidateDashboard: React.FC = () => {
           {/* Card 1: My Certifications */}
           <Link
             to="/portal/certifications"
-            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
           >
             <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
-              <Award className="w-7 h-7" />
+              <Award className="w-7 h-7 stroke-[1.8]" />
             </div>
             <span className="text-xs font-bold text-[#10264B]">
               My Certifications
@@ -130,10 +133,10 @@ export const CandidateDashboard: React.FC = () => {
           {/* Card 2: Enroll Exam */}
           <Link
             to="/portal/certifications"
-            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
           >
             <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
-              <MonitorPlay className="w-7 h-7" />
+              <MonitorPlay className="w-7 h-7 stroke-[1.8]" />
             </div>
             <span className="text-xs font-bold text-[#10264B]">
               Enroll Exam
@@ -143,10 +146,10 @@ export const CandidateDashboard: React.FC = () => {
           {/* Card 3: My Exams */}
           <Link
             to="/portal/exams"
-            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
           >
             <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
-              <ClipboardCheck className="w-7 h-7" />
+              <ClipboardCheck className="w-7 h-7 stroke-[1.8]" />
             </div>
             <span className="text-xs font-bold text-[#10264B]">
               My Exams
@@ -156,10 +159,10 @@ export const CandidateDashboard: React.FC = () => {
           {/* Card 4: Certificates */}
           <Link
             to="/portal/certificates"
-            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
           >
             <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
-              <FileCheck2 className="w-7 h-7" />
+              <FileCheck2 className="w-7 h-7 stroke-[1.8]" />
             </div>
             <span className="text-xs font-bold text-[#10264B]">
               Certificates
@@ -169,10 +172,10 @@ export const CandidateDashboard: React.FC = () => {
           {/* Card 5: Verification */}
           <Link
             to="/portal/verification"
-            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
           >
             <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
-              <ShieldCheck className="w-7 h-7" />
+              <ShieldCheck className="w-7 h-7 stroke-[1.8]" />
             </div>
             <span className="text-xs font-bold text-[#10264B]">
               Verification
@@ -182,10 +185,10 @@ export const CandidateDashboard: React.FC = () => {
           {/* Card 6: Refer & Earn */}
           <button
             onClick={() => setShowReferModal(true)}
-            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
+            className="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md transition-all flex flex-col items-center justify-center text-center space-y-2.5 min-h-[110px]"
           >
             <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] flex items-center justify-center">
-              <Users className="w-7 h-7" />
+              <Users className="w-7 h-7 stroke-[1.8]" />
             </div>
             <span className="text-xs font-bold text-[#10264B]">
               Refer &amp; Earn
@@ -194,7 +197,7 @@ export const CandidateDashboard: React.FC = () => {
         </div>
 
         {/* Your Progress Card */}
-        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm space-y-3">
+        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <BarChart2 className="w-5 h-5 text-[#F47716]" />
@@ -208,7 +211,7 @@ export const CandidateDashboard: React.FC = () => {
           <div className="flex items-center space-x-3">
             <div className="flex-1 bg-gray-100 rounded-full h-3 overflow-hidden">
               <div
-                className="bg-[#F47716] h-full rounded-full transition-all duration-500"
+                className="bg-[#F47716] h-full rounded-full transition-all duration-500 shadow-xs"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
