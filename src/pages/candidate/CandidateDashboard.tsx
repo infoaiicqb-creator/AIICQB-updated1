@@ -83,13 +83,14 @@ export const CandidateDashboard: React.FC = () => {
 
   const displayName = user?.fullName || candidate?.fullName || 'Candidate';
   const candidateId = user?.candidateId || candidate?.candidateId || '';
-  const rewardPoints = candidate?.rewardPoints || 100;
+  const rewardPoints = candidate?.rewardPoints ?? 0;
   const activeCertsCount = upcomingExams.length;
   const upcomingCount = upcomingExams.length;
   const earnedCertsCount = activeCertificates.length;
   const coursesInProgressCount = upcomingExams.length;
 
-  const progressPercent = Math.min(100, Math.round(((earnedCertsCount || 1) / 3) * 100));
+  const totalTracked = activeCertsCount + earnedCertsCount;
+  const progressPercent = totalTracked > 0 ? Math.min(100, Math.round((earnedCertsCount / totalTracked) * 100)) : 0;
 
   return (
     <div>

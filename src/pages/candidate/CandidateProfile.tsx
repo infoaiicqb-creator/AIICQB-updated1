@@ -35,8 +35,8 @@ export const CandidateProfile: React.FC = () => {
   const [fullName, setFullName] = useState(user?.fullName || candidate?.fullName || '');
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || candidate?.phoneNumber || '');
   const [dateOfBirth, setDateOfBirth] = useState(candidate?.dateOfBirth || '');
-  const [gender, setGender] = useState(candidate?.gender || 'Male');
-  const [country, setCountry] = useState(candidate?.country || 'India');
+  const [gender, setGender] = useState(candidate?.gender || '');
+  const [country, setCountry] = useState(candidate?.country || '');
   const [address, setAddress] = useState(candidate?.address || '');
   const [aboutMe, setAboutMe] = useState(candidate?.aboutMe || '');
   const [organization, setOrganization] = useState(candidate?.organization || (user as any)?.organization || '');
