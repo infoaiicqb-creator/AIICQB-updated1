@@ -117,10 +117,22 @@ export const AdminCertifications: React.FC = () => {
     }, 4500);
   };
 
-  // Initial Load
+  // Initial Load & Global Event Listener for Instant Real-Time Sync
   useEffect(() => {
     loadDomains();
     loadLevels();
+
+    const handleGlobalSync = (e: any) => {
+      if (e.detail) {
+        setCertifications((prev) =>
+          prev.map((c) => (c.id === e.detail.id || c.code === e.detail.code ? { ...c, ...e.detail } : c))
+        );
+      }
+    };
+    window.addEventListener('aicqb_certifications_updated', handleGlobalSync);
+    return () => {
+      window.removeEventListener('aicqb_certifications_updated', handleGlobalSync);
+    };
   }, []);
 
   useEffect(() => {
@@ -284,23 +296,42 @@ export const AdminCertifications: React.FC = () => {
   const handleToggleStatus = async (id: string) => {
     try {
       let nextStatus: 'Active' | 'Inactive' = 'Active';
+      let updatedCert: any = null;
+
+      // 1. INSTANT OPTIMISTIC STATE UPDATE (0ms) - table row changes immediately
       setCertifications((prev) =>
         prev.map((c) => {
           if (c.id === id || c.code === id) {
             nextStatus = c.status === 'Active' ? 'Inactive' : 'Active';
-            return { ...c, status: nextStatus };
+            updatedCert = { ...c, status: nextStatus };
+            return updatedCert;
           }
           return c;
         })
       );
 
+      // 2. Instant Stats Update
+      setStats((prev) => ({
+        ...prev,
+        active: nextStatus === 'Active' ? prev.active + 1 : Math.max(0, prev.active - 1),
+        inactive: nextStatus === 'Inactive' ? prev.inactive + 1 : Math.max(0, prev.inactive - 1),
+      }));
+
+      // 3. Instant Local Storage Update
+      try {
+        const current = JSON.parse(localStorage.getItem('aicqb_admin_certifications') || '[]');
+        const updatedCache = current.map((c: any) =>
+          c.id === id || c.code === id ? { ...c, status: nextStatus } : c
+        );
+        localStorage.setItem('aicqb_admin_certifications', JSON.stringify(updatedCache));
+      } catch (_) {}
+
+      showFeedback(`Status changed to ${nextStatus}!`);
+
+      // 4. Background Sync with Server
       const res = await api.toggleCertificationStatus(id);
-      if (res.success) {
-        showFeedback(res.message || `Status changed to ${nextStatus}!`);
-        loadCertifications();
-      } else {
-        showFeedback(res.message || 'Failed to toggle status', 'error');
-        loadCertifications();
+      if (res.success && res.certification) {
+        window.dispatchEvent(new CustomEvent('aicqb_certifications_updated', { detail: res.certification }));
       }
     } catch (err: any) {
       showFeedback(err.message || 'Failed to toggle status', 'error');
@@ -311,18 +342,40 @@ export const AdminCertifications: React.FC = () => {
   // Archive Certification (Soft Delete)
   const handleArchiveCertification = async () => {
     if (!archiveTarget) return;
+    const target = archiveTarget;
     try {
       setSubmitting(true);
-      const res = await api.archiveCertification(archiveTarget.id);
-      if (res.success) {
-        showFeedback(`Certification "${archiveTarget.code}" moved to Archived.`);
-        setArchiveTarget(null);
-        loadCertifications();
-      } else {
+
+      // 1. INSTANT STATE UPDATE (0ms) - removed from active list, added to archived list
+      setCertifications((prev) => prev.filter((c) => c.id !== target.id && c.code !== target.code));
+      setArchivedCertifications((prev) => [{ ...target, isDeleted: true, status: 'Archived' as any }, ...prev]);
+      setStats((prev) => ({
+        ...prev,
+        total: Math.max(0, prev.total - 1),
+        archived: prev.archived + 1,
+        active: target.status === 'Active' ? Math.max(0, prev.active - 1) : prev.active,
+        inactive: target.status === 'Inactive' ? Math.max(0, prev.inactive - 1) : prev.inactive,
+      }));
+
+      try {
+        const current = JSON.parse(localStorage.getItem('aicqb_admin_certifications') || '[]');
+        localStorage.setItem(
+          'aicqb_admin_certifications',
+          JSON.stringify(current.filter((c: any) => c.id !== target.id && c.code !== target.code))
+        );
+      } catch (_) {}
+
+      setArchiveTarget(null);
+      showFeedback(`Certification "${target.code}" moved to Archived.`);
+
+      const res = await api.archiveCertification(target.id);
+      if (!res.success) {
         showFeedback(res.message || 'Failed to archive certification', 'error');
+        loadCertifications();
       }
     } catch (err: any) {
       showFeedback(err.message || 'Failed to archive certification', 'error');
+      loadCertifications();
     } finally {
       setSubmitting(false);
     }
@@ -331,16 +384,33 @@ export const AdminCertifications: React.FC = () => {
   // Restore Archived Certification
   const handleRestoreCertification = async (id: string, certCode: string) => {
     try {
+      const target = archivedCertifications.find((c) => c.id === id || c.code === certCode);
+      const restored: Certification = target ? ({ ...target, isDeleted: false, status: 'Active' as any } as any) : ({} as any);
+
+      // 1. INSTANT STATE UPDATE (0ms)
+      setArchivedCertifications((prev) => prev.filter((c) => c.id !== id && c.code !== certCode));
+      if (target) {
+        setCertifications((prev) => [restored, ...prev]);
+        setStats((prev) => ({
+          ...prev,
+          total: prev.total + 1,
+          archived: Math.max(0, prev.archived - 1),
+          active: prev.active + 1,
+        }));
+      }
+
+      showFeedback(`Certification "${certCode}" restored to Active successfully!`);
+
       const res = await api.restoreCertification(id);
-      if (res.success) {
-        showFeedback(`Certification "${certCode}" restored to Active successfully!`);
+      if (!res.success) {
+        showFeedback(res.message || 'Failed to restore certification', 'error');
         loadArchivedCertifications();
         loadCertifications();
-      } else {
-        showFeedback(res.message || 'Failed to restore certification', 'error');
       }
     } catch (err: any) {
       showFeedback(err.message || 'Failed to restore certification', 'error');
+      loadArchivedCertifications();
+      loadCertifications();
     }
   };
 
@@ -350,19 +420,29 @@ export const AdminCertifications: React.FC = () => {
       return;
     }
     try {
+      // 1. INSTANT STATE UPDATE (0ms)
+      setCertifications((prev) => prev.filter((c) => c.id !== id && c.code !== certCode));
+      setArchivedCertifications((prev) => prev.filter((c) => c.id !== id && c.code !== certCode));
+      setStats((prev) => ({ ...prev, total: Math.max(0, prev.total - 1) }));
+
+      try {
+        const current = JSON.parse(localStorage.getItem('aicqb_admin_certifications') || '[]');
+        localStorage.setItem(
+          'aicqb_admin_certifications',
+          JSON.stringify(current.filter((c: any) => c.id !== id && c.code !== certCode))
+        );
+      } catch (_) {}
+
+      showFeedback(`Certification "${certCode}" deleted permanently.`);
+
       const res = await api.deleteCertification(id);
-      if (res.success) {
-        showFeedback(`Certification "${certCode}" deleted permanently.`);
-        if (activeTab === 'archived') {
-          loadArchivedCertifications();
-        } else {
-          loadCertifications();
-        }
-      } else {
+      if (!res.success) {
         showFeedback(res.message || 'Failed to delete certification', 'error');
+        loadCertifications();
       }
     } catch (err: any) {
       showFeedback(err.message || 'Failed to delete certification', 'error');
+      loadCertifications();
     }
   };
 
@@ -418,7 +498,7 @@ export const AdminCertifications: React.FC = () => {
     setExamPattern(cert.examPattern || '');
   };
 
-  // Create Certification
+  // Create Certification (Instant 0ms reflection without refresh)
   const handleCreateCertification = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -451,22 +531,58 @@ export const AdminCertifications: React.FC = () => {
         ],
       };
 
+      // 1. Close modal immediately for smooth UX
+      setShowAddModal(false);
+
+      // 2. Optimistic instant state update (prepended at top of table immediately)
+      const optimisticNewCert: Certification = {
+        ...payload,
+        id: `cert_${payload.code.toLowerCase().replace(/[^a-z0-9]/g, '_')}`,
+        createdAt: new Date().toISOString(),
+      } as any;
+
+      setCertifications((prev) => [
+        optimisticNewCert,
+        ...prev.filter((c) => c.code !== optimisticNewCert.code),
+      ]);
+
+      // 3. Update dashboard statistics immediately
+      setStats((prev) => ({
+        ...prev,
+        total: prev.total + 1,
+        active: optimisticNewCert.status === 'Active' ? prev.active + 1 : prev.active,
+        inactive: optimisticNewCert.status === 'Inactive' ? prev.inactive + 1 : prev.inactive,
+      }));
+
+      // 4. Update localStorage immediately
+      try {
+        const current = JSON.parse(localStorage.getItem('aicqb_admin_certifications') || '[]');
+        localStorage.setItem('aicqb_admin_certifications', JSON.stringify([optimisticNewCert, ...current]));
+      } catch (_) {}
+
+      showFeedback(`New Certification "${payload.code}" published successfully!`);
+
+      // 5. Persist to server in background
       const res = await api.createCertification(payload);
-      if (res.success) {
-        setShowAddModal(false);
-        showFeedback(`New Certification "${payload.code}" published successfully!`);
-        await loadCertifications();
-      } else {
+      if (res.success && res.certification) {
+        // Replace with canonical server record
+        setCertifications((prev) =>
+          prev.map((c) => (c.code === res.certification.code ? res.certification : c))
+        );
+        window.dispatchEvent(new CustomEvent('aicqb_certifications_updated', { detail: res.certification }));
+      } else if (!res.success) {
         showFeedback(res.message || 'Failed to create certification.', 'error');
+        loadCertifications();
       }
     } catch (err: any) {
       showFeedback(err.message || 'Failed to create certification.', 'error');
+      loadCertifications();
     } finally {
       setSubmitting(false);
     }
   };
 
-  // Update Certification
+  // Update Certification (Instant 0ms reflection without refresh)
   const handleUpdateCertification = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingCert) return;
@@ -495,22 +611,62 @@ export const AdminCertifications: React.FC = () => {
         examPattern: examPattern.trim(),
       };
 
-      const res = await api.updateCertification(editingCert.id, payload);
-      if (res.success) {
-        setEditingCert(null);
-        showFeedback(`Certification "${payload.code}" updated successfully! Fee: ₹${parsedFee.toLocaleString('en-IN')}`);
-        await loadCertifications();
-      } else {
+      // 1. Close modal immediately so table row is visible
+      const targetId = editingCert.id;
+      const targetCode = editingCert.code;
+      const prevStatus = editingCert.status;
+      setEditingCert(null);
+
+      // 2. INSTANT STATE UPDATE (0ms) - table row, fee, status, level update immediately
+      setCertifications((prev) =>
+        prev.map((c) => {
+          if (c.id === targetId || c.code === targetCode) {
+            return { ...c, ...payload } as Certification;
+          }
+          return c;
+        })
+      );
+
+      // 3. Update dashboard statistics immediately if status changed
+      if (prevStatus !== status) {
+        setStats((prev) => ({
+          ...prev,
+          active: status === 'Active' ? prev.active + 1 : Math.max(0, prev.active - 1),
+          inactive: status === 'Inactive' ? prev.inactive + 1 : Math.max(0, prev.inactive - 1),
+        }));
+      }
+
+      // 4. Update localStorage immediately
+      try {
+        const current = JSON.parse(localStorage.getItem('aicqb_admin_certifications') || '[]');
+        const updatedCache = current.map((c: any) =>
+          c.id === targetId || c.code === targetCode ? { ...c, ...payload } : c
+        );
+        localStorage.setItem('aicqb_admin_certifications', JSON.stringify(updatedCache));
+      } catch (_) {}
+
+      showFeedback(`Certification "${payload.code}" updated successfully! Fee: ₹${parsedFee.toLocaleString('en-IN')}`);
+
+      // 5. Persist to server in background
+      const res = await api.updateCertification(targetId, payload);
+      if (res.success && res.certification) {
+        setCertifications((prev) =>
+          prev.map((c) => (c.id === targetId || c.code === targetCode ? res.certification : c))
+        );
+        window.dispatchEvent(new CustomEvent('aicqb_certifications_updated', { detail: res.certification }));
+      } else if (!res.success) {
         showFeedback(res.message || 'Failed to update certification', 'error');
+        loadCertifications();
       }
     } catch (err: any) {
       showFeedback(err.message || 'Failed to update certification', 'error');
+      loadCertifications();
     } finally {
       setSubmitting(false);
     }
   };
 
-  // Domain Management Handlers
+  // Domain Management Handlers (Instant 0ms reflection without refresh)
   const handleSaveDomain = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -522,28 +678,37 @@ export const AdminCertifications: React.FC = () => {
         status: domainStatus,
       };
 
+      setShowDomainModal(false);
+
       if (editingDomain) {
-        const res = await api.updateCertificationDomain(editingDomain.id, payload);
-        if (res.success) {
-          showFeedback(`Domain "${payload.name}" updated successfully!`);
-          setShowDomainModal(false);
-          setEditingDomain(null);
-          loadDomains();
-        } else {
-          showFeedback(res.message || 'Failed to update domain', 'error');
+        const targetId = editingDomain.id;
+        setEditingDomain(null);
+        // Instant update
+        setDomains((prev) =>
+          prev.map((d) => (d.id === targetId ? ({ ...d, ...payload } as CertificationDomain) : d))
+        );
+        showFeedback(`Domain "${payload.name}" updated successfully!`);
+
+        const res = await api.updateCertificationDomain(targetId, payload);
+        if (res.success && res.domain) {
+          setDomains((prev) => prev.map((d) => (d.id === targetId ? res.domain : d)));
         }
       } else {
+        const tempId = `dom_${payload.codePrefix.toLowerCase()}_${Date.now()}`;
+        const newDom = { ...payload, id: tempId, domainId: tempId } as CertificationDomain;
+        // Instant update
+        setDomains((prev) => [...prev, newDom]);
+        setStats((prev) => ({ ...prev, totalDomains: prev.totalDomains + 1 }));
+        showFeedback(`Domain "${payload.name}" created successfully!`);
+
         const res = await api.createCertificationDomain(payload);
-        if (res.success) {
-          showFeedback(`Domain "${payload.name}" created successfully!`);
-          setShowDomainModal(false);
-          loadDomains();
-        } else {
-          showFeedback(res.message || 'Failed to create domain', 'error');
+        if (res.success && res.domain) {
+          setDomains((prev) => prev.map((d) => (d.id === tempId ? res.domain : d)));
         }
       }
     } catch (err: any) {
       showFeedback(err.message || 'Operation failed', 'error');
+      loadDomains();
     } finally {
       setSubmitting(false);
     }
@@ -551,32 +716,47 @@ export const AdminCertifications: React.FC = () => {
 
   const handleToggleDomain = async (id: string) => {
     try {
+      let nextStatus: 'Active' | 'Inactive' = 'Active';
+      // Instant update
+      setDomains((prev) =>
+        prev.map((d) => {
+          if (d.id === id) {
+            nextStatus = d.status === 'Active' ? 'Inactive' : 'Active';
+            return { ...d, status: nextStatus };
+          }
+          return d;
+        })
+      );
+      showFeedback(`Domain status changed to ${nextStatus}!`);
+
       const res = await api.toggleCertificationDomainStatus(id);
-      if (res.success) {
-        showFeedback(res.message || 'Domain status changed');
-        loadDomains();
-      }
+      if (!res.success) loadDomains();
     } catch (err: any) {
       showFeedback(err.message || 'Failed to toggle status', 'error');
+      loadDomains();
     }
   };
 
   const handleDeleteDomain = async (id: string, nameVal: string) => {
     if (!window.confirm(`Delete domain "${nameVal}"? This cannot be undone.`)) return;
     try {
+      // Instant update
+      setDomains((prev) => prev.filter((d) => d.id !== id));
+      setStats((prev) => ({ ...prev, totalDomains: Math.max(0, prev.totalDomains - 1) }));
+      showFeedback(`Domain "${nameVal}" deleted successfully.`);
+
       const res = await api.deleteCertificationDomain(id);
-      if (res.success) {
-        showFeedback(`Domain "${nameVal}" deleted successfully.`);
-        loadDomains();
-      } else {
+      if (!res.success) {
         showFeedback(res.message || 'Failed to delete domain', 'error');
+        loadDomains();
       }
     } catch (err: any) {
       showFeedback(err.message || 'Failed to delete domain', 'error');
+      loadDomains();
     }
   };
 
-  // Level Management Handlers
+  // Level Management Handlers (Instant 0ms reflection without refresh)
   const handleSaveLevel = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -589,28 +769,37 @@ export const AdminCertifications: React.FC = () => {
         status: levelStatus,
       };
 
+      setShowLevelModal(false);
+
       if (editingLevel) {
-        const res = await api.updateCertificationLevel(editingLevel.id, payload);
-        if (res.success) {
-          showFeedback(`Level "${payload.name}" updated successfully!`);
-          setShowLevelModal(false);
-          setEditingLevel(null);
-          loadLevels();
-        } else {
-          showFeedback(res.message || 'Failed to update level', 'error');
+        const targetId = editingLevel.id;
+        setEditingLevel(null);
+        // Instant update
+        setLevels((prev) =>
+          prev.map((l) => (l.id === targetId ? ({ ...l, ...payload } as CertificationLevel) : l))
+        );
+        showFeedback(`Level "${payload.name}" updated successfully!`);
+
+        const res = await api.updateCertificationLevel(targetId, payload);
+        if (res.success && res.level) {
+          setLevels((prev) => prev.map((l) => (l.id === targetId ? res.level : l)));
         }
       } else {
+        const tempId = `lvl_${Date.now()}`;
+        const newLvl = { ...payload, id: tempId, levelId: tempId } as CertificationLevel;
+        // Instant update
+        setLevels((prev) => [...prev, newLvl]);
+        setStats((prev) => ({ ...prev, totalLevels: prev.totalLevels + 1 }));
+        showFeedback(`Level "${payload.name}" created successfully!`);
+
         const res = await api.createCertificationLevel(payload);
-        if (res.success) {
-          showFeedback(`Level "${payload.name}" created successfully!`);
-          setShowLevelModal(false);
-          loadLevels();
-        } else {
-          showFeedback(res.message || 'Failed to create level', 'error');
+        if (res.success && res.level) {
+          setLevels((prev) => prev.map((l) => (l.id === tempId ? res.level : l)));
         }
       }
     } catch (err: any) {
       showFeedback(err.message || 'Operation failed', 'error');
+      loadLevels();
     } finally {
       setSubmitting(false);
     }
@@ -618,28 +807,43 @@ export const AdminCertifications: React.FC = () => {
 
   const handleToggleLevel = async (id: string) => {
     try {
+      let nextStatus: 'Active' | 'Inactive' = 'Active';
+      // Instant update
+      setLevels((prev) =>
+        prev.map((l) => {
+          if (l.id === id) {
+            nextStatus = l.status === 'Active' ? 'Inactive' : 'Active';
+            return { ...l, status: nextStatus };
+          }
+          return l;
+        })
+      );
+      showFeedback(`Level status changed to ${nextStatus}!`);
+
       const res = await api.toggleCertificationLevelStatus(id);
-      if (res.success) {
-        showFeedback(res.message || 'Level status changed');
-        loadLevels();
-      }
+      if (!res.success) loadLevels();
     } catch (err: any) {
       showFeedback(err.message || 'Failed to toggle status', 'error');
+      loadLevels();
     }
   };
 
   const handleDeleteLevel = async (id: string, nameVal: string) => {
     if (!window.confirm(`Delete level "${nameVal}"? This cannot be undone.`)) return;
     try {
+      // Instant update
+      setLevels((prev) => prev.filter((l) => l.id !== id));
+      setStats((prev) => ({ ...prev, totalLevels: Math.max(0, prev.totalLevels - 1) }));
+      showFeedback(`Level "${nameVal}" deleted successfully.`);
+
       const res = await api.deleteCertificationLevel(id);
-      if (res.success) {
-        showFeedback(`Level "${nameVal}" deleted successfully.`);
-        loadLevels();
-      } else {
+      if (!res.success) {
         showFeedback(res.message || 'Failed to delete level', 'error');
+        loadLevels();
       }
     } catch (err: any) {
       showFeedback(err.message || 'Failed to delete level', 'error');
+      loadLevels();
     }
   };
 
