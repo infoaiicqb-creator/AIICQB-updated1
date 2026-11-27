@@ -264,14 +264,30 @@ export async function scheduleExam(req, res) {
       return res.status(404).json({ success: false, message: 'Certification not found' });
     }
 
-    // Verify candidate is enrolled
+    // Verify candidate is enrolled and has completed verified payment
     const enrollment = db.findOne(
       'enrollments',
-      e => (e.candidateUid === uid || e.candidateId === candidateId) && e.certificationId === cert.id
+      e =>
+        ((uid && e.candidateUid === uid) ||
+         (candidateId && (e.candidateId === candidateId || e.candidate_id === candidateId)) ||
+         (req.user.email && e.candidateEmail?.toLowerCase() === req.user.email.toLowerCase())) &&
+        (e.certificationId === cert.id || e.certificationCode === cert.code)
     );
 
-    if (!enrollment) {
-      return res.status(400).json({ success: false, message: 'You must enroll in this certification program before scheduling an exam.' });
+    const verifiedPayment = db.findOne('payments', p =>
+      ((uid && p.candidateUid === uid) ||
+       (candidateId && (p.candidateId === candidateId || p.candidate_id === candidateId)) ||
+       (req.user.email && p.candidateEmail?.toLowerCase() === req.user.email.toLowerCase())) &&
+      (p.certificationId === cert.id || p.certificationCode === cert.code) &&
+      (p.payment_status === 'successful' || p.paymentStatus === 'success')
+    );
+
+    if (!enrollment || (!verifiedPayment && (cert.examFee > 0 || cert.examFeeUSD > 0))) {
+      return res.status(402).json({
+        success: false,
+        paymentRequired: true,
+        message: 'Payment Required: You must complete the exam fee payment via Razorpay before scheduling or taking any certification exam.',
+      });
     }
 
     const exam = db.findOne('exams', x => x.certificationId === cert.id) || {
@@ -385,6 +401,37 @@ export async function startExam(req, res) {
         candidateId,
         candidateName,
       };
+    }
+
+    // Strict Payment Verification before starting examination
+    const certId = schedule.certificationId;
+    const certCode = schedule.certificationCode;
+    const cert = db.findOne('certifications', c => (certId && c.id === certId) || (certCode && c.code === certCode));
+    
+    // Check for a verified payment if certification has an exam fee
+    if (cert && (cert.examFee > 0 || cert.examFeeUSD > 0)) {
+      const verifiedPayment = db.findOne('payments', p =>
+        ((uid && p.candidateUid === uid) ||
+         (candidateId && (p.candidateId === candidateId || p.candidate_id === candidateId)) ||
+         (req.user.email && p.candidateEmail?.toLowerCase() === req.user.email.toLowerCase())) &&
+        (p.certificationId === cert.id || p.certificationCode === cert.code || (schedule.certificationId && p.certificationId === schedule.certificationId)) &&
+        (p.payment_status === 'successful' || p.paymentStatus === 'success')
+      );
+
+      const enrollment = db.findOne('enrollments', e =>
+        ((uid && e.candidateUid === uid) ||
+         (candidateId && (e.candidateId === candidateId || e.candidate_id === candidateId)) ||
+         (req.user.email && e.candidateEmail?.toLowerCase() === req.user.email.toLowerCase())) &&
+        (e.certificationId === cert.id || e.certificationCode === cert.code || (schedule.certificationId && e.certificationId === schedule.certificationId))
+      );
+
+      if (!verifiedPayment && !enrollment) {
+        return res.status(402).json({
+          success: false,
+          paymentRequired: true,
+          message: 'Payment Required: Access to this examination is restricted. Please complete payment for this certification program before taking the exam.',
+        });
+      }
     }
 
     // Retrieve questions for this certification

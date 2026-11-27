@@ -978,5 +978,35 @@
     "status": "Paid",
     "createdAt": "2026-11-26T12:47:32.469Z",
     "updatedAt": "2026-11-26T12:47:32.469Z"
+  },
+  {
+    "id": "INV-AICQB-2026-1013",
+    "invoice_id": "INV-AICQB-2026-1013",
+    "invoiceId": "INV-AICQB-2026-1013",
+    "payment_id": "pay_1795787837045_031s3m",
+    "paymentId": "pay_1795787837045_031s3m",
+    "enrollment_id": "ENR-AICQB-2026-345289",
+    "candidate_id": "AICQB-1004722",
+    "candidateUid": "usr_1795787803086_kjwkim",
+    "candidate_name": "Rakesh",
+    "candidateName": "Rakesh",
+    "candidate_email": "rakesh@gmail.com",
+    "candidateEmail": "rakesh@gmail.com",
+    "country": "India",
+    "amount": 9999,
+    "currency": "INR",
+    "certification_name": "AICQB Certified Playwright Automation",
+    "certification_level": "Advance Level",
+    "items": [
+      {
+        "description": "AICQB Professional Certification: AICQB Certified Playwright Automation (Advance Level)",
+        "amount": 9999
+      }
+    ],
+    "date": "2026-11-27T13:57:19.446Z",
+    "created_at": "2026-11-27T13:57:19.446Z",
+    "status": "Paid",
+    "createdAt": "2026-11-27T13:57:19.456Z",
+    "updatedAt": "2026-11-27T13:57:19.456Z"
   }
 ]

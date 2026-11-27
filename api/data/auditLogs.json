@@ -8054,5 +8054,57 @@
     "id": "auditLogs_1795771544037_1a5tq",
     "createdAt": "2026-11-27T09:25:44.037Z",
     "updatedAt": "2026-11-27T09:25:44.037Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "LOGIN",
+    "module": "Authentication",
+    "details": "User logged in: gaurav@gmail.com (Candidate)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T13:54:56.925Z",
+    "id": "auditLogs_1795787696925_r4q2a",
+    "createdAt": "2026-11-27T13:54:56.926Z",
+    "updatedAt": "2026-11-27T13:54:56.926Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "REGISTRATION",
+    "module": "Candidate Management",
+    "details": "New candidate registered: Rakesh (AICQB-1004722)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T13:56:43.467Z",
+    "id": "auditLogs_1795787803467_miyo3",
+    "createdAt": "2026-11-27T13:56:43.467Z",
+    "updatedAt": "2026-11-27T13:56:43.467Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "QR_SCAN_PAYMENT_SUCCESS",
+    "module": "Finance & Payments",
+    "details": "Test QR code scanned & verified for AICQB Certified Playwright Automation (9999 INR)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T13:57:19.470Z",
+    "id": "auditLogs_1795787839470_36ry1",
+    "createdAt": "2026-11-27T13:57:19.470Z",
+    "updatedAt": "2026-11-27T13:57:19.470Z"
+  },
+  {
+    "userId": "usr_1795787803086_kjwkim",
+    "userEmail": "rakesh@gmail.com",
+    "userRole": "Candidate",
+    "action": "CANDIDATE_ENROLLED",
+    "module": "Certifications",
+    "details": "Candidate Rakesh enrolled in AICQB Certified Playwright Automation (AICQB-PW-CP) and scheduled for examination.",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T13:57:19.486Z",
+    "id": "auditLogs_1795787839486_qnn1b",
+    "createdAt": "2026-11-27T13:57:19.486Z",
+    "updatedAt": "2026-11-27T13:57:19.486Z"
   }
 ]

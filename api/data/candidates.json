@@ -287,5 +287,29 @@
     "coursesInProgressCount": 0,
     "createdAt": "2026-11-25T06:40:47.343Z",
     "updatedAt": "2026-11-25T06:40:47.469Z"
+  },
+  {
+    "id": "usr_1795787803086_kjwkim",
+    "uid": "usr_1795787803086_kjwkim",
+    "candidateId": "AICQB-1004722",
+    "fullName": "Rakesh",
+    "email": "rakesh@gmail.com",
+    "phoneNumber": "+91 9420385682",
+    "country": "India",
+    "organization": "",
+    "employeeId": "",
+    "address": "",
+    "gender": "Not specified",
+    "dateOfBirth": "",
+    "aboutMe": "",
+    "profileCompletion": 45,
+    "emailVerified": false,
+    "rewardPoints": 100,
+    "activeCertificationsCount": 2,
+    "upcomingExamsCount": 2,
+    "certificatesEarnedCount": 0,
+    "coursesInProgressCount": 0,
+    "createdAt": "2026-11-27T13:56:43.464Z",
+    "updatedAt": "2026-11-27T13:57:19.469Z"
   }
 ]

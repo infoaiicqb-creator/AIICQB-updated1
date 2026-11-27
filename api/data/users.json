@@ -259,5 +259,22 @@
     "emailVerified": false,
     "createdAt": "2026-11-25T06:40:47.341Z",
     "updatedAt": "2026-11-25T06:40:47.341Z"
+  },
+  {
+    "uid": "usr_1795787803086_kjwkim",
+    "id": "usr_1795787803086_kjwkim",
+    "email": "rakesh@gmail.com",
+    "fullName": "Rakesh",
+    "phoneNumber": "+91 9420385682",
+    "country": "India",
+    "organization": "",
+    "employeeId": "",
+    "password": "$2b$10$T5f5vdq1RWWL1rYnHsi5zODNfgQA0EO0DSu.umhmIJiSbZt.SwmvC",
+    "role": "Candidate",
+    "candidateId": "AICQB-1004722",
+    "status": "Active",
+    "emailVerified": false,
+    "createdAt": "2026-11-27T13:56:43.458Z",
+    "updatedAt": "2026-11-27T13:56:43.458Z"
   }
 ]

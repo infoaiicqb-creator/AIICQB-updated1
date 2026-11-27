@@ -203,15 +203,40 @@ export async function getCandidateCertificationStatus(req, res) {
 
 export async function enrollCertification(req, res) {
   try {
-    const { certificationId } = req.body;
-    const uid = req.user?.uid || 'guest_user';
-    const email = req.user?.email || 'candidate@aicqb.org';
-    const candidateId = req.user?.candidateId || `AICQB-${Date.now().toString().slice(-7)}`;
+    const { certificationId, paymentId } = req.body;
+    const uid = req.user?.uid;
+    const email = req.user?.email;
+    const candidateId = req.user?.candidateId;
     const candidateName = req.user?.fullName || 'Candidate';
+
+    if (!uid && !email && !candidateId) {
+      return res.status(401).json({ success: false, message: 'Authentication required to enroll in certifications.' });
+    }
 
     const cert = db.findOne('certifications', c => c.id === certificationId || c.code === certificationId);
     if (!cert) {
       return res.status(404).json({ success: false, message: 'Certification not found' });
+    }
+
+    // STRICT PAYMENT VERIFICATION RULE:
+    // Without payment or a verified payment record, DO NOT enroll in any certification or test!
+    const verifiedPayment = db.findOne('payments', p =>
+      ((uid && p.candidateUid === uid) ||
+       (email && p.candidateEmail && p.candidateEmail.toLowerCase() === email.toLowerCase()) ||
+       (candidateId && (p.candidateId === candidateId || p.candidate_id === candidateId))) &&
+      (p.certificationId === cert.id || p.certificationCode === cert.code) &&
+      (p.payment_status === 'successful' || p.paymentStatus === 'success' || (paymentId && (p.paymentId === paymentId || p.id === paymentId)))
+    );
+
+    if (!verifiedPayment && (cert.examFee > 0 || cert.examFeeUSD > 0)) {
+      return res.status(402).json({
+        success: false,
+        paymentRequired: true,
+        message: 'Payment Required: You must complete the certification exam fee payment via Razorpay before enrolling or scheduling any test.',
+        certificationId: cert.id,
+        certificationName: cert.name,
+        examFee: cert.examFee,
+      });
     }
 
     // Check if already enrolled
@@ -249,12 +274,12 @@ export async function enrollCertification(req, res) {
         domain: cert.domain || 'Technology',
         enrollmentDate: paidAt,
         enrolled_at: paidAt,
-        status: 'enrolled',
+        status: 'PAID',
         progressPercentage: 0,
-        payment_id: `enroll_${Date.now()}`,
-        paymentId: `enroll_${Date.now()}`,
-        amount: cert.examFee || 0,
-        currency: cert.currency || 'INR',
+        payment_id: verifiedPayment?.paymentId || verifiedPayment?.id || `enroll_${Date.now()}`,
+        paymentId: verifiedPayment?.paymentId || verifiedPayment?.id || `enroll_${Date.now()}`,
+        amount: verifiedPayment?.amount || cert.examFee || 0,
+        currency: verifiedPayment?.currency || cert.currency || 'INR',
         created_at: paidAt,
         createdAt: paidAt,
       };
