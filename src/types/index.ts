@@ -44,25 +44,70 @@ export interface Certification {
   code: string;
   name: string;
   domain: string;
+  domainId?: string;
   domainCode: string;
   domainSlug: string;
   level: string;
+  levelId?: string;
   description: string;
   learningObjectives: string[];
   syllabus: { title: string; hours: number; topics: string[] }[];
   eligibility: string;
   examPattern: string;
   examFee: number;
+  examFeeINR?: number;
   examFeeUSD?: number;
+  exchangeRate?: number;
   currency: string;
   duration: string;
   passingCriteria: number;
   validityYears: number;
   version: string;
-  status: 'Active' | 'Inactive' | 'Published';
+  status: 'Active' | 'Inactive' | 'Published' | 'Archived' | 'Draft';
+  isDeleted?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
   enrolledCount?: number;
   icon?: string;
   popular?: boolean;
+}
+
+export interface CertificationDomain {
+  id: string;
+  domainId?: string;
+  name: string;
+  codePrefix: string;
+  slug?: string;
+  description?: string;
+  status: 'Active' | 'Inactive';
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CertificationLevel {
+  id: string;
+  levelId?: string;
+  name: string;
+  levelCode?: string;
+  description?: string;
+  defaultExamFeeINR: number;
+  status: 'Active' | 'Inactive';
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CertificationAuditLog {
+  id?: string;
+  logId: string;
+  certificationId?: string;
+  certificationCode?: string;
+  action: string;
+  previousData?: any;
+  updatedData?: any;
+  adminId?: string;
+  adminEmail: string;
+  adminName?: string;
+  timestamp: string;
 }
 
 export interface Enrollment {

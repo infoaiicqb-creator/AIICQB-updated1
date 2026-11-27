@@ -1,0 +1,90 @@
+[
+  {
+    "id": "dom_ai_ml",
+    "domainId": "dom_ai_ml",
+    "name": "AI & Machine Learning",
+    "codePrefix": "AI",
+    "slug": "ai-ml",
+    "description": "Artificial intelligence, machine learning, deep learning, LLMs, and intelligent automation systems.",
+    "status": "Active",
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "updatedAt": "2026-01-15T10:00:00.000Z"
+  },
+  {
+    "id": "dom_software_testing",
+    "domainId": "dom_software_testing",
+    "name": "Software Testing & Quality Engineering",
+    "codePrefix": "ST",
+    "slug": "software-testing",
+    "description": "Quality assurance, manual testing, test automation, Playwright, Selenium, and performance engineering.",
+    "status": "Active",
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "updatedAt": "2026-01-15T10:00:00.000Z"
+  },
+  {
+    "id": "dom_data_science",
+    "domainId": "dom_data_science",
+    "name": "Data Science & Analytics",
+    "codePrefix": "DS",
+    "slug": "data-science",
+    "description": "Data analytics, statistical modeling, machine learning pipelines, visualization, and big data architectures.",
+    "status": "Active",
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "updatedAt": "2026-01-15T10:00:00.000Z"
+  },
+  {
+    "id": "dom_cybersecurity",
+    "domainId": "dom_cybersecurity",
+    "name": "Cybersecurity",
+    "codePrefix": "CY",
+    "slug": "cybersecurity",
+    "description": "Information security, threat modeling, vulnerability management, ethical hacking, and defense operations.",
+    "status": "Active",
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "updatedAt": "2026-01-15T10:00:00.000Z"
+  },
+  {
+    "id": "dom_cloud",
+    "domainId": "dom_cloud",
+    "name": "Cloud Computing",
+    "codePrefix": "CL",
+    "slug": "cloud-computing",
+    "description": "Multi-cloud architecture, infrastructure as code, serverless computing, and enterprise cloud reliability.",
+    "status": "Active",
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "updatedAt": "2026-01-15T10:00:00.000Z"
+  },
+  {
+    "id": "dom_devops",
+    "domainId": "dom_devops",
+    "name": "DevOps & SRE",
+    "codePrefix": "DO",
+    "slug": "devops",
+    "description": "CI/CD pipelines, container orchestration, Kubernetes, Site Reliability Engineering, and observability.",
+    "status": "Active",
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "updatedAt": "2026-01-15T10:00:00.000Z"
+  },
+  {
+    "id": "dom_web_dev",
+    "domainId": "dom_web_dev",
+    "name": "Web Development",
+    "codePrefix": "WD",
+    "slug": "web-dev",
+    "description": "Full-stack web application development, modern frontend frameworks, backend APIs, and distributed systems.",
+    "status": "Active",
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "updatedAt": "2026-01-15T10:00:00.000Z"
+  },
+  {
+    "id": "dom_general",
+    "domainId": "dom_general",
+    "name": "Other",
+    "codePrefix": "GEN",
+    "slug": "other",
+    "description": "Cross-disciplinary technology, business analysis, and product management qualifications.",
+    "status": "Active",
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "updatedAt": "2026-01-15T10:00:00.000Z"
+  }
+]

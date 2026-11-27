@@ -148,6 +148,37 @@ export const api = {
   updateCertification: (id: string, body: any) => request(`/certifications/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
   deleteCertification: (id: string) => request(`/certifications/${id}`, { method: 'DELETE' }),
   toggleCertificationStatus: (id: string) => request(`/certifications/${id}/toggle-status`, { method: 'PATCH' }),
+  archiveCertification: (id: string) => request(`/certifications/${id}/archive`, { method: 'PATCH' }),
+  restoreCertification: (id: string) => request(`/certifications/${id}/restore`, { method: 'PATCH' }),
+  generateCertificationCode: (params?: any) => {
+    const q = params ? new URLSearchParams(params).toString() : '';
+    return request(`/certifications/generate-code${q ? `?${q}` : ''}`);
+  },
+
+  // Domains Management CRUD
+  getCertificationDomains: (params?: any) => {
+    const q = params ? new URLSearchParams(params).toString() : '';
+    return request(`/certifications/domains${q ? `?${q}` : ''}`);
+  },
+  createCertificationDomain: (body: any) => request('/certifications/domains', { method: 'POST', body: JSON.stringify(body) }),
+  updateCertificationDomain: (id: string, body: any) => request(`/certifications/domains/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
+  toggleCertificationDomainStatus: (id: string) => request(`/certifications/domains/${id}/toggle-status`, { method: 'PATCH' }),
+  deleteCertificationDomain: (id: string) => request(`/certifications/domains/${id}`, { method: 'DELETE' }),
+
+  // Levels Management CRUD
+  getCertificationLevels: (params?: any) => {
+    const q = params ? new URLSearchParams(params).toString() : '';
+    return request(`/certifications/levels${q ? `?${q}` : ''}`);
+  },
+  createCertificationLevel: (body: any) => request('/certifications/levels', { method: 'POST', body: JSON.stringify(body) }),
+  updateCertificationLevel: (id: string, body: any) => request(`/certifications/levels/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
+  toggleCertificationLevelStatus: (id: string) => request(`/certifications/levels/${id}/toggle-status`, { method: 'PATCH' }),
+  deleteCertificationLevel: (id: string) => request(`/certifications/levels/${id}`, { method: 'DELETE' }),
+
+  // Pricing & Audit Logs
+  getCertificationPricingConfig: () => request('/certifications/config'),
+  updateCertificationPricingConfig: (body: any) => request('/certifications/config', { method: 'POST', body: JSON.stringify(body) }),
+  getCertificationAuditLogs: () => request('/certifications/audit-logs'),
 
   // Admin Candidate CRUD
   createAdminCandidate: (body: any) => request('/admin/candidates', { method: 'POST', body: JSON.stringify(body) }),
