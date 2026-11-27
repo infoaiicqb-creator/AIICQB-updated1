@@ -79,7 +79,7 @@ app.get(['/api/health', '/health'], (req, res) => {
   });
 });
 
-// Mount API Routes under both /api and root
+// Mount API Routes under /api
 const mountRoutes = (prefix = '') => {
   app.use(`${prefix}/auth`, authRoutes);
   app.use(`${prefix}/certifications`, certificationRoutes);
@@ -92,7 +92,6 @@ const mountRoutes = (prefix = '') => {
 };
 
 mountRoutes('/api');
-mountRoutes('');
 
 // Static Client Serving (Production or Built Client)
 const clientDist = [
@@ -102,11 +101,34 @@ const clientDist = [
 
 if (fs.existsSync(clientDist)) {
   app.use(express.static(clientDist));
+
+  // SPA fallback for all browser navigations (including /admin, /admin/*, /portal, /portal/*, etc.)
   app.get('*', (req, res, next) => {
-    if (req.url.startsWith('/api') || req.url.startsWith('/auth')) return next();
+    if (req.path.startsWith('/api')) return next();
     res.sendFile(path.join(clientDist, 'index.html'));
   });
 }
+
+// Fallback: Mount legacy root API only for explicit non-HTML or programmatic API calls
+const isDirectApiCall = (req) => {
+  if (req.method !== 'GET') return true;
+  if (req.headers.authorization) return true;
+  if (req.headers['x-requested-with'] === 'XMLHttpRequest') return true;
+  if (req.headers.accept && req.headers.accept.includes('application/json') && !req.headers.accept.includes('text/html')) return true;
+  return false;
+};
+
+app.use((req, res, next) => {
+  if (isDirectApiCall(req)) {
+    return next();
+  }
+  if (fs.existsSync(clientDist)) {
+    return res.sendFile(path.join(clientDist, 'index.html'));
+  }
+  next();
+});
+
+mountRoutes('');
 
 // 404 handler for API
 app.use('/api/*', (req, res) => {
