@@ -794,25 +794,13 @@ export async function restoreCertification(req, res) {
   }
 }
 
-// HARD DELETE CERTIFICATION (Safe check for historical records)
+// DIRECT DELETE CERTIFICATION
 export async function deleteCertification(req, res) {
   try {
     const { id } = req.params;
-    const cert = db.findOne('certifications', c => c.id === id || c.code === id);
+    const cert = db.findOne('certifications', c => c.id === id || c.code === id || (c.code && id && c.code.toLowerCase() === id.toLowerCase()));
     if (!cert) {
       return res.status(404).json({ success: false, message: 'Certification not found' });
-    }
-
-    // Constraint check: do not permanently delete if candidates are enrolled or have exam records
-    const enrollmentsCount = db.find('enrollments', e => e.certificationId === cert.id || e.certificationCode === cert.code).length;
-    const schedulesCount = db.find('examSchedules', s => s.certificationId === cert.id || s.certificationCode === cert.code).length;
-    const certificatesCount = db.find('certificates', c => c.certificationId === cert.id || c.certificationCode === cert.code).length;
-
-    if (enrollmentsCount > 0 || schedulesCount > 0 || certificatesCount > 0) {
-      return res.status(400).json({
-        success: false,
-        message: `Cannot permanently delete "${cert.code}". It is linked to ${enrollmentsCount} candidate enrollment(s), ${schedulesCount} exam schedule(s), and ${certificatesCount} certificate(s). Please use "Archive" instead to preserve historical audit records.`,
-      });
     }
 
     db.deleteDoc('certifications', cert.id);
@@ -826,7 +814,7 @@ export async function deleteCertification(req, res) {
       previousData: cert
     });
 
-    return res.json({ success: true, message: `Certification "${cert.code}" deleted permanently.` });
+    return res.json({ success: true, message: `Certification "${cert.code}" deleted successfully.` });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to delete certification' });
   }
