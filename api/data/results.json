@@ -909,5 +909,25 @@
     "publishedAt": "2026-11-26T12:23:31.262Z",
     "createdAt": "2026-11-26T12:23:31.271Z",
     "updatedAt": "2026-11-26T12:23:31.271Z"
+  },
+  {
+    "id": "res_1795796730586_af4m0c",
+    "attemptId": "att_1795796683079_39bvtd",
+    "scheduleId": "SCH-AICQB-675236",
+    "candidateUid": "usr_1795795488107_xtzg00",
+    "candidateId": "AICQB-1004723",
+    "candidateEmail": "pavankumar@gmail.com",
+    "candidateName": "pavankumar",
+    "certificationId": "cert_aicqb_st_cp",
+    "certificationName": "AICQB Certified Software Tester",
+    "certificationCode": "AICQB-ST-CP",
+    "score": 4,
+    "maxScore": 30,
+    "percentage": 13,
+    "passed": false,
+    "issueCertificateEligible": false,
+    "publishedAt": "2026-11-27T16:25:30.542Z",
+    "createdAt": "2026-11-27T16:25:30.586Z",
+    "updatedAt": "2026-11-27T16:25:30.586Z"
   }
 ]

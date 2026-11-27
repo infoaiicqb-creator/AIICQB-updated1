@@ -1008,5 +1008,35 @@
     "status": "Paid",
     "createdAt": "2026-11-27T13:57:19.456Z",
     "updatedAt": "2026-11-27T13:57:19.456Z"
+  },
+  {
+    "id": "INV-AICQB-2026-1001",
+    "invoice_id": "INV-AICQB-2026-1001",
+    "invoiceId": "INV-AICQB-2026-1001",
+    "payment_id": "pay_1795796673268_j2sju1",
+    "paymentId": "pay_1795796673268_j2sju1",
+    "enrollment_id": "ENR-AICQB-2026-853266",
+    "candidate_id": "AICQB-1004723",
+    "candidateUid": "usr_1795795488107_xtzg00",
+    "candidate_name": "pavankumar",
+    "candidateName": "pavankumar",
+    "candidate_email": "pavankumar@gmail.com",
+    "candidateEmail": "pavankumar@gmail.com",
+    "country": "India",
+    "amount": 9999,
+    "currency": "INR",
+    "certification_name": "AICQB Certified Software Tester",
+    "certification_level": "Professional Level",
+    "items": [
+      {
+        "description": "AICQB Professional Certification: AICQB Certified Software Tester (Professional Level)",
+        "amount": 9999
+      }
+    ],
+    "date": "2026-11-27T16:24:35.222Z",
+    "created_at": "2026-11-27T16:24:35.222Z",
+    "status": "Paid",
+    "createdAt": "2026-11-27T16:24:35.234Z",
+    "updatedAt": "2026-11-27T16:24:35.234Z"
   }
 ]

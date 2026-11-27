@@ -183,11 +183,6 @@ export const CandidateCertifications: React.FC = () => {
             Explore and enroll in AICQB professional certifications.
           </p>
         </div>
-        <div className="flex items-center space-x-2 text-xs">
-          <span className="px-3 py-1.5 rounded-xl font-bold bg-blue-50 text-blue-700 border border-blue-200">
-            Catalog: {certifications.length} Programs Available
-          </span>
-        </div>
       </div>
 
       {/* Real-time Enrolled & Exam Added Alert Banner */}

@@ -8366,5 +8366,44 @@
     "id": "auditLogs_1795796011570_n92dq",
     "createdAt": "2026-11-27T16:13:31.570Z",
     "updatedAt": "2026-11-27T16:13:31.570Z"
+  },
+  {
+    "userId": "system",
+    "userEmail": "system",
+    "userRole": "System",
+    "action": "QR_SCAN_PAYMENT_SUCCESS",
+    "module": "Finance & Payments",
+    "details": "Test QR code scanned & verified for AICQB Certified Software Tester (9999 INR)",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T16:24:35.252Z",
+    "id": "auditLogs_1795796675264_qxbig",
+    "createdAt": "2026-11-27T16:24:35.264Z",
+    "updatedAt": "2026-11-27T16:24:35.264Z"
+  },
+  {
+    "userId": "usr_1795795488107_xtzg00",
+    "userEmail": "pavankumar@gmail.com",
+    "userRole": "Candidate",
+    "action": "CANDIDATE_ENROLLED",
+    "module": "Certifications",
+    "details": "Candidate pavankumar enrolled in AICQB Certified Software Tester (AICQB-ST-CP) and scheduled for examination.",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T16:24:35.295Z",
+    "id": "auditLogs_1795796675296_ecwqt",
+    "createdAt": "2026-11-27T16:24:35.296Z",
+    "updatedAt": "2026-11-27T16:24:35.296Z"
+  },
+  {
+    "userId": "usr_1795795488107_xtzg00",
+    "userEmail": "pavankumar@gmail.com",
+    "userRole": "Candidate",
+    "action": "EXAM_SUBMISSION",
+    "module": "Examination Management",
+    "details": "Exam submitted for AICQB Certified Software Tester by pavankumar@gmail.com - Score: 13% (FAILED - RETAKE GRANTED) - Fail",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-27T16:25:30.679Z",
+    "id": "auditLogs_1795796730679_57gya",
+    "createdAt": "2026-11-27T16:25:30.679Z",
+    "updatedAt": "2026-11-27T16:25:30.679Z"
   }
 ]

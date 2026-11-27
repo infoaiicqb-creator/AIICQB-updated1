@@ -3768,5 +3768,209 @@
     ],
     "lastAlertAt": "2026-11-26T12:23:26.781Z",
     "totalAlertsCount": 6
+  },
+  {
+    "id": "att_1795796683079_39bvtd",
+    "attemptId": "att_1795796683079_39bvtd",
+    "scheduleId": "SCH-AICQB-675236",
+    "candidateUid": "usr_1795795488107_xtzg00",
+    "candidateId": "AICQB-1004723",
+    "candidateName": "pavankumar",
+    "certificationId": "cert_aicqb_st_cp",
+    "certificationName": "AICQB Certified Software Tester",
+    "certificationCode": "AICQB-ST-CP",
+    "startTime": "2026-11-27T16:24:43.079Z",
+    "durationMinutes": 75,
+    "totalQuestions": 6,
+    "status": "completed",
+    "answers": {
+      "q4": 0,
+      "q3": 0,
+      "q5": 0,
+      "q6": 0,
+      "q2": 0,
+      "q1": 0
+    },
+    "questionMap": {
+      "q4": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q3": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q5": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q6": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 10,
+        "questionType": "mcq"
+      },
+      "q2": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q1": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      }
+    },
+    "questionOrder": [
+      "q4",
+      "q3",
+      "q5",
+      "q6",
+      "q2",
+      "q1"
+    ],
+    "createdAt": "2026-11-27T16:24:43.079Z",
+    "updatedAt": "2026-11-27T16:25:30.543Z",
+    "score": 4,
+    "maxScore": 30,
+    "percentage": 13,
+    "passed": false,
+    "submitTime": "2026-11-27T16:25:30.542Z"
+  },
+  {
+    "id": "att_1795796734818_2hqb7w",
+    "attemptId": "att_1795796734818_2hqb7w",
+    "scheduleId": "SCH-AICQB-675236",
+    "candidateUid": "usr_1795795488107_xtzg00",
+    "candidateId": "AICQB-1004723",
+    "candidateName": "pavankumar",
+    "certificationId": "cert_aicqb_st_cp",
+    "certificationName": "AICQB Certified Software Tester",
+    "certificationCode": "AICQB-ST-CP",
+    "startTime": "2026-11-27T16:25:34.818Z",
+    "durationMinutes": 75,
+    "totalQuestions": 6,
+    "status": "in-progress",
+    "answers": {},
+    "questionMap": {
+      "q1": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q4": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q2": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q6": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 10,
+        "questionType": "mcq"
+      },
+      "q3": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q5": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      }
+    },
+    "questionOrder": [
+      "q1",
+      "q4",
+      "q2",
+      "q6",
+      "q3",
+      "q5"
+    ],
+    "createdAt": "2026-11-27T16:25:34.818Z",
+    "updatedAt": "2026-11-27T16:25:34.818Z"
+  },
+  {
+    "id": "att_1795796791306_ttw1pq",
+    "attemptId": "att_1795796791306_ttw1pq",
+    "scheduleId": "SCH-AICQB-675236",
+    "candidateUid": "usr_1795795488107_xtzg00",
+    "candidateId": "AICQB-1004723",
+    "candidateName": "pavankumar",
+    "certificationId": "cert_aicqb_st_cp",
+    "certificationName": "AICQB Certified Software Tester",
+    "certificationCode": "AICQB-ST-CP",
+    "startTime": "2026-11-27T16:26:31.306Z",
+    "durationMinutes": 75,
+    "totalQuestions": 6,
+    "status": "in-progress",
+    "answers": {},
+    "questionMap": {
+      "q3": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q4": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q2": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q5": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q1": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 4,
+        "questionType": "mcq"
+      },
+      "q6": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 10,
+        "questionType": "mcq"
+      }
+    },
+    "questionOrder": [
+      "q3",
+      "q4",
+      "q2",
+      "q5",
+      "q1",
+      "q6"
+    ],
+    "createdAt": "2026-11-27T16:26:31.306Z",
+    "updatedAt": "2026-11-27T16:26:31.306Z"
   }
 ]
