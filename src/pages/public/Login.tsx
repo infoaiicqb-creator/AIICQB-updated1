@@ -183,57 +183,73 @@ export const Login: React.FC = () => {
       {/* LEFT COLUMN: Hero Content (Hidden on Mobile/Tablet, Displayed on Large Screens) */}
       <AuthLeftBanner />
 
-      {/* RIGHT COLUMN: Authentication Container - Matching Screen 1 exactly on mobile */}
-      <div className="relative w-full lg:w-[48%] xl:w-[45%] min-h-screen flex items-center justify-center px-4 py-8 sm:px-6 lg:p-8 z-10">
+      {/* RIGHT COLUMN: Authentication Container - Matching Screenshot exactly on mobile */}
+      <div className="relative w-full lg:w-[48%] xl:w-[45%] min-h-screen flex flex-col items-center justify-between px-5 py-6 sm:px-6 lg:p-8 z-10 bg-white lg:bg-transparent">
         
-        {/* Mobile Decorative Top Curved Orange Wave */}
-        <div className="lg:hidden absolute top-0 left-0 right-0 h-28 sm:h-36 overflow-hidden pointer-events-none z-0">
-          <svg viewBox="0 0 500 150" preserveAspectRatio="none" className="w-full h-full">
-            <path d="M0,0 L500,0 L500,50 C360,130 180,30 0,95 Z" fill="url(#orangeGradTopMobile)" />
+        {/* Mobile Decorative Top Curved Orange Waves matching Screenshot */}
+        <div className="lg:hidden absolute top-0 left-0 right-0 h-40 overflow-hidden pointer-events-none z-0">
+          <svg viewBox="0 0 400 160" preserveAspectRatio="none" className="w-full h-full">
+            <path
+              d="M0,0 L400,0 L400,60 C320,130 180,40 0,110 Z"
+              fill="url(#orangeGradTopMobile)"
+            />
+            <path
+              d="M0,0 L400,0 L400,40 C280,100 140,20 0,80 Z"
+              fill="#F47716"
+              opacity="0.85"
+            />
             <defs>
               <linearGradient id="orangeGradTopMobile" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#F47716" />
-                <stop offset="50%" stopColor="#FF933B" />
-                <stop offset="100%" stopColor="#FFA654" />
+                <stop offset="60%" stopColor="#FF8F33" />
+                <stop offset="100%" stopColor="#FFAA5C" />
               </linearGradient>
             </defs>
           </svg>
         </div>
 
-        {/* Mobile Decorative Bottom Curved Orange Wave */}
-        <div className="lg:hidden absolute bottom-0 left-0 right-0 h-24 sm:h-32 overflow-hidden pointer-events-none z-0">
-          <svg viewBox="0 0 500 150" preserveAspectRatio="none" className="w-full h-full">
-            <path d="M0,110 C160,50 320,140 500,75 L500,150 L0,150 Z" fill="url(#orangeGradBottomMobile)" />
+        {/* Mobile Decorative Bottom Curved Orange Waves matching Screenshot */}
+        <div className="lg:hidden absolute bottom-0 left-0 right-0 h-36 overflow-hidden pointer-events-none z-0">
+          <svg viewBox="0 0 400 140" preserveAspectRatio="none" className="w-full h-full">
+            <path
+              d="M0,100 C120,40 260,120 400,60 L400,140 L0,140 Z"
+              fill="url(#orangeGradBottomMobile)"
+            />
+            <path
+              d="M0,120 C140,65 280,135 400,85 L400,140 L0,140 Z"
+              fill="#F47716"
+              opacity="0.9"
+            />
             <defs>
               <linearGradient id="orangeGradBottomMobile" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#FFA654" />
-                <stop offset="50%" stopColor="#FF8C2E" />
+                <stop offset="0%" stopColor="#FF9B42" />
+                <stop offset="50%" stopColor="#FF8324" />
                 <stop offset="100%" stopColor="#F47716" />
               </linearGradient>
             </defs>
           </svg>
         </div>
 
-        <div className="relative w-full max-w-[420px] bg-white rounded-3xl shadow-[0_15px_50px_-10px_rgba(244,119,22,0.12)] lg:shadow-[0_20px_60px_-15px_rgba(10,30,60,0.25)] border border-orange-100/60 lg:border-gray-100 p-6 sm:p-8 transition-all my-auto backdrop-blur-xs z-10">
+        <div className="relative w-full max-w-[390px] bg-white rounded-3xl lg:shadow-[0_20px_60px_-15px_rgba(10,30,60,0.25)] lg:border lg:border-gray-100 p-2 sm:p-6 lg:p-8 transition-all my-auto z-10">
           
           {/* AIICQB Official Logo matching Screenshot */}
-          <div className="flex flex-col items-center mb-4">
+          <div className="flex flex-col items-center mt-2 mb-5">
             <Link to="/" className="inline-block transition-transform hover:scale-105">
               <img
                 src="/aiicqb-full-logo.png"
                 alt="AIICQB – AI International Certification & Qualification Board"
-                className="h-14 sm:h-16 w-auto object-contain drop-shadow-xs"
+                className="h-16 sm:h-18 w-auto object-contain drop-shadow-xs"
               />
             </Link>
           </div>
 
           {/* Heading & Subtitle matching Screenshot */}
-          <div className="text-center space-y-1 mb-6">
-            <h1 className="text-2xl sm:text-[26px] font-black text-[#10264B] tracking-tight">
+          <div className="text-center space-y-1.5 mb-6">
+            <h1 className="text-3xl font-black text-[#10264B] tracking-tight">
               Welcome Back
             </h1>
-            <p className="text-xs sm:text-sm text-gray-500 font-medium">
-              Sign in to your AIICQB account
+            <p className="text-sm text-gray-500 font-medium">
+              Login to your AIICQB account
             </p>
           </div>
 
@@ -273,8 +289,8 @@ export const Login: React.FC = () => {
             {/* Email Address Input */}
             <div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
-                  <Mail className="w-4 h-4" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-700">
+                  <Mail className="w-5 h-5 stroke-[1.8]" />
                 </div>
                 <input
                   type="email"
@@ -284,8 +300,8 @@ export const Login: React.FC = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email address"
-                  className="w-full pl-10 pr-4 h-12 text-sm bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F47716] focus:border-transparent transition-all shadow-xs"
+                  placeholder="Email Address"
+                  className="w-full pl-11 pr-4 h-13 text-sm bg-white border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#F47716] focus:border-transparent transition-all shadow-2xs"
                 />
               </div>
             </div>
@@ -293,8 +309,8 @@ export const Login: React.FC = () => {
             {/* Password Input */}
             <div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
-                  <Lock className="w-4 h-4" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-700">
+                  <Lock className="w-5 h-5 stroke-[1.8]" />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -302,21 +318,21 @@ export const Login: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full pl-10 pr-11 h-12 text-sm bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F47716] focus:border-transparent transition-all shadow-xs"
+                  className="w-full pl-11 pr-11 h-13 text-sm bg-white border border-gray-300 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#F47716] focus:border-transparent transition-all shadow-2xs"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 w-11 h-full flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+                  className="absolute inset-y-0 right-0 w-11 h-full flex items-center justify-center text-gray-700 hover:text-black transition-colors cursor-pointer"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? <EyeOff className="w-5 h-5 stroke-[1.8]" /> : <Eye className="w-5 h-5 stroke-[1.8]" />}
                 </button>
               </div>
             </div>
 
             {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between pt-0.5 text-xs">
+            <div className="flex items-center justify-between pt-0.5 text-xs sm:text-sm">
               <label className="flex items-center space-x-2 cursor-pointer select-none py-1">
                 <input
                   type="checkbox"
@@ -324,7 +340,7 @@ export const Login: React.FC = () => {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="w-4 h-4 rounded text-[#F47716] border-gray-300 focus:ring-[#F47716]"
                 />
-                <span className="text-gray-500 font-medium">Remember me</span>
+                <span className="text-gray-800 font-medium">Remember Me</span>
               </label>
 
               <button
@@ -339,19 +355,19 @@ export const Login: React.FC = () => {
               </button>
             </div>
 
-            {/* Sign In Primary Button - Bright Orange matching Screenshot */}
+            {/* Login Primary Button - Exact vibrant orange pill button with Login text */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-12 bg-[#F47716] hover:bg-[#E35D00] active:bg-[#C95000] text-white font-bold text-base rounded-xl shadow-md hover:shadow-orange-500/25 flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+              className="w-full h-12 bg-[#F47716] hover:bg-[#E35D00] active:bg-[#C95000] text-white font-bold text-base rounded-xl shadow-md hover:shadow-orange-500/25 flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed mt-3"
             >
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Signing In...</span>
+                  <span>Logging In...</span>
                 </>
               ) : (
-                <span>Sign In</span>
+                <span>Login</span>
               )}
             </button>
           </form>
@@ -359,10 +375,10 @@ export const Login: React.FC = () => {
           {/* OR Divider matching Screenshot */}
           <div className="relative my-4 sm:my-5">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
+              <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="px-3 bg-white text-gray-400 font-bold uppercase tracking-wider">OR</span>
+              <span className="px-3 bg-white text-gray-700 font-bold tracking-wider">OR</span>
             </div>
           </div>
 
@@ -371,7 +387,7 @@ export const Login: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowGoogleModal(true)}
-              className="w-full h-12 flex items-center justify-center space-x-2.5 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 rounded-xl text-sm font-bold text-gray-700 shadow-xs transition-all cursor-pointer"
+              className="w-full h-12 flex items-center justify-center space-x-2.5 bg-white border border-gray-300 hover:border-gray-400 hover:bg-gray-50 rounded-xl text-sm font-bold text-[#10264B] shadow-2xs transition-all cursor-pointer"
             >
               <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.88c2.27-2.09 3.665-5.17 3.665-9.14z" />
@@ -411,11 +427,11 @@ export const Login: React.FC = () => {
 
           {/* Sign Up Redirect Link matching Screenshot */}
           <div className="mt-4 text-center">
-            <p className="text-xs text-gray-600">
+            <p className="text-xs sm:text-sm text-gray-700 font-medium">
               Don’t have an account?{' '}
               <Link
                 to={`/signup${searchParams.toString() ? `?${searchParams.toString()}` : ''}`}
-                className="font-bold text-[#F47716] hover:text-[#DC660E] hover:underline transition-colors ml-1"
+                className="font-bold text-[#F47716] hover:text-[#DC660E] underline transition-colors ml-1"
               >
                 Sign Up
               </Link>
