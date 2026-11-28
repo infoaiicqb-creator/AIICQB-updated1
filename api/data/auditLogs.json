@@ -9718,5 +9718,31 @@
     "id": "auditLogs_1795857619472_8wx4h",
     "createdAt": "2026-11-28T09:20:19.472Z",
     "updatedAt": "2026-11-28T09:20:19.472Z"
+  },
+  {
+    "userId": "usr_1794238898604_8636ld",
+    "userEmail": "pushpak@gmail.com",
+    "userRole": "Super Admin",
+    "action": "Certification Updated",
+    "module": "Certification Management",
+    "details": "Certification Updated: AIICQB-ST-CP-001",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-28T09:35:11.277Z",
+    "id": "auditLogs_1795858511277_ddai4",
+    "createdAt": "2026-11-28T09:35:11.277Z",
+    "updatedAt": "2026-11-28T09:35:11.277Z"
+  },
+  {
+    "userId": "usr_1794238898604_8636ld",
+    "userEmail": "pushpak@gmail.com",
+    "userRole": "Super Admin",
+    "action": "Certification Deleted",
+    "module": "Certification Management",
+    "details": "Certification Deleted: AIICQB-WD-CP-001",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-28T09:35:24.391Z",
+    "id": "auditLogs_1795858524391_doo1o",
+    "createdAt": "2026-11-28T09:35:24.391Z",
+    "updatedAt": "2026-11-28T09:35:24.391Z"
   }
 ]

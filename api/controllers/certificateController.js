@@ -415,7 +415,6 @@ export async function getVerificationStatsAdmin(req, res) {
     const todayStr = now.toISOString().split('T')[0];
 
     const totalIssued = list.filter(c => c.status === 'Issued' || !c.status).length;
-    const totalVerified = verifications.filter(v => v.isValid !== false).length;
     const pendingVerification = list.filter(c => c.status === 'Pending').length;
     const rejectedCertificates = list.filter(c => c.status === 'Rejected').length;
     const suspendedCertificates = list.filter(c => c.status === 'Suspended').length;
@@ -469,6 +468,13 @@ export async function getVerificationStatsAdmin(req, res) {
       monthlyStats.push({ month: mName, verifications: count, issued: issuedCount });
     }
 
+    const totalLookups = verifications.length;
+    const validVerifications = verifications.filter(v => v.isValid !== false);
+    const totalVerified = validVerifications.length;
+    const verificationHealth = totalLookups > 0
+      ? (Math.min(100, (validVerifications.length / totalLookups) * 100)).toFixed(2) + '%'
+      : '100%';
+
     return res.json({
       success: true,
       stats: {
@@ -481,6 +487,7 @@ export async function getVerificationStatsAdmin(req, res) {
         expiredCertificates,
         activeCertificates,
         requestsToday,
+        verificationHealth,
         monthlyStats,
       },
     });

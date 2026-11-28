@@ -1798,9 +1798,11 @@
   {
     "certificateNo": "AIICQB-AT-FND-2026-000001",
     "candidateName": "Pushpak Wani",
-    "certificationName": "AIICQB Certified Automation Testing - Foundation",
+    "certificationName": "Aiicqb-Playwright",
     "verifiedCount": 0,
-    "createdAt": "2026-01-15T10:00:00.000Z"
+    "createdAt": "2026-01-15T10:00:00.000Z",
+    "isValid": true,
+    "status": "Valid Record"
   },
   {
     "certificateNo": "AIICQB-AT-PRF-2026-000002",
@@ -1826,7 +1828,7 @@
   {
     "certificateNo": "AIICQB-AT-FND-2026-000001",
     "candidateName": "Pushpak Wani",
-    "certificationName": "AIICQB Certified Automation Testing - Foundation",
+    "certificationName": "Aiicqb-Playwright",
     "verifiedAt": "2026-11-26T10:03:13.902Z",
     "ipAddress": "::1",
     "userAgent": "curl/8.22.0",
@@ -1891,7 +1893,7 @@
   {
     "certificateNo": "AIICQB-AT-FND-2026-000001",
     "candidateName": "Pushpak Wani",
-    "certificationName": "AIICQB Certified Automation Testing - Foundation",
+    "certificationName": "Aiicqb-Playwright",
     "verifiedAt": "2026-11-26T10:13:50.550Z",
     "ipAddress": "::1",
     "userAgent": "curl/8.22.0",
@@ -1979,5 +1981,70 @@
     "createdAt": "2026-11-28T09:19:14.712Z",
     "id": "certificateVerification_1795857554712_1vyoh",
     "updatedAt": "2026-11-28T09:19:14.712Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-FND-2026-000001",
+    "candidateName": "Pushpak Wani",
+    "certificationName": "Aiicqb-Playwright",
+    "verifiedAt": "2026-11-28T09:31:46.677Z",
+    "ipAddress": "192.168.1.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795858306678_vovkc",
+    "createdAt": "2026-11-28T09:31:46.678Z",
+    "updatedAt": "2026-11-28T09:31:46.678Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-FND-2026-000001",
+    "candidateName": "Pushpak Wani",
+    "certificationName": "Aiicqb-Playwright",
+    "verifiedAt": "2026-11-28T09:31:47.982Z",
+    "ipAddress": "192.168.1.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795858307983_x48wp",
+    "createdAt": "2026-11-28T09:31:47.983Z",
+    "updatedAt": "2026-11-28T09:31:47.983Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-FND-2026-000001",
+    "candidateName": "Pushpak Wani",
+    "certificationName": "Aiicqb-Playwright",
+    "verifiedAt": "2026-11-28T09:31:49.395Z",
+    "ipAddress": "192.168.1.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795858309395_ljgq1",
+    "createdAt": "2026-11-28T09:31:49.395Z",
+    "updatedAt": "2026-11-28T09:31:49.395Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-FND-2026-000001",
+    "candidateName": "Pushpak Wani",
+    "certificationName": "Aiicqb-Playwright",
+    "verifiedAt": "2026-11-28T09:36:57.842Z",
+    "ipAddress": "192.168.1.1",
+    "userAgent": "node",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795858617842_sqxe7",
+    "createdAt": "2026-11-28T09:36:57.842Z",
+    "updatedAt": "2026-11-28T09:36:57.842Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-FND-2026-000001",
+    "candidateName": "Pushpak Wani",
+    "certificationName": "Aiicqb-Playwright",
+    "verifiedAt": "2026-11-28T09:40:44.546Z",
+    "ipAddress": "::1",
+    "userAgent": "node",
+    "isValid": true,
+    "status": "Valid Record",
+    "id": "certificateVerification_1795858844551_dw6q0",
+    "createdAt": "2026-11-28T09:40:44.551Z",
+    "updatedAt": "2026-11-28T09:40:44.551Z"
   }
 ]

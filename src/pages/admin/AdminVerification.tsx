@@ -534,7 +534,7 @@ export const AdminVerification: React.FC = () => {
         <div className="bg-white rounded-xl p-3.5 border border-gray-200 shadow-xs">
           <span className="text-[10px] font-bold text-gray-400 block uppercase">Verification Health</span>
           <span className="text-xl font-black text-emerald-700 font-mono mt-0.5 block">
-            99.98%
+            {stats?.verificationHealth || '100%'}
           </span>
           <span className="text-[10px] text-emerald-800">24/7 Registry Uptime</span>
         </div>

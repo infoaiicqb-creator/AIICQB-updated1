@@ -3,8 +3,8 @@
     "id": "cert_aiicqb_st_cp_001",
     "certificationId": "cert_aiicqb_st_cp_001",
     "certificationCode": "AIICQB-ST-CP-001",
-    "name": "Aiicqb-Playwright",
-    "certificationName": "Aiicqb-Playwright",
+    "name": "AIICQB-Playwright-Automation-Testing",
+    "certificationName": "AIICQB-Playwright-Automation-Testing",
     "code": "AIICQB-ST-CP-001",
     "domain": "Software Testing & Quality Engineering",
     "domainId": "dom_software_testing",
@@ -57,66 +57,6 @@
     "createdBy": "pushpak@gmail.com",
     "updatedBy": "pushpak@gmail.com",
     "createdAt": "2026-11-27T18:14:21.959Z",
-    "updatedAt": "2026-11-27T18:14:21.959Z"
-  },
-  {
-    "id": "cert_aiicqb_wd_cp_001",
-    "certificationId": "cert_aiicqb_wd_cp_001",
-    "certificationCode": "AIICQB-WD-CP-001",
-    "name": "Java developer",
-    "certificationName": "Java developer",
-    "code": "AIICQB-WD-CP-001",
-    "domain": "Web Development",
-    "domainId": "dom_web_dev",
-    "domainCode": "WD",
-    "level": "Foundation Level",
-    "levelId": "lvl_fnd",
-    "description": "java",
-    "learningObjectives": [
-      "Core conceptual mastery",
-      "Practical applied assessment"
-    ],
-    "syllabus": [
-      {
-        "title": "Module 1: Principles & Fundamentals",
-        "hours": 10,
-        "topics": [
-          "Overview",
-          "Architecture"
-        ]
-      },
-      {
-        "title": "Module 2: Advanced Implementation",
-        "hours": 15,
-        "topics": [
-          "Hands-on",
-          "Case Studies"
-        ]
-      }
-    ],
-    "eligibility": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
-    "eligibilityCriteria": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
-    "examPattern": "Online proctored examination, 60 MCQ questions, 90 minutes duration.",
-    "examFee": 25000,
-    "examFeeINR": 25000,
-    "examFeeUSD": 294.12,
-    "exchangeRate": 85,
-    "exchangeRateSnapshot": 85,
-    "currency": "INR",
-    "duration": "90 Minutes",
-    "examDuration": 90,
-    "durationUnit": "Minutes",
-    "passingCriteria": 70,
-    "passingThreshold": 70,
-    "validityYears": 3,
-    "version": "2026.1",
-    "status": "Active",
-    "isDeleted": false,
-    "tags": [],
-    "enrolledCount": 0,
-    "createdBy": "pushpak@gmail.com",
-    "updatedBy": "pushpak@gmail.com",
-    "createdAt": "2026-11-27T18:35:42.714Z",
-    "updatedAt": "2026-11-27T18:35:42.714Z"
+    "updatedAt": "2026-11-28T09:35:11.270Z"
   }
 ]

@@ -21,8 +21,9 @@ try {
   } catch (_) {}
 }
 
-// In-memory cache + file sync
+// In-memory cache + file sync with mtime validation
 const cache = {};
+const cacheMtime = {};
 
 function getFilePath(collectionName) {
   const localPath = path.join(effectiveDataDir, `${collectionName}.json`);
@@ -42,19 +43,23 @@ function getFilePath(collectionName) {
 }
 
 function loadCollection(collectionName) {
-  if (cache[collectionName]) {
-    return cache[collectionName];
-  }
   const filePath = getFilePath(collectionName);
-  if (fs.existsSync(filePath)) {
-    try {
+  try {
+    if (fs.existsSync(filePath)) {
+      const stats = fs.statSync(filePath);
+      if (cache[collectionName] && cacheMtime[collectionName] === stats.mtimeMs) {
+        return cache[collectionName];
+      }
       const content = fs.readFileSync(filePath, 'utf-8');
       cache[collectionName] = JSON.parse(content || '[]');
-    } catch (err) {
-      console.error(`Error reading ${collectionName}.json:`, err);
-      cache[collectionName] = [];
+      cacheMtime[collectionName] = stats.mtimeMs;
+      return cache[collectionName];
     }
-  } else {
+  } catch (err) {
+    if (cache[collectionName]) return cache[collectionName];
+    cache[collectionName] = [];
+  }
+  if (!cache[collectionName]) {
     cache[collectionName] = [];
     saveCollection(collectionName, []);
   }
@@ -66,6 +71,10 @@ function saveCollection(collectionName, data) {
   const filePath = getFilePath(collectionName);
   try {
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+    try {
+      const stats = fs.statSync(filePath);
+      cacheMtime[collectionName] = stats.mtimeMs;
+    } catch (_) {}
   } catch (err) {
     try {
       const tmpPath = path.join('/tmp', `${collectionName}.json`);
