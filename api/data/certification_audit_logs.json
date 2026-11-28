@@ -2112,5 +2112,43 @@
     "id": "certification_audit_logs_1795863708419_vhgaj",
     "createdAt": "2026-11-28T11:01:48.419Z",
     "updatedAt": "2026-11-28T11:01:48.419Z"
+  },
+  {
+    "logId": "log_1795864996836_7lfewm",
+    "certificationId": "cert_aiicqb_st_cp_001",
+    "certificationCode": "AIICQB-ST-CP-001",
+    "action": "Candidate Enrolled",
+    "previousData": null,
+    "updatedData": {
+      "enrollmentId": "ENR-AICQB-2026-551417",
+      "candidateName": "pavan",
+      "examFee": 9999
+    },
+    "adminId": "usr_1795863685021_es4thi",
+    "adminEmail": "pavan@gmail.com",
+    "adminName": "pavan",
+    "timestamp": "2026-11-28T11:23:16.836Z",
+    "id": "certification_audit_logs_1795864996843_ear4d",
+    "createdAt": "2026-11-28T11:23:16.843Z",
+    "updatedAt": "2026-11-28T11:23:16.843Z"
+  },
+  {
+    "logId": "log_1795864996902_kh84qa",
+    "certificationId": "cert_aiicqb_st_cp_001",
+    "certificationCode": "AIICQB-ST-CP-001",
+    "action": "Candidate Enrolled",
+    "previousData": null,
+    "updatedData": {
+      "enrollmentId": "ENR-AICQB-2026-551417",
+      "candidateName": "pavan",
+      "examFee": 9999
+    },
+    "adminId": "usr_1795863685021_es4thi",
+    "adminEmail": "pavan@gmail.com",
+    "adminName": "pavan",
+    "timestamp": "2026-11-28T11:23:16.902Z",
+    "id": "certification_audit_logs_1795864996905_hzfoj",
+    "createdAt": "2026-11-28T11:23:16.905Z",
+    "updatedAt": "2026-11-28T11:23:16.905Z"
   }
 ]

@@ -39,7 +39,7 @@ interface CertificationOption {
 }
 
 const DEFAULT_CERTIFICATIONS: CertificationOption[] = [
-  { code: 'AIICQB-ST-CP-001', id: 'cert_aiicqb_st_cp_001', name: 'AIICQB-Playwright-Automation-Testing', level: 'Foundation Level' },
+  { code: 'AIICQB-ST-CP-001', id: 'cert_aiicqb_st_cp_001', name: 'AIICQB-Playwright-Automation-Testing', level: 'Professional Level' },
   { code: 'AICQB-AI-CP', id: 'cert_aicqb_ai_cp', name: 'AICQB Certified AI Professional', level: 'Professional Level' },
   { code: 'AICQB-DS-201', id: 'cert_aicqb_ds_201', name: 'AICQB Data Science Professional', level: 'Professional Level' },
   { code: 'AICQB-ST-CP', id: 'cert_aicqb_st_cp', name: 'AICQB Software Tester', level: 'Foundation Level' },

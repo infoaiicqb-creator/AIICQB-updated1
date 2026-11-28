@@ -73,9 +73,9 @@ export async function getCandidateSchedules(req, res) {
           certificationId: enrCertId || cert?.id,
           certificationName: enr.certificationName || cert?.name || 'Certification Exam',
           certificationCode: enrCertCode || cert?.code || 'AICQB-CERT',
-          certificationLevel: enr.certificationLevel || cert?.level || 'Foundation Level',
-          level: enr.certificationLevel || cert?.level || 'Foundation Level',
-          examLevel: enr.certificationLevel || cert?.level || 'Foundation Level',
+          certificationLevel: enr.certificationLevel || enr.certification_level || cert?.level || 'Professional Level',
+          level: enr.certificationLevel || enr.certification_level || cert?.level || 'Professional Level',
+          examLevel: enr.certificationLevel || enr.certification_level || cert?.level || 'Professional Level',
           examId: `exam_${enrCertId || cert?.id}`,
           examName: enr.certificationName || cert?.name || 'Certification Exam',
           examCode: `${enrCertCode || cert?.code || 'AICQB'}-EXAM`,
@@ -443,12 +443,23 @@ export async function startExam(req, res) {
     const targetLevel = (
       req.query?.level ||
       req.query?.examLevel ||
+      req.body?.level ||
       schedule.level ||
       schedule.examLevel ||
       schedule.certificationLevel ||
       cert?.level ||
-      'Foundation Level'
+      'Professional Level'
     ).trim();
+
+    // Persist level on schedule so future calls stay aligned
+    if (schedule && schedule.id && schedule.level !== targetLevel) {
+      schedule.level = targetLevel;
+      schedule.examLevel = targetLevel;
+      schedule.certificationLevel = targetLevel;
+      try {
+        db.updateDoc('examSchedules', schedule.id, schedule);
+      } catch (_) {}
+    }
 
     const activeCertCode = (cert?.code || certCode || '').toUpperCase();
     const activeCertId = cert?.id || certId;
@@ -638,6 +649,9 @@ export async function startExam(req, res) {
       examName: schedule.examName || `${schedule.certificationName} Examination`,
       certificationCode: schedule.certificationCode,
       certificationName: schedule.certificationName,
+      level: targetLevel,
+      examLevel: targetLevel,
+      certificationLevel: targetLevel,
       questions: sanitizedQuestions,
       durationMinutes: schedule.durationMinutes || 90,
       startTime: attempt.startTime,

@@ -152,6 +152,8 @@ export const RazorpayModal: React.FC<RazorpayModalProps> = ({
       setQrLoading(true);
       const res = await api.createPaymentOrder({
         certificationId,
+        certificationLevel: certificationLevel || 'Professional Level',
+        level: certificationLevel || 'Professional Level',
         candidateName: candidateName.trim() || user?.fullName || 'Candidate',
         candidateEmail: candidateEmail.trim() || user?.email || 'candidate@aicqb.org',
         candidatePhone: `${dialCode} ${candidatePhone.trim() || '9876543210'}`,
@@ -216,6 +218,8 @@ export const RazorpayModal: React.FC<RazorpayModalProps> = ({
         try {
           const orderRes = await api.createPaymentOrder({
             certificationId,
+            certificationLevel: certificationLevel || 'Professional Level',
+            level: certificationLevel || 'Professional Level',
             candidateName: candidateName.trim() || user?.fullName || 'Candidate',
             candidateEmail: candidateEmail.trim() || user?.email || 'candidate@aicqb.org',
             candidatePhone: `${dialCode} ${candidatePhone.trim() || '9876543210'}`,
@@ -353,6 +357,8 @@ export const RazorpayModal: React.FC<RazorpayModalProps> = ({
       try {
         const orderRes = await api.createPaymentOrder({
           certificationId,
+          certificationLevel: certificationLevel || 'Professional Level',
+          level: certificationLevel || 'Professional Level',
           candidateName: candidateName.trim(),
           candidateEmail: candidateEmail.trim(),
           candidatePhone: `${dialCode} ${candidatePhone.trim()}`,

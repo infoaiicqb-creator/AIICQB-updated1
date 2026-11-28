@@ -23,6 +23,8 @@ export async function createOrder(req, res) {
     const {
       certificationId,
       planType = 'Professional',
+      certificationLevel,
+      level,
       candidateName,
       candidateEmail,
       candidatePhone,
@@ -37,6 +39,8 @@ export async function createOrder(req, res) {
     if (!cert) {
       return res.status(404).json({ success: false, message: 'Certification program not found.' });
     }
+
+    const requestedLevel = certificationLevel || level || cert.level || 'Professional Level';
 
     // Determine actual amount server-side based on region & currency rules
     const isIndia = (country && country.trim().toLowerCase() === 'india') || currency.toUpperCase() === 'INR';
@@ -81,7 +85,7 @@ export async function createOrder(req, res) {
             country: country || 'India',
             certificationId: cert.id,
             certificationName: cert.name,
-            certificationLevel: cert.level || 'Professional Level',
+            certificationLevel: requestedLevel,
           },
         });
         if (orderResponse && orderResponse.id) {
@@ -121,8 +125,8 @@ export async function createOrder(req, res) {
       certificationId: cert.id,
       certification_name: cert.name,
       certificationName: cert.name,
-      certification_level: cert.level || 'Professional Level',
-      certificationLevel: cert.level || 'Professional Level',
+      certification_level: requestedLevel,
+      certificationLevel: requestedLevel,
       certificationCode: cert.code,
       amount,
       currency: finalCurrency,
@@ -159,7 +163,7 @@ export async function createOrder(req, res) {
         key: activeKeyId,
         paymentId,
         certificationName: cert.name,
-        certificationLevel: cert.level || 'Professional Level',
+        certificationLevel: requestedLevel,
         certificationCode: cert.code,
         isRazorpayLiveOrder,
         candidateName: fullName,
@@ -276,6 +280,8 @@ export async function verifyPayment(req, res) {
     const effectiveCandidateId = candidateId || payment.candidate_id || payment.candidateId || `AICQB-${Date.now().toString().slice(-7)}`;
     const effectiveUid = uid || payment.candidateUid || 'guest_user';
 
+    const targetCertLevel = payment.certificationLevel || payment.certification_level || cert.level || 'Professional Level';
+
     // Create enrollment record
     const enrollment = {
       id: enrollmentId,
@@ -294,8 +300,8 @@ export async function verifyPayment(req, res) {
       certificationId: cert.id,
       certification_name: cert.name,
       certificationName: cert.name,
-      certification_level: cert.level || payment.certificationLevel || 'Professional Level',
-      certificationLevel: cert.level || payment.certificationLevel || 'Professional Level',
+      certification_level: targetCertLevel,
+      certificationLevel: targetCertLevel,
       certificationCode: cert.code,
       domain: cert.domain || 'Technology',
       enrollmentDate: paidAt,
@@ -337,10 +343,11 @@ export async function verifyPayment(req, res) {
       amount: payment.amount,
       currency: payment.currency,
       certification_name: cert.name,
-      certification_level: cert.level || 'Professional Level',
+      certification_level: targetCertLevel,
+      certificationLevel: targetCertLevel,
       items: [
         {
-          description: `AICQB Professional Certification: ${payment.certificationName} (${cert.level || 'Professional Level'})`,
+          description: `AICQB Professional Certification: ${payment.certificationName} (${targetCertLevel})`,
           amount: payment.amount,
         },
       ],
@@ -373,7 +380,10 @@ export async function verifyPayment(req, res) {
       certificationId: cert.id,
       certification_name: cert.name,
       certificationName: cert.name,
-      certification_level: cert.level || 'Professional Level',
+      certification_level: targetCertLevel,
+      certificationLevel: targetCertLevel,
+      level: targetCertLevel,
+      examLevel: targetCertLevel,
       certificationCode: cert.code,
       examId: `exam_${cert.id}`,
       examName: cert.name,

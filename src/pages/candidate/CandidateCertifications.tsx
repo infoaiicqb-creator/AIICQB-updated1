@@ -565,9 +565,11 @@ export const CandidateCertifications: React.FC = () => {
                     <span>
                       {selectedLevelFilter === 'foundation'
                         ? 'Foundation Level'
+                        : selectedLevelFilter === 'professional'
+                        ? 'Professional Level'
                         : selectedLevelFilter === 'expert'
                         ? 'Expert Level'
-                        : cert.level}
+                        : cert.level || 'Professional Level'}
                     </span>
                   </button>
 
@@ -578,7 +580,7 @@ export const CandidateCertifications: React.FC = () => {
                           ? 4500
                           : selectedLevelFilter === 'expert'
                           ? 13999
-                          : cert.examFee
+                          : (cert.examFee || 9999)
                         ).toLocaleString('en-IN')
                       }
                     </span>
@@ -619,7 +621,19 @@ export const CandidateCertifications: React.FC = () => {
                     </button>
                   ) : enrolled ? (
                     <button
-                      onClick={() => navigate('/portal/exams')}
+                      onClick={() => {
+                        const targetLevel =
+                          selectedLevelFilter === 'foundation'
+                            ? 'Foundation Level'
+                            : selectedLevelFilter === 'professional'
+                            ? 'Professional Level'
+                            : selectedLevelFilter === 'expert'
+                            ? 'Expert Level'
+                            : (cert.level || 'Professional Level');
+                        navigate(`/portal/exams?level=${encodeURIComponent(targetLevel)}`, {
+                          state: { level: targetLevel, certificationCode: cert.code }
+                        });
+                      }}
                       className="px-4 py-2 bg-[#10264B] hover:bg-[#1E3A6E] text-white font-bold text-xs rounded-lg shadow-sm transition-all flex items-center space-x-1 cursor-pointer"
                     >
                       <CalendarCheck className="w-3.5 h-3.5 text-[#F47716]" />
@@ -654,6 +668,12 @@ export const CandidateCertifications: React.FC = () => {
           onContinue={(selectedLevel) => {
             const targetCert = selectedForLevelModal;
             setSelectedForLevelModal(null);
+            if (isCertEnrolled(targetCert)) {
+              navigate(`/portal/exams?level=${encodeURIComponent(selectedLevel.levelName)}`, {
+                state: { level: selectedLevel.levelName, certificationCode: targetCert.code },
+              });
+              return;
+            }
             setSelectedForEnroll({
               ...targetCert,
               level: selectedLevel.levelName,

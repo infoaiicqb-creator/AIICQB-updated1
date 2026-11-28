@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../services/api';
 import { ExamEngineModal } from '../../components/ExamEngineModal';
@@ -27,6 +27,10 @@ import {
 
 export const CandidateExams: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const navLevel = searchParams.get('level') || (location.state as any)?.level;
+
   const { user, candidate } = useAuth();
   const candidateName = user?.fullName || candidate?.fullName || 'Candidate';
   const candidateId = user?.candidateId || candidate?.candidateId || (user?.id ? `AICQB-${user.id.slice(0, 6).toUpperCase()}` : '');
@@ -56,11 +60,21 @@ export const CandidateExams: React.FC = () => {
   const [showCertificateModal, setShowCertificateModal] = useState<any>(null);
   const [systemCheckPassed, setSystemCheckPassed] = useState(false);
 
-  const handleJoinExam = (exam: any) => {
+  // Selected level per exam ID state so candidate can easily switch level before starting exam
+  const [selectedLevels, setSelectedLevels] = useState<Record<string, string>>({});
+
+  const getSelectedLevel = (exam: any): string => {
+    const examKey = exam?.id || exam?.scheduleId || 'default';
+    if (selectedLevels[examKey]) return selectedLevels[examKey];
+    if (navLevel) return navLevel;
+    return exam?.level || exam?.examLevel || exam?.certificationLevel || 'Professional Level';
+  };
+
+  const handleJoinExam = (exam: any, customLevel?: string) => {
     const examId = typeof exam === 'string' ? exam : (exam?.id || exam?.scheduleId);
-    const lvl = (typeof exam === 'object' && exam)
-      ? (exam.level || exam.examLevel || exam.certificationLevel || 'Foundation Level')
-      : 'Foundation Level';
+    const lvl = customLevel || (typeof exam === 'object' && exam
+      ? getSelectedLevel(exam)
+      : 'Professional Level');
     setActiveExamSession({ id: examId, level: lvl });
     try {
       if (!document.fullscreenElement) {
@@ -178,8 +192,8 @@ export const CandidateExams: React.FC = () => {
                   <div className="space-y-2 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-sm sm:text-base font-bold text-[#10264B]">{exam.examName}</h3>
-                      <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 font-extrabold text-[10px] rounded-full border border-amber-300 shadow-xs">
-                        {exam.level || exam.examLevel || exam.certificationLevel || 'Foundation Level'}
+                      <span className="px-2.5 py-0.5 bg-[#10264B] text-white font-extrabold text-[10px] rounded-full border border-[#10264B] shadow-xs">
+                        {getSelectedLevel(exam)}
                       </span>
                       {exam.isRetake ? (
                         <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 font-extrabold text-[10px] rounded-full border border-amber-300 shadow-xs">
@@ -193,6 +207,30 @@ export const CandidateExams: React.FC = () => {
                       <span className="px-2 py-0.5 bg-green-50 text-green-700 font-bold text-[10px] rounded-full border border-green-200">
                         {exam.isRetake ? 'Retake Window Open' : 'Exam Scheduled'}
                       </span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                      <span className="text-[11px] font-bold text-gray-500 mr-1">Select Exam Level:</span>
+                      {(['Foundation Level', 'Associate Level', 'Professional Level'] as const).map((lvl) => {
+                        const isCurSelected = getSelectedLevel(exam).toLowerCase().trim() === lvl.toLowerCase().trim();
+                        return (
+                          <button
+                            key={lvl}
+                            type="button"
+                            onClick={() => {
+                              const examKey = exam.id || exam.scheduleId || 'default';
+                              setSelectedLevels((prev) => ({ ...prev, [examKey]: lvl }));
+                            }}
+                            className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold transition-all cursor-pointer border ${
+                              isCurSelected
+                                ? 'bg-[#F47716] text-white border-[#F47716] shadow-xs'
+                                : 'bg-slate-50 text-gray-600 border-gray-300 hover:bg-slate-100 hover:text-[#10264B]'
+                            }`}
+                          >
+                            {lvl} {isCurSelected && '✓'}
+                          </button>
+                        );
+                      })}
                     </div>
 
                     <p className="text-xs font-mono text-[#F47716] font-semibold">({exam.certificationCode})</p>
@@ -227,7 +265,7 @@ export const CandidateExams: React.FC = () => {
                     </button>
                   ) : (
                     <button
-                      onClick={() => handleJoinExam(exam)}
+                      onClick={() => handleJoinExam(exam, getSelectedLevel(exam))}
                       className="px-5 py-2.5 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer"
                     >
                       <Play className="w-3.5 h-3.5 fill-current" />

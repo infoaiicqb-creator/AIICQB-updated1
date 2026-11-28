@@ -81,6 +81,8 @@ export const api = {
   // Payments (Razorpay)
   createPaymentOrder: (payload: {
     certificationId: string;
+    certificationLevel?: string;
+    level?: string;
     planType?: string;
     candidateName?: string;
     candidateEmail?: string;

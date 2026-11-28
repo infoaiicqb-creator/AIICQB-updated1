@@ -9,8 +9,8 @@
     "domain": "Software Testing & Quality Engineering",
     "domainId": "dom_software_testing",
     "domainCode": "ST",
-    "level": "Foundation Level",
-    "levelId": "lvl_fnd",
+    "level": "Professional Level",
+    "levelId": "lvl_prf",
     "description": "PlayWright",
     "learningObjectives": [
       "Core conceptual mastery",
