@@ -516,32 +516,176 @@ export const AdminFinance: React.FC = () => {
           </div>
         </div>
 
-        {/* Transactions Table: Fully Responsive with Horizontal Scroll */}
-        <div className="overflow-x-auto w-full">
-          <table className="w-full text-left text-xs whitespace-nowrap min-w-[950px]">
+        {/* Mobile & Tablet Card Layout (Zero Horizontal Scroll on screens < lg) */}
+        <div className="lg:hidden divide-y divide-gray-100">
+          {loading ? (
+            <div className="py-12 text-center text-gray-400">
+              <Loader2 className="w-8 h-8 animate-spin text-[#F47716] mx-auto mb-2" />
+              <p className="text-xs font-semibold">Loading real payment records...</p>
+            </div>
+          ) : filteredPayments.length === 0 ? (
+            <div className="py-12 text-center text-gray-400">
+              <p className="text-sm font-semibold">No payment records matching this filter.</p>
+            </div>
+          ) : (
+            filteredPayments
+              .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+              .map((p: any, idx: number) => {
+                const status = (p.paymentStatus || p.payment_status || p.status || 'pending').toLowerCase();
+                const isSuccess = status === 'success' || status === 'successful';
+                const isFailed = status === 'failed';
+                const cur = (p.currency || 'INR').toUpperCase();
+                const symbol = cur === 'INR' ? '₹' : '$';
+
+                return (
+                  <div key={p.id || p.paymentId || idx} className="p-4 sm:p-5 hover:bg-slate-50/80 transition-colors space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="font-extrabold text-[#10264B] text-sm flex items-center gap-1.5 flex-wrap">
+                          <span className="truncate">{p.candidateName || p.candidate_name || 'Candidate'}</span>
+                          <span className="text-[10px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full inline-flex items-center space-x-1 flex-shrink-0">
+                            {p.country?.toLowerCase() === 'india' || !p.country ? (
+                              <span>🇮🇳 India</span>
+                            ) : (
+                              <span>🌐 {p.country}</span>
+                            )}
+                          </span>
+                        </div>
+                        <div className="text-gray-500 font-mono text-[11px] truncate">
+                          {p.candidateEmail || p.candidate_email || '—'}
+                        </div>
+                      </div>
+
+                      {/* Status Badge */}
+                      <div className="flex-shrink-0">
+                        {isSuccess ? (
+                          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-50 text-green-700 border border-green-200 inline-flex items-center space-x-1">
+                            <CheckCircle2 className="w-3 h-3 text-green-600" />
+                            <span>Successful</span>
+                          </span>
+                        ) : isFailed ? (
+                          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200 inline-flex items-center space-x-1">
+                            <XCircle className="w-3 h-3 text-red-600" />
+                            <span>Failed</span>
+                          </span>
+                        ) : (
+                          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 inline-flex items-center space-x-1">
+                            <Clock className="w-3 h-3 text-amber-600" />
+                            <span>Pending</span>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="bg-slate-50 rounded-xl p-3 border border-slate-100 space-y-2 text-xs">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-gray-400 text-[11px] flex-shrink-0">Certification</span>
+                        <div className="text-right min-w-0">
+                          <div className="font-bold text-[#10264B] text-[12px] truncate max-w-[240px]">
+                            {p.certificationName || p.certification_name || 'AI Certification'}
+                          </div>
+                          <span className="inline-block mt-0.5 px-1.5 py-0.2 rounded text-[9.5px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+                            {p.certificationLevel || p.certification_level || 'Professional Level'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between border-t border-slate-200/60 pt-2">
+                        <span className="text-gray-400 text-[11px]">Amount</span>
+                        <span className="font-black text-[#F47716] text-sm font-mono">
+                          {symbol} {(p.amount || 0).toLocaleString(cur === 'INR' ? 'en-IN' : 'en-US')} <span className="text-[10px] text-gray-400 font-bold">{cur}</span>
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between border-t border-slate-200/60 pt-2 text-[11px] font-mono">
+                        <span className="text-gray-400 text-[11px] font-sans">Payment / Order</span>
+                        <div className="text-right truncate max-w-[200px]">
+                          <div className="text-slate-800 font-bold truncate">{p.razorpayPaymentId || p.razorpay_payment_id || p.paymentId || '—'}</div>
+                          <div className="text-slate-400 text-[10px] truncate">{p.razorpayOrderId || p.razorpay_order_id || '—'}</div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between border-t border-slate-200/60 pt-2 text-[11px]">
+                        <span className="text-gray-400 text-[11px]">Date</span>
+                        <span className="text-gray-600 font-medium">
+                          {p.paidAt || p.createdAt || p.created_at
+                            ? new Date(p.paidAt || p.createdAt || p.created_at).toLocaleDateString('en-GB', {
+                              day: '2-digit',
+                              month: 'short',
+                              year: 'numeric',
+                            })
+                            : '—'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center justify-end gap-1.5 pt-1">
+                      <button
+                        onClick={() => setViewingPayment(p)}
+                        className="px-2.5 py-1 rounded-lg text-slate-600 bg-slate-100 hover:bg-slate-200 text-xs font-semibold flex items-center space-x-1 cursor-pointer transition-colors"
+                        title="View Details"
+                      >
+                        <Eye className="w-3.5 h-3.5" />
+                        <span>View</span>
+                      </button>
+                      <button
+                        onClick={() => handleOpenEdit(p)}
+                        className="px-2.5 py-1 rounded-lg text-blue-600 bg-blue-50 hover:bg-blue-100 text-xs font-semibold flex items-center space-x-1 cursor-pointer transition-colors"
+                        title="Edit Record"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                        <span>Edit</span>
+                      </button>
+                      <button
+                        onClick={() => handleDeletePayment(p)}
+                        className="px-2.5 py-1 rounded-lg text-red-500 bg-red-50 hover:bg-red-100 text-xs font-semibold flex items-center space-x-1 cursor-pointer transition-colors"
+                        title="Delete Record"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Delete</span>
+                      </button>
+                      {isSuccess && (
+                        <button
+                          onClick={() => handleRefund(p.paymentId || p.id)}
+                          className="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-xs font-bold flex items-center space-x-1 cursor-pointer transition-colors"
+                          title="Process Razorpay Refund"
+                        >
+                          <RotateCcw className="w-3 h-3 text-amber-600" />
+                          <span>Refund</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+          )}
+        </div>
+
+        {/* Desktop Proportional Table: 100% Responsive, Zero Horizontal Scroll */}
+        <div className="hidden lg:block w-full">
+          <table className="w-full text-left text-xs table-fixed">
             <thead className="bg-slate-50 text-gray-600 font-semibold uppercase tracking-wider text-[10.5px] border-b border-gray-200">
               <tr>
-                <th className="py-3 px-4">Candidate Details</th>
-                <th className="py-3 px-4">Country</th>
-                <th className="py-3 px-4">Certification</th>
-                <th className="py-3 px-4">Amount</th>
-                <th className="py-3 px-4">Order / Payment ID</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4">Date</th>
-                <th className="py-3 px-4 text-right">Actions (CRUD)</th>
+                <th className="py-3 px-4 w-[23%]">Candidate & Country</th>
+                <th className="py-3 px-3 w-[24%]">Certification</th>
+                <th className="py-3 px-3 w-[12%]">Amount</th>
+                <th className="py-3 px-3 w-[18%]">Payment & Order ID</th>
+                <th className="py-3 px-3 w-[11%]">Status & Date</th>
+                <th className="py-3 px-4 w-[12%] text-right">Actions (CRUD)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-gray-400">
+                  <td colSpan={6} className="py-12 text-center text-gray-400">
                     <Loader2 className="w-8 h-8 animate-spin text-[#F47716] mx-auto mb-2" />
                     <p className="text-xs font-semibold">Loading real payment records...</p>
                   </td>
                 </tr>
               ) : filteredPayments.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-gray-400">
+                  <td colSpan={6} className="py-12 text-center text-gray-400">
                     <p className="text-sm font-semibold">No payment records matching this filter.</p>
                   </td>
                 </tr>
@@ -558,90 +702,85 @@ export const AdminFinance: React.FC = () => {
 
                     return (
                       <tr key={p.id || p.paymentId || idx} className="hover:bg-slate-50/80 transition-colors">
-                        {/* Candidate Name & Email */}
-                        <td className="py-3.5 px-4">
-                          <div className="font-bold text-[#10264B] text-[13px]">
+                        {/* Candidate Name & Email & Country */}
+                        <td className="py-3.5 px-4 overflow-hidden">
+                          <div className="font-bold text-[#10264B] text-[13px] truncate">
                             {p.candidateName || p.candidate_name || 'Candidate'}
                           </div>
-                          <div className="text-gray-500 font-mono text-[11px]">
+                          <div className="text-gray-500 font-mono text-[11px] truncate">
                             {p.candidateEmail || p.candidate_email || '—'}
                           </div>
-                        </td>
-
-                        {/* Country */}
-                        <td className="py-3.5 px-4 font-medium text-slate-700">
-                          <span className="inline-flex items-center space-x-1">
+                          <div className="mt-0.5 inline-flex items-center text-[10px] text-slate-600 bg-slate-100 px-1.5 py-0.2 rounded font-medium">
                             {p.country?.toLowerCase() === 'india' || !p.country ? (
                               <span>🇮🇳 India</span>
                             ) : (
                               <span>🌐 {p.country}</span>
                             )}
-                          </span>
+                          </div>
                         </td>
 
                         {/* Certification */}
-                        <td className="py-3.5 px-4">
-                          <div className="font-semibold text-[#10264B] max-w-[220px] truncate" title={p.certificationName || p.certification_name}>
+                        <td className="py-3.5 px-3 overflow-hidden">
+                          <div className="font-semibold text-[#10264B] truncate" title={p.certificationName || p.certification_name}>
                             {p.certificationName || p.certification_name || 'AI Certification'}
                           </div>
-                          <span className="px-1.5 py-0.5 rounded text-[9.5px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+                          <span className="inline-block mt-0.5 px-1.5 py-0.2 rounded text-[9.5px] font-semibold bg-blue-50 text-blue-700 border border-blue-100 truncate max-w-full">
                             {p.certificationLevel || p.certification_level || 'Professional Level'}
                           </span>
                         </td>
 
                         {/* Payment Amount & Currency */}
-                        <td className="py-3.5 px-4">
-                          <span className="font-black text-[#F47716] text-sm">
+                        <td className="py-3.5 px-3">
+                          <span className="font-black text-[#F47716] text-sm font-mono">
                             {symbol} {(p.amount || 0).toLocaleString(cur === 'INR' ? 'en-IN' : 'en-US')}
                           </span>
                           <span className="text-[10px] text-gray-400 font-bold ml-1">{cur}</span>
                         </td>
 
                         {/* Razorpay Order & Payment ID */}
-                        <td className="py-3.5 px-4 font-mono text-[11px]">
-                          <div className="text-slate-800 font-bold">
+                        <td className="py-3.5 px-3 font-mono text-[11px] overflow-hidden">
+                          <div className="text-slate-800 font-bold truncate" title={p.razorpayPaymentId || p.razorpay_payment_id || p.paymentId}>
                             {p.razorpayPaymentId || p.razorpay_payment_id || p.paymentId || '—'}
                           </div>
-                          <div className="text-slate-400 text-[10px]">
+                          <div className="text-slate-400 text-[10px] truncate" title={p.razorpayOrderId || p.razorpay_order_id}>
                             {p.razorpayOrderId || p.razorpay_order_id || '—'}
                           </div>
                         </td>
 
-                        {/* Payment Status */}
-                        <td className="py-3.5 px-4">
-                          {isSuccess ? (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-50 text-green-700 border border-green-200 inline-flex items-center space-x-1">
-                              <CheckCircle2 className="w-3 h-3 text-green-600" />
-                              <span>Successful</span>
-                            </span>
-                          ) : isFailed ? (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200 inline-flex items-center space-x-1">
-                              <XCircle className="w-3 h-3 text-red-600" />
-                              <span>Failed</span>
-                            </span>
-                          ) : (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 inline-flex items-center space-x-1">
-                              <Clock className="w-3 h-3 text-amber-600" />
-                              <span>Pending</span>
-                            </span>
-                          )}
-                        </td>
-
-                        {/* Transaction Date */}
-                        <td className="py-3.5 px-4 text-gray-500 text-[11px] font-medium">
-                          {p.paidAt || p.createdAt || p.created_at
-                            ? new Date(p.paidAt || p.createdAt || p.created_at).toLocaleDateString('en-GB', {
-                              day: '2-digit',
-                              month: 'short',
-                              year: 'numeric',
-                            })
-                            : '—'}
+                        {/* Payment Status & Date */}
+                        <td className="py-3.5 px-3">
+                          <div>
+                            {isSuccess ? (
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-50 text-green-700 border border-green-200 inline-flex items-center space-x-1">
+                                <CheckCircle2 className="w-3 h-3 text-green-600" />
+                                <span>Successful</span>
+                              </span>
+                            ) : isFailed ? (
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-50 text-red-700 border border-red-200 inline-flex items-center space-x-1">
+                                <XCircle className="w-3 h-3 text-red-600" />
+                                <span>Failed</span>
+                              </span>
+                            ) : (
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 inline-flex items-center space-x-1">
+                                <Clock className="w-3 h-3 text-amber-600" />
+                                <span>Pending</span>
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-gray-400 text-[10.5px] mt-1 font-medium">
+                            {p.paidAt || p.createdAt || p.created_at
+                              ? new Date(p.paidAt || p.createdAt || p.created_at).toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: 'short',
+                                year: 'numeric',
+                              })
+                              : '—'}
+                          </div>
                         </td>
 
                         {/* Actions: View, Edit, Delete, Refund */}
                         <td className="py-3.5 px-4 text-right">
                           <div className="flex items-center justify-end space-x-1">
-                            {/* View Audit */}
                             <button
                               onClick={() => setViewingPayment(p)}
                               className="p-1.5 rounded-lg text-slate-500 hover:text-[#10264B] hover:bg-slate-100 transition-colors cursor-pointer"
@@ -650,7 +789,6 @@ export const AdminFinance: React.FC = () => {
                               <Eye className="w-4 h-4" />
                             </button>
 
-                            {/* Edit Record */}
                             <button
                               onClick={() => handleOpenEdit(p)}
                               className="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors cursor-pointer"
@@ -659,7 +797,6 @@ export const AdminFinance: React.FC = () => {
                               <Edit2 className="w-4 h-4" />
                             </button>
 
-                            {/* Delete Record (Instant delete without popup) */}
                             <button
                               onClick={() => handleDeletePayment(p)}
                               className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer"
@@ -668,11 +805,10 @@ export const AdminFinance: React.FC = () => {
                               <Trash2 className="w-4 h-4" />
                             </button>
 
-                            {/* Refund Button for Successful Payments */}
                             {isSuccess && (
                               <button
                                 onClick={() => handleRefund(p.paymentId || p.id)}
-                                className="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-[10px] font-bold flex items-center space-x-1 cursor-pointer transition-colors"
+                                className="px-2 py-1 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-[10px] font-bold flex items-center space-x-1 cursor-pointer transition-colors ml-1"
                                 title="Process Razorpay Refund"
                               >
                                 <RotateCcw className="w-3 h-3 text-amber-600" />
