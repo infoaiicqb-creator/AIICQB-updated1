@@ -450,89 +450,43 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Row 4: Real International Country-Wise Registrations & Exam Quality Standards */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Real Country Breakdown Table */}
-        <div className="lg:col-span-7 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-            <div className="flex items-center space-x-2">
-              <Globe2 className="w-4 h-4 text-[#F47716]" />
-              <h3 className="font-bold text-sm text-[#10264B]">International Country-Wise Registrations</h3>
-            </div>
-            <span className="text-xs text-gray-400">
-              {countryRegistrations.length} Active Jurisdictions
-            </span>
+      {/* Row 4: Real International Country-Wise Registrations */}
+      <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-4">
+        <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+          <div className="flex items-center space-x-2">
+            <Globe2 className="w-4 h-4 text-[#F47716]" />
+            <h3 className="font-bold text-sm text-[#10264B]">International Country-Wise Registrations</h3>
           </div>
+          <span className="text-xs text-gray-400">
+            {countryRegistrations.length} Active Jurisdictions
+          </span>
+        </div>
 
-          {countryRegistrations.length === 0 ? (
-            <div className="py-8 text-center text-xs text-gray-400">
-              No country registration records found.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {countryRegistrations.map((c) => (
-                <div
-                  key={c.country}
-                  className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs"
-                >
-                  <div className="flex items-center space-x-2.5">
-                    <span className="text-base">{c.flag}</span>
-                    <span className="font-bold text-gray-800">{c.country}</span>
-                  </div>
-                  <div className="text-right">
-                    <span className="font-mono font-black text-[#10264B] block">
-                      {c.count.toLocaleString('en-IN')}
-                    </span>
-                    <span className="text-[10px] text-gray-400 font-semibold">{c.percent}% of total</span>
-                  </div>
+        {countryRegistrations.length === 0 ? (
+          <div className="py-8 text-center text-xs text-gray-400">
+            No country registration records found.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {countryRegistrations.map((c) => (
+              <div
+                key={c.country}
+                className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs"
+              >
+                <div className="flex items-center space-x-2.5">
+                  <span className="text-base">{c.flag}</span>
+                  <span className="font-bold text-gray-800">{c.country}</span>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Real Pass / Fail & Quality Assurance Ratios */}
-        <div className="lg:col-span-5 bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-            <div className="flex items-center space-x-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <h3 className="font-bold text-sm text-[#10264B]">Examination Quality Standard</h3>
-            </div>
-            <span className="text-xs text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-              ISO/IEC 17024 Compliant
-            </span>
+                <div className="text-right">
+                  <span className="font-mono font-black text-[#10264B] block">
+                    {c.count.toLocaleString('en-IN')}
+                  </span>
+                  <span className="text-[10px] text-gray-400 font-semibold">{c.percent}% of total</span>
+                </div>
+              </div>
+            ))}
           </div>
-
-          <div className="space-y-4 text-xs">
-            <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
-              <div>
-                <span className="font-bold text-emerald-950 block">Pass Rate (Honors Standard)</span>
-                <span className="text-[11px] text-emerald-700">
-                  {passedCandidates} of {passedCandidates + failedCandidates} examined candidates passed
-                </span>
-              </div>
-              <span className="text-2xl font-black text-emerald-700 font-mono">{passRate}%</span>
-            </div>
-
-            <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-center justify-between">
-              <div>
-                <span className="font-bold text-red-950 block">Retake / Remediation Rate</span>
-                <span className="text-[11px] text-red-700">
-                  {failedCandidates} candidates offered 30-day review remediation
-                </span>
-              </div>
-              <span className="text-2xl font-black text-red-700 font-mono">{retakeRate}%</span>
-            </div>
-
-            <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
-              <div>
-                <span className="font-bold text-[#10264B] block">Automated QR Verification Health</span>
-                <span className="text-[11px] text-blue-700">Instant employer registry verification uptime</span>
-              </div>
-              <span className="text-2xl font-black text-[#10264B] font-mono">{verificationUptime}</span>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* ======================================================== */}
