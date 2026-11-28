@@ -194,14 +194,6 @@ export const AdminDashboard: React.FC = () => {
             </div>
           )}
 
-          <div className="flex items-center space-x-2 text-xs text-slate-600 bg-white px-3 py-2 rounded-xl border border-gray-200 shadow-xs">
-            <span className={`w-2 h-2 rounded-full ${isRefreshing ? 'bg-amber-500 animate-ping' : 'bg-emerald-500 animate-pulse'}`}></span>
-            <span className="font-semibold hidden sm:inline">Live</span>
-            <span className="text-[11px] text-gray-400 font-mono">
-              {lastRefreshed.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-            </span>
-          </div>
-
           <button
             onClick={() => loadDashboard(false)}
             disabled={loading || isRefreshing}
