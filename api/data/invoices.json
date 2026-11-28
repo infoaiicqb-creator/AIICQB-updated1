@@ -1128,5 +1128,65 @@
     "status": "Paid",
     "createdAt": "2026-11-27T16:47:41.570Z",
     "updatedAt": "2026-11-27T16:47:41.570Z"
+  },
+  {
+    "id": "INV-AICQB-2026-1001",
+    "invoice_id": "INV-AICQB-2026-1001",
+    "invoiceId": "INV-AICQB-2026-1001",
+    "payment_id": "pay_1795862831358_kfr3gs",
+    "paymentId": "pay_1795862831358_kfr3gs",
+    "enrollment_id": "ENR-AICQB-2026-897430",
+    "candidate_id": "AICQB-CAND-475307",
+    "candidateUid": "guest_1795862831170",
+    "candidate_name": "pushpak Wani",
+    "candidateName": "pushpak Wani",
+    "candidate_email": "pushpak1@gmail.com",
+    "candidateEmail": "pushpak1@gmail.com",
+    "country": "India",
+    "amount": 9999,
+    "currency": "INR",
+    "certification_name": "AIICQB-Playwright-Automation-Testing",
+    "certification_level": "Foundation Level",
+    "items": [
+      {
+        "description": "AICQB Professional Certification: AIICQB-Playwright-Automation-Testing (Foundation Level)",
+        "amount": 9999
+      }
+    ],
+    "date": "2026-11-28T10:47:12.890Z",
+    "created_at": "2026-11-28T10:47:12.890Z",
+    "status": "Paid",
+    "createdAt": "2026-11-28T10:47:12.910Z",
+    "updatedAt": "2026-11-28T10:47:12.910Z"
+  },
+  {
+    "id": "INV-AICQB-2026-1002",
+    "invoice_id": "INV-AICQB-2026-1002",
+    "invoiceId": "INV-AICQB-2026-1002",
+    "payment_id": "pay_1795863706563_ezib4o",
+    "paymentId": "pay_1795863706563_ezib4o",
+    "enrollment_id": "ENR-AICQB-2026-551417",
+    "candidate_id": "AICQB-1004701",
+    "candidateUid": "usr_1795863685021_es4thi",
+    "candidate_name": "pavan",
+    "candidateName": "pavan",
+    "candidate_email": "pavan@gmail.com",
+    "candidateEmail": "pavan@gmail.com",
+    "country": "India",
+    "amount": 9999,
+    "currency": "INR",
+    "certification_name": "AIICQB-Playwright-Automation-Testing",
+    "certification_level": "Foundation Level",
+    "items": [
+      {
+        "description": "AICQB Professional Certification: AIICQB-Playwright-Automation-Testing (Foundation Level)",
+        "amount": 9999
+      }
+    ],
+    "date": "2026-11-28T11:01:48.351Z",
+    "created_at": "2026-11-28T11:01:48.351Z",
+    "status": "Paid",
+    "createdAt": "2026-11-28T11:01:48.358Z",
+    "updatedAt": "2026-11-28T11:01:48.358Z"
   }
 ]

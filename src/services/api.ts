@@ -104,7 +104,8 @@ export const api = {
   getMySchedules: () => request('/exams/my-schedules'),
   scheduleExam: (body: { certificationId: string; scheduledDate?: string; scheduledTime?: string }) =>
     request('/exams/schedule', { method: 'POST', body: JSON.stringify(body) }),
-  startExamSession: (scheduleId: string) => request(`/exams/session/${scheduleId}`),
+  startExamSession: (scheduleId: string, level?: string) =>
+    request(`/exams/session/${scheduleId}${level ? `?level=${encodeURIComponent(level)}` : ''}`),
   submitExam: (body: { attemptId: string; answers: Record<string, any>; scheduleId?: string }) =>
     request('/exams/submit', { method: 'POST', body: JSON.stringify(body) }),
   saveExamAnswers: (body: { attemptId: string; scheduleId?: string; answers: Record<string, any> }) =>

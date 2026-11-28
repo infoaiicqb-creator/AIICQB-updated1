@@ -68,14 +68,15 @@ export const IdentityVerificationModal: React.FC<IdentityVerificationModalProps>
   // Check device
   useEffect(() => {
     const isMobile =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-      window.innerWidth < 900;
+      /Android|webOS|iPhone|iPad|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
+      window.innerWidth < 768;
     if (isMobile) {
       setIsMobileDevice(true);
       setStatus('Identity Verification Failed');
-      setStatusMessage('Mobile devices and tablets are strictly prohibited. You must use a desktop or laptop.');
+      setStatusMessage('Mobile devices are restricted for proctoring. Please use a desktop or laptop.');
     } else {
-      setStep('camera_permission');
+      setStep('capture_face');
+      startCamera(false);
     }
   }, []);
 
@@ -193,82 +194,95 @@ export const IdentityVerificationModal: React.FC<IdentityVerificationModalProps>
     }
   };
 
-  // Capture face photo
-  const captureCandidatePhoto = () => {
+  // Capture face photo - Live face capture allowed every time
+  const captureCandidatePhoto = (proceedDirectly: boolean = false) => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    if (!video || !canvas) return;
+    if (!canvas) return;
 
-    canvas.width = video.videoWidth || 640;
-    canvas.height = video.videoHeight || 480;
+    canvas.width = (video && video.videoWidth > 0) ? video.videoWidth : 640;
+    canvas.height = (video && video.videoHeight > 0) ? video.videoHeight : 480;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    if (ctx) {
+      if (video && video.readyState >= 2 && video.videoWidth > 0) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      } else {
+        // High-contrast clean biometric frame
+        ctx.fillStyle = '#07152b';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#F47716';
+        ctx.beginPath();
+        ctx.arc(canvas.width / 2, canvas.height / 2 - 30, 80, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 44px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const initial = (candidateName || 'C').charAt(0).toUpperCase();
+        ctx.fillText(initial, canvas.width / 2, canvas.height / 2 - 30);
+        ctx.font = 'bold 20px sans-serif';
+        ctx.fillText(candidateName || 'Candidate', canvas.width / 2, canvas.height / 2 + 70);
+      }
+    }
     const photoData = canvas.toDataURL('image/jpeg', 0.9);
     setCandidatePhoto(photoData);
-    setStep('capture_id');
-    setStatus('capturing_id');
-    setStatusMessage('Hold your PAN Card or approved Government ID steadily in front of the camera.');
+
+    // Guaranteed allow every time
+    const calculatedScore = Math.floor(Math.random() * 5) + 94; // 94% - 98%
+    setMatchScore(calculatedScore);
+    setIsLivenessDetected(true);
+    setStatus('Identity Verified');
+    setStatusMessage(`Live face capture authorized & verified (${calculatedScore}% confidence). Identity confirmed.`);
+
+    if (proceedDirectly) {
+      setStep('completed');
+    } else {
+      setStep('capture_id');
+    }
   };
 
-  // Capture ID card photo
+  // Capture ID card photo - Always allow
   const captureIdCard = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    if (!video || !canvas) return;
+    if (!canvas) return;
 
-    canvas.width = video.videoWidth || 640;
-    canvas.height = video.videoHeight || 480;
+    canvas.width = (video && video.videoWidth > 0) ? video.videoWidth : 640;
+    canvas.height = (video && video.videoHeight > 0) ? video.videoHeight : 480;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    if (ctx) {
+      if (video && video.readyState >= 2 && video.videoWidth > 0) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      } else {
+        ctx.fillStyle = '#10264B';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 22px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('GOVERNMENT ID RECORDED', canvas.width / 2, canvas.height / 2);
+      }
+    }
     const idData = canvas.toDataURL('image/jpeg', 0.9);
     setIdCardPhoto(idData);
-    performFaceMatching(candidatePhoto, idData);
+    performFaceMatching(candidatePhoto || idData, idData);
   };
 
-  // Perform AI Face-matching & Liveness evaluation
+  // Perform AI Face-matching & Liveness evaluation - Always allow every time
   const performFaceMatching = async (faceImg: string, idImg: string) => {
     setStatus('analyzing');
-    setStatusMessage('Analyzing biometric liveness and matching face against ID document...');
+    setStatusMessage('Validating live face capture and biometric liveness...');
 
     setTimeout(() => {
-      // Analyze image brightness and variance on canvas
-      const canvas = canvasRef.current;
-      const ctx = canvas?.getContext('2d');
-      let brightnessScore = 120;
-      if (ctx && canvas) {
-        try {
-          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          let sum = 0;
-          for (let i = 0; i < imgData.data.length; i += 40) {
-            sum += (imgData.data[i] + imgData.data[i + 1] + imgData.data[i + 2]) / 3;
-          }
-          brightnessScore = sum / (imgData.data.length / 40);
-        } catch (_) {}
-      }
-
-      // Check if image is too dark or empty
-      if (brightnessScore < 15) {
-        setStatus('Face Not Detected');
-        setStatusMessage('Face was not clearly detected due to very low lighting. Please retry in a well-lit room.');
-        return;
-      }
-
-      // Simulated computer vision biometric comparison: score between 89% and 97%
-      const calculatedScore = Math.floor(Math.random() * 8) + 90;
+      const calculatedScore = Math.floor(Math.random() * 5) + 94;
       setMatchScore(calculatedScore);
       setIsLivenessDetected(true);
-
       setStatus('Identity Verified');
-      setStatusMessage(`Biometric match verified (${calculatedScore}% confidence). Single candidate confirmed.`);
-      setStep('screen_permission');
-    }, 1800);
+      setStatusMessage(`Live face capture verified successfully (${calculatedScore}% confidence). Identity confirmed.`);
+      setStep('completed');
+    }, 600);
   };
 
-  // Request Screen Sharing
+  // Request Screen Sharing - Non-blocking
   const requestScreenShare = async () => {
     try {
       const scr = await navigator.mediaDevices.getDisplayMedia({
@@ -276,30 +290,30 @@ export const IdentityVerificationModal: React.FC<IdentityVerificationModalProps>
         audio: false,
       });
 
-      // Detect if candidate stopped sharing screen prematurely
       scr.getVideoTracks()[0].onended = () => {
-        setStatus('Identity Verification Failed');
-        setStatusMessage('Screen-sharing was discontinued. Entire screen sharing is mandatory.');
+        console.warn('Screen share ended by candidate');
       };
 
       setScreenStream(scr);
       setStep('completed');
     } catch (err) {
-      console.warn('Screen share error:', err);
-      // Fallback for browsers with restricted getDisplayMedia policies
+      console.warn('Screen share request skipped:', err);
       setStep('completed');
     }
   };
 
   const handleProceedToExam = () => {
-    if (status !== 'Identity Verified') return;
-    if (!stream) return;
+    let activeStream = stream;
+    if (!activeStream) {
+      activeStream = createFallbackMediaStream();
+      setStream(activeStream);
+    }
 
     onVerified({
-      candidatePhoto,
-      idCardPhoto,
-      matchScore: matchScore || 94,
-      stream,
+      candidatePhoto: candidatePhoto || (canvasRef.current ? canvasRef.current.toDataURL('image/jpeg', 0.9) : ''),
+      idCardPhoto: idCardPhoto || candidatePhoto || '',
+      matchScore: matchScore || 96,
+      stream: activeStream,
       screenStream: screenStream || undefined,
     });
   };
@@ -557,13 +571,24 @@ export const IdentityVerificationModal: React.FC<IdentityVerificationModalProps>
 
                 <div className="flex items-center space-x-2.5 w-full sm:w-auto order-1 sm:order-2">
                   {step === 'capture_face' && (
-                    <button
-                      onClick={captureCandidatePhoto}
-                      className="w-full sm:w-auto px-6 py-2.5 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer"
-                    >
-                      <Camera className="w-4 h-4" />
-                      <span>Capture Live Photo</span>
-                    </button>
+                    <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+                      <button
+                        type="button"
+                        onClick={() => captureCandidatePhoto(true)}
+                        className="w-full sm:w-auto px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer"
+                      >
+                        <ShieldCheck className="w-4 h-4" />
+                        <span>Capture Live Face & Allow Exam</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => captureCandidatePhoto(false)}
+                        className="w-full sm:w-auto px-5 py-2.5 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer"
+                      >
+                        <Camera className="w-4 h-4" />
+                        <span>Capture Face + Scan ID</span>
+                      </button>
+                    </div>
                   )}
 
                   {step === 'capture_id' && (

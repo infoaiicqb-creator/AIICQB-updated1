@@ -47,6 +47,8 @@ import confetti from 'canvas-confetti';
 
 interface ExamEngineModalProps {
   scheduleId: string;
+  examLevel?: string;
+  level?: string;
   onClose: () => void;
   onExamCompleted: () => void;
 }
@@ -107,7 +109,7 @@ const defaultFallbackQuestions = [
   },
 ];
 
-export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, onClose, onExamCompleted }) => {
+export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, examLevel, level, onClose, onExamCompleted }) => {
   const { user, candidate } = useAuth();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -404,7 +406,8 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, on
   const loadSession = async () => {
     try {
       setLoading(true);
-      const res = await api.startExamSession(scheduleId);
+      const targetExamLvl = examLevel || level;
+      const res = await api.startExamSession(scheduleId, targetExamLvl);
       if (res && res.success) {
         setSessionData(res);
         setTimeLeft((res.durationMinutes || 90) * 60);

@@ -49,15 +49,19 @@ export const CandidateExams: React.FC = () => {
     }
   });
   const [loading, setLoading] = useState(false);
-  const [activeExamSession, setActiveExamSession] = useState<string | null>(null);
+  const [activeExamSession, setActiveExamSession] = useState<{ id: string; level?: string } | null>(null);
   const [showGuidelinesModal, setShowGuidelinesModal] = useState(false);
   const [selectedExamForGuidelines, setSelectedExamForGuidelines] = useState<any>(null);
   const [showScoreModal, setShowScoreModal] = useState<any>(null);
   const [showCertificateModal, setShowCertificateModal] = useState<any>(null);
   const [systemCheckPassed, setSystemCheckPassed] = useState(false);
 
-  const handleJoinExam = (examId: string) => {
-    setActiveExamSession(examId);
+  const handleJoinExam = (exam: any) => {
+    const examId = typeof exam === 'string' ? exam : (exam?.id || exam?.scheduleId);
+    const lvl = (typeof exam === 'object' && exam)
+      ? (exam.level || exam.examLevel || exam.certificationLevel || 'Foundation Level')
+      : 'Foundation Level';
+    setActiveExamSession({ id: examId, level: lvl });
     try {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(() => { });
@@ -174,6 +178,9 @@ export const CandidateExams: React.FC = () => {
                   <div className="space-y-2 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-sm sm:text-base font-bold text-[#10264B]">{exam.examName}</h3>
+                      <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 font-extrabold text-[10px] rounded-full border border-amber-300 shadow-xs">
+                        {exam.level || exam.examLevel || exam.certificationLevel || 'Foundation Level'}
+                      </span>
                       {exam.isRetake ? (
                         <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 font-extrabold text-[10px] rounded-full border border-amber-300 shadow-xs">
                           Retake Attempt {exam.retakeAttemptNumber || 2} of 3
@@ -220,7 +227,7 @@ export const CandidateExams: React.FC = () => {
                     </button>
                   ) : (
                     <button
-                      onClick={() => handleJoinExam(exam.id)}
+                      onClick={() => handleJoinExam(exam)}
                       className="px-5 py-2.5 bg-[#F47716] hover:bg-[#DC660E] text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer"
                     >
                       <Play className="w-3.5 h-3.5 fill-current" />
@@ -715,7 +722,8 @@ export const CandidateExams: React.FC = () => {
       {/* ========================================================================= */}
       {activeExamSession && (
         <ExamEngineModal
-          scheduleId={activeExamSession}
+          scheduleId={activeExamSession.id}
+          examLevel={activeExamSession.level}
           onClose={() => setActiveExamSession(null)}
           onExamCompleted={() => {
             setActiveExamSession(null);

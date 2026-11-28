@@ -1,16 +1,26 @@
 [
   {
-    "id": "usr_1794238898604_8636ld",
-    "uid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "fullName": "Pushpak Wani",
-    "email": "pushpak@gmail.com",
+    "id": "usr_1795863685021_es4thi",
+    "uid": "usr_1795863685021_es4thi",
+    "candidateId": "AICQB-1004701",
+    "fullName": "pavan",
+    "email": "pavan@gmail.com",
+    "phoneNumber": "+91 9420385682",
     "country": "India",
-    "domain": "Software Testing & Quality Engineering",
-    "status": "Active",
-    "createdAt": "2026-06-12T10:00:00.000Z",
-    "certificatesEarnedCount": 2,
+    "organization": "",
+    "employeeId": "",
+    "address": "",
+    "gender": "Not specified",
+    "dateOfBirth": "",
+    "aboutMe": "",
+    "profileCompletion": 45,
+    "emailVerified": true,
+    "rewardPoints": 0,
+    "activeCertificationsCount": 2,
     "upcomingExamsCount": 2,
-    "activeCertificationsCount": 2
+    "certificatesEarnedCount": 0,
+    "coursesInProgressCount": 0,
+    "createdAt": "2026-11-28T11:01:25.215Z",
+    "updatedAt": "2026-11-28T11:01:48.382Z"
   }
 ]

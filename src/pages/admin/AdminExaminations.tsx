@@ -609,16 +609,24 @@ export const AdminExaminations: React.FC = () => {
 
   const filteredQuestions = useMemo(() => {
     return questions.filter((q) => {
-      const certCode = (q.certificationCode || q.certificationId || '').toLowerCase();
-      const qLevel = (q.level || q.examLevel || 'Foundation Level').toLowerCase();
-      const matchesCert = questionCertFilter === 'All' || certCode.includes(questionCertFilter.toLowerCase());
-      const matchesLevel = questionLevelFilter === 'All' || qLevel === questionLevelFilter.toLowerCase();
+      const certCode = (q.certificationCode || q.certificationId || '').toLowerCase().trim();
+      const qLevel = (q.level || q.examLevel || 'Foundation Level').toLowerCase().trim();
+
+      // Strict level filter: if a specific level is selected, match ONLY that level and strictly exclude others
+      const matchesLevel =
+        questionLevelFilter === 'All' ||
+        qLevel === questionLevelFilter.toLowerCase().trim();
+
+      const matchesCert =
+        questionCertFilter === 'All' ||
+        certCode.includes(questionCertFilter.toLowerCase().trim());
+
       const matchesSearch =
         questionSearch === '' ||
-        q.question?.toLowerCase().includes(questionSearch.toLowerCase()) ||
-        certCode.includes(questionSearch.toLowerCase()) ||
-        qLevel.includes(questionSearch.toLowerCase()) ||
-        q.id?.toLowerCase().includes(questionSearch.toLowerCase());
+        (q.question || '').toLowerCase().includes(questionSearch.toLowerCase().trim()) ||
+        certCode.includes(questionSearch.toLowerCase().trim()) ||
+        (q.id || '').toLowerCase().includes(questionSearch.toLowerCase().trim());
+
       return matchesCert && matchesLevel && matchesSearch;
     });
   }, [questions, questionCertFilter, questionLevelFilter, questionSearch]);
@@ -1029,6 +1037,37 @@ export const AdminExaminations: React.FC = () => {
       {/* ======================================================== */}
       {activeTab === 'questions' && (
         <div className="space-y-4">
+          {/* Quick Exam Level Filter Pills */}
+          <div className="flex flex-wrap items-center gap-2">
+            {[
+              { id: 'All', label: 'All Levels', count: questions.length },
+              { id: 'Foundation Level', label: 'Foundation Level Only', count: questions.filter(q => (q.level || q.examLevel) === 'Foundation Level').length },
+              { id: 'Associate Level', label: 'Associate Level Only', count: questions.filter(q => (q.level || q.examLevel) === 'Associate Level').length },
+              { id: 'Professional Level', label: 'Professional Level Only', count: questions.filter(q => (q.level || q.examLevel) === 'Professional Level').length },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => {
+                  setQuestionLevelFilter(tab.id);
+                  setQuestionPage(1);
+                }}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center space-x-2 ${
+                  questionLevelFilter === tab.id
+                    ? 'bg-[#F47716] text-white shadow-sm ring-2 ring-[#F47716]/30'
+                    : 'bg-white border border-gray-200 text-gray-700 hover:bg-slate-50'
+                }`}
+              >
+                <span>{tab.label}</span>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono ${
+                  questionLevelFilter === tab.id ? 'bg-white/25 text-white' : 'bg-slate-100 text-gray-700'
+                }`}>
+                  {tab.count}
+                </span>
+              </button>
+            ))}
+          </div>
+
           {/* Question Filter & Search Bar */}
           <div className="bg-white rounded-xl border border-gray-200 p-3 sm:p-4 shadow-sm flex flex-col md:flex-row gap-2.5 sm:gap-3 text-xs">
             {/* Certification Filter */}

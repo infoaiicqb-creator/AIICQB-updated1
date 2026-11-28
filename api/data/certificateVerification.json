@@ -2046,5 +2046,14 @@
     "id": "certificateVerification_1795858844551_dw6q0",
     "createdAt": "2026-11-28T09:40:44.551Z",
     "updatedAt": "2026-11-28T09:40:44.551Z"
+  },
+  {
+    "certificateNo": "AIICQB-AT-PRF-2026-000008",
+    "candidateName": "pavan",
+    "certificationName": "AICQB Certified Playwright Automation",
+    "verifiedCount": 0,
+    "createdAt": "2026-11-28T11:01:25.995Z",
+    "id": "certificateVerification_1795863685997_khxuy",
+    "updatedAt": "2026-11-28T11:01:25.997Z"
   }
 ]

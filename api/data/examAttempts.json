@@ -1,310 +1,1448 @@
 [
   {
-    "id": "att_1794244577875_ntbsoj",
-    "attemptId": "att_1794244577875_ntbsoj",
-    "scheduleId": "sch_demo_1",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
+    "id": "att_1795863717151_k83ijz",
+    "attemptId": "att_1795863717151_k83ijz",
+    "scheduleId": "SCH-AICQB-708359",
+    "candidateUid": "usr_1795863685021_es4thi",
+    "candidateId": "AICQB-1004701",
+    "candidateName": "pavan",
     "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
+    "certificationName": "AIICQB-Playwright-Automation-Testing",
     "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T17:16:17.875Z",
+    "startTime": "2026-11-28T11:01:57.151Z",
     "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "in-progress",
-    "answers": {},
-    "createdAt": "2026-11-09T17:16:17.875Z",
-    "updatedAt": "2026-11-09T17:16:17.875Z"
-  },
-  {
-    "id": "att_1794244824115_2zv4r2",
-    "attemptId": "att_1794244824115_2zv4r2",
-    "scheduleId": "sch_demo_1",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T17:20:24.116Z",
-    "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "in-progress",
-    "answers": {},
-    "createdAt": "2026-11-09T17:20:24.116Z",
-    "updatedAt": "2026-11-09T17:20:24.116Z"
-  },
-  {
-    "id": "att_1794245750721_knd3wd",
-    "attemptId": "att_1794245750721_knd3wd",
-    "scheduleId": "sch_demo_1",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T17:35:50.722Z",
-    "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "completed",
+    "totalQuestions": 150,
+    "status": "exited",
     "answers": {
-      "q_ai_1": 0,
-      "q_ai_2": 1
+      "q_imp_1795862417189_48": 1,
+      "q_imp_1795862417189_49": 0,
+      "q_imp_1795862114695_35": 0
     },
-    "createdAt": "2026-11-09T17:35:50.722Z",
-    "updatedAt": "2026-11-09T17:36:47.852Z",
-    "score": 4,
-    "maxScore": 20,
-    "percentage": 20,
-    "passed": false,
-    "submitTime": "2026-11-09T17:36:47.852Z"
+    "questionMap": {
+      "q_imp_1795862417189_49": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_35": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_18": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_25": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_42": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_48": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_15": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_38": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_26": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_8": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_12": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_19": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_20": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_46": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_8": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_6": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_23": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_29": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_31": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_5": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_25": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_22": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_11": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_13": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_35": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_19": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_26": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_45": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_17": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_45": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_23": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_44": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_21": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_2": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 2,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_36": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_47": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_4": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_29": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_9": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_30": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_41": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_36": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_34": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_18": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_23": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_25": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_16": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_42": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_2": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_16": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_17": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_28": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_39": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_12": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_36": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_33": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_43": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_37": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_1": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_16": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_21": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_32": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_4": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_27": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_27": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_3": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_13": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_45": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_17": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_9": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_20": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_8": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_7": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_3": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_40": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_34": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_27": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_19": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_1": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_43": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_32": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_10": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_18": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_48": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_15": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_20": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_37": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_39": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_33": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_21": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_34": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_24": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_14": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_5": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_7": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_46": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_35": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_24": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_15": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_28": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_39": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_10": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_31": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_29": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_40": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_38": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_43": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_32": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_22": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795861408667_2": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_44": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_24": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_46": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_40": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_26": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_38": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_2": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_11": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_41": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_37": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_13": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_3": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_30": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_10": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_14": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_5": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_28": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_6": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_6": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 2,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_11": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_1": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795861408725_1": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 1,
+        "points": 10,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_44": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_9": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_47": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_31": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_7": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_49": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_42": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_30": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_14": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_4": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_22": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_41": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_12": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_50": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862417189_33": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_47": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862114695_50": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795861408667_1": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      }
+    },
+    "questionOrder": [
+      "q_imp_1795862417189_49",
+      "q_imp_1795862114695_35",
+      "q_imp_1795862661510_18",
+      "q_imp_1795862661510_25",
+      "q_imp_1795862661510_42",
+      "q_imp_1795862417189_48",
+      "q_imp_1795862417189_15",
+      "q_imp_1795862417189_38",
+      "q_imp_1795862417189_26",
+      "q_imp_1795862417189_8",
+      "q_imp_1795862661510_12",
+      "q_imp_1795862114695_19",
+      "q_imp_1795862114695_20",
+      "q_imp_1795862661510_46",
+      "q_imp_1795862661510_8",
+      "q_imp_1795862417189_6",
+      "q_imp_1795862661510_23",
+      "q_imp_1795862417189_29",
+      "q_imp_1795862417189_31",
+      "q_imp_1795862417189_5",
+      "q_imp_1795862114695_25",
+      "q_imp_1795862114695_22",
+      "q_imp_1795862114695_11",
+      "q_imp_1795862417189_13",
+      "q_imp_1795862661510_35",
+      "q_imp_1795862661510_19",
+      "q_imp_1795862114695_26",
+      "q_imp_1795862661510_45",
+      "q_imp_1795862114695_17",
+      "q_imp_1795862114695_45",
+      "q_imp_1795862417189_23",
+      "q_imp_1795862114695_44",
+      "q_imp_1795862661510_21",
+      "q_imp_1795862114695_2",
+      "q_imp_1795862114695_36",
+      "q_imp_1795862417189_47",
+      "q_imp_1795862661510_4",
+      "q_imp_1795862661510_29",
+      "q_imp_1795862417189_9",
+      "q_imp_1795862417189_30",
+      "q_imp_1795862114695_41",
+      "q_imp_1795862661510_36",
+      "q_imp_1795862417189_34",
+      "q_imp_1795862417189_18",
+      "q_imp_1795862114695_23",
+      "q_imp_1795862417189_25",
+      "q_imp_1795862114695_16",
+      "q_imp_1795862114695_42",
+      "q_imp_1795862661510_2",
+      "q_imp_1795862417189_16",
+      "q_imp_1795862417189_17",
+      "q_imp_1795862661510_28",
+      "q_imp_1795862661510_39",
+      "q_imp_1795862114695_12",
+      "q_imp_1795862417189_36",
+      "q_imp_1795862661510_33",
+      "q_imp_1795862114695_43",
+      "q_imp_1795862661510_37",
+      "q_imp_1795862661510_1",
+      "q_imp_1795862661510_16",
+      "q_imp_1795862114695_21",
+      "q_imp_1795862417189_32",
+      "q_imp_1795862417189_4",
+      "q_imp_1795862661510_27",
+      "q_imp_1795862114695_27",
+      "q_imp_1795862114695_3",
+      "q_imp_1795862114695_13",
+      "q_imp_1795862417189_45",
+      "q_imp_1795862661510_17",
+      "q_imp_1795862114695_9",
+      "q_imp_1795862661510_20",
+      "q_imp_1795862114695_8",
+      "q_imp_1795862417189_7",
+      "q_imp_1795862661510_3",
+      "q_imp_1795862114695_40",
+      "q_imp_1795862661510_34",
+      "q_imp_1795862417189_27",
+      "q_imp_1795862417189_19",
+      "q_imp_1795862417189_1",
+      "q_imp_1795862661510_43",
+      "q_imp_1795862661510_32",
+      "q_imp_1795862114695_10",
+      "q_imp_1795862114695_18",
+      "q_imp_1795862114695_48",
+      "q_imp_1795862114695_15",
+      "q_imp_1795862417189_20",
+      "q_imp_1795862114695_37",
+      "q_imp_1795862417189_39",
+      "q_imp_1795862114695_33",
+      "q_imp_1795862417189_21",
+      "q_imp_1795862114695_34",
+      "q_imp_1795862114695_24",
+      "q_imp_1795862661510_14",
+      "q_imp_1795862661510_5",
+      "q_imp_1795862661510_7",
+      "q_imp_1795862417189_46",
+      "q_imp_1795862417189_35",
+      "q_imp_1795862661510_24",
+      "q_imp_1795862661510_15",
+      "q_imp_1795862417189_28",
+      "q_imp_1795862114695_39",
+      "q_imp_1795862661510_10",
+      "q_imp_1795862114695_31",
+      "q_imp_1795862114695_29",
+      "q_imp_1795862661510_40",
+      "q_imp_1795862661510_38",
+      "q_imp_1795862417189_43",
+      "q_imp_1795862114695_32",
+      "q_imp_1795862417189_22",
+      "q_imp_1795861408667_2",
+      "q_imp_1795862661510_44",
+      "q_imp_1795862417189_24",
+      "q_imp_1795862114695_46",
+      "q_imp_1795862417189_40",
+      "q_imp_1795862661510_26",
+      "q_imp_1795862114695_38",
+      "q_imp_1795862417189_2",
+      "q_imp_1795862661510_11",
+      "q_imp_1795862417189_41",
+      "q_imp_1795862417189_37",
+      "q_imp_1795862661510_13",
+      "q_imp_1795862417189_3",
+      "q_imp_1795862661510_30",
+      "q_imp_1795862417189_10",
+      "q_imp_1795862417189_14",
+      "q_imp_1795862114695_5",
+      "q_imp_1795862114695_28",
+      "q_imp_1795862661510_6",
+      "q_imp_1795862114695_6",
+      "q_imp_1795862417189_11",
+      "q_imp_1795862114695_1",
+      "q_imp_1795861408725_1",
+      "q_imp_1795862417189_44",
+      "q_imp_1795862661510_9",
+      "q_imp_1795862661510_47",
+      "q_imp_1795862661510_31",
+      "q_imp_1795862114695_7",
+      "q_imp_1795862114695_49",
+      "q_imp_1795862417189_42",
+      "q_imp_1795862114695_30",
+      "q_imp_1795862114695_14",
+      "q_imp_1795862114695_4",
+      "q_imp_1795862661510_22",
+      "q_imp_1795862661510_41",
+      "q_imp_1795862417189_12",
+      "q_imp_1795862417189_50",
+      "q_imp_1795862417189_33",
+      "q_imp_1795862114695_47",
+      "q_imp_1795862114695_50",
+      "q_imp_1795861408667_1"
+    ],
+    "createdAt": "2026-11-28T11:01:57.151Z",
+    "updatedAt": "2026-11-28T11:05:46.367Z",
+    "lastSavedAt": "2026-11-28T11:05:46.319Z",
+    "exitTime": "2026-11-28T11:05:46.319Z",
+    "proctoringEvents": [
+      {
+        "id": "proc_1795863946362_e3vf9n",
+        "eventType": "Fullscreen Exited",
+        "details": "Candidate exited full-screen examination mode.",
+        "timestamp": "2026-11-28T11:05:46.357Z"
+      }
+    ],
+    "lastAlertAt": "2026-11-28T11:05:46.357Z",
+    "totalAlertsCount": 1
   },
   {
-    "id": "att_1794245812199_x9wrbc",
-    "attemptId": "att_1794245812199_x9wrbc",
-    "scheduleId": "sch_demo_1",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T17:36:52.199Z",
-    "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "in-progress",
-    "answers": {},
-    "createdAt": "2026-11-09T17:36:52.199Z",
-    "updatedAt": "2026-11-09T17:36:52.199Z"
-  },
-  {
-    "id": "att_1794245870303_6ezlhx",
-    "attemptId": "att_1794245870303_6ezlhx",
-    "scheduleId": "sch_demo_1",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T17:37:50.303Z",
-    "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "in-progress",
-    "answers": {},
-    "createdAt": "2026-11-09T17:37:50.303Z",
-    "updatedAt": "2026-11-09T17:37:50.303Z"
-  },
-  {
-    "id": "att_1794246091658_1yn1h0",
-    "attemptId": "att_1794246091658_1yn1h0",
+    "id": "att_1795864599299_rcyywh",
+    "attemptId": "att_1795864599299_rcyywh",
     "scheduleId": "sch_demo_2",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T17:41:31.658Z",
+    "candidateUid": "usr_candidate",
+    "candidateId": "AICQB-1004582",
+    "candidateName": "Candidate",
+    "certificationId": "cert_aicqb_pw_cp",
+    "certificationName": "AICQB Certified Playwright Automation",
+    "certificationCode": "AICQB-PW-CP",
+    "startTime": "2026-11-28T11:16:39.300Z",
     "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "completed",
-    "answers": {
-      "q_ai_1": 0,
-      "q_ai_2": 2
-    },
-    "createdAt": "2026-11-09T17:41:31.658Z",
-    "updatedAt": "2026-11-09T17:41:42.546Z",
-    "score": 0,
-    "maxScore": 20,
-    "percentage": 0,
-    "passed": false,
-    "submitTime": "2026-11-09T17:41:42.546Z"
-  },
-  {
-    "id": "att_1794246182981_wdpdfd",
-    "attemptId": "att_1794246182981_wdpdfd",
-    "scheduleId": "sch_demo_1",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T17:43:02.981Z",
-    "durationMinutes": 90,
-    "totalQuestions": 3,
+    "totalQuestions": 6,
     "status": "in-progress",
     "answers": {},
-    "createdAt": "2026-11-09T17:43:02.981Z",
-    "updatedAt": "2026-11-09T17:43:02.981Z"
-  },
-  {
-    "id": "att_1794246204821_jaku4k",
-    "attemptId": "att_1794246204821_jaku4k",
-    "scheduleId": "sch_demo_1",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T17:43:24.821Z",
-    "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "in-progress",
-    "answers": {},
-    "createdAt": "2026-11-09T17:43:24.821Z",
-    "updatedAt": "2026-11-09T17:43:24.821Z"
-  },
-  {
-    "id": "att_1794246636055_8ebbfc",
-    "attemptId": "att_1794246636055_8ebbfc",
-    "scheduleId": "sch_demo_1",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T17:50:36.055Z",
-    "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "completed",
-    "answers": {
-      "q_ai_1": 2,
-      "q_ai_2": 2
+    "questionMap": {
+      "q_imp_1795862661510_1": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_41": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_15": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_4": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_34": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_27": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_46": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_10": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_7": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_25": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_30": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_14": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_12": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_21": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_36": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_9": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_5": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_19": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_13": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_2": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_44": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_26": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_47": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_24": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_40": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_22": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_29": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_8": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 1,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_32": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_42": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_23": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_31": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_6": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_11": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_38": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_35": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_16": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795861408725_1": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 1,
+        "points": 10,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_28": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_18": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_33": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_3": {
+        "correctOptionIndex": 1,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_37": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_17": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_39": {
+        "correctOptionIndex": 3,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_20": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_45": {
+        "correctOptionIndex": 2,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      },
+      "q_imp_1795862661510_43": {
+        "correctOptionIndex": 0,
+        "originalCorrectAnswer": 0,
+        "points": 5,
+        "questionType": "mcq"
+      }
     },
-    "createdAt": "2026-11-09T17:50:36.055Z",
-    "updatedAt": "2026-11-09T17:51:06.943Z",
-    "score": 0,
-    "maxScore": 20,
-    "percentage": 0,
-    "passed": false,
-    "submitTime": "2026-11-09T17:51:06.943Z"
-  },
-  {
-    "id": "att_1794248217038_h5ltnh",
-    "attemptId": "att_1794248217038_h5ltnh",
-    "scheduleId": "sch_demo_2",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T18:16:57.038Z",
-    "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "completed",
-    "answers": {
-      "q_ai_1": 1,
-      "q_ai_2": 1
-    },
-    "createdAt": "2026-11-09T18:16:57.038Z",
-    "updatedAt": "2026-11-09T18:19:07.050Z",
-    "score": 8,
-    "maxScore": 20,
-    "percentage": 40,
-    "passed": false,
-    "submitTime": "2026-11-09T18:19:07.049Z"
-  },
-  {
-    "id": "att_1794249995552_szk5wq",
-    "attemptId": "att_1794249995552_szk5wq",
-    "scheduleId": "sch_demo_1",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-09T18:46:35.552Z",
-    "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "completed",
-    "answers": {
-      "q_ai_2": 2,
-      "q_ai_1": 2
-    },
-    "createdAt": "2026-11-09T18:46:35.552Z",
-    "updatedAt": "2026-11-09T18:47:04.327Z",
-    "score": 0,
-    "maxScore": 20,
-    "percentage": 0,
-    "passed": false,
-    "submitTime": "2026-11-09T18:47:04.326Z"
-  },
-  {
-    "id": "att_1794301730620_4raeud",
-    "attemptId": "att_1794301730620_4raeud",
-    "scheduleId": "sch_nitin_002",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-10T09:08:50.620Z",
-    "durationMinutes": 90,
-    "totalQuestions": 10,
-    "status": "in-progress",
-    "answers": {},
-    "createdAt": "2026-11-10T09:08:50.620Z",
-    "updatedAt": "2026-11-10T09:08:50.620Z"
-  },
-  {
-    "id": "att_1794301949405_5gugt1",
-    "attemptId": "att_1794301949405_5gugt1",
-    "scheduleId": "sch_nitin_001",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-10T09:12:29.405Z",
-    "durationMinutes": 90,
-    "totalQuestions": 3,
-    "status": "in-progress",
-    "answers": {},
-    "createdAt": "2026-11-10T09:12:29.405Z",
-    "updatedAt": "2026-11-10T09:12:29.405Z"
-  },
-  {
-    "id": "att_1794301984630_k1lnoy",
-    "attemptId": "att_1794301984630_k1lnoy",
-    "scheduleId": "sch_nitin_002",
-    "candidateUid": "usr_1794238898604_8636ld",
-    "candidateId": "AICQB-1004581",
-    "candidateName": "pushpak Wani",
-    "certificationId": "cert_aiicqb_st_cp_001",
-    "certificationName": "Aiicqb-Playwright",
-    "certificationCode": "AIICQB-ST-CP-001",
-    "startTime": "2026-11-10T09:13:04.630Z",
-    "durationMinutes": 90,
-    "totalQuestions": 10,
-    "status": "completed",
-    "answers": {
-      "q_pw_1": 0,
-      "q_pw_2": 2,
-      "q_pw_3": 2,
-      "q_pw_4": 2,
-      "q_pw_5": 1,
-      "q_pw_6": 1,
-      "q_pw_7": 2,
-      "q_pw_8": 2,
-      "q_pw_9": 2,
-      "q_pw_10": 1
-    },
-    "createdAt": "2026-11-10T09:13:04.630Z",
-    "updatedAt": "2026-11-10T09:14:03.788Z",
-    "score": 10,
-    "maxScore": 100,
-    "percentage": 10,
-    "passed": false,
-    "submitTime": "2026-11-10T09:14:03.788Z"
+    "questionOrder": [
+      "q_imp_1795862661510_1",
+      "q_imp_1795862661510_41",
+      "q_imp_1795862661510_15",
+      "q_imp_1795862661510_4",
+      "q_imp_1795862661510_34",
+      "q_imp_1795862661510_27",
+      "q_imp_1795862661510_46",
+      "q_imp_1795862661510_10",
+      "q_imp_1795862661510_7",
+      "q_imp_1795862661510_25",
+      "q_imp_1795862661510_30",
+      "q_imp_1795862661510_14",
+      "q_imp_1795862661510_12",
+      "q_imp_1795862661510_21",
+      "q_imp_1795862661510_36",
+      "q_imp_1795862661510_9",
+      "q_imp_1795862661510_5",
+      "q_imp_1795862661510_19",
+      "q_imp_1795862661510_13",
+      "q_imp_1795862661510_2",
+      "q_imp_1795862661510_44",
+      "q_imp_1795862661510_26",
+      "q_imp_1795862661510_47",
+      "q_imp_1795862661510_24",
+      "q_imp_1795862661510_40",
+      "q_imp_1795862661510_22",
+      "q_imp_1795862661510_29",
+      "q_imp_1795862661510_8",
+      "q_imp_1795862661510_32",
+      "q_imp_1795862661510_42",
+      "q_imp_1795862661510_23",
+      "q_imp_1795862661510_31",
+      "q_imp_1795862661510_6",
+      "q_imp_1795862661510_11",
+      "q_imp_1795862661510_38",
+      "q_imp_1795862661510_35",
+      "q_imp_1795862661510_16",
+      "q_imp_1795861408725_1",
+      "q_imp_1795862661510_28",
+      "q_imp_1795862661510_18",
+      "q_imp_1795862661510_33",
+      "q_imp_1795862661510_3",
+      "q_imp_1795862661510_37",
+      "q_imp_1795862661510_17",
+      "q_imp_1795862661510_39",
+      "q_imp_1795862661510_20",
+      "q_imp_1795862661510_45",
+      "q_imp_1795862661510_43"
+    ],
+    "createdAt": "2026-11-28T11:16:39.305Z",
+    "updatedAt": "2026-11-28T11:19:18.457Z"
   }
 ]

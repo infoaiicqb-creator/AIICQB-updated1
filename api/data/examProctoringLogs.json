@@ -82,5 +82,19 @@
     "timestamp": "2026-11-26T12:23:26.781Z",
     "createdAt": "2026-11-26T12:23:26.816Z",
     "updatedAt": "2026-11-26T12:23:26.816Z"
+  },
+  {
+    "id": "proc_1795863946362_e3vf9n",
+    "attemptId": "att_1795863717151_k83ijz",
+    "scheduleId": "SCH-AICQB-708359",
+    "candidateUid": "usr_1795863685021_es4thi",
+    "candidateId": "AICQB-1004701",
+    "candidateName": "pavan",
+    "eventType": "Fullscreen Exited",
+    "details": "Candidate exited full-screen examination mode.",
+    "snapshot": null,
+    "timestamp": "2026-11-28T11:05:46.357Z",
+    "createdAt": "2026-11-28T11:05:46.362Z",
+    "updatedAt": "2026-11-28T11:05:46.363Z"
   }
 ]

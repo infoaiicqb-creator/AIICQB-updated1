@@ -73,7 +73,9 @@ export async function getCandidateSchedules(req, res) {
           certificationId: enrCertId || cert?.id,
           certificationName: enr.certificationName || cert?.name || 'Certification Exam',
           certificationCode: enrCertCode || cert?.code || 'AICQB-CERT',
-          certificationLevel: enr.certificationLevel || cert?.level || 'Professional Level',
+          certificationLevel: enr.certificationLevel || cert?.level || 'Foundation Level',
+          level: enr.certificationLevel || cert?.level || 'Foundation Level',
+          examLevel: enr.certificationLevel || cert?.level || 'Foundation Level',
           examId: `exam_${enrCertId || cert?.id}`,
           examName: enr.certificationName || cert?.name || 'Certification Exam',
           examCode: `${enrCertCode || cert?.code || 'AICQB'}-EXAM`,
@@ -375,16 +377,11 @@ export async function startExam(req, res) {
     if (!schedule) {
       const allCerts = db.getCollection('certifications');
       let cert;
-      if (scheduleId === 'sch_demo_2' || scheduleId === 'sch_nitin_002' || scheduleId.toLowerCase().includes('pw') || scheduleId.toLowerCase().includes('playwright')) {
-        cert = allCerts.find(c => c.code === 'AICQB-PW-CP') || {
-          id: 'cert_aicqb_pw_cp',
-          code: 'AICQB-PW-CP',
-          name: 'AICQB Certified Playwright Automation',
-          domainCode: 'ST',
-        };
+      if (scheduleId === 'sch_demo_2' || scheduleId === 'sch_nitin_002' || scheduleId.toLowerCase().includes('pw') || scheduleId.toLowerCase().includes('playwright') || scheduleId.toLowerCase().includes('st')) {
+        cert = allCerts.find(c => (c.code && (c.code === 'AIICQB-ST-CP-001' || c.code.includes('ST-CP') || c.code === 'AICQB-PW-CP')) || (c.name && c.name.toLowerCase().includes('playwright'))) || allCerts[0];
       } else {
-        cert = allCerts.find(c => scheduleId.toLowerCase().includes(c.code.toLowerCase()) || scheduleId.toLowerCase().includes(c.id.toLowerCase()))
-          || allCerts.find(c => c.code === 'AICQB-AI-CP')
+        cert = allCerts.find(c => scheduleId.toLowerCase().includes(c.code?.toLowerCase() || '') || scheduleId.toLowerCase().includes(c.id?.toLowerCase() || ''))
+          || allCerts.find(c => c.code === 'AIICQB-ST-CP-001')
           || allCerts[0];
       }
 
@@ -442,16 +439,39 @@ export async function startExam(req, res) {
       }
     }
 
-    // Retrieve questions for this certification
-    let questions = db.find('questions', q => q.certificationId === schedule.certificationId || q.certificationCode === schedule.certificationCode);
+    // Determine the exact exam level strictly
+    const targetLevel = (
+      req.query?.level ||
+      req.query?.examLevel ||
+      schedule.level ||
+      schedule.examLevel ||
+      schedule.certificationLevel ||
+      cert?.level ||
+      'Foundation Level'
+    ).trim();
 
-    const targetLevel = schedule.level || schedule.examLevel;
-    if (targetLevel && questions && questions.length > 0) {
-      const levelQuestions = questions.filter(q => (q.level || q.examLevel || '').toLowerCase() === targetLevel.toLowerCase());
-      if (levelQuestions.length > 0) {
-        questions = levelQuestions;
+    const activeCertCode = (cert?.code || certCode || '').toUpperCase();
+    const activeCertId = cert?.id || certId;
+
+    // 1. Retrieve all questions for this certification
+    const certQuestions = db.find('questions', q => {
+      if (activeCertId && (q.certificationId === activeCertId || q.certificationId === certId)) return true;
+      if (activeCertCode && q.certificationCode) {
+        const qCode = q.certificationCode.toUpperCase();
+        if (qCode === activeCertCode || (certCode && qCode === certCode.toUpperCase())) return true;
+        if (activeCertCode.includes('PW') && (qCode.includes('PW') || qCode.includes('ST-CP'))) return true;
+        if (activeCertCode.includes('ST-CP') && (qCode.includes('ST-CP') || qCode.includes('PW'))) return true;
       }
-    }
+      return false;
+    });
+
+    // 2. Strict Level Isolation: If candidate selected/scheduled this level, filter ONLY questions for that level, never others!
+    const levelQuestions = certQuestions.filter(q =>
+      (q.level || q.examLevel || '').toLowerCase().trim() === targetLevel.toLowerCase()
+    );
+
+    // 3. Strict assignment: Only show that test question, not other levels
+    let questions = levelQuestions.length > 0 ? levelQuestions : certQuestions;
 
     // Guaranteed high-standard questions if bank is empty
     if (!questions || questions.length === 0) {

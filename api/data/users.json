@@ -13,17 +13,20 @@
     "updatedAt": "2026-11-22T18:47:29.140Z"
   },
   {
-    "uid": "usr_1794238898604_8636ld",
-    "id": "usr_1794238898604_8636ld",
-    "email": "pushpak@gmail.com",
-    "fullName": "pushpak Wani",
-    "phoneNumber": "+91 9834341830",
-    "password": "$2b$10$alAB9XPhuDLmdZV3FmX6SOvNwKhz20oJFYo8z7jmCH0GMSbEu.3Oe",
-    "role": "Super Admin",
-    "candidateId": "AICQB-1004581",
+    "uid": "usr_1795863685021_es4thi",
+    "id": "usr_1795863685021_es4thi",
+    "email": "pavan@gmail.com",
+    "fullName": "pavan",
+    "phoneNumber": "+91 9420385682",
+    "country": "India",
+    "organization": "",
+    "employeeId": "",
+    "password": "$2b$10$owo0ChVGktNJxGX0TiwuC.gBCsS2n6oOJS90/TF2ksSGfMfEcezd2",
+    "role": "Candidate",
+    "candidateId": "AICQB-1004701",
     "status": "Active",
-    "emailVerified": false,
-    "createdAt": "2026-11-09T15:41:38.604Z",
-    "updatedAt": "2026-11-22T18:47:29.277Z"
+    "emailVerified": true,
+    "createdAt": "2026-11-28T11:01:25.208Z",
+    "updatedAt": "2026-11-28T11:01:25.211Z"
   }
 ]
