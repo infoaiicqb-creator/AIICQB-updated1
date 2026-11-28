@@ -34,14 +34,10 @@ export const AdminLayout: React.FC = () => {
     { label: 'Certifications', path: '/admin/certifications', icon: Award },
     { label: 'Examinations', path: '/admin/examinations', icon: CalendarCheck },
     { label: 'Candidates', path: '/admin/candidates', icon: Users },
-    { label: 'Training Partners', path: '/admin/partners', icon: Building2 },
-    { label: 'Membership', path: '/admin/memberships', icon: BadgeCheck },
     { label: 'Certificates', path: '/admin/certificates', icon: FileCheck2 },
     { label: 'Verification', path: '/admin/verification', icon: ShieldCheck },
-    { label: 'Communication', path: '/admin/announcements', icon: Megaphone },
     { label: 'Reports & Analytics', path: '/admin/reports', icon: BarChart3 },
     { label: 'Finance & Payments', path: '/admin/finance', icon: CreditCard },
-    { label: 'Firebase Cloud DB', path: '/admin/firebase', icon: Database },
     { label: 'System & Settings', path: '/admin/settings', icon: Settings },
   ];
 
