@@ -445,6 +445,14 @@ export async function startExam(req, res) {
     // Retrieve questions for this certification
     let questions = db.find('questions', q => q.certificationId === schedule.certificationId || q.certificationCode === schedule.certificationCode);
 
+    const targetLevel = schedule.level || schedule.examLevel;
+    if (targetLevel && questions && questions.length > 0) {
+      const levelQuestions = questions.filter(q => (q.level || q.examLevel || '').toLowerCase() === targetLevel.toLowerCase());
+      if (levelQuestions.length > 0) {
+        questions = levelQuestions;
+      }
+    }
+
     // Guaranteed high-standard questions if bank is empty
     if (!questions || questions.length === 0) {
       questions = [
