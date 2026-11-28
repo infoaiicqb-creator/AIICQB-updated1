@@ -205,13 +205,13 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Row 1: 4 Primary Executive KPIs (100% Real Database Metrics, Centered & Bold) */}
+      {/* Row 1: 4 Primary Executive KPIs (100% Real Database Metrics, Centered, Bold & Clickable) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Candidates */}
         <div
           onClick={() => navigate('/admin/candidates')}
           className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#F47716] hover:shadow-md transition-all group select-none"
-          title="Click to view candidate roster page"
+          title="Click to view Candidate Management page"
         >
           <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] group-hover:bg-[#F47716] group-hover:text-white flex items-center justify-center mb-3 transition-all shadow-xs">
             <Users className="w-6 h-6" />
@@ -219,103 +219,139 @@ export const AdminDashboard: React.FC = () => {
           <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono group-hover:text-[#F47716] transition-colors text-center">
             {totalCandidates.toLocaleString('en-IN')}
           </span>
-          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center">
+          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center group-hover:text-[#F47716] transition-colors">
             Registered Candidates
           </span>
         </div>
 
         {/* Real Revenue */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 shadow-xs">
+        <div
+          onClick={() => navigate('/admin/finance')}
+          className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-emerald-500 hover:shadow-md transition-all group select-none"
+          title="Click to view Finance & Payments page"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white flex items-center justify-center mb-3 shadow-xs transition-all">
             <CreditCard className="w-6 h-6" />
           </div>
-          <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono text-center">
+          <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono group-hover:text-emerald-600 transition-colors text-center">
             {formatRevenue(totalRevenue)}
           </span>
-          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center">
+          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center group-hover:text-emerald-600 transition-colors">
             Total Platform Revenue
           </span>
         </div>
 
         {/* Real Examinations */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#10264B] flex items-center justify-center mb-3 shadow-xs">
+        <div
+          onClick={() => navigate('/admin/examinations')}
+          className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-500 hover:shadow-md transition-all group select-none"
+          title="Click to view Examinations page"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#10264B] group-hover:bg-[#10264B] group-hover:text-white flex items-center justify-center mb-3 shadow-xs transition-all">
             <CalendarCheck className="w-6 h-6" />
           </div>
-          <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono text-center">
+          <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono group-hover:text-blue-600 transition-colors text-center">
             {totalExams.toLocaleString('en-IN')}
           </span>
-          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center">
+          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center group-hover:text-blue-600 transition-colors">
             Total Examinations
           </span>
         </div>
 
         {/* Real Verified Certificates */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center">
-          <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-3 shadow-xs">
+        <div
+          onClick={() => navigate('/admin/certificates')}
+          className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-purple-500 hover:shadow-md transition-all group select-none"
+          title="Click to view Certificates Registry page"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white flex items-center justify-center mb-3 shadow-xs transition-all">
             <FileCheck2 className="w-6 h-6" />
           </div>
-          <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono text-center">
+          <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono group-hover:text-purple-600 transition-colors text-center">
             {certificatesIssued.toLocaleString('en-IN')}
           </span>
-          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center">
+          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center group-hover:text-purple-600 transition-colors">
             Verified Certificates Issued
           </span>
         </div>
       </div>
 
-      {/* Row 2: Secondary Metric Strip (Centered & Bold Numbers) */}
+      {/* Row 2: Secondary Metric Strip (Centered, Bold Numbers & Clickable) */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
-          <span className="text-xl sm:text-2xl font-black text-emerald-700 font-mono block">
+        <div
+          onClick={() => navigate('/admin/finance')}
+          className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-emerald-400 hover:shadow-xs transition-all group select-none"
+          title="Click to view Paid Candidates in Finance"
+        >
+          <span className="text-xl sm:text-2xl font-black text-emerald-700 font-mono block group-hover:scale-105 transition-transform">
             {totalPaidCandidates.toLocaleString('en-IN')}
           </span>
-          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider group-hover:text-emerald-700 transition-colors">
             Paid Candidates
           </span>
         </div>
 
-        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
-          <span className="text-xl sm:text-2xl font-black text-amber-600 font-mono block">
+        <div
+          onClick={() => navigate('/admin/finance')}
+          className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-amber-400 hover:shadow-xs transition-all group select-none"
+          title="Click to view Pending Payments in Finance"
+        >
+          <span className="text-xl sm:text-2xl font-black text-amber-600 font-mono block group-hover:scale-105 transition-transform">
             {pendingPayments.toLocaleString('en-IN')}
           </span>
-          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider group-hover:text-amber-700 transition-colors">
             Pending Payments
           </span>
         </div>
 
-        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
-          <span className="text-xl sm:text-2xl font-black text-emerald-600 font-mono block">
+        <div
+          onClick={() => navigate('/admin/examinations')}
+          className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-emerald-400 hover:shadow-xs transition-all group select-none"
+          title="Click to view Passed Candidates in Examinations"
+        >
+          <span className="text-xl sm:text-2xl font-black text-emerald-600 font-mono block group-hover:scale-105 transition-transform">
             {passedCandidates.toLocaleString('en-IN')}
           </span>
-          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider group-hover:text-emerald-700 transition-colors">
             Passed (Honors)
           </span>
         </div>
 
-        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
-          <span className="text-xl sm:text-2xl font-black text-[#10264B] font-mono block">
+        <div
+          onClick={() => navigate('/admin/certifications')}
+          className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#10264B] hover:shadow-xs transition-all group select-none"
+          title="Click to view Certification Catalog"
+        >
+          <span className="text-xl sm:text-2xl font-black text-[#10264B] font-mono block group-hover:scale-105 transition-transform">
             {activeCertifications}
           </span>
-          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider group-hover:text-[#10264B] transition-colors">
             Active Certifications
           </span>
         </div>
 
-        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
-          <span className="text-xl sm:text-2xl font-black text-[#10264B] font-mono block">
+        <div
+          onClick={() => navigate('/admin/examinations')}
+          className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-400 hover:shadow-xs transition-all group select-none"
+          title="Click to view Completed Examinations"
+        >
+          <span className="text-xl sm:text-2xl font-black text-[#10264B] font-mono block group-hover:scale-105 transition-transform">
             {completedExams.toLocaleString('en-IN')}
           </span>
-          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider group-hover:text-blue-700 transition-colors">
             Completed Exams
           </span>
         </div>
 
-        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
-          <span className="text-xl sm:text-2xl font-black text-[#F47716] font-mono block">
+        <div
+          onClick={() => navigate('/admin/verification')}
+          className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#F47716] hover:shadow-xs transition-all group select-none"
+          title="Click to view Certificate Verification Node"
+        >
+          <span className="text-xl sm:text-2xl font-black text-[#F47716] font-mono block group-hover:scale-105 transition-transform">
             {totalVerifications.toLocaleString('en-IN')}
           </span>
-          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider group-hover:text-[#F47716] transition-colors">
             Verifications
           </span>
         </div>
