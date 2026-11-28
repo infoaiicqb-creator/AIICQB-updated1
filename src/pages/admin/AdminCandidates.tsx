@@ -54,11 +54,11 @@ export const AdminCandidates: React.FC = () => {
     try {
       if (candidates.length === 0) setLoading(true);
       const res = await api.getAdminCandidates({
-        search: searchTerm,
-        status: selectedStatus,
+        search: searchTerm || undefined,
+        status: selectedStatus !== 'All' ? selectedStatus : undefined,
         domain: selectedDomain !== 'All Domains' ? selectedDomain : undefined,
       });
-      if (res.success && res.candidates) {
+      if (res.success && Array.isArray(res.candidates)) {
         setCandidates(res.candidates);
         try { localStorage.setItem('aicqb_admin_candidates', JSON.stringify(res.candidates)); } catch (_) { }
       }
@@ -180,12 +180,17 @@ export const AdminCandidates: React.FC = () => {
         </div>
       )}
 
-      {/* Header matching Image 5 #4 */}
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">Candidate Management</h1>
+          <div className="flex items-center space-x-2.5">
+            <h1 className="text-xl sm:text-2xl font-black text-[#10264B]">Live Candidate Roster</h1>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#10264B]/10 text-[#10264B]">
+              {candidates.length} Registered Candidates in AIICQB Database
+            </span>
+          </div>
           <p className="text-xs text-gray-500 mt-0.5">
-            Manage candidate registrations, profiles and exam enrolments.
+            Manage candidate registrations, profiles, domains, and proctored examination enrollments.
           </p>
         </div>
         <button

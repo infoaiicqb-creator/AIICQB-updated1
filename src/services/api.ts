@@ -149,7 +149,15 @@ export const api = {
     return request(`/admin/dashboard${q ? `?${q}` : ''}`);
   },
   getAdminCandidates: (params?: any) => {
-    const query = new URLSearchParams(params).toString();
+    const cleanParams: Record<string, string> = {};
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => {
+        if (v !== undefined && v !== null && v !== '' && v !== 'undefined') {
+          cleanParams[k] = String(v);
+        }
+      });
+    }
+    const query = new URLSearchParams(cleanParams).toString();
     return request(`/admin/candidates${query ? `?${query}` : ''}`);
   },
   getAdminCandidateDetails: (id: string) => request(`/admin/candidates/${id}`),

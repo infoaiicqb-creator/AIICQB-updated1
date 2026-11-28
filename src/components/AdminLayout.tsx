@@ -33,6 +33,7 @@ export const AdminLayout: React.FC = () => {
     { label: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
     { label: 'Certifications', path: '/admin/certifications', icon: Award },
     { label: 'Examinations', path: '/admin/examinations', icon: CalendarCheck },
+    { label: 'Candidates', path: '/admin/candidates', icon: Users },
     { label: 'Certificates', path: '/admin/certificates', icon: FileCheck2 },
     { label: 'Verification', path: '/admin/verification', icon: ShieldCheck },
     { label: 'Reports & Analytics', path: '/admin/reports', icon: BarChart3 },

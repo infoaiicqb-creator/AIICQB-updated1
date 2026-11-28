@@ -295,7 +295,7 @@ export async function getCandidates(req, res) {
       });
     }
 
-    if (domain && domain !== 'All' && domain !== 'All Domains') {
+    if (domain && domain !== 'All' && domain !== 'All Domains' && domain !== 'undefined') {
       list = list.filter(c => c.domain && c.domain.toLowerCase().includes(domain.toLowerCase()));
     }
 

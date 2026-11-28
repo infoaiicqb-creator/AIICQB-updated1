@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 import {
   Users,
@@ -29,6 +30,7 @@ import {
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState<any>(() => {
     try {
       const s = localStorage.getItem('aicqb_admin_stats');
@@ -43,43 +45,6 @@ export const AdminDashboard: React.FC = () => {
   const [dateFilter, setDateFilter] = useState<string>('all');
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
-
-  // Candidate Roster Modal State
-  const [isCandidateModalOpen, setIsCandidateModalOpen] = useState(false);
-  const [candidateRoster, setCandidateRoster] = useState<any[]>([]);
-  const [candidateSearch, setCandidateSearch] = useState('');
-  const [loadingRoster, setLoadingRoster] = useState(false);
-
-  const handleOpenCandidateRoster = async () => {
-    setIsCandidateModalOpen(true);
-    if (stats?.candidatesList && stats.candidatesList.length > 0) {
-      setCandidateRoster(stats.candidatesList);
-    } else {
-      try {
-        setLoadingRoster(true);
-        const res = await api.getAdminCandidates();
-        if (res.success && res.candidates) {
-          setCandidateRoster(res.candidates);
-        }
-      } catch (err) {
-        console.error('Failed to load candidate roster:', err);
-      } finally {
-        setLoadingRoster(false);
-      }
-    }
-  };
-
-  const filteredRoster = (candidateRoster.length > 0 ? candidateRoster : (stats?.candidatesList || [])).filter((c: any) => {
-    if (!candidateSearch.trim()) return true;
-    const q = candidateSearch.toLowerCase();
-    return (
-      (c.fullName && c.fullName.toLowerCase().includes(q)) ||
-      (c.email && c.email.toLowerCase().includes(q)) ||
-      (c.candidateId && c.candidateId.toLowerCase().includes(q)) ||
-      (c.domain && c.domain.toLowerCase().includes(q)) ||
-      (c.country && c.country.toLowerCase().includes(q))
-    );
-  });
 
   useEffect(() => {
     loadDashboard(true);
@@ -252,9 +217,9 @@ export const AdminDashboard: React.FC = () => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Candidates */}
         <div
-          onClick={handleOpenCandidateRoster}
+          onClick={() => navigate('/admin/candidates')}
           className="bg-white rounded-2xl border border-gray-200 p-5 shadow-xs flex items-center justify-between cursor-pointer hover:border-[#F47716] hover:shadow-md transition-all group select-none"
-          title="Click to view live candidate roster"
+          title="Click to view candidate roster page"
         >
           <div className="space-y-1">
             <span className="text-2xl sm:text-3xl font-black text-[#10264B] block leading-none font-mono group-hover:text-[#F47716] transition-colors">
@@ -263,7 +228,7 @@ export const AdminDashboard: React.FC = () => {
             <span className="text-xs text-gray-500 font-bold block">Registered Candidates</span>
             <span className="inline-flex items-center text-[10px] font-bold text-green-600">
               <TrendingUp className="w-3 h-3 mr-0.5" /> Live candidate roster
-              <span className="ml-1 text-[9px] bg-green-100 text-green-800 px-1.5 py-0.2 rounded-full font-bold group-hover:bg-[#F47716] group-hover:text-white transition-colors">View</span>
+              <span className="ml-1 text-[9px] bg-green-100 text-green-800 px-1.5 py-0.2 rounded-full font-bold group-hover:bg-[#F47716] group-hover:text-white transition-colors">View Page &rarr;</span>
             </span>
           </div>
           <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] group-hover:bg-[#F47716] group-hover:text-white flex items-center justify-center flex-shrink-0 transition-all shadow-xs">
@@ -488,131 +453,6 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
       </div>
-
-      {/* ======================================================== */}
-      {/* LIVE CANDIDATE ROSTER MODAL                              */}
-      {/* ======================================================== */}
-      {isCandidateModalOpen && (
-        <div className="fixed inset-0 z-[10000] bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-4xl w-full shadow-2xl border border-slate-200 overflow-hidden transform animate-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]">
-            {/* Header */}
-            <div className="bg-[#10264B] px-5 sm:px-6 py-4 text-white flex items-center justify-between border-b border-slate-800 flex-shrink-0">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-[#F47716]/20 border border-[#F47716]/40 flex items-center justify-center text-[#F47716]">
-                  <Users className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-base font-black text-white leading-tight">Live Candidate Roster</h3>
-                  <p className="text-xs text-slate-300">
-                    {candidateRoster.length || totalCandidates} Registered Candidates in AIICQB Database
-                  </p>
-                </div>
-              </div>
-              <button
-                onClick={() => setIsCandidateModalOpen(false)}
-                className="p-1.5 text-slate-300 hover:text-white hover:bg-slate-800 rounded-xl transition-all cursor-pointer"
-                title="Close Modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Search Bar */}
-            <div className="p-4 border-b border-gray-100 bg-slate-50 flex-shrink-0">
-              <div className="relative w-full">
-                <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-2.5" />
-                <input
-                  type="text"
-                  value={candidateSearch}
-                  onChange={(e) => setCandidateSearch(e.target.value)}
-                  placeholder="Search by candidate name, email, ID, domain, or country..."
-                  className="w-full pl-10 pr-4 py-2 text-xs border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#F47716] font-medium bg-white"
-                  autoFocus
-                />
-              </div>
-            </div>
-
-            {/* Candidate List (Scrollable Area) */}
-            <div className="overflow-y-auto flex-1 divide-y divide-gray-100 p-2 sm:p-4 space-y-2">
-              {loadingRoster ? (
-                <div className="py-12 text-center text-gray-400">
-                  <Loader2 className="w-8 h-8 animate-spin text-[#F47716] mx-auto mb-2" />
-                  <p className="text-xs font-semibold">Loading candidate roster...</p>
-                </div>
-              ) : filteredRoster.length === 0 ? (
-                <div className="py-12 text-center text-gray-400">
-                  <p className="text-sm font-semibold">No candidates match "{candidateSearch}".</p>
-                </div>
-              ) : (
-                filteredRoster.map((c: any, idx: number) => {
-                  return (
-                    <div
-                      key={c.candidateId || c.uid || c.id || idx}
-                      className="p-3.5 sm:p-4 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                    >
-                      <div className="flex items-start space-x-3 min-w-0">
-                        <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#F47716] font-black text-sm flex items-center justify-center flex-shrink-0 border border-orange-100">
-                          {(c.fullName || c.name || 'C').charAt(0).toUpperCase()}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="flex items-center space-x-2 flex-wrap">
-                            <span className="font-extrabold text-[#10264B] text-sm">
-                              {c.fullName || c.name || 'Candidate'}
-                            </span>
-                            <span className="font-mono text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200">
-                              {c.candidateId || c.id}
-                            </span>
-                            <span className="inline-flex items-center text-[10px] font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded-full border border-green-200">
-                              <CheckCircle2 className="w-3 h-3 mr-0.5 text-green-600" />
-                              {c.status || 'Active'}
-                            </span>
-                          </div>
-                          <div className="text-xs text-gray-500 font-mono mt-0.5 truncate">
-                            {c.email}
-                          </div>
-                          <div className="flex items-center gap-2 mt-1.5 text-[11px] text-gray-500 flex-wrap">
-                            <span className="font-medium text-slate-700 bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
-                              {c.domain || 'Technology & IT'}
-                            </span>
-                            <span className="text-slate-400">•</span>
-                            <span className="inline-flex items-center">
-                              {c.country?.toLowerCase() === 'india' || !c.country ? '🇮🇳 India' : `🌐 ${c.country}`}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 self-end sm:self-center flex-shrink-0">
-                        <div className="text-right text-[11px] text-gray-400 font-medium">
-                          <div>Joined:</div>
-                          <div className="font-semibold text-slate-600">
-                            {c.createdAt
-                              ? new Date(c.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
-                              : 'Verified'}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-
-            {/* Footer */}
-            <div className="p-4 border-t border-gray-100 bg-slate-50 flex items-center justify-between flex-shrink-0 text-xs">
-              <span className="text-gray-500 font-medium">
-                Showing {filteredRoster.length} of {candidateRoster.length || totalCandidates} candidates
-              </span>
-              <button
-                onClick={() => setIsCandidateModalOpen(false)}
-                className="px-4 py-2 bg-[#10264B] hover:bg-[#1a386b] text-white font-bold rounded-xl cursor-pointer transition-colors"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
