@@ -42,6 +42,7 @@ import {
   Shield,
   Monitor,
   Video,
+  GraduationCap,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -719,9 +720,22 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, ex
               <span className="px-2.5 py-0.5 bg-gradient-to-r from-[#F47716] to-[#E35D00] text-white font-mono text-[10px] font-black rounded-md uppercase tracking-wider shadow-xs">
                 PROCTORED
               </span>
-              <span className="hidden md:inline px-2 py-0.5 bg-blue-900/60 text-blue-200 border border-blue-400/30 text-[10px] font-bold rounded-md">
-                {sessionData?.level || sessionData?.examLevel || examLevel || level || 'Professional Level'}
-              </span>
+              {(() => {
+                const lvl = sessionData?.level || sessionData?.examLevel || examLevel || level || 'Professional Level';
+                const isFnd = lvl.toLowerCase().includes('foundation');
+                const isAdv = lvl.toLowerCase().includes('advanced') || lvl.toLowerCase().includes('expert');
+                const badgeClass = isFnd
+                  ? 'bg-blue-600 text-white border-blue-400'
+                  : isAdv
+                  ? 'bg-purple-600 text-white border-purple-400'
+                  : 'bg-[#F47716] text-white border-orange-400';
+                return (
+                  <span className={`px-2.5 py-0.5 text-[10px] font-extrabold rounded-md border shadow-xs flex items-center space-x-1 ${badgeClass}`}>
+                    <GraduationCap className="w-3 h-3 text-white" />
+                    <span>{lvl}</span>
+                  </span>
+                );
+              })()}
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3 text-xs mt-0.5">
               <span className="text-orange-400 font-mono font-bold tracking-wider">
@@ -904,6 +918,53 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, ex
                 </p>
               </div>
             </div>
+
+            {/* Registered Examination Level Banner matching Requirement 5 */}
+            {(() => {
+              const activeLevelName = sessionData?.level || sessionData?.examLevel || examLevel || level || 'Professional Level';
+              const isFnd = activeLevelName.toLowerCase().includes('foundation');
+              const isAdv = activeLevelName.toLowerCase().includes('advanced') || activeLevelName.toLowerCase().includes('expert');
+              const badgeStyle = isFnd
+                ? 'bg-blue-50 text-blue-700 border-blue-200'
+                : isAdv
+                ? 'bg-purple-50 text-purple-700 border-purple-200'
+                : 'bg-orange-50 text-orange-700 border-orange-200';
+              return (
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-slate-400 block">Certification Program</span>
+                      <strong className="text-[#10264B] text-sm">{sessionData?.certificationName || certName || 'Certification Assessment'}</strong>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-[10px] uppercase font-bold text-slate-400">Registered Level:</span>
+                      <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border ${badgeStyle} flex items-center space-x-1`}>
+                        <GraduationCap className="w-3.5 h-3.5" />
+                        <span>{activeLevelName}</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+                    <div>
+                      <span className="text-slate-400 block text-[10px]">Exam Duration:</span>
+                      <strong className="text-slate-800">{durationMinutes} Minutes</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[10px]">Total Marks:</span>
+                      <strong className="text-slate-800">{sessionData?.totalMarks || (questions.length * 2)} Marks</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[10px]">Passing Criteria:</span>
+                      <strong className="text-emerald-700 font-bold">{sessionData?.passingPercentage || 70}% Required</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[10px]">Exam Attempt:</span>
+                      <strong className="text-[#F47716] font-bold">Attempt {sessionData?.attemptNumber || 1} of {sessionData?.allowedAttempts || 3}</strong>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Quick Metrics Bar (4 Horizontal Summary Metrics - Compact) */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 sm:gap-2 border border-slate-200/90 rounded-xl p-2 sm:p-2.5 bg-slate-50/60">

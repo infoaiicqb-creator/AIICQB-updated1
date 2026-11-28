@@ -242,6 +242,59 @@ export interface Payment {
   refundedAmount: number;
 }
 
+export interface ExamLevel {
+  id: string;
+  levelId: string;
+  certificationId: string;
+  certificationCode?: string;
+  levelName: string;
+  examFee: number;
+  examFeeUSD?: number;
+  examDuration: number;
+  totalQuestions: number;
+  totalMarks: number;
+  passingPercentage: number;
+  allowedAttempts: number;
+  questionBankId?: string;
+  levelStatus: 'Active' | 'Inactive';
+  examSyllabus?: string[];
+  examEligibility?: string;
+  certificationDetails?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ExamRegistration {
+  id: string;
+  registrationId: string;
+  candidateId: string;
+  candidateName: string;
+  candidateEmail: string;
+  candidateUid?: string;
+  certificationId: string;
+  certificationName: string;
+  certificationCode?: string;
+  levelId: string;
+  levelName: string;
+  selectedExamLevel?: string;
+  examFee: number;
+  paymentId: string;
+  razorpayOrderId?: string;
+  paymentStatus: string;
+  enrollmentDate: string;
+  examScheduleDate?: string;
+  examDate?: string;
+  examStartTime?: string;
+  examTime?: string;
+  examDuration: number;
+  examinationStatus: string;
+  examStatus: string;
+  attemptNumber: number;
+  allowedAttempts: number;
+  totalAllowedAttempts?: number;
+  createdAt: string;
+}
+
 export interface SupportTicket {
   id: string;
   ticketId: string;

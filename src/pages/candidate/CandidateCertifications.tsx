@@ -38,9 +38,9 @@ export const CandidateCertifications: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDomain, setSelectedDomain] = useState('All');
   const [activeTab, setActiveTab] = useState<'all' | 'enrolled' | 'completed'>('all');
-  const [selectedLevelFilter, setSelectedLevelFilter] = useState<'All' | 'foundation' | 'professional' | 'expert'>('All');
+  const [selectedLevelFilter, setSelectedLevelFilter] = useState<'All' | 'foundation' | 'professional' | 'advanced' | 'expert'>('All');
   const [showLevelMenu, setShowLevelMenu] = useState(false);
-  const [initialLevelModalId, setInitialLevelModalId] = useState<'foundation' | 'professional' | 'expert'>('professional');
+  const [initialLevelModalId, setInitialLevelModalId] = useState<'foundation' | 'professional' | 'advanced' | 'expert'>('professional');
 
   // Candidate status (Enrolled & Completed)
   const [enrolledCertIds, setEnrolledCertIds] = useState<string[]>(() => {
@@ -577,9 +577,21 @@ export const CandidateCertifications: React.FC = () => {
                   {enrolled ? (
                     <div
                       title="Enrolled & Paid Exam Level (Locked)"
-                      className="px-2.5 py-1 bg-[#10264B] text-white text-[11px] font-bold rounded-md border border-[#10264B] flex items-center space-x-1.5 shadow-2xs cursor-default"
+                      className={`px-2.5 py-1 text-[11px] font-bold rounded-md border flex items-center space-x-1.5 shadow-2xs cursor-default ${
+                        lockedPaidLevel.toLowerCase().includes('foundation')
+                          ? 'bg-blue-50 text-blue-700 border-blue-200'
+                          : lockedPaidLevel.toLowerCase().includes('advanced') || lockedPaidLevel.toLowerCase().includes('expert')
+                          ? 'bg-purple-50 text-purple-700 border-purple-200'
+                          : 'bg-orange-50 text-orange-700 border-orange-200'
+                      }`}
                     >
-                      <GraduationCap className="w-3.5 h-3.5 text-[#F47716]" />
+                      <GraduationCap className={`w-3.5 h-3.5 ${
+                        lockedPaidLevel.toLowerCase().includes('foundation')
+                          ? 'text-blue-600'
+                          : lockedPaidLevel.toLowerCase().includes('advanced') || lockedPaidLevel.toLowerCase().includes('expert')
+                          ? 'text-purple-600'
+                          : 'text-[#F47716]'
+                      }`} />
                       <span>{lockedPaidLevel}</span>
                     </div>
                   ) : completed ? (
@@ -600,16 +612,28 @@ export const CandidateCertifications: React.FC = () => {
                         setSelectedForLevelModal(cert);
                       }}
                       title="Click to view or choose exam level"
-                      className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 text-[11px] font-semibold rounded-md border border-purple-200 flex items-center space-x-1 transition-colors cursor-pointer"
+                      className={`px-2.5 py-1 text-[11px] font-semibold rounded-md border flex items-center space-x-1 transition-colors cursor-pointer ${
+                        (selectedLevelFilter === 'foundation')
+                          ? 'bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200'
+                          : (selectedLevelFilter === 'advanced' || selectedLevelFilter === 'expert')
+                          ? 'bg-purple-50 hover:bg-purple-100 text-purple-700 border-purple-200'
+                          : 'bg-orange-50 hover:bg-orange-100 text-orange-700 border-orange-200'
+                      }`}
                     >
-                      <GraduationCap className="w-3.5 h-3.5 text-purple-600" />
+                      <GraduationCap className={`w-3.5 h-3.5 ${
+                        (selectedLevelFilter === 'foundation')
+                          ? 'text-blue-600'
+                          : (selectedLevelFilter === 'advanced' || selectedLevelFilter === 'expert')
+                          ? 'text-purple-600'
+                          : 'text-[#F47716]'
+                      }`} />
                       <span>
                         {selectedLevelFilter === 'foundation'
                           ? 'Foundation Level'
                           : selectedLevelFilter === 'professional'
                             ? 'Professional Level'
-                            : selectedLevelFilter === 'expert'
-                              ? 'Expert Level'
+                            : (selectedLevelFilter === 'advanced' || selectedLevelFilter === 'expert')
+                              ? 'Advanced Level'
                               : cert.level || 'Professional Level'}
                       </span>
                     </button>

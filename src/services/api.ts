@@ -104,6 +104,23 @@ export const api = {
   // Exams
   getExams: () => request('/exams'),
   getMySchedules: () => request('/exams/my-schedules'),
+  getExamLevels: (certificationId?: string) =>
+    request(`/exams/levels${certificationId ? `?certificationId=${encodeURIComponent(certificationId)}` : ''}`),
+  createExamLevelAdmin: (body: any) =>
+    request('/exams/admin/levels', { method: 'POST', body: JSON.stringify(body) }),
+  updateExamLevelAdmin: (id: string, body: any) =>
+    request(`/exams/admin/levels/${encodeURIComponent(id)}`, { method: 'PUT', body: JSON.stringify(body) }),
+  deleteExamLevelAdmin: (id: string) =>
+    request(`/exams/admin/levels/${encodeURIComponent(id)}`, { method: 'DELETE' }),
+  getExamRegistrations: () => request('/exams/registrations'),
+  getExamRegistrationsAdmin: (params?: { levelName?: string; certificationId?: string; paymentStatus?: string }) => {
+    const qs = new URLSearchParams();
+    if (params?.levelName) qs.append('levelName', params.levelName);
+    if (params?.certificationId) qs.append('certificationId', params.certificationId);
+    if (params?.paymentStatus) qs.append('paymentStatus', params.paymentStatus);
+    const qStr = qs.toString();
+    return request(`/exams/admin/registrations${qStr ? `?${qStr}` : ''}`);
+  },
   scheduleExam: (body: { certificationId: string; scheduledDate?: string; scheduledTime?: string }) =>
     request('/exams/schedule', { method: 'POST', body: JSON.stringify(body) }),
   startExamSession: (scheduleId: string, level?: string) =>

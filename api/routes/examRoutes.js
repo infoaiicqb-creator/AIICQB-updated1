@@ -20,12 +20,20 @@ import {
   deleteQuestionAdmin,
   getExamMonitoringAdmin,
   getResultsAdmin,
+  getExamLevels,
+  createExamLevel,
+  updateExamLevel,
+  deleteExamLevel,
+  getExamRegistrations,
+  getExamRegistrationsAdmin,
 } from '../controllers/examController.js';
 import { authenticate, requireAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
 router.get('/', getExams);
+router.get('/levels', getExamLevels);
+router.get('/registrations', authenticate, getExamRegistrations);
 router.get('/my-schedules', authenticate, getCandidateSchedules);
 router.post('/schedule', authenticate, scheduleExam);
 router.get('/session/:scheduleId', authenticate, startExam);
@@ -51,6 +59,13 @@ router.delete('/admin/questions/:id', authenticate, requireAdmin, deleteQuestion
 router.get('/admin/monitoring', authenticate, requireAdmin, getExamMonitoringAdmin);
 router.post('/admin/review-session', authenticate, requireAdmin, reviewSessionAdmin);
 router.get('/admin/results', authenticate, requireAdmin, getResultsAdmin);
+
+// Admin Exam Levels & Registrations
+router.get('/admin/levels', authenticate, requireAdmin, getExamLevels);
+router.post('/admin/levels', authenticate, requireAdmin, createExamLevel);
+router.put('/admin/levels/:id', authenticate, requireAdmin, updateExamLevel);
+router.delete('/admin/levels/:id', authenticate, requireAdmin, deleteExamLevel);
+router.get('/admin/registrations', authenticate, requireAdmin, getExamRegistrationsAdmin);
 
 export default router;
 

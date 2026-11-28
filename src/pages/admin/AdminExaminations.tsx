@@ -29,6 +29,12 @@ import {
   AlertTriangle,
   FileText,
   Video,
+  GraduationCap,
+  DollarSign,
+  Layers,
+  Settings,
+  BookOpen,
+  Sparkles,
 } from 'lucide-react';
 
 interface CertificationOption {
@@ -104,7 +110,7 @@ const generateSampleJson = (certCode: string, level: string) => {
 };
 
 export const AdminExaminations: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'schedules' | 'questions' | 'monitoring' | 'results'>('schedules');
+  const [activeTab, setActiveTab] = useState<'schedules' | 'questions' | 'monitoring' | 'results' | 'levels'>('schedules');
   const [loading, setLoading] = useState(false);
 
   // Real Database Collections
@@ -179,6 +185,37 @@ export const AdminExaminations: React.FC = () => {
   // Result Preview Modal
   const [selectedResult, setSelectedResult] = useState<any>(null);
 
+  // Dynamic Exam Levels & Registrations States (Requirement 8)
+  const [examLevelsList, setExamLevelsList] = useState<any[]>([]);
+  const [registrationsList, setRegistrationsList] = useState<any[]>([]);
+  const [levelSearch, setLevelSearch] = useState('');
+  const [levelTierFilter, setLevelTierFilter] = useState('All');
+  const [levelCertFilter, setLevelCertFilter] = useState('All');
+  const [levelStatusFilter, setLevelStatusFilter] = useState('All');
+  const [showLevelModal, setShowLevelModal] = useState(false);
+  const [editingLevel, setEditingLevel] = useState<any>(null);
+  const [savingLevel, setSavingLevel] = useState(false);
+  const [showRegistrationsModal, setShowRegistrationsModal] = useState(false);
+  const [regSearch, setRegSearch] = useState('');
+  const [regLevelFilter, setRegLevelFilter] = useState('All');
+
+  const [levelForm, setLevelForm] = useState({
+    certificationId: 'cert_aiicqb_st_cp_001',
+    levelName: 'Foundation Level',
+    examFee: 4500,
+    examFeeUSD: 59,
+    examDuration: 60,
+    totalQuestions: 50,
+    totalMarks: 100,
+    passingPercentage: 70,
+    allowedAttempts: 3,
+    questionBankId: 'qb_fnd_001',
+    levelStatus: 'Active',
+    examSyllabus: 'Principles & Basics\nTest Suite Design & Assertions',
+    examEligibility: 'Open to all candidates and QA practitioners.',
+    certificationDetails: 'Foundational certification validating core technical competencies.',
+  });
+
   // Proctoring Audit Modal (Requirement 10)
   const [selectedAuditSession, setSelectedAuditSession] = useState<any>(null);
   const [showAuditModal, setShowAuditModal] = useState(false);
@@ -229,13 +266,23 @@ export const AdminExaminations: React.FC = () => {
   const loadAllData = async () => {
     try {
       if (exams.length === 0 && questions.length === 0) setLoading(true);
-      const [examsRes, questionsRes, monitoringRes, resultsRes, certsRes] = await Promise.all([
+      const [examsRes, questionsRes, monitoringRes, resultsRes, certsRes, levelsRes, regsRes] = await Promise.all([
         api.getExams().catch(() => ({ success: false, exams: [] })),
         api.getAdminQuestions().catch(() => ({ success: false, questions: [] })),
         api.getAdminMonitoring().catch(() => ({ success: false, attempts: [], schedules: [] })),
         api.getAdminResults().catch(() => ({ success: false, results: [] })),
         api.getCertifications({ adminView: 'true' }).catch(() => ({ success: false, certifications: [] })),
+        api.getExamLevels().catch(() => ({ success: false, levels: [] })),
+        api.getExamRegistrationsAdmin().catch(() => ({ success: false, registrations: [] })),
       ]);
+
+      if (levelsRes.success && Array.isArray(levelsRes.levels)) {
+        setExamLevelsList(levelsRes.levels);
+      }
+
+      if (regsRes.success && Array.isArray(regsRes.registrations)) {
+        setRegistrationsList(regsRes.registrations);
+      }
 
       if (certsRes.success && Array.isArray(certsRes.certifications) && certsRes.certifications.length > 0) {
         const mappedCerts: CertificationOption[] = certsRes.certifications.map((c: any) => ({
@@ -834,6 +881,15 @@ export const AdminExaminations: React.FC = () => {
         >
           <Award className="w-4 h-4" />
           <span>Result Management & Scorecards ({resultsList.length})</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('levels')}
+          className={`flex items-center space-x-2 py-3 px-3 sm:px-4 font-bold border-b-2 whitespace-nowrap cursor-pointer transition-colors ${activeTab === 'levels' ? 'border-[#F47716] text-[#F47716]' : 'border-transparent text-gray-500 hover:text-[#10264B]'
+            }`}
+        >
+          <GraduationCap className="w-4 h-4" />
+          <span>Exam Level Configuration ({examLevelsList.length})</span>
         </button>
       </div>
 
@@ -1644,6 +1700,299 @@ export const AdminExaminations: React.FC = () => {
       )}
 
       {/* ======================================================== */}
+      {/* TAB 5: EXAM LEVEL CONFIGURATION (REQUIREMENT 8)          */}
+      {/* ======================================================== */}
+      {activeTab === 'levels' && (
+        <div className="space-y-4">
+          {/* Top KPI Metrics for Exam Levels */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Configured Levels</p>
+                <h3 className="text-2xl font-black text-[#10264B] mt-1">{examLevelsList.length}</h3>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
+                <GraduationCap className="w-5 h-5" />
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Active Tiers</p>
+                <h3 className="text-2xl font-black text-emerald-600 mt-1">
+                  {examLevelsList.filter((l) => (l.levelStatus || 'Active') === 'Active').length}
+                </h3>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                <CheckCircle2 className="w-5 h-5" />
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Total Registrations</p>
+                <h3 className="text-2xl font-black text-[#F47716] mt-1">{registrationsList.length}</h3>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#F47716] flex items-center justify-center font-bold">
+                <Users className="w-5 h-5" />
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Registration Volume</p>
+                <h3 className="text-xl sm:text-2xl font-black text-purple-700 mt-1 font-mono">
+                  ₹{registrationsList.reduce((acc, r) => acc + (Number(r.examFee) || 0), 0).toLocaleString('en-IN')}
+                </h3>
+              </div>
+              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
+                <DollarSign className="w-5 h-5" />
+              </div>
+            </div>
+          </div>
+
+          {/* Action Bar & Filters */}
+          <div className="bg-white rounded-xl border border-gray-200 p-3 sm:p-4 shadow-sm flex flex-col md:flex-row gap-3 text-xs justify-between items-stretch md:items-center">
+            <div className="flex flex-wrap items-center gap-2 flex-1">
+              <div className="relative flex-1 min-w-[200px]">
+                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-2.5" />
+                <input
+                  type="text"
+                  value={levelSearch}
+                  onChange={(e) => setLevelSearch(e.target.value)}
+                  placeholder="Search level name, code, certification..."
+                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F47716]"
+                />
+              </div>
+
+              {/* Tier Filter */}
+              <select
+                value={levelTierFilter}
+                onChange={(e) => setLevelTierFilter(e.target.value)}
+                className="px-3 py-2 bg-slate-50 border border-gray-300 rounded-lg font-semibold text-gray-700 cursor-pointer"
+              >
+                <option value="All">All Exam Levels</option>
+                <option value="Foundation Level">Foundation Level Only</option>
+                <option value="Professional Level">Professional Level Only</option>
+                <option value="Advanced Level">Advanced Level Only</option>
+              </select>
+
+              {/* Status Filter */}
+              <select
+                value={levelStatusFilter}
+                onChange={(e) => setLevelStatusFilter(e.target.value)}
+                className="px-3 py-2 bg-slate-50 border border-gray-300 rounded-lg font-semibold text-gray-700 cursor-pointer"
+              >
+                <option value="All">All Statuses</option>
+                <option value="Active">Active Only</option>
+                <option value="Inactive">Inactive Only</option>
+              </select>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setShowRegistrationsModal(true)}
+                className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-[#10264B] font-bold rounded-lg border border-slate-300 transition-colors flex items-center space-x-1.5 cursor-pointer shadow-xs"
+              >
+                <Users className="w-3.5 h-3.5 text-[#F47716]" />
+                <span>Level Registrations ({registrationsList.length})</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setEditingLevel(null);
+                  setLevelForm({
+                    certificationId: certificationsList[0]?.id || 'cert_aiicqb_st_cp_001',
+                    levelName: 'Foundation Level',
+                    examFee: 4500,
+                    examFeeUSD: 59,
+                    examDuration: 60,
+                    totalQuestions: 50,
+                    totalMarks: 100,
+                    passingPercentage: 70,
+                    allowedAttempts: 3,
+                    questionBankId: 'qb_fnd_001',
+                    levelStatus: 'Active',
+                    examSyllabus: 'Principles & Basics\nTest Suite Design & Assertions',
+                    examEligibility: 'Open to all candidates and QA practitioners.',
+                    certificationDetails: 'Foundational certification validating core technical competencies.',
+                  });
+                  setShowLevelModal(true);
+                }}
+                className="px-4 py-2 bg-[#F47716] hover:bg-[#DC660E] text-white font-bold rounded-lg shadow-sm transition-all flex items-center space-x-1.5 cursor-pointer"
+              >
+                <Plus className="w-4 h-4 stroke-[2.5]" />
+                <span>Configure Exam Level</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Exam Levels Table */}
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr className="bg-slate-50/80 border-b border-gray-200 text-gray-500 font-bold uppercase tracking-wider text-[10px]">
+                    <th className="py-3 px-4">Program & Code</th>
+                    <th className="py-3 px-4">Exam Level Tier</th>
+                    <th className="py-3 px-4">Examination Fee</th>
+                    <th className="py-3 px-4">Duration</th>
+                    <th className="py-3 px-4">Questions & Marks</th>
+                    <th className="py-3 px-4">Pass % / Attempts</th>
+                    <th className="py-3 px-4">Question Bank ID</th>
+                    <th className="py-3 px-4">Tier Status</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {examLevelsList
+                    .filter((lvl) => {
+                      if (levelTierFilter !== 'All' && (lvl.levelName || '').toLowerCase() !== levelTierFilter.toLowerCase()) {
+                        return false;
+                      }
+                      if (levelStatusFilter !== 'All' && (lvl.levelStatus || 'Active').toLowerCase() !== levelStatusFilter.toLowerCase()) {
+                        return false;
+                      }
+                      if (levelSearch.trim()) {
+                        const q = levelSearch.toLowerCase().trim();
+                        const matchName = (lvl.levelName || '').toLowerCase().includes(q);
+                        const matchCert = (lvl.certificationCode || lvl.certificationId || '').toLowerCase().includes(q);
+                        if (!matchName && !matchCert) return false;
+                      }
+                      return true;
+                    })
+                    .map((lvl) => {
+                      const lvlName = lvl.levelName || 'Professional Level';
+                      const isFnd = lvlName.toLowerCase().includes('foundation');
+                      const isAdv = lvlName.toLowerCase().includes('advanced') || lvlName.toLowerCase().includes('expert');
+                      const badgeClass = isFnd
+                        ? 'bg-blue-50 text-blue-700 border-blue-200'
+                        : isAdv
+                        ? 'bg-purple-50 text-purple-700 border-purple-200'
+                        : 'bg-orange-50 text-orange-700 border-orange-200';
+                      const capColor = isFnd ? 'text-blue-600' : isAdv ? 'text-purple-600' : 'text-[#F47716]';
+
+                      return (
+                        <tr key={lvl.id} className="hover:bg-slate-50/70 transition-colors">
+                          <td className="py-3 px-4">
+                            <strong className="text-[#10264B] block font-bold">{lvl.certificationCode || 'AIICQB-CERT'}</strong>
+                            <span className="text-gray-400 font-mono text-[10px]">{lvl.certificationId}</span>
+                          </td>
+                          <td className="py-3 px-4">
+                            <span className={`px-2.5 py-1 rounded-full font-extrabold text-[11px] border shadow-2xs inline-flex items-center space-x-1 ${badgeClass}`}>
+                              <GraduationCap className={`w-3.5 h-3.5 ${capColor}`} />
+                              <span>{lvlName}</span>
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 font-mono font-bold text-[#10264B]">
+                            <span>₹{Number(lvl.examFee).toLocaleString('en-IN')}</span>
+                            {lvl.examFeeUSD && <span className="text-gray-400 text-[10px] block font-normal">${lvl.examFeeUSD} USD</span>}
+                          </td>
+                          <td className="py-3 px-4 text-gray-700 font-semibold">
+                            <div className="flex items-center space-x-1">
+                              <Clock className="w-3.5 h-3.5 text-gray-400" />
+                              <span>{lvl.examDuration || 90} Mins</span>
+                            </div>
+                          </td>
+                          <td className="py-3 px-4">
+                            <strong className="text-slate-800">{lvl.totalQuestions || 50} MCQs</strong>
+                            <span className="text-gray-400 text-[10px] block">{lvl.totalMarks || (Number(lvl.totalQuestions) * 2)} Marks</span>
+                          </td>
+                          <td className="py-3 px-4">
+                            <span className="text-emerald-700 font-bold">{lvl.passingPercentage || 70}% Pass</span>
+                            <span className="text-gray-500 text-[10px] block font-medium">{lvl.allowedAttempts || 3} Attempts</span>
+                          </td>
+                          <td className="py-3 px-4 font-mono text-[11px] text-slate-600">
+                            {lvl.questionBankId || 'qb_default'}
+                          </td>
+                          <td className="py-3 px-4">
+                            <button
+                              type="button"
+                              onClick={async () => {
+                                const newStatus = (lvl.levelStatus || 'Active') === 'Active' ? 'Inactive' : 'Active';
+                                try {
+                                  await api.updateExamLevelAdmin(lvl.id, { levelStatus: newStatus });
+                                  setExamLevelsList((prev) =>
+                                    prev.map((item) => (item.id === lvl.id ? { ...item, levelStatus: newStatus } : item))
+                                  );
+                                  showToast(`Level "${lvlName}" set to ${newStatus}`);
+                                } catch (err: any) {
+                                  showToast(err.message || 'Failed to update level status', 'error');
+                                }
+                              }}
+                              className={`px-2.5 py-1 rounded-full text-[10px] font-bold border transition-all cursor-pointer ${
+                                (lvl.levelStatus || 'Active') === 'Active'
+                                  ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+                                  : 'bg-gray-100 text-gray-500 border-gray-300 hover:bg-gray-200'
+                              }`}
+                            >
+                              {(lvl.levelStatus || 'Active') === 'Active' ? '● Active' : '○ Inactive'}
+                            </button>
+                          </td>
+                          <td className="py-3 px-4 text-right">
+                            <div className="inline-flex items-center space-x-1.5">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setEditingLevel(lvl);
+                                  setLevelForm({
+                                    certificationId: lvl.certificationId || certificationsList[0]?.id || 'cert_aiicqb_st_cp_001',
+                                    levelName: lvl.levelName || 'Foundation Level',
+                                    examFee: lvl.examFee || 4500,
+                                    examFeeUSD: lvl.examFeeUSD || 59,
+                                    examDuration: lvl.examDuration || 60,
+                                    totalQuestions: lvl.totalQuestions || 50,
+                                    totalMarks: lvl.totalMarks || 100,
+                                    passingPercentage: lvl.passingPercentage || 70,
+                                    allowedAttempts: lvl.allowedAttempts || 3,
+                                    questionBankId: lvl.questionBankId || 'qb_fnd_001',
+                                    levelStatus: lvl.levelStatus || 'Active',
+                                    examSyllabus: Array.isArray(lvl.examSyllabus) ? lvl.examSyllabus.join('\n') : (lvl.examSyllabus || ''),
+                                    examEligibility: lvl.examEligibility || '',
+                                    certificationDetails: lvl.certificationDetails || '',
+                                  });
+                                  setShowLevelModal(true);
+                                }}
+                                className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg cursor-pointer"
+                                title="Edit Exam Level Parameters"
+                              >
+                                <Edit2 className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={async () => {
+                                  if (!window.confirm(`Delete exam level configuration for "${lvlName}"?`)) return;
+                                  try {
+                                    await api.deleteExamLevelAdmin(lvl.id);
+                                    setExamLevelsList((prev) => prev.filter((item) => item.id !== lvl.id));
+                                    showToast(`Exam level "${lvlName}" deleted successfully`);
+                                  } catch (err: any) {
+                                    showToast(err.message || 'Failed to delete level', 'error');
+                                  }
+                                }}
+                                className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg cursor-pointer"
+                                title="Delete Level"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="p-3 bg-slate-50 border-t border-gray-200 text-[11px] text-gray-500 flex items-center justify-between">
+              <span>Showing dynamic exam tiers synced to Firebase Firestore</span>
+              <span className="text-[#F47716] font-semibold">Changes reflect instantly on Candidate Portal</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
       {/* MODAL: BULK JSON QUESTION IMPORT                         */}
       {/* ======================================================== */}
       {showJsonModal && (
@@ -2338,6 +2687,390 @@ export const AdminExaminations: React.FC = () => {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* MODAL: CONFIGURE / EDIT EXAM LEVEL                       */}
+      {/* ======================================================== */}
+      {showLevelModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-5 sm:p-6 space-y-4 shadow-2xl border border-gray-100 my-auto max-h-[92vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+              <div className="flex items-center space-x-2.5">
+                <div className="w-9 h-9 rounded-xl bg-orange-50 text-[#F47716] flex items-center justify-center">
+                  <GraduationCap className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-[#10264B]">
+                    {editingLevel ? 'Edit Examination Level Configuration' : 'Configure New Examination Level'}
+                  </h3>
+                  <p className="text-[11px] text-gray-500">
+                    Set level pricing, question limits, passing criteria, and syllabus highlights.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowLevelModal(false)}
+                className="text-gray-400 hover:text-gray-600 p-1 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setSavingLevel(true);
+                try {
+                  const payload = {
+                    ...levelForm,
+                    examSyllabus: levelForm.examSyllabus.split('\n').map((s) => s.trim()).filter(Boolean),
+                  };
+
+                  if (editingLevel) {
+                    const res = await api.updateExamLevelAdmin(editingLevel.id, payload);
+                    if (res.success) {
+                      setExamLevelsList((prev) =>
+                        prev.map((l) => (l.id === editingLevel.id ? { ...l, ...res.examLevel } : l))
+                      );
+                      showToast(`Exam Level "${levelForm.levelName}" updated successfully.`);
+                    }
+                  } else {
+                    const res = await api.createExamLevelAdmin(payload);
+                    if (res.success) {
+                      setExamLevelsList((prev) => [res.examLevel, ...prev]);
+                      showToast(`Exam Level "${levelForm.levelName}" configured successfully.`);
+                    }
+                  }
+                  setShowLevelModal(false);
+                } catch (err: any) {
+                  showToast(err.message || 'Failed to save exam level configuration', 'error');
+                } finally {
+                  setSavingLevel(false);
+                }
+              }}
+              className="space-y-3.5 text-xs"
+            >
+              <div>
+                <label className="block font-semibold text-gray-700 mb-1">Target Certification Program *</label>
+                <select
+                  value={levelForm.certificationId}
+                  onChange={(e) => setLevelForm({ ...levelForm, certificationId: e.target.value })}
+                  disabled={!!editingLevel}
+                  className="w-full p-2.5 bg-slate-50 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#F47716] font-medium"
+                >
+                  {certificationsList.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name} ({c.code})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Exam Level Tier *</label>
+                  <select
+                    value={levelForm.levelName}
+                    onChange={(e) => setLevelForm({ ...levelForm, levelName: e.target.value })}
+                    className="w-full p-2.5 bg-slate-50 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#F47716] font-medium"
+                  >
+                    <option value="Foundation Level">Foundation Level</option>
+                    <option value="Professional Level">Professional Level</option>
+                    <option value="Advanced Level">Advanced Level</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Status *</label>
+                  <select
+                    value={levelForm.levelStatus}
+                    onChange={(e) => setLevelForm({ ...levelForm, levelStatus: e.target.value })}
+                    className="w-full p-2.5 bg-slate-50 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#F47716] font-medium"
+                  >
+                    <option value="Active">Active (Available for Candidates)</option>
+                    <option value="Inactive">Inactive (Disabled)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Exam Fee (INR ₹) *</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="100"
+                    value={levelForm.examFee}
+                    onChange={(e) => setLevelForm({ ...levelForm, examFee: Number(e.target.value) })}
+                    className="w-full p-2.5 bg-slate-50 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#F47716] font-mono font-bold"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Exam Fee (USD $) *</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={levelForm.examFeeUSD}
+                    onChange={(e) => setLevelForm({ ...levelForm, examFeeUSD: Number(e.target.value) })}
+                    className="w-full p-2.5 bg-slate-50 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#F47716] font-mono"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Duration (Mins)</label>
+                  <input
+                    type="number"
+                    value={levelForm.examDuration}
+                    onChange={(e) => setLevelForm({ ...levelForm, examDuration: Number(e.target.value) })}
+                    className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Total Questions</label>
+                  <input
+                    type="number"
+                    value={levelForm.totalQuestions}
+                    onChange={(e) => setLevelForm({ ...levelForm, totalQuestions: Number(e.target.value) })}
+                    className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Passing %</label>
+                  <input
+                    type="number"
+                    value={levelForm.passingPercentage}
+                    onChange={(e) => setLevelForm({ ...levelForm, passingPercentage: Number(e.target.value) })}
+                    className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg font-mono text-emerald-700 font-bold"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Attempts</label>
+                  <input
+                    type="number"
+                    value={levelForm.allowedAttempts}
+                    onChange={(e) => setLevelForm({ ...levelForm, allowedAttempts: Number(e.target.value) })}
+                    className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg font-mono"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-semibold text-gray-700 mb-1">Assigned Question Bank ID</label>
+                <input
+                  type="text"
+                  value={levelForm.questionBankId}
+                  onChange={(e) => setLevelForm({ ...levelForm, questionBankId: e.target.value })}
+                  placeholder="e.g. qb_st_fnd_001"
+                  className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg font-mono text-[11px]"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold text-gray-700 mb-1">Exam Syllabus (One topic per line)</label>
+                <textarea
+                  rows={3}
+                  value={levelForm.examSyllabus}
+                  onChange={(e) => setLevelForm({ ...levelForm, examSyllabus: e.target.value })}
+                  className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg text-[11px]"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold text-gray-700 mb-1">Eligibility Criteria</label>
+                <input
+                  type="text"
+                  value={levelForm.examEligibility}
+                  onChange={(e) => setLevelForm({ ...levelForm, examEligibility: e.target.value })}
+                  className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg text-[11px]"
+                />
+              </div>
+
+              <div className="flex items-center justify-end space-x-2 pt-2 border-t">
+                <button
+                  type="button"
+                  onClick={() => setShowLevelModal(false)}
+                  className="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-xl font-semibold cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingLevel}
+                  className="px-5 py-2 bg-[#F47716] hover:bg-[#DC660E] text-white rounded-xl font-bold shadow-md transition-all flex items-center space-x-1.5 cursor-pointer disabled:opacity-50"
+                >
+                  {savingLevel ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Saving Tier...</span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>{editingLevel ? 'Update Exam Level' : 'Save Exam Level'}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* MODAL: CANDIDATE LEVEL REGISTRATIONS & PAYMENTS          */}
+      {/* ======================================================== */}
+      {showRegistrationsModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl max-w-4xl w-full p-5 sm:p-6 space-y-4 shadow-2xl border border-gray-100 my-auto max-h-[92vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+              <div className="flex items-center space-x-2.5">
+                <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <Users className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-[#10264B]">Candidate Examination Registrations</h3>
+                  <p className="text-[11px] text-gray-500">
+                    Live candidate registrations permanently linked to their chosen examination level.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowRegistrationsModal(false)}
+                className="text-gray-400 hover:text-gray-600 p-1 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Filter controls */}
+            <div className="flex flex-col sm:flex-row gap-2.5 text-xs">
+              <div className="relative flex-1">
+                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-2.5" />
+                <input
+                  type="text"
+                  value={regSearch}
+                  onChange={(e) => setRegSearch(e.target.value)}
+                  placeholder="Search candidate name, email, registration ID..."
+                  className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F47716]"
+                />
+              </div>
+
+              <select
+                value={regLevelFilter}
+                onChange={(e) => setRegLevelFilter(e.target.value)}
+                className="px-3 py-2 bg-slate-50 border border-gray-300 rounded-lg font-semibold text-gray-700"
+              >
+                <option value="All">All Registered Levels</option>
+                <option value="Foundation Level">Foundation Level</option>
+                <option value="Professional Level">Professional Level</option>
+                <option value="Advanced Level">Advanced Level</option>
+              </select>
+            </div>
+
+            {/* Registrations List Table */}
+            <div className="border border-gray-200 rounded-xl overflow-hidden shadow-xs">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-gray-200 text-gray-500 font-bold uppercase text-[10px]">
+                      <th className="py-2.5 px-3">Candidate</th>
+                      <th className="py-2.5 px-3">Registration ID</th>
+                      <th className="py-2.5 px-3">Certification</th>
+                      <th className="py-2.5 px-3">Registered Level</th>
+                      <th className="py-2.5 px-3">Fee Paid</th>
+                      <th className="py-2.5 px-3">Payment</th>
+                      <th className="py-2.5 px-3">Scheduled Exam</th>
+                      <th className="py-2.5 px-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {registrationsList
+                      .filter((r) => {
+                        if (regLevelFilter !== 'All' && (r.levelName || r.selectedExamLevel || '').toLowerCase() !== regLevelFilter.toLowerCase()) {
+                          return false;
+                        }
+                        if (regSearch.trim()) {
+                          const q = regSearch.toLowerCase().trim();
+                          const matchName = (r.candidateName || '').toLowerCase().includes(q);
+                          const matchEmail = (r.candidateEmail || '').toLowerCase().includes(q);
+                          const matchId = (r.registrationId || r.id || '').toLowerCase().includes(q);
+                          if (!matchName && !matchEmail && !matchId) return false;
+                        }
+                        return true;
+                      })
+                      .map((r) => {
+                        const lvl = r.levelName || r.selectedExamLevel || 'Professional Level';
+                        const isFnd = lvl.toLowerCase().includes('foundation');
+                        const isAdv = lvl.toLowerCase().includes('advanced') || lvl.toLowerCase().includes('expert');
+                        const badgeStyle = isFnd
+                          ? 'bg-blue-50 text-blue-700 border-blue-200'
+                          : isAdv
+                          ? 'bg-purple-50 text-purple-700 border-purple-200'
+                          : 'bg-orange-50 text-orange-700 border-orange-200';
+                        return (
+                          <tr key={r.id || r.registrationId} className="hover:bg-slate-50/70">
+                            <td className="py-2.5 px-3">
+                              <strong className="text-[#10264B] block">{r.candidateName}</strong>
+                              <span className="text-gray-400 text-[10px]">{r.candidateEmail}</span>
+                            </td>
+                            <td className="py-2.5 px-3 font-mono text-[10px] text-slate-600 font-semibold">
+                              {r.registrationId || r.id}
+                            </td>
+                            <td className="py-2.5 px-3">
+                              <span className="font-semibold text-slate-800">{r.certificationCode || 'AICQB'}</span>
+                            </td>
+                            <td className="py-2.5 px-3">
+                              <span className={`px-2 py-0.5 rounded-full font-bold text-[10px] border ${badgeStyle}`}>
+                                {lvl}
+                              </span>
+                            </td>
+                            <td className="py-2.5 px-3 font-mono font-bold text-[#10264B]">
+                              ₹{Number(r.examFee || 0).toLocaleString('en-IN')}
+                            </td>
+                            <td className="py-2.5 px-3">
+                              <span className="px-1.5 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded text-[10px] font-bold">
+                                {r.paymentStatus || 'PAID'}
+                              </span>
+                            </td>
+                            <td className="py-2.5 px-3 text-slate-600 text-[11px]">
+                              {r.examDate || r.examScheduleDate || 'Scheduled'}
+                            </td>
+                            <td className="py-2.5 px-3">
+                              <span className="px-1.5 py-0.5 bg-blue-50 text-blue-800 border border-blue-200 rounded text-[10px] font-semibold">
+                                {r.examStatus || r.examinationStatus || 'scheduled'}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+
+              {registrationsList.length === 0 && (
+                <div className="py-8 text-center text-gray-400 text-xs">
+                  No candidate exam registrations found in database.
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-end pt-2 border-t">
+              <button
+                onClick={() => setShowRegistrationsModal(false)}
+                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold cursor-pointer"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>

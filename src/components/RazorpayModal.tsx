@@ -563,6 +563,15 @@ export const RazorpayModal: React.FC<RazorpayModalProps> = ({
                   </span>
                 </div>
                 <div>
+                  <span className="text-gray-400 block">Exam Registration ID:</span>
+                  <span className="font-mono font-bold text-[#F47716]">
+                    {receiptData?.registration?.registrationId ||
+                      receiptData?.registration?.id ||
+                      receiptData?.schedule?.registrationId ||
+                      `REG-AICQB-2026-00841`}
+                  </span>
+                </div>
+                <div>
                   <span className="text-gray-400 block">Certification Program:</span>
                   <span className="font-semibold text-slate-800 truncate block">
                     {certificationName} ({certificationCode})
@@ -625,9 +634,21 @@ export const RazorpayModal: React.FC<RazorpayModalProps> = ({
                   <span className="px-2 py-0.5 bg-[#0A1D37] text-white text-[10px] font-mono font-bold rounded">
                     {certificationCode}
                   </span>
-                  <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-semibold rounded">
-                    {certificationLevel}
-                  </span>
+                  {(() => {
+                    const l = (certificationLevel || 'Professional Level').toLowerCase();
+                    const isFnd = l.includes('foundation');
+                    const isAdv = l.includes('advanced') || l.includes('expert');
+                    const badgeClass = isFnd
+                      ? 'bg-blue-50 text-blue-700 border-blue-200'
+                      : isAdv
+                      ? 'bg-purple-50 text-purple-700 border-purple-200'
+                      : 'bg-orange-50 text-orange-700 border-orange-200';
+                    return (
+                      <span className={`px-2 py-0.5 text-[10px] font-bold rounded border ${badgeClass}`}>
+                        {certificationLevel || 'Professional Level'}
+                      </span>
+                    );
+                  })()}
                 </div>
                 <h4 className="font-bold text-sm sm:text-base text-[#0A1D37] mt-1 truncate">
                   {certificationName}

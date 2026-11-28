@@ -51,12 +51,84 @@
     "validityYears": 3,
     "version": "2026.1",
     "status": "Active",
+    "certificationStatus": "Active",
+    "availableLevels": [
+      "Foundation Level",
+      "Professional Level",
+      "Advanced Level"
+    ],
     "isDeleted": false,
     "tags": [],
-    "enrolledCount": 2,
+    "enrolledCount": 3,
     "createdBy": "pushpak@gmail.com",
     "updatedBy": "pushpak@gmail.com",
     "createdAt": "2026-11-27T18:14:21.959Z",
-    "updatedAt": "2026-11-28T11:01:48.356Z"
+    "updatedAt": "2026-11-28T16:33:20.800Z"
+  },
+  {
+    "id": "cert_aiicqb_wd_cp_001",
+    "certificationId": "cert_aiicqb_wd_cp_001",
+    "certificationCode": "AIICQB-WD-CP-001",
+    "name": "AIICQB Java Developer",
+    "certificationName": "AIICQB Java Developer",
+    "code": "AIICQB-WD-CP-001",
+    "domain": "Web Development",
+    "domainId": "dom_web_dev",
+    "domainCode": "WD",
+    "level": "Foundation Level",
+    "levelId": "lvl_fnd",
+    "description": "java Developer",
+    "learningObjectives": [
+      "Core conceptual mastery",
+      "Practical applied assessment"
+    ],
+    "syllabus": [
+      {
+        "title": "Module 1: Principles & Fundamentals",
+        "hours": 10,
+        "topics": [
+          "Overview",
+          "Architecture"
+        ]
+      },
+      {
+        "title": "Module 2: Advanced Implementation",
+        "hours": 15,
+        "topics": [
+          "Hands-on",
+          "Case Studies"
+        ]
+      }
+    ],
+    "eligibility": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
+    "eligibilityCriteria": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
+    "examPattern": "Online proctored examination, 60 MCQ questions, 90 minutes duration.",
+    "examFee": 14000,
+    "examFeeINR": 14000,
+    "examFeeUSD": 164.71,
+    "exchangeRate": 85,
+    "exchangeRateSnapshot": 85,
+    "currency": "INR",
+    "duration": "90 Minutes",
+    "examDuration": 90,
+    "durationUnit": "Minutes",
+    "passingCriteria": 70,
+    "passingThreshold": 70,
+    "validityYears": 3,
+    "version": "2026.1",
+    "status": "Active",
+    "certificationStatus": "Active",
+    "availableLevels": [
+      "Foundation Level",
+      "Professional Level",
+      "Advanced Level"
+    ],
+    "isDeleted": false,
+    "tags": [],
+    "enrolledCount": 1,
+    "createdBy": "admin@aicqb.org",
+    "updatedBy": "admin@aicqb.org",
+    "createdAt": "2026-11-28T16:18:41.519Z",
+    "updatedAt": "2026-11-28T16:34:37.343Z"
   }
 ]

@@ -1188,5 +1188,65 @@
     "status": "Paid",
     "createdAt": "2026-11-28T11:01:48.358Z",
     "updatedAt": "2026-11-28T11:01:48.358Z"
+  },
+  {
+    "id": "INV-AICQB-2026-1003",
+    "invoice_id": "INV-AICQB-2026-1003",
+    "invoiceId": "INV-AICQB-2026-1003",
+    "payment_id": "pay_1795883599563_vxoq29",
+    "paymentId": "pay_1795883599563_vxoq29",
+    "enrollment_id": "ENR-AICQB-2026-430137",
+    "candidate_id": "AICQB-3598894",
+    "candidateUid": "usr_super_admin_001",
+    "candidate_name": "Super Admin",
+    "candidateName": "Super Admin",
+    "candidate_email": "admin@aicqb.org",
+    "candidateEmail": "admin@aicqb.org",
+    "country": "India",
+    "amount": 9999,
+    "currency": "INR",
+    "certification_name": "AIICQB-Playwright-Automation-Testing",
+    "certification_level": "Professional Level",
+    "items": [
+      {
+        "description": "AICQB Professional Certification: AIICQB-Playwright-Automation-Testing (Professional Level)",
+        "amount": 9999
+      }
+    ],
+    "date": "2026-11-28T16:33:20.780Z",
+    "created_at": "2026-11-28T16:33:20.780Z",
+    "status": "Paid",
+    "createdAt": "2026-11-28T16:33:20.815Z",
+    "updatedAt": "2026-11-28T16:33:20.815Z"
+  },
+  {
+    "id": "INV-AICQB-2026-1004",
+    "invoice_id": "INV-AICQB-2026-1004",
+    "invoiceId": "INV-AICQB-2026-1004",
+    "payment_id": "pay_1795883675501_rzrzcu",
+    "paymentId": "pay_1795883675501_rzrzcu",
+    "enrollment_id": "ENR-AICQB-2026-648457",
+    "candidate_id": "AICQB-3675404",
+    "candidateUid": "usr_super_admin_001",
+    "candidate_name": "Super Admin",
+    "candidateName": "Super Admin",
+    "candidate_email": "admin@aicqb.org",
+    "candidateEmail": "admin@aicqb.org",
+    "country": "India",
+    "amount": 14000,
+    "currency": "INR",
+    "certification_name": "AIICQB Java Developer",
+    "certification_level": "Foundation Level",
+    "items": [
+      {
+        "description": "AICQB Professional Certification: AIICQB Java Developer (Foundation Level)",
+        "amount": 14000
+      }
+    ],
+    "date": "2026-11-28T16:34:37.319Z",
+    "created_at": "2026-11-28T16:34:37.319Z",
+    "status": "Paid",
+    "createdAt": "2026-11-28T16:34:37.348Z",
+    "updatedAt": "2026-11-28T16:34:37.348Z"
   }
 ]

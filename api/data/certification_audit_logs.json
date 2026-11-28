@@ -2150,5 +2150,117 @@
     "id": "certification_audit_logs_1795864996905_hzfoj",
     "createdAt": "2026-11-28T11:23:16.905Z",
     "updatedAt": "2026-11-28T11:23:16.905Z"
+  },
+  {
+    "logId": "log_1795882721535_9f1xta",
+    "certificationId": "cert_aiicqb_wd_cp_001",
+    "certificationCode": "AIICQB-WD-CP-001",
+    "action": "Certification Created",
+    "previousData": null,
+    "updatedData": {
+      "id": "cert_aiicqb_wd_cp_001",
+      "certificationId": "cert_aiicqb_wd_cp_001",
+      "certificationCode": "AIICQB-WD-CP-001",
+      "name": "AIICQB Java Developer",
+      "certificationName": "AIICQB Java Developer",
+      "code": "AIICQB-WD-CP-001",
+      "domain": "Web Development",
+      "domainId": "dom_web_dev",
+      "domainCode": "WD",
+      "level": "Foundation Level",
+      "levelId": "lvl_fnd",
+      "description": "java Developer",
+      "learningObjectives": [
+        "Core conceptual mastery",
+        "Practical applied assessment"
+      ],
+      "syllabus": [
+        {
+          "title": "Module 1: Principles & Fundamentals",
+          "hours": 10,
+          "topics": [
+            "Overview",
+            "Architecture"
+          ]
+        },
+        {
+          "title": "Module 2: Advanced Implementation",
+          "hours": 15,
+          "topics": [
+            "Hands-on",
+            "Case Studies"
+          ]
+        }
+      ],
+      "eligibility": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
+      "eligibilityCriteria": "Open to professionals, students, QA analysts, and software practitioners worldwide.",
+      "examPattern": "Online proctored examination, 60 MCQ questions, 90 minutes duration.",
+      "examFee": 14000,
+      "examFeeINR": 14000,
+      "examFeeUSD": 164.71,
+      "exchangeRate": 85,
+      "exchangeRateSnapshot": 85,
+      "currency": "INR",
+      "duration": "90 Minutes",
+      "examDuration": 90,
+      "durationUnit": "Minutes",
+      "passingCriteria": 70,
+      "passingThreshold": 70,
+      "validityYears": 3,
+      "version": "2026.1",
+      "status": "Active",
+      "isDeleted": false,
+      "tags": [],
+      "enrolledCount": 0,
+      "createdBy": "admin@aicqb.org",
+      "updatedBy": "admin@aicqb.org",
+      "createdAt": "2026-11-28T16:18:41.519Z",
+      "updatedAt": "2026-11-28T16:18:41.519Z"
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-28T16:18:41.535Z",
+    "id": "certification_audit_logs_1795882721547_mewdo",
+    "createdAt": "2026-11-28T16:18:41.547Z",
+    "updatedAt": "2026-11-28T16:18:41.547Z"
+  },
+  {
+    "logId": "log_1795883600984_0r5saa",
+    "certificationId": "cert_aiicqb_st_cp_001",
+    "certificationCode": "AIICQB-ST-CP-001",
+    "action": "Candidate Enrolled",
+    "previousData": null,
+    "updatedData": {
+      "enrollmentId": "ENR-AICQB-2026-430137",
+      "candidateName": "Super Admin",
+      "examFee": 9999
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-28T16:33:20.984Z",
+    "id": "certification_audit_logs_1795883600988_f4bjk",
+    "createdAt": "2026-11-28T16:33:20.990Z",
+    "updatedAt": "2026-11-28T16:33:20.990Z"
+  },
+  {
+    "logId": "log_1795883677555_mzyfpr",
+    "certificationId": "cert_aiicqb_wd_cp_001",
+    "certificationCode": "AIICQB-WD-CP-001",
+    "action": "Candidate Enrolled",
+    "previousData": null,
+    "updatedData": {
+      "enrollmentId": "ENR-AICQB-2026-648457",
+      "candidateName": "Super Admin",
+      "examFee": 14000
+    },
+    "adminId": "usr_super_admin_001",
+    "adminEmail": "admin@aicqb.org",
+    "adminName": "Super Admin",
+    "timestamp": "2026-11-28T16:34:37.555Z",
+    "id": "certification_audit_logs_1795883677557_364yw",
+    "createdAt": "2026-11-28T16:34:37.557Z",
+    "updatedAt": "2026-11-28T16:34:37.557Z"
   }
 ]

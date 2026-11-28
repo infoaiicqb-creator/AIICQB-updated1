@@ -33,6 +33,52 @@ export async function getCandidateSchedules(req, res) {
     // 1. Fetch existing exam schedules strictly for this candidate
     let schedules = db.find('examSchedules', s => isMatch(s));
 
+    // 1b. Fetch exam registrations for this candidate and ensure schedules strictly reflect the registered level
+    const registrations = db.find('examRegistrations', r => isMatch(r));
+    for (const reg of registrations) {
+      const regCertId = reg.certificationId;
+      const matchedSchedule = schedules.find(s => 
+        (s.registrationId && (s.registrationId === reg.registrationId || s.registrationId === reg.id)) ||
+        (s.certificationId && s.certificationId === regCertId)
+      );
+      if (matchedSchedule) {
+        matchedSchedule.level = reg.levelName || reg.selectedExamLevel || matchedSchedule.level;
+        matchedSchedule.examLevel = matchedSchedule.level;
+        matchedSchedule.certificationLevel = matchedSchedule.level;
+        matchedSchedule.registrationId = reg.registrationId;
+        matchedSchedule.durationMinutes = reg.examDuration || matchedSchedule.durationMinutes || 90;
+      } else {
+        const autoSchedule = {
+          id: `sch_${reg.registrationId}`,
+          scheduleId: `sch_${reg.registrationId}`,
+          registrationId: reg.registrationId,
+          candidateUid: reg.candidateUid || req.user.uid,
+          candidateEmail: reg.candidateEmail || req.user.email,
+          candidateId: reg.candidateId || req.user.candidateId,
+          candidateName: reg.candidateName || req.user.fullName,
+          certificationId: reg.certificationId,
+          certificationName: reg.certificationName,
+          certificationCode: reg.certificationCode,
+          certificationLevel: reg.levelName,
+          level: reg.levelName,
+          examLevel: reg.levelName,
+          examId: `exam_${reg.certificationId}`,
+          examName: reg.certificationName,
+          examCode: `${reg.certificationCode || 'AICQB'}-EXAM`,
+          scheduledDate: reg.examDate || new Date().toISOString().split('T')[0],
+          scheduledTime: reg.examTime || '10:00 AM – 11:30 AM (IST)',
+          mode: 'Online Proctored',
+          durationMinutes: reg.examDuration || 90,
+          status: reg.examStatus || 'scheduled',
+          allowedAttempts: reg.allowedAttempts || 3,
+          attemptNumber: reg.attemptNumber || 1,
+          createdAt: reg.createdAt || new Date().toISOString(),
+        };
+        db.addDoc('examSchedules', autoSchedule);
+        schedules.push(autoSchedule);
+      }
+    }
+
     // 2. Fetch candidate's enrollments from payments/courses taken
     const enrollments = db.find('enrollments', e => isMatch(e));
     const validEnrollmentStatuses = ['enrolled', 'in-progress', 'PAID', 'paid', 'active', 'success', 'confirmed'];
@@ -439,14 +485,19 @@ export async function startExam(req, res) {
       }
     }
 
-    // Determine the exact exam level strictly: paid schedule level is locked and cannot be changed
+    // Determine the exact exam level strictly from persistent registration: cannot be modified from frontend
+    const reg = db.findOne('examRegistrations', r => 
+      (schedule.registrationId && (r.registrationId === schedule.registrationId || r.id === schedule.registrationId)) ||
+      ((r.candidateUid === uid || r.candidateId === candidateId || (req.user?.email && r.candidateEmail?.toLowerCase() === req.user.email.toLowerCase())) &&
+       (r.certificationId === certId || r.certificationCode === certCode || (cert && r.certificationId === cert.id)))
+    );
+
     const targetLevel = (
+      reg?.levelName ||
+      reg?.selectedExamLevel ||
       schedule.level ||
       schedule.examLevel ||
       schedule.certificationLevel ||
-      req.query?.level ||
-      req.query?.examLevel ||
-      req.body?.level ||
       cert?.level ||
       'Professional Level'
     ).trim();
@@ -460,6 +511,16 @@ export async function startExam(req, res) {
         db.updateDoc('examSchedules', schedule.id, schedule);
       } catch (_) {}
     }
+
+    const allExamLevels = db.getCollection('examLevels') || [];
+    const levelConfig = allExamLevels.find(l =>
+      (l.certificationId === certId || (cert && l.certificationId === cert.id)) &&
+      l.levelName?.toLowerCase() === targetLevel.toLowerCase()
+    ) || allExamLevels.find(l => l.levelName?.toLowerCase() === targetLevel.toLowerCase());
+
+    const durationMinutes = levelConfig?.examDuration || schedule.durationMinutes || (cert?.duration ? parseInt(cert.duration) : 90);
+    const passingPercentage = levelConfig?.passingPercentage || 70;
+    const allowedAttempts = levelConfig?.allowedAttempts || schedule.allowedAttempts || 3;
 
     const activeCertCode = (cert?.code || certCode || '').toUpperCase();
     const activeCertId = cert?.id || certId;
@@ -477,9 +538,13 @@ export async function startExam(req, res) {
     });
 
     // 2. Strict Level Isolation: If candidate selected/scheduled this level, filter ONLY questions for that level, never others!
-    const levelQuestions = certQuestions.filter(q =>
-      (q.level || q.examLevel || '').toLowerCase().trim() === targetLevel.toLowerCase()
-    );
+    const levelQuestions = certQuestions.filter(q => {
+      const qLvl = (q.level || q.examLevel || '').toLowerCase().trim();
+      const tLvl = targetLevel.toLowerCase().trim();
+      if (qLvl === tLvl) return true;
+      if ((tLvl.includes('advanced') || tLvl.includes('expert')) && (qLvl.includes('advanced') || qLvl.includes('expert'))) return true;
+      return false;
+    });
 
     // 3. Strict assignment: Only show that test question, not other levels
     let questions = levelQuestions.length > 0 ? levelQuestions : certQuestions;
@@ -621,6 +686,7 @@ export async function startExam(req, res) {
       attempt = {
         id: attemptId,
         attemptId,
+        registrationId: reg?.registrationId || schedule.registrationId,
         scheduleId: schedule.id,
         candidateUid: uid,
         candidateId: schedule.candidateId,
@@ -628,8 +694,11 @@ export async function startExam(req, res) {
         certificationId: schedule.certificationId,
         certificationName: schedule.certificationName,
         certificationCode: schedule.certificationCode,
+        levelId: reg?.levelId || levelConfig?.levelId || null,
+        levelName: targetLevel,
+        attemptNumber: schedule.attemptNumber || 1,
         startTime: new Date().toISOString(),
-        durationMinutes: schedule.durationMinutes || 90,
+        durationMinutes,
         totalQuestions: sanitizedQuestions.length,
         status: 'in-progress',
         answers: {},
@@ -643,6 +712,7 @@ export async function startExam(req, res) {
       success: true,
       attemptId,
       schedule,
+      registrationId: reg?.registrationId || schedule.registrationId,
       candidateName: schedule.candidateName,
       candidateId: schedule.candidateId,
       examCode: schedule.examCode || `${schedule.certificationCode}-EXAM`,
@@ -653,7 +723,12 @@ export async function startExam(req, res) {
       examLevel: targetLevel,
       certificationLevel: targetLevel,
       questions: sanitizedQuestions,
-      durationMinutes: schedule.durationMinutes || 90,
+      durationMinutes,
+      totalQuestions: sanitizedQuestions.length,
+      totalMarks: levelConfig?.totalMarks || (sanitizedQuestions.length * 2),
+      passingPercentage,
+      attemptNumber: schedule.attemptNumber || 1,
+      allowedAttempts,
       startTime: attempt.startTime,
     });
   } catch (err) {
@@ -1643,6 +1718,283 @@ export async function getResultsAdmin(req, res) {
     });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to fetch results' });
+  }
+}
+
+// =========================================================================
+// DYNAMIC EXAM LEVEL MANAGEMENT & REGISTRATIONS (FIRESTORE SYNCED)
+// =========================================================================
+
+export async function getExamLevels(req, res) {
+  try {
+    const { certificationId, status } = req.query;
+    let list = db.getCollection('examLevels') || [];
+
+    if (certificationId) {
+      const cert = db.findOne('certifications', c => c.id === certificationId || c.code === certificationId);
+      const filtered = list.filter(l => 
+        l.certificationId === certificationId || 
+        (cert && l.certificationId === cert.id) || 
+        (cert && l.certificationCode === cert.code)
+      );
+
+      if (filtered.length > 0) {
+        list = filtered;
+      } else {
+        // Dynamic fallback generation based on certification specifications
+        list = [
+          {
+            id: `ex_lvl_fnd_${certificationId}`,
+            levelId: 'lvl_fnd',
+            certificationId,
+            certificationCode: cert?.code || 'AICQB-FND',
+            levelName: 'Foundation Level',
+            examFee: 4500,
+            examFeeUSD: 59,
+            examDuration: 60,
+            totalQuestions: 50,
+            totalMarks: 100,
+            passingPercentage: 70,
+            allowedAttempts: 3,
+            questionBankId: `qb_fnd_${certificationId}`,
+            levelStatus: 'Active',
+            examSyllabus: [
+              'Fundamental conceptual principles and terminology',
+              'Core architecture, installation, and environment setup',
+              'Basic automation workflow, assertions, and test validation',
+              'Debugging, log inspections, and execution reports',
+            ],
+            examEligibility: 'Open to all candidates, students, and entry-level QA testers.',
+            certificationDetails: 'Foundational certification validating core technical competencies.',
+          },
+          {
+            id: `ex_lvl_prf_${certificationId}`,
+            levelId: 'lvl_prf',
+            certificationId,
+            certificationCode: cert?.code || 'AICQB-PRF',
+            levelName: 'Professional Level',
+            examFee: cert?.examFee || 9999,
+            examFeeUSD: cert?.examFeeUSD || 119,
+            examDuration: 90,
+            totalQuestions: 75,
+            totalMarks: 150,
+            passingPercentage: 70,
+            allowedAttempts: 3,
+            questionBankId: `qb_prf_${certificationId}`,
+            levelStatus: 'Active',
+            examSyllabus: [
+              'Advanced practical workflows and framework implementation',
+              'Parallel execution, orchestration, and continuous integration gating',
+              'Performance profiling, network mocking, and custom reporters',
+              'Cross-platform testing and production-grade reliability patterns',
+            ],
+            examEligibility: 'Minimum 1+ years professional practitioner experience.',
+            certificationDetails: 'Industry standard professional credential validating applied expertise.',
+          },
+          {
+            id: `ex_lvl_adv_${certificationId}`,
+            levelId: 'lvl_adv',
+            certificationId,
+            certificationCode: cert?.code || 'AICQB-ADV',
+            levelName: 'Advanced Level',
+            examFee: 13999,
+            examFeeUSD: 169,
+            examDuration: 120,
+            totalQuestions: 100,
+            totalMarks: 200,
+            passingPercentage: 70,
+            allowedAttempts: 3,
+            questionBankId: `qb_adv_${certificationId}`,
+            levelStatus: 'Active',
+            examSyllabus: [
+              'Enterprise-scale system design, containerization, and distributed grids',
+              'AI-assisted self-healing test automation and predictive quality metrics',
+              'Telemetry, security compliance, zero-trust gating, and audit trails',
+              'Executive engineering governance and architectural leadership',
+            ],
+            examEligibility: 'Minimum 3+ years engineering experience or architectural lead role.',
+            certificationDetails: 'Elite technical credential demonstrating architectural authority.',
+          },
+        ];
+      }
+    }
+
+    if (status && status !== 'All') {
+      list = list.filter(l => (l.levelStatus || 'Active').toLowerCase() === status.toLowerCase());
+    }
+
+    return res.json({ success: true, count: list.length, levels: list });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to fetch exam levels' });
+  }
+}
+
+export async function createExamLevel(req, res) {
+  try {
+    const {
+      certificationId,
+      levelName,
+      examFee,
+      examFeeUSD,
+      examDuration,
+      totalQuestions,
+      totalMarks,
+      passingPercentage,
+      allowedAttempts,
+      questionBankId,
+      levelStatus,
+      examSyllabus,
+      examEligibility,
+      certificationDetails,
+    } = req.body;
+
+    if (!levelName || !certificationId) {
+      return res.status(400).json({ success: false, message: 'Certification ID and Level Name are required.' });
+    }
+
+    const cert = db.findOne('certifications', c => c.id === certificationId || c.code === certificationId);
+    const cleanLevelName = levelName.trim();
+    const levelId = cleanLevelName.toLowerCase().includes('foundation')
+      ? 'lvl_fnd'
+      : cleanLevelName.toLowerCase().includes('advanced')
+      ? 'lvl_adv'
+      : 'lvl_prf';
+
+    const newId = `ex_lvl_${Date.now().toString().slice(-6)}`;
+    const newExamLevel = {
+      id: newId,
+      levelId,
+      certificationId: cert ? cert.id : certificationId,
+      certificationCode: cert ? cert.code : 'AICQB-CERT',
+      levelName: cleanLevelName,
+      examFee: Number(examFee) || 4500,
+      examFeeUSD: Number(examFeeUSD) || 59,
+      examDuration: Number(examDuration) || 90,
+      totalQuestions: Number(totalQuestions) || 60,
+      totalMarks: Number(totalMarks) || 120,
+      passingPercentage: Number(passingPercentage) || 70,
+      allowedAttempts: Number(allowedAttempts) || 3,
+      questionBankId: questionBankId || `qb_${levelId}`,
+      levelStatus: levelStatus || 'Active',
+      examSyllabus: Array.isArray(examSyllabus) ? examSyllabus : (examSyllabus ? [examSyllabus] : []),
+      examEligibility: examEligibility || 'Open to all eligible candidates.',
+      certificationDetails: certificationDetails || `${cleanLevelName} Certification`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    db.addDoc('examLevels', newExamLevel);
+
+    logAudit(
+      req,
+      'EXAM_LEVEL_CREATED',
+      'Certifications & Exams',
+      `Admin created exam level "${cleanLevelName}" for certification ${cert ? cert.name : certificationId}`
+    );
+
+    return res.status(201).json({ success: true, message: `Exam level "${cleanLevelName}" created successfully.`, examLevel: newExamLevel });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to create exam level' });
+  }
+}
+
+export async function updateExamLevel(req, res) {
+  try {
+    const { id } = req.params;
+    const existing = db.findOne('examLevels', l => l.id === id || l.levelId === id);
+    if (!existing) {
+      return res.status(404).json({ success: false, message: 'Exam level configuration not found' });
+    }
+
+    const updates = { ...req.body, updatedAt: new Date().toISOString() };
+    delete updates.id;
+
+    if (updates.examFee !== undefined) updates.examFee = Number(updates.examFee);
+    if (updates.examFeeUSD !== undefined) updates.examFeeUSD = Number(updates.examFeeUSD);
+    if (updates.examDuration !== undefined) updates.examDuration = Number(updates.examDuration);
+    if (updates.totalQuestions !== undefined) updates.totalQuestions = Number(updates.totalQuestions);
+    if (updates.totalMarks !== undefined) updates.totalMarks = Number(updates.totalMarks);
+    if (updates.passingPercentage !== undefined) updates.passingPercentage = Number(updates.passingPercentage);
+    if (updates.allowedAttempts !== undefined) updates.allowedAttempts = Number(updates.allowedAttempts);
+
+    const updated = db.updateDoc('examLevels', existing.id, updates);
+
+    logAudit(
+      req,
+      'EXAM_LEVEL_UPDATED',
+      'Certifications & Exams',
+      `Admin updated exam level configuration "${existing.levelName}" (${existing.id})`
+    );
+
+    return res.json({ success: true, message: `Exam level "${existing.levelName}" updated successfully.`, examLevel: updated });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to update exam level' });
+  }
+}
+
+export async function deleteExamLevel(req, res) {
+  try {
+    const { id } = req.params;
+    const existing = db.findOne('examLevels', l => l.id === id);
+    if (!existing) {
+      return res.status(404).json({ success: false, message: 'Exam level configuration not found' });
+    }
+
+    db.deleteDoc('examLevels', existing.id);
+
+    logAudit(
+      req,
+      'EXAM_LEVEL_DELETED',
+      'Certifications & Exams',
+      `Admin deleted exam level "${existing.levelName}" (${existing.id})`
+    );
+
+    return res.json({ success: true, message: `Exam level "${existing.levelName}" deleted successfully.` });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to delete exam level' });
+  }
+}
+
+export async function getExamRegistrations(req, res) {
+  try {
+    const norm = (str) => (str || '').toString().trim().toLowerCase();
+    const userUid = norm(req.user.uid);
+    const userEmail = norm(req.user.email);
+    const userCandId = norm(req.user.candidateId);
+
+    const isMatch = (item) => {
+      if (!item) return false;
+      if (userUid && (norm(item.candidateUid) === userUid || norm(item.uid) === userUid)) return true;
+      if (userEmail && (norm(item.candidateEmail) === userEmail || norm(item.email) === userEmail)) return true;
+      if (userCandId && (norm(item.candidateId) === userCandId || norm(item.candidate_id) === userCandId)) return true;
+      return false;
+    };
+
+    const registrations = db.find('examRegistrations', r => isMatch(r));
+    return res.json({ success: true, count: registrations.length, registrations });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to fetch candidate registrations' });
+  }
+}
+
+export async function getExamRegistrationsAdmin(req, res) {
+  try {
+    const { levelName, certificationId, paymentStatus } = req.query;
+    let list = db.getCollection('examRegistrations') || [];
+
+    if (levelName && levelName !== 'All') {
+      list = list.filter(r => (r.levelName || r.selectedExamLevel || '').toLowerCase() === levelName.toLowerCase());
+    }
+    if (certificationId && certificationId !== 'All') {
+      list = list.filter(r => r.certificationId === certificationId || r.certificationCode === certificationId);
+    }
+    if (paymentStatus && paymentStatus !== 'All') {
+      list = list.filter(r => (r.paymentStatus || '').toLowerCase() === paymentStatus.toLowerCase());
+    }
+
+    return res.json({ success: true, count: list.length, registrations: list });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to fetch admin registrations' });
   }
 }
 

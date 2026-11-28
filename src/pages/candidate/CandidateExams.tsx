@@ -61,6 +61,25 @@ export const CandidateExams: React.FC = () => {
   const [showCertificateModal, setShowCertificateModal] = useState<any>(null);
   const [systemCheckPassed, setSystemCheckPassed] = useState(false);
 
+  const renderLevelBadge = (levelName?: string) => {
+    const lvl = levelName || 'Professional Level';
+    const isFnd = lvl.toLowerCase().includes('foundation');
+    const isAdv = lvl.toLowerCase().includes('advanced') || lvl.toLowerCase().includes('expert');
+    const badgeClass = isFnd
+      ? 'bg-blue-50 text-blue-700 border-blue-200'
+      : isAdv
+      ? 'bg-purple-50 text-purple-700 border-purple-200'
+      : 'bg-orange-50 text-orange-700 border-orange-200';
+    const iconColor = isFnd ? 'text-blue-600' : isAdv ? 'text-purple-600' : 'text-[#F47716]';
+
+    return (
+      <span className={`px-2.5 py-0.5 font-extrabold text-[11px] rounded-full border shadow-2xs flex items-center space-x-1 ${badgeClass}`}>
+        <GraduationCap className={`w-3.5 h-3.5 ${iconColor}`} />
+        <span>{lvl}</span>
+      </span>
+    );
+  };
+
   const handleJoinExam = (exam: any) => {
     const examId = typeof exam === 'string' ? exam : (exam?.id || exam?.scheduleId);
     const lvl = (typeof exam === 'object' && exam)
@@ -183,10 +202,7 @@ export const CandidateExams: React.FC = () => {
                   <div className="space-y-2 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-sm sm:text-base font-bold text-[#10264B]">{exam.examName}</h3>
-                      <span className="px-3 py-1 bg-[#10264B] text-white font-extrabold text-[11px] rounded-full border border-[#10264B] shadow-xs flex items-center space-x-1">
-                        <GraduationCap className="w-3.5 h-3.5 text-[#F47716]" />
-                        <span>{exam.level || exam.examLevel || exam.certificationLevel || 'Professional Level'}</span>
-                      </span>
+                      {renderLevelBadge(exam.level || exam.examLevel || exam.certificationLevel)}
                       {exam.isRetake ? (
                         <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 font-extrabold text-[10px] rounded-full border border-amber-300 shadow-xs">
                           Retake Attempt {exam.retakeAttemptNumber || 2} of 3
@@ -298,6 +314,7 @@ export const CandidateExams: React.FC = () => {
                     </div>
                     <div className="space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
+                        {renderLevelBadge(comp.level || comp.examLevel || comp.certificationLevel || comp.credentialLevel)}
                         <span
                           className={`px-2.5 py-0.5 font-bold text-[10px] rounded-full border ${isCompPassed
                             ? 'bg-green-50 text-green-700 border-green-200'
@@ -419,9 +436,12 @@ export const CandidateExams: React.FC = () => {
                   <h3 className="font-black text-base sm:text-lg text-[#10264B]">
                     AICQB Official Examination Guidelines
                   </h3>
-                  <p className="text-xs text-gray-500">
-                    {selectedExamForGuidelines?.examName || 'Proctored Certification Assessment'}
-                  </p>
+                  <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
+                    <p className="text-xs text-gray-500">
+                      {selectedExamForGuidelines?.examName || 'Proctored Certification Assessment'}
+                    </p>
+                    {selectedExamForGuidelines && renderLevelBadge(selectedExamForGuidelines.level || selectedExamForGuidelines.examLevel || selectedExamForGuidelines.certificationLevel)}
+                  </div>
                 </div>
               </div>
               <button

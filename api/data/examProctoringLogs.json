@@ -180,5 +180,19 @@
     "timestamp": "2026-11-28T11:58:10.034Z",
     "createdAt": "2026-11-28T11:58:10.043Z",
     "updatedAt": "2026-11-28T11:58:10.047Z"
+  },
+  {
+    "id": "proc_1795883754778_s8uoof",
+    "attemptId": "att_1795883730710_g4brax",
+    "scheduleId": "SCH-AICQB-600828",
+    "candidateUid": "usr_super_admin_001",
+    "candidateId": "AICQB-CAND",
+    "candidateName": "Super Admin",
+    "eventType": "Fullscreen Exited",
+    "details": "Candidate exited full-screen examination mode.",
+    "snapshot": null,
+    "timestamp": "2026-11-28T16:35:54.734Z",
+    "createdAt": "2026-11-28T16:35:54.778Z",
+    "updatedAt": "2026-11-28T16:35:54.782Z"
   }
 ]

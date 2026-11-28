@@ -86,6 +86,8 @@ const mountRoutes = (prefix = '/api') => {
   app.use(`${prefix}/payment`, paymentRoutes);
   app.use(`${prefix}/payments`, paymentRoutes);
   app.use(`${prefix}/exams`, examRoutes);
+  app.use(`${prefix}/exam-levels`, examRoutes);
+  app.use(`${prefix}/exam-registrations`, examRoutes);
   app.use(`${prefix}/certificates`, certificateRoutes);
   app.use(`${prefix}/admin`, adminRoutes);
   app.use(`${prefix}/support`, supportRoutes);

@@ -40,15 +40,19 @@ export async function createOrder(req, res) {
       return res.status(404).json({ success: false, message: 'Certification program not found.' });
     }
 
-    const requestedLevel = certificationLevel || level || cert.level || 'Professional Level';
+    const requestedLevel = (certificationLevel || level || cert.level || 'Professional Level').trim();
 
-    // Determine actual amount server-side based on region & currency rules
+    // Dynamically look up level configuration from examLevels
+    const allExamLevels = db.getCollection('examLevels') || [];
+    const levelConfig = allExamLevels.find(l => 
+      (l.certificationId === cert.id || l.certificationCode === cert.code) &&
+      (l.levelName?.toLowerCase() === requestedLevel.toLowerCase() || (req.body.levelId && l.levelId === req.body.levelId))
+    ) || allExamLevels.find(l => l.levelName?.toLowerCase() === requestedLevel.toLowerCase());
+
+    // Determine actual amount server-side based on dynamic exam level & region
     const isIndia = (country && country.trim().toLowerCase() === 'india') || currency.toUpperCase() === 'INR';
     const finalCurrency = isIndia ? 'INR' : 'USD';
-    let amount = isIndia ? (cert.examFee || 4500) : (cert.examFeeUSD || 79);
-
-    if (planType === 'Basic') amount = isIndia ? 2999 : 49;
-    if (planType === 'Advance') amount = isIndia ? 5999 : 99;
+    let amount = isIndia ? (levelConfig?.examFee || cert.examFee || 9999) : (levelConfig?.examFeeUSD || cert.examFeeUSD || 119);
 
     // Subunits for Razorpay: paise for INR, cents for USD
     const amountInSubunits = Math.round(amount * 100);
@@ -127,6 +131,9 @@ export async function createOrder(req, res) {
       certificationName: cert.name,
       certification_level: requestedLevel,
       certificationLevel: requestedLevel,
+      levelId: levelConfig?.levelId || (requestedLevel.toLowerCase().includes('foundation') ? 'lvl_fnd' : requestedLevel.toLowerCase().includes('advanced') ? 'lvl_adv' : 'lvl_prf'),
+      levelName: requestedLevel,
+      registrationId: null,
       certificationCode: cert.code,
       amount,
       currency: finalCurrency,
@@ -365,10 +372,54 @@ export async function verifyPayment(req, res) {
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const monthYear = `${monthNames[examDate.getMonth()]} ${examDate.getFullYear()}`;
 
+    // Look up exam level details from examLevels
+    const allExamLevels = db.getCollection('examLevels') || [];
+    const examLevelConfig = allExamLevels.find(l => 
+      (l.certificationId === cert.id || l.certificationCode === cert.code) &&
+      (l.levelName?.toLowerCase() === targetCertLevel.toLowerCase() || (payment.levelId && l.levelId === payment.levelId))
+    ) || allExamLevels.find(l => l.levelName?.toLowerCase() === targetCertLevel.toLowerCase());
+
+    const levelDuration = examLevelConfig?.examDuration || (cert.duration ? parseInt(cert.duration) : 90);
+    const registrationId = `REG-AICQB-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    // Create persistent examRegistration record (synced to Firestore)
+    const examRegistrationRecord = {
+      id: registrationId,
+      registrationId,
+      candidateId: effectiveCandidateId,
+      candidateName: payment.candidate_name || payment.candidateName,
+      candidateEmail: payment.candidate_email || payment.candidateEmail,
+      candidateUid: effectiveUid,
+      certificationId: cert.id,
+      certificationName: cert.name,
+      certificationCode: cert.code,
+      levelId: examLevelConfig?.levelId || payment.levelId || (targetCertLevel.toLowerCase().includes('foundation') ? 'lvl_fnd' : targetCertLevel.toLowerCase().includes('advanced') ? 'lvl_adv' : 'lvl_prf'),
+      levelName: targetCertLevel,
+      selectedExamLevel: targetCertLevel,
+      examFee: payment.amount,
+      paymentId: payment.paymentId || payment.id,
+      razorpayOrderId: payment.razorpayOrderId || razorpayOrderId,
+      paymentStatus: 'PAID',
+      enrollmentDate: paidAt,
+      examScheduleDate: examDate.toISOString().split('T')[0],
+      examDate: examDate.toISOString().split('T')[0],
+      examStartTime: '10:00 AM',
+      examTime: '10:00 AM – 11:30 AM (IST)',
+      examDuration: levelDuration,
+      examinationStatus: 'scheduled',
+      examStatus: 'scheduled',
+      attemptNumber: 1,
+      totalAllowedAttempts: examLevelConfig?.allowedAttempts || 3,
+      allowedAttempts: examLevelConfig?.allowedAttempts || 3,
+      createdAt: paidAt,
+    };
+    db.addDoc('examRegistrations', examRegistrationRecord);
+
     const scheduleRecord = {
       id: scheduleId,
       schedule_id: scheduleId,
       scheduleId,
+      registrationId,
       candidate_id: effectiveCandidateId,
       candidateId: effectiveCandidateId,
       candidateUid: effectiveUid,
@@ -394,7 +445,7 @@ export async function verifyPayment(req, res) {
       scheduledDateFormatted: `${day} ${monthYear}`,
       scheduledTime: '10:00 AM – 11:30 AM (IST)',
       mode: 'Online Proctored',
-      durationMinutes: cert.duration ? parseInt(cert.duration) : 90,
+      durationMinutes: levelDuration,
       status: 'scheduled',
       payment_id: payment.paymentId || payment.id,
       paymentId: payment.paymentId || payment.id,
@@ -422,6 +473,9 @@ export async function verifyPayment(req, res) {
 
     // Update payment record to successful status
     const updatedPayment = db.updateDoc('payments', payment.id, {
+      registrationId,
+      levelId: examRegistrationRecord.levelId,
+      levelName: targetCertLevel,
       razorpay_payment_id: razorpayPaymentId,
       razorpayPaymentId,
       payment_status: 'successful',
@@ -450,6 +504,7 @@ export async function verifyPayment(req, res) {
       enrollment,
       invoice: invoiceRecord,
       schedule: scheduleRecord,
+      registration: examRegistrationRecord,
     });
   } catch (err) {
     console.error('Payment verification error:', err);
