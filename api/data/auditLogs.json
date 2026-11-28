@@ -9263,5 +9263,31 @@
     "id": "auditLogs_1795804542720_6wa97",
     "createdAt": "2026-11-27T18:35:42.720Z",
     "updatedAt": "2026-11-27T18:35:42.720Z"
+  },
+  {
+    "userId": "usr_1794238898604_8636ld",
+    "userEmail": "pushpak@gmail.com",
+    "userRole": "Super Admin",
+    "action": "DELETE_CERTIFICATE",
+    "module": "Certificate Management",
+    "details": "Deleted certificate: AIICQB-AI-FND-2026-000003",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-28T03:32:59.336Z",
+    "id": "auditLogs_1795836779336_tr00e",
+    "createdAt": "2026-11-28T03:32:59.336Z",
+    "updatedAt": "2026-11-28T03:32:59.336Z"
+  },
+  {
+    "userId": "usr_1794238898604_8636ld",
+    "userEmail": "pushpak@gmail.com",
+    "userRole": "Super Admin",
+    "action": "DELETE_CERTIFICATE",
+    "module": "Certificate Management",
+    "details": "Deleted certificate: AICQB-AI-2026-000124",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-28T03:33:08.325Z",
+    "id": "auditLogs_1795836788325_302gq",
+    "createdAt": "2026-11-28T03:33:08.325Z",
+    "updatedAt": "2026-11-28T03:33:08.325Z"
   }
 ]

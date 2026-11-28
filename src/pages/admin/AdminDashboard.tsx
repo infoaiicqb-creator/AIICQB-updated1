@@ -490,40 +490,6 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Row 5: Recent Administrative Activity & System Audit (100% Real Logs) */}
-      <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-4">
-        <div className="flex items-center justify-between border-b border-gray-100 pb-3">
-          <h3 className="font-bold text-sm text-[#10264B] flex items-center space-x-2">
-            <Clock className="w-4 h-4 text-[#F47716]" />
-            <span>Recent Administrative Activity & System Audit</span>
-          </h3>
-          <span className="text-xs text-gray-400">Live Synchronized</span>
-        </div>
-
-        <div className="divide-y divide-gray-100">
-          {recentActivity.length === 0 ? (
-            <div className="py-6 text-center text-xs text-gray-400">No recent administrative logs</div>
-          ) : (
-            recentActivity.map((log: any, idx: number) => (
-              <div key={idx} className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-                <div className="flex items-center space-x-3">
-                  <span className="font-mono font-bold text-[#F47716] bg-orange-50 px-2 py-0.5 rounded border border-orange-200">
-                    {log.action}
-                  </span>
-                  <span className="font-semibold text-[#10264B]">{log.module}:</span>
-                  <span className="text-gray-600">{log.details}</span>
-                </div>
-                <span className="text-gray-400 text-[11px]">
-                  {log.timestamp
-                    ? new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                    : 'Just now'}
-                </span>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
     </div>
   );
 };
