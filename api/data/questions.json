@@ -7,7 +7,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which Playwright method is used to locate an element using its accessible role?",
+    "question": "Which Playwright method is used to locate an element using its accessible role?",
     "options": [
       "page.getByRole()",
       "page.locatorById()",
@@ -30,7 +30,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to navigate to a URL in Playwright?",
+    "question": "Which method is used to navigate to a URL in Playwright?",
     "options": [
       "page.open()",
       "page.navigate()",
@@ -53,7 +53,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which assertion verifies that an element is visible?",
+    "question": "Which assertion verifies that an element is visible?",
     "options": [
       "expect(locator).toBeVisible()",
       "expect(locator).toExist()",
@@ -76,7 +76,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to enter text into an input field?",
+    "question": "Which method is used to enter text into an input field?",
     "options": [
       "locator.write()",
       "locator.fill()",
@@ -99,7 +99,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which Playwright feature automatically waits for an element to become actionable before clicking?",
+    "question": "Which Playwright feature automatically waits for an element to become actionable before clicking?",
     "options": [
       "Manual Thread Sleep",
       "Auto-waiting",
@@ -122,7 +122,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method captures a screenshot of the current page?",
+    "question": "Which method captures a screenshot of the current page?",
     "options": [
       "page.capture()",
       "page.takeScreenshot()",
@@ -145,7 +145,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which file commonly stores Playwright test configuration?",
+    "question": "Which file commonly stores Playwright test configuration?",
     "options": [
       "selenium.config.js",
       "playwright.config.ts",
@@ -168,7 +168,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method selects an option from a standard HTML dropdown?",
+    "question": "Which method selects an option from a standard HTML dropdown?",
     "options": [
       "locator.selectOption()",
       "locator.choose()",
@@ -191,7 +191,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which Playwright object represents a browser tab?",
+    "question": "Which Playwright object represents a browser tab?",
     "options": [
       "BrowserContext",
       "Page",
@@ -214,7 +214,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method intercepts and mocks network requests?",
+    "question": "Which method intercepts and mocks network requests?",
     "options": [
       "page.intercept()",
       "page.route()",
@@ -237,7 +237,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which command installs Playwright test dependencies?",
+    "question": "Which command installs Playwright test dependencies?",
     "options": [
       "npm install playwright",
       "npm install @playwright/test",
@@ -260,7 +260,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which command runs all Playwright tests?",
+    "question": "Which command runs all Playwright tests?",
     "options": [
       "npx playwright run",
       "npx playwright test",
@@ -283,7 +283,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method clicks an element?",
+    "question": "Which method clicks an element?",
     "options": [
       "locator.press()",
       "locator.click()",
@@ -306,7 +306,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method checks whether a checkbox is selected?",
+    "question": "Which method checks whether a checkbox is selected?",
     "options": [
       "locator.isChecked()",
       "locator.isSelected()",
@@ -329,7 +329,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method handles a JavaScript alert dialog?",
+    "question": "Which method handles a JavaScript alert dialog?",
     "options": [
       "page.alert()",
       "page.on('dialog')",
@@ -352,7 +352,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to upload a file?",
+    "question": "Which method is used to upload a file?",
     "options": [
       "locator.upload()",
       "locator.setInputFiles()",
@@ -375,7 +375,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method waits for a URL to match a specified pattern?",
+    "question": "Which method waits for a URL to match a specified pattern?",
     "options": [
       "page.waitForURL()",
       "page.waitForLink()",
@@ -398,7 +398,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method retrieves text content from an element?",
+    "question": "Which method retrieves text content from an element?",
     "options": [
       "locator.getText()",
       "locator.textContent()",
@@ -421,7 +421,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method verifies that an element contains specific text?",
+    "question": "Which method verifies that an element contains specific text?",
     "options": [
       "toContainText()",
       "toHaveValue()",
@@ -444,7 +444,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] What does BrowserContext represent?",
+    "question": "What does BrowserContext represent?",
     "options": [
       "A single HTML element",
       "An isolated browser session",
@@ -467,7 +467,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which fixture provides a Page object in Playwright Test?",
+    "question": "Which fixture provides a Page object in Playwright Test?",
     "options": [
       "browserPage",
       "page",
@@ -490,7 +490,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which option enables execution in headless mode?",
+    "question": "Which option enables execution in headless mode?",
     "options": [
       "headless: true",
       "visible: true",
@@ -513,7 +513,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to hover over an element?",
+    "question": "Which method is used to hover over an element?",
     "options": [
       "locator.mouseOver()",
       "locator.hover()",
@@ -536,7 +536,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to press a keyboard key on an element?",
+    "question": "Which method is used to press a keyboard key on an element?",
     "options": [
       "locator.press()",
       "locator.key()",
@@ -559,7 +559,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which assertion verifies the input value?",
+    "question": "Which assertion verifies the input value?",
     "options": [
       "toHaveText()",
       "toHaveValue()",
@@ -582,7 +582,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which locator method finds an element using its label?",
+    "question": "Which locator method finds an element using its label?",
     "options": [
       "page.getByLabel()",
       "page.getByTextLabel()",
@@ -605,7 +605,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which command opens the Playwright HTML report?",
+    "question": "Which command opens the Playwright HTML report?",
     "options": [
       "npx playwright report",
       "npx playwright show-report",
@@ -628,7 +628,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method creates a new browser page within an existing context?",
+    "question": "Which method creates a new browser page within an existing context?",
     "options": [
       "context.newPage()",
       "browser.createTab()",
@@ -651,7 +651,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method waits for a popup opened by a user action?",
+    "question": "Which method waits for a popup opened by a user action?",
     "options": [
       "page.waitForPopup()",
       "page.waitForEvent('popup')",
@@ -674,7 +674,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which option is used to execute tests in parallel?",
+    "question": "Which option is used to execute tests in parallel?",
     "options": [
       "workers",
       "threadsOnly",
@@ -697,7 +697,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which Playwright feature supports testing across Chromium, Firefox, and WebKit?",
+    "question": "Which Playwright feature supports testing across Chromium, Firefox, and WebKit?",
     "options": [
       "Projects",
       "Selectors",
@@ -720,7 +720,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method retrieves an attribute value?",
+    "question": "Which method retrieves an attribute value?",
     "options": [
       "locator.getAttribute()",
       "locator.attribute()",
@@ -743,7 +743,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to count matching elements?",
+    "question": "Which method is used to count matching elements?",
     "options": [
       "locator.length()",
       "locator.count()",
@@ -766,7 +766,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] What is the purpose of test.beforeEach()?",
+    "question": "What is the purpose of test.beforeEach()?",
     "options": [
       "Runs after all tests",
       "Runs before each test",
@@ -789,7 +789,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] What is the purpose of test.afterEach()?",
+    "question": "What is the purpose of test.afterEach()?",
     "options": [
       "Runs before each test",
       "Runs after each test",
@@ -812,7 +812,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which file is commonly used to store authentication state for reuse?",
+    "question": "Which file is commonly used to store authentication state for reuse?",
     "options": [
       "auth.json",
       "playwright.xml",
@@ -835,7 +835,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which option specifies the browser engine in a Playwright project?",
+    "question": "Which option specifies the browser engine in a Playwright project?",
     "options": [
       "use.browserName",
       "browser.engine",
@@ -858,7 +858,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to emulate a mobile device configuration?",
+    "question": "Which method is used to emulate a mobile device configuration?",
     "options": [
       "devices['iPhone 13']",
       "browser.mobile()",
@@ -881,7 +881,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method can be used to emulate network conditions?",
+    "question": "Which method can be used to emulate network conditions?",
     "options": [
       "context.setNetwork()",
       "page.route()",
@@ -904,7 +904,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which option is used to configure test retries?",
+    "question": "Which option is used to configure test retries?",
     "options": [
       "retries",
       "repeatCount",
@@ -927,7 +927,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to evaluate JavaScript in the browser page?",
+    "question": "Which method is used to evaluate JavaScript in the browser page?",
     "options": [
       "page.executeJS()",
       "page.evaluate()",
@@ -950,7 +950,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which event is used to listen for failed requests?",
+    "question": "Which event is used to listen for failed requests?",
     "options": [
       "requestfailed",
       "requesterroronly",
@@ -973,7 +973,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to clear cookies from a browser context?",
+    "question": "Which method is used to clear cookies from a browser context?",
     "options": [
       "context.clearCookies()",
       "page.clearCookies()",
@@ -996,7 +996,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which locator method filters elements based on their text content?",
+    "question": "Which locator method filters elements based on their text content?",
     "options": [
       "locator.filter({ hasText: 'Login' })",
       "locator.searchText('Login')",
@@ -1019,7 +1019,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method checks whether an element is enabled?",
+    "question": "Which method checks whether an element is enabled?",
     "options": [
       "locator.isEnabled()",
       "locator.isActive()",
@@ -1042,7 +1042,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to simulate drag and drop between elements?",
+    "question": "Which method is used to simulate drag and drop between elements?",
     "options": [
       "locator.dragTo()",
       "locator.moveTo()",
@@ -1065,7 +1065,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] What is the purpose of Playwright Trace Viewer?",
+    "question": "What is the purpose of Playwright Trace Viewer?",
     "options": [
       "Database management",
       "Debugging test execution with recorded actions and snapshots",
@@ -1088,7 +1088,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which command generates Playwright test code using the browser recorder?",
+    "question": "Which command generates Playwright test code using the browser recorder?",
     "options": [
       "npx playwright codegen",
       "npx playwright record",
@@ -1111,7 +1111,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] Which method is used to handle a file download?",
+    "question": "Which method is used to handle a file download?",
     "options": [
       "page.waitForEvent('download')",
       "page.downloadFile()",
@@ -1134,7 +1134,7 @@
     "level": "Associate Level",
     "examLevel": "Associate Level",
     "questionType": "mcq",
-    "question": "[Associate Level] What does the strict mode violation generally indicate?",
+    "question": "What does the strict mode violation generally indicate?",
     "options": [
       "No browser installed",
       "A locator matched multiple elements when one was expected",
@@ -1157,7 +1157,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which runtime is commonly used to execute Playwright tests written in JavaScript?",
+    "question": "Which runtime is commonly used to execute Playwright tests written in JavaScript?",
     "options": [
       "Node.js",
       "MySQL",
@@ -1180,7 +1180,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is the purpose of automation testing?",
+    "question": "What is the purpose of automation testing?",
     "options": [
       "To execute tests automatically",
       "To design websites",
@@ -1203,7 +1203,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which command initializes a new Node.js project?",
+    "question": "Which command initializes a new Node.js project?",
     "options": [
       "npm start",
       "npm init -y",
@@ -1226,7 +1226,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which command installs the Playwright Test package?",
+    "question": "Which command installs the Playwright Test package?",
     "options": [
       "npm install selenium",
       "npm install @playwright/test",
@@ -1249,7 +1249,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which command installs the Playwright browsers?",
+    "question": "Which command installs the Playwright browsers?",
     "options": [
       "npx playwright install",
       "npm browser install",
@@ -1272,7 +1272,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is the default extension of a TypeScript Playwright test file?",
+    "question": "What is the default extension of a TypeScript Playwright test file?",
     "options": [
       ".html",
       ".ts",
@@ -1295,7 +1295,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which command executes Playwright tests?",
+    "question": "Which command executes Playwright tests?",
     "options": [
       "npx playwright test",
       "npm browser run",
@@ -1318,7 +1318,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What does UI stand for?",
+    "question": "What does UI stand for?",
     "options": [
       "User Interface",
       "Universal Internet",
@@ -1341,7 +1341,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is a browser?",
+    "question": "What is a browser?",
     "options": [
       "A database",
       "Software used to access websites",
@@ -1364,7 +1364,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which command is used to open a website in Playwright?",
+    "question": "Which command is used to open a website in Playwright?",
     "options": [
       "page.goto()",
       "page.start()",
@@ -1387,7 +1387,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is a locator in Playwright?",
+    "question": "What is a locator in Playwright?",
     "options": [
       "A way to identify web elements",
       "A database connection",
@@ -1410,7 +1410,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which locator is used to find an element by its ID?",
+    "question": "Which locator is used to find an element by its ID?",
     "options": [
       "page.locator('#username')",
       "page.locator('@username')",
@@ -1433,7 +1433,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which locator is used to find an element by its class?",
+    "question": "Which locator is used to find an element by its class?",
     "options": [
       "page.locator('.login')",
       "page.locator('#login')",
@@ -1456,7 +1456,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which method is used to click a login button?",
+    "question": "Which method is used to click a login button?",
     "options": [
       "locator.click()",
       "locator.open()",
@@ -1479,7 +1479,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which method is used to enter text into a textbox?",
+    "question": "Which method is used to enter text into a textbox?",
     "options": [
       "locator.fill()",
       "locator.writeText()",
@@ -1502,7 +1502,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which method is used to clear and enter text in a textbox?",
+    "question": "Which method is used to clear and enter text in a textbox?",
     "options": [
       "locator.fill('Hello')",
       "locator.clearOnly()",
@@ -1525,7 +1525,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is an assertion in automation testing?",
+    "question": "What is an assertion in automation testing?",
     "options": [
       "A verification of expected results",
       "A browser installation",
@@ -1548,7 +1548,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which assertion checks whether a page title matches expected text?",
+    "question": "Which assertion checks whether a page title matches expected text?",
     "options": [
       "toHaveTitle()",
       "toHaveURL()",
@@ -1571,7 +1571,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which assertion checks whether a URL matches the expected URL?",
+    "question": "Which assertion checks whether a URL matches the expected URL?",
     "options": [
       "toHaveURL()",
       "toHaveTitle()",
@@ -1594,7 +1594,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is a test case?",
+    "question": "What is a test case?",
     "options": [
       "A set of steps and expected results to verify functionality",
       "A browser window",
@@ -1617,7 +1617,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What does a passed test indicate?",
+    "question": "What does a passed test indicate?",
     "options": [
       "Actual result matches expected result",
       "The browser is closed",
@@ -1640,7 +1640,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What does a failed test indicate?",
+    "question": "What does a failed test indicate?",
     "options": [
       "A verification did not meet its expected condition",
       "The test passed",
@@ -1663,7 +1663,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is regression testing?",
+    "question": "What is regression testing?",
     "options": [
       "Checking existing functionality after changes",
       "Testing only new hardware",
@@ -1686,7 +1686,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is functional testing?",
+    "question": "What is functional testing?",
     "options": [
       "Checking whether application features work as expected",
       "Checking only server temperature",
@@ -1709,7 +1709,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is manual testing?",
+    "question": "What is manual testing?",
     "options": [
       "Testing performed by a person without test automation execution",
       "Testing only using robots",
@@ -1732,7 +1732,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is the purpose of a login test?",
+    "question": "What is the purpose of a login test?",
     "options": [
       "Verify that users can authenticate with valid credentials",
       "Verify database backup speed",
@@ -1755,7 +1755,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which method is used to select a checkbox?",
+    "question": "Which method is used to select a checkbox?",
     "options": [
       "locator.check()",
       "locator.chooseText()",
@@ -1778,7 +1778,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which method is used to unselect a checkbox?",
+    "question": "Which method is used to unselect a checkbox?",
     "options": [
       "locator.uncheck()",
       "locator.removeCheck()",
@@ -1801,7 +1801,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is a dropdown list?",
+    "question": "What is a dropdown list?",
     "options": [
       "A control that allows selection from available options",
       "A browser extension",
@@ -1824,7 +1824,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which method selects an option in a standard HTML select element?",
+    "question": "Which method selects an option in a standard HTML select element?",
     "options": [
       "locator.selectOption()",
       "locator.pickOption()",
@@ -1847,7 +1847,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is a screenshot in automation testing?",
+    "question": "What is a screenshot in automation testing?",
     "options": [
       "An image of the application screen",
       "A database record",
@@ -1870,7 +1870,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which file generally contains project dependencies in Node.js?",
+    "question": "Which file generally contains project dependencies in Node.js?",
     "options": [
       "package.json",
       "index.html",
@@ -1893,7 +1893,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which command checks the installed Node.js version?",
+    "question": "Which command checks the installed Node.js version?",
     "options": [
       "node -v",
       "npm test",
@@ -1916,7 +1916,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What does npm stand for?",
+    "question": "What does npm stand for?",
     "options": [
       "Node Package Manager",
       "Network Program Method",
@@ -1939,7 +1939,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which command displays the installed Playwright version?",
+    "question": "Which command displays the installed Playwright version?",
     "options": [
       "npx playwright --version",
       "npm browser version",
@@ -1962,7 +1962,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is HTML primarily used for?",
+    "question": "What is HTML primarily used for?",
     "options": [
       "Structuring web page content",
       "Managing databases",
@@ -1985,7 +1985,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is CSS primarily used for?",
+    "question": "What is CSS primarily used for?",
     "options": [
       "Styling web pages",
       "Managing databases",
@@ -2008,7 +2008,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is the DOM in web development?",
+    "question": "What is the DOM in web development?",
     "options": [
       "A programming language",
       "A structured representation of an HTML document",
@@ -2031,7 +2031,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which HTML element is commonly used to create a button?",
+    "question": "Which HTML element is commonly used to create a button?",
     "options": [
       "<button>",
       "<heading>",
@@ -2054,7 +2054,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] Which HTML attribute commonly identifies an element uniquely within a page?",
+    "question": "Which HTML attribute commonly identifies an element uniquely within a page?",
     "options": [
       "class",
       "id",
@@ -2077,7 +2077,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is a test script?",
+    "question": "What is a test script?",
     "options": [
       "A set of instructions used to execute a test",
       "A browser history file",
@@ -2100,7 +2100,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is cross-browser testing?",
+    "question": "What is cross-browser testing?",
     "options": [
       "Testing an application on different browsers",
       "Testing multiple databases",
@@ -2123,7 +2123,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is a test report?",
+    "question": "What is a test report?",
     "options": [
       "A summary of test execution results",
       "A website source code file",
@@ -2146,7 +2146,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What should a tester do when a test fails?",
+    "question": "What should a tester do when a test fails?",
     "options": [
       "Ignore the failure",
       "Investigate the error and report the defect when appropriate",
@@ -2169,7 +2169,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is the purpose of waiting for an element before interacting with it?",
+    "question": "What is the purpose of waiting for an element before interacting with it?",
     "options": [
       "To ensure the element is ready for interaction",
       "To uninstall the browser",
@@ -2192,7 +2192,7 @@
     "level": "Foundation Level",
     "examLevel": "Foundation Level",
     "questionType": "mcq",
-    "question": "[Foundation Level] What is the purpose of the browser.close() method?",
+    "question": "What is the purpose of the browser.close() method?",
     "options": [
       "To close the browser",
       "To refresh the page",
@@ -2215,7 +2215,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] What does test.describe() provide in Playwright?",
+    "question": "What does test.describe() provide in Playwright?",
     "options": [
       "Grouping related test cases",
       "Creating browser installations",
@@ -2238,7 +2238,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] How should test data be managed when tests run in parallel?",
+    "question": "How should test data be managed when tests run in parallel?",
     "options": [
       "Use independent or uniquely generated test data for each worker",
       "Use the same mutable account for every test",
@@ -2261,7 +2261,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which approach is recommended for implementing the Page Object Model?",
+    "question": "Which approach is recommended for implementing the Page Object Model?",
     "options": [
       "Keep page locators and page-specific actions in reusable page classes",
       "Put all test logic in one global function",
@@ -2284,7 +2284,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] How can a test capture a screenshot only when it fails?",
+    "question": "How can a test capture a screenshot only when it fails?",
     "options": [
       "Configure screenshot: 'only-on-failure'",
       "Configure screenshot: 'never'",
@@ -2307,7 +2307,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which option enables video recording for failed Playwright tests?",
+    "question": "Which option enables video recording for failed Playwright tests?",
     "options": [
       "video: 'retain-on-failure'",
       "video: 'disabled'",
@@ -2330,7 +2330,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which method is used to wait for a download event?",
+    "question": "Which method is used to wait for a download event?",
     "options": [
       "page.waitForEvent('download')",
       "page.waitForFile()",
@@ -2353,7 +2353,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which approach is most appropriate when a web application renders data asynchronously?",
+    "question": "Which approach is most appropriate when a web application renders data asynchronously?",
     "options": [
       "Use a locator with an appropriate web-first assertion",
       "Use a fixed sleep for every element",
@@ -2376,7 +2376,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] What is the purpose of globalSetup in Playwright configuration?",
+    "question": "What is the purpose of globalSetup in Playwright configuration?",
     "options": [
       "Run setup logic once before the test suite",
       "Run after every assertion",
@@ -2399,7 +2399,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which option is suitable for running tests against multiple browser engines?",
+    "question": "Which option is suitable for running tests against multiple browser engines?",
     "options": [
       "Configure multiple projects in playwright.config.ts",
       "Use only one browser instance without projects",
@@ -2422,7 +2422,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] What is the purpose of test.step()?",
+    "question": "What is the purpose of test.step()?",
     "options": [
       "Group test operations into named reporting steps",
       "Create additional browsers",
@@ -2445,7 +2445,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which method can retrieve cookies from a BrowserContext?",
+    "question": "Which method can retrieve cookies from a BrowserContext?",
     "options": [
       "context.cookies()",
       "page.getCookies()",
@@ -2468,7 +2468,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] How can a test validate that a request returned an HTTP 500 response?",
+    "question": "How can a test validate that a request returned an HTTP 500 response?",
     "options": [
       "Wait for the response event and assert its status",
       "Check whether the page title is visible",
@@ -2491,7 +2491,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] What is the primary benefit of using page.route() for API mocking?",
+    "question": "What is the primary benefit of using page.route() for API mocking?",
     "options": [
       "It allows controlled network responses without depending on the live backend",
       "It automatically fixes application defects",
@@ -2514,7 +2514,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which locator method can scope a search to a parent element containing another locator?",
+    "question": "Which locator method can scope a search to a parent element containing another locator?",
     "options": [
       "filter({ has: locator })",
       "getParentText()",
@@ -2537,7 +2537,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which configuration property controls the maximum duration of an individual test?",
+    "question": "Which configuration property controls the maximum duration of an individual test?",
     "options": [
       "timeout",
       "maxWorkers",
@@ -2560,7 +2560,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which Playwright feature allows tests to run with different environment-specific settings?",
+    "question": "Which Playwright feature allows tests to run with different environment-specific settings?",
     "options": [
       "Projects and configuration options",
       "Only page.screenshot()",
@@ -2583,7 +2583,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] How should sensitive credentials be handled in a CI/CD test pipeline?",
+    "question": "How should sensitive credentials be handled in a CI/CD test pipeline?",
     "options": [
       "Use protected environment variables or a secrets manager",
       "Hardcode passwords in test files",
@@ -2606,7 +2606,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which approach best reduces flaky tests caused by dynamic UI loading?",
+    "question": "Which approach best reduces flaky tests caused by dynamic UI loading?",
     "options": [
       "Use reliable locators and retrying assertions",
       "Increase every timeout to 60 seconds",
@@ -2629,7 +2629,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which Playwright API is used to create an isolated API request context?",
+    "question": "Which Playwright API is used to create an isolated API request context?",
     "options": [
       "playwright.request.newContext()",
       "page.newAPI()",
@@ -2652,7 +2652,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] What is the purpose of a Playwright test annotation such as test.skip()?",
+    "question": "What is the purpose of a Playwright test annotation such as test.skip()?",
     "options": [
       "Skip a test under specified conditions",
       "Retry every assertion",
@@ -2675,7 +2675,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which approach is appropriate for validating an API response JSON schema?",
+    "question": "Which approach is appropriate for validating an API response JSON schema?",
     "options": [
       "Use a JSON schema validation library and assert the response body",
       "Compare only the browser title",
@@ -2698,7 +2698,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] What is the purpose of fullyParallel in Playwright configuration?",
+    "question": "What is the purpose of fullyParallel in Playwright configuration?",
     "options": [
       "Allow test files and tests to run in parallel according to the configuration",
       "Disable all parallel execution",
@@ -2721,7 +2721,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] What should be done when two parallel tests modify the same shared account data?",
+    "question": "What should be done when two parallel tests modify the same shared account data?",
     "options": [
       "Use isolated accounts or coordinate shared data access",
       "Allow both tests to overwrite the data without controls",
@@ -2744,7 +2744,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which option is used to configure a base URL for Playwright tests?",
+    "question": "Which option is used to configure a base URL for Playwright tests?",
     "options": [
       "use.baseURL",
       "browser.basePath",
@@ -2767,7 +2767,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which command executes Playwright tests in debug mode?",
+    "question": "Which command executes Playwright tests in debug mode?",
     "options": [
       "npx playwright test --debug",
       "npx playwright test --production",
@@ -2790,7 +2790,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] What is the purpose of a test tag such as @smoke?",
+    "question": "What is the purpose of a test tag such as @smoke?",
     "options": [
       "Classify tests so selected groups can be executed",
       "Automatically repair failed tests",
@@ -2813,7 +2813,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which option is used to run tests matching a title pattern?",
+    "question": "Which option is used to run tests matching a title pattern?",
     "options": [
       "npx playwright test -g 'login'",
       "npx playwright test --url",
@@ -2836,7 +2836,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which approach is recommended when testing a web application with multiple user roles?",
+    "question": "Which approach is recommended when testing a web application with multiple user roles?",
     "options": [
       "Create separate authentication states and contexts for different roles",
       "Use one shared session for all roles",
@@ -2859,7 +2859,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] What is the purpose of expect.poll()?",
+    "question": "What is the purpose of expect.poll()?",
     "options": [
       "Repeatedly evaluate a value until an expected condition is met or times out",
       "Poll browser installation updates",
@@ -2882,7 +2882,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which approach is most suitable for generating unique test data?",
+    "question": "Which approach is most suitable for generating unique test data?",
     "options": [
       "Generate unique identifiers such as UUIDs for each test",
       "Reuse the same email address across every parallel test",
@@ -2905,7 +2905,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] How can a Playwright test validate that an element is accessible by role and name?",
+    "question": "How can a Playwright test validate that an element is accessible by role and name?",
     "options": [
       "page.getByRole('button', { name: 'Submit' })",
       "page.getByDatabase('Submit')",
@@ -2928,7 +2928,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] Which setting helps capture a trace when a test is retried?",
+    "question": "Which setting helps capture a trace when a test is retried?",
     "options": [
       "trace: 'on-first-retry'",
       "trace: 'never'",
@@ -2951,7 +2951,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] What is the primary purpose of Playwright's sharding capability?",
+    "question": "What is the primary purpose of Playwright's sharding capability?",
     "options": [
       "Distribute test execution across multiple machines or jobs",
       "Split browser windows into smaller sections",
@@ -2974,7 +2974,7 @@
     "level": "Professional Level",
     "examLevel": "Professional Level",
     "questionType": "mcq",
-    "question": "[Professional Level] In a CI/CD pipeline, why should test execution artifacts be retained?",
+    "question": "In a CI/CD pipeline, why should test execution artifacts be retained?",
     "options": [
       "To support debugging, auditing and failure analysis",
       "To increase source code size",

@@ -14,7 +14,7 @@ export function getLocalNetworkIp() {
         }
       }
     }
-  } catch (e) {}
+  } catch (e) { }
   return 'localhost';
 }
 

@@ -124,5 +124,47 @@
     "timestamp": "2026-11-28T11:22:29.840Z",
     "createdAt": "2026-11-28T11:22:29.878Z",
     "updatedAt": "2026-11-28T11:22:29.881Z"
+  },
+  {
+    "id": "proc_1795866101149_o238f5",
+    "attemptId": "att_1795864867885_n9y39v",
+    "scheduleId": "SCH-AICQB-708359",
+    "candidateUid": "usr_1795863685021_es4thi",
+    "candidateId": "AICQB-1004701",
+    "candidateName": "pavan",
+    "eventType": "Fullscreen Exited",
+    "details": "Candidate exited full-screen examination mode.",
+    "snapshot": null,
+    "timestamp": "2026-11-28T11:41:41.145Z",
+    "createdAt": "2026-11-28T11:41:41.149Z",
+    "updatedAt": "2026-11-28T11:41:41.154Z"
+  },
+  {
+    "id": "proc_1795866131221_na9ubj",
+    "attemptId": "att_1795864867885_n9y39v",
+    "scheduleId": "SCH-AICQB-708359",
+    "candidateUid": "usr_1795863685021_es4thi",
+    "candidateId": "AICQB-1004701",
+    "candidateName": "pavan",
+    "eventType": "Fullscreen Exited",
+    "details": "Candidate exited full-screen examination mode.",
+    "snapshot": null,
+    "timestamp": "2026-11-28T11:42:11.216Z",
+    "createdAt": "2026-11-28T11:42:11.221Z",
+    "updatedAt": "2026-11-28T11:42:11.223Z"
+  },
+  {
+    "id": "proc_1795866161529_x13lr6",
+    "attemptId": "att_1795864867885_n9y39v",
+    "scheduleId": "SCH-AICQB-708359",
+    "candidateUid": "usr_1795863685021_es4thi",
+    "candidateId": "AICQB-1004701",
+    "candidateName": "pavan",
+    "eventType": "Fullscreen Exited",
+    "details": "Candidate exited full-screen examination mode.",
+    "snapshot": null,
+    "timestamp": "2026-11-28T11:42:41.516Z",
+    "createdAt": "2026-11-28T11:42:41.529Z",
+    "updatedAt": "2026-11-28T11:42:41.530Z"
   }
 ]

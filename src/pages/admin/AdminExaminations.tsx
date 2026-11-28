@@ -70,7 +70,7 @@ const generateSampleJson = (certCode: string, level: string) => {
   return JSON.stringify(
     [
       {
-        question: `[${level}] Which assessment metric is most rigorous for evaluating ${certCode} production workloads under skewed real-world distribution?`,
+        question: `Which assessment metric is most rigorous for evaluating ${certCode} production workloads under skewed real-world distribution?`,
         options: [
           'Area Under ROC Curve (ROC-AUC) & Precision-Recall F1-Optimization',
           'Standard Unweighted Accuracy Rate',
@@ -85,7 +85,7 @@ const generateSampleJson = (certCode: string, level: string) => {
         rubric: `Demonstrates mastery of evaluation techniques required for ${level} candidates.`
       },
       {
-        question: `[${level}] In architectural reliability for ${certCode}, which principle guarantees deterministic state during sudden node termination?`,
+        question: `In architectural reliability for ${certCode}, which principle guarantees deterministic state during sudden node termination?`,
         options: [
           'Idempotent transactional event handlers with dead-letter queue routing',
           'Unchecked synchronous retry chains without backoff',
