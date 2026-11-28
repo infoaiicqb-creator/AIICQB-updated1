@@ -27,7 +27,6 @@ import {
   Copy,
   Check,
   AlertTriangle,
-  Radio,
   FileText,
   Video,
 } from 'lucide-react';
@@ -1085,17 +1084,6 @@ export const AdminExaminations: React.FC = () => {
                 <Code2 className="w-3.5 h-3.5 text-[#F47716]" />
                 <span>Bulk Import via JSON</span>
               </button>
-            </div>
-          </div>
-
-          {/* Randomization Security Notice */}
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start space-x-2.5 text-xs text-amber-800">
-            <Radio className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
-            <div>
-              <p className="font-bold">Algorithmic Question & Option Randomization Active</p>
-              <p className="text-[11px] text-amber-700 mt-0.5">
-                Every candidate session dynamically shuffles both the question sequence and answer choice options (A, B, C, D) using Fisher-Yates randomization. Correct keys are mapped dynamically per session.
-              </p>
             </div>
           </div>
 
