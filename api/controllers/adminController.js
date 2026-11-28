@@ -80,6 +80,35 @@ export async function getDashboardStats(req, res) {
       ? certificates
       : certificates.filter(c => matchesDate(c.issueDate || c.createdAt));
 
+    // Candidate reference set for active integrity
+    const candidateKeys = new Set();
+    filteredCandidates.forEach(c => {
+      if (c.uid) candidateKeys.add(c.uid);
+      if (c.id) candidateKeys.add(c.id);
+      if (c.candidateId) candidateKeys.add(c.candidateId);
+      if (c.email) candidateKeys.add(c.email.toLowerCase());
+    });
+    users.filter(u => (u.role || '').toLowerCase() === 'candidate').forEach(u => {
+      if (u.uid) candidateKeys.add(u.uid);
+      if (u.id) candidateKeys.add(u.id);
+      if (u.candidateId) candidateKeys.add(u.candidateId);
+      if (u.email) candidateKeys.add(u.email.toLowerCase());
+    });
+
+    const isCandidateRecord = (item) => {
+      if (candidateKeys.size === 0) return true;
+      const email = (item.candidateEmail || item.candidate_email || item.email || '').toLowerCase();
+      return candidateKeys.has(item.candidateUid) ||
+        candidateKeys.has(item.candidateId) ||
+        candidateKeys.has(item.candidate_id) ||
+        (email && candidateKeys.has(email));
+    };
+
+    const validAttempts = filteredAttempts.filter(isCandidateRecord);
+    const validResults = filteredResults.filter(isCandidateRecord);
+    const validCertificates = filteredCertificates.filter(isCandidateRecord);
+    const validEnrollments = enrollments.filter(isCandidateRecord);
+
     // 1. Candidate & Payment conversion (100% REAL & DYNAMIC from candidates collection)
     const successfulPayments = filteredPayments.filter(
       p => p.paymentStatus === 'success' || p.status === 'Successful'
@@ -120,11 +149,12 @@ export async function getDashboardStats(req, res) {
       .reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
 
     // 3. Real Examinations (100% REAL candidate sessions & proctored attempts)
-    const totalExams = filteredAttempts.length > 0 ? filteredAttempts.length : (exams.length || 0);
-    const completedExams = filteredAttempts.filter(a => a.status === 'completed' || a.submitTime).length;
+    const activeExamsConfig = exams.filter(x => !x.isDeleted);
+    const totalExams = validAttempts.length > 0 ? validAttempts.length : activeExamsConfig.length;
+    const completedExams = validAttempts.filter(a => a.status === 'completed' || a.submitTime).length;
     // Active sessions are only attempts currently in-progress started within the 90-min duration window
     const ninetyMinutesAgo = new Date(Date.now() - 90 * 60 * 1000);
-    const activeExams = filteredAttempts.filter(a => {
+    const activeExams = validAttempts.filter(a => {
       if (a.status !== 'in-progress' && a.status !== 'in_progress') return false;
       const start = a.startTime || a.startedAt || a.createdAt;
       if (!start) return false;
@@ -132,8 +162,8 @@ export async function getDashboardStats(req, res) {
     }).length;
 
     // 4. Results & Quality Standard (100% REAL from evaluations)
-    const passedResults = filteredResults.filter(r => r.passed === true);
-    const failedResults = filteredResults.filter(r => r.passed === false);
+    const passedResults = validResults.filter(r => r.passed === true);
+    const failedResults = validResults.filter(r => r.passed === false);
     const passedCandidates = passedResults.length;
     const failedCandidates = failedResults.length;
     const totalExamined = passedCandidates + failedCandidates;
@@ -141,13 +171,13 @@ export async function getDashboardStats(req, res) {
     const retakeRate = Math.max(0, 100 - passRate);
 
     // 5. Certificates (100% REAL)
-    const certificatesIssued = filteredCertificates.filter(c => c.status === 'Issued' || c.status === 'Active').length;
-    const certificatesRevoked = filteredCertificates.filter(c => c.status === 'Revoked').length;
+    const certificatesIssued = validCertificates.filter(c => c.status === 'Issued' || c.status === 'Active').length;
+    const certificatesRevoked = validCertificates.filter(c => c.status === 'Revoked').length;
     const certificatesPending = Math.max(0, passedCandidates - certificatesIssued);
 
     // 6. Dynamic Certifications & Verifications (Core Platform Assets)
-    const totalCertifications = certifications.length;
-    const activeCertifications = certifications.filter(c => c.status === 'Active').length;
+    const totalCertifications = certifications.filter(c => !c.isDeleted).length;
+    const activeCertifications = certifications.filter(c => !c.isDeleted && (c.status === 'Active' || !c.status)).length;
     const totalVerifications = verifications.length;
 
     // 7. Country Registrations (100% REAL calculated dynamically)
@@ -184,16 +214,41 @@ export async function getDashboardStats(req, res) {
       }))
       .sort((a, b) => b.count - a.count);
 
-    // 8. Domain & Certification breakdown (100% REAL calculated from enrollments / payments)
+    // 8. Domain & Certification breakdown (100% REAL & DYNAMIC calculated from active certifications in database)
+    const activeCerts = certifications.filter(c => !c.isDeleted && c.status !== 'Archived');
     const domainCounts = {};
-    const enrollmentSource = enrollments.length > 0 ? enrollments : successfulPayments;
-    enrollmentSource.forEach(item => {
-      const name = item.certificationName || item.domain || 'Software Testing & Quality Engineering';
-      domainCounts[name] = (domainCounts[name] || 0) + 1;
+
+    activeCerts.forEach(cert => {
+      const certName = cert.name || cert.certificationName || cert.code || 'Certification';
+      const certId = cert.id || cert.certificationId;
+      const certCode = cert.code || cert.certificationCode;
+
+      const certEnrollments = validEnrollments.filter(e => {
+        return (certId && e.certificationId === certId) ||
+          (certCode && e.certificationCode === certCode) ||
+          (certName && (e.certificationName === certName || e.certificationName?.toLowerCase() === certName.toLowerCase()));
+      }).length;
+
+      const certPayments = successfulPayments.filter(p => {
+        return (certId && (p.certification_id === certId || p.certificationId === certId)) ||
+          (certCode && p.certificationCode === certCode) ||
+          (certName && (p.certification_name === certName || p.certificationName === certName));
+      }).length;
+
+      domainCounts[certName] = Math.max(certEnrollments, certPayments, Number(cert.enrolledCount) || 0);
     });
 
+    // Fallback if no active certifications are configured
+    if (activeCerts.length === 0) {
+      const enrollmentSource = validEnrollments.length > 0 ? validEnrollments : successfulPayments;
+      enrollmentSource.forEach(item => {
+        const name = item.certificationName || item.domain || 'Software Testing & Quality Engineering';
+        domainCounts[name] = (domainCounts[name] || 0) + 1;
+      });
+    }
+
     const totalEnrollmentsCount = Object.values(domainCounts).reduce((a, b) => a + b, 0);
-    const colors = ['bg-[#F47716]', 'bg-blue-600', 'bg-emerald-500', 'bg-purple-600', 'bg-sky-500', 'bg-amber-500'];
+    const colors = ['bg-[#F47716]', 'bg-blue-600', 'bg-emerald-500', 'bg-purple-600', 'bg-sky-500', 'bg-amber-500', 'bg-rose-500', 'bg-teal-500'];
     const domainBreakdown = Object.entries(domainCounts)
       .sort((a, b) => b[1] - a[1])
       .map(([name, count], idx) => ({
@@ -407,10 +462,36 @@ export async function deleteCandidate(req, res) {
     }
 
     db.deleteDoc('candidates', candidate.id);
-    const user = db.findOne('users', u => u.uid === candidate.uid);
+    const user = db.findOne('users', u => u.uid === candidate.uid || (u.email && candidate.email && u.email.toLowerCase() === candidate.email.toLowerCase()));
     if (user) {
       db.deleteDoc('users', user.id || user.uid);
     }
+
+    // Cascade delete related records for data integrity
+    const candidateUid = candidate.uid;
+    const candId = candidate.candidateId;
+    const candEmail = (candidate.email || '').toLowerCase();
+    const isThisCandidate = (item) => {
+      const em = (item.candidateEmail || item.candidate_email || item.email || '').toLowerCase();
+      return (candidateUid && item.candidateUid === candidateUid) ||
+        (candId && (item.candidateId === candId || item.candidate_id === candId)) ||
+        (candEmail && em === candEmail);
+    };
+
+    const allEnrollments = db.getCollection('enrollments') || [];
+    allEnrollments.filter(isThisCandidate).forEach(e => db.deleteDoc('enrollments', e.id));
+
+    const allAttempts = db.getCollection('examAttempts') || [];
+    allAttempts.filter(isThisCandidate).forEach(a => db.deleteDoc('examAttempts', a.id || a.attemptId));
+
+    const allResults = db.getCollection('results') || [];
+    allResults.filter(isThisCandidate).forEach(r => db.deleteDoc('results', r.id));
+
+    const allCerts = db.getCollection('certificates') || [];
+    allCerts.filter(isThisCandidate).forEach(c => db.deleteDoc('certificates', c.id || c.certificateId));
+
+    const allPayments = db.getCollection('payments') || [];
+    allPayments.filter(isThisCandidate).forEach(p => db.deleteDoc('payments', p.id || p.paymentId));
 
     logAudit(req, 'DELETE_CANDIDATE', 'Candidate Management', `Deleted candidate ${candidate.candidateId} (${candidate.fullName})`);
     return res.json({ success: true, message: 'Candidate deleted successfully' });

@@ -213,126 +213,119 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Row 1: 4 Primary Executive KPIs (100% Real Database Metrics) */}
+      {/* Row 1: 4 Primary Executive KPIs (100% Real Database Metrics, Centered & Bold) */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Candidates */}
         <div
           onClick={() => navigate('/admin/candidates')}
-          className="bg-white rounded-2xl border border-gray-200 p-5 shadow-xs flex items-center justify-between cursor-pointer hover:border-[#F47716] hover:shadow-md transition-all group select-none"
+          className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center cursor-pointer hover:border-[#F47716] hover:shadow-md transition-all group select-none"
           title="Click to view candidate roster page"
         >
-          <div className="space-y-1">
-            <span className="text-2xl sm:text-3xl font-black text-[#10264B] block leading-none font-mono group-hover:text-[#F47716] transition-colors">
-              {totalCandidates.toLocaleString('en-IN')}
-            </span>
-            <span className="text-xs text-gray-500 font-bold block">Registered Candidates</span>
-            <span className="inline-flex items-center text-[10px] font-bold text-green-600">
-              <TrendingUp className="w-3 h-3 mr-0.5" /> Live candidate roster
-              <span className="ml-1 text-[9px] bg-green-100 text-green-800 px-1.5 py-0.2 rounded-full font-bold group-hover:bg-[#F47716] group-hover:text-white transition-colors">View Page &rarr;</span>
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] group-hover:bg-[#F47716] group-hover:text-white flex items-center justify-center flex-shrink-0 transition-all shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[#F47716] group-hover:bg-[#F47716] group-hover:text-white flex items-center justify-center mb-3 transition-all shadow-xs">
             <Users className="w-6 h-6" />
           </div>
+          <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono group-hover:text-[#F47716] transition-colors text-center">
+            {totalCandidates.toLocaleString('en-IN')}
+          </span>
+          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center">
+            Registered Candidates
+          </span>
         </div>
 
         {/* Real Revenue */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-xs flex items-center justify-between">
-          <div className="space-y-1">
-            <span className="text-2xl sm:text-3xl font-black text-[#10264B] block leading-none font-mono">
-              {formatRevenue(totalRevenue)}
-            </span>
-            <span className="text-xs text-gray-500 font-bold block">Total Platform Revenue</span>
-            <span className="inline-flex items-center text-[10px] font-bold text-emerald-600">
-              <TrendingUp className="w-3 h-3 mr-0.5" /> {formatRevenue(monthlyRevenue)} this month
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 shadow-xs">
             <CreditCard className="w-6 h-6" />
           </div>
+          <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono text-center">
+            {formatRevenue(totalRevenue)}
+          </span>
+          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center">
+            Total Platform Revenue
+          </span>
         </div>
 
         {/* Real Examinations */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-xs flex items-center justify-between">
-          <div className="space-y-1">
-            <span className="text-2xl sm:text-3xl font-black text-[#10264B] block leading-none font-mono">
-              {totalExams.toLocaleString('en-IN')}
-            </span>
-            <span className="text-xs text-gray-500 font-bold block">Total Examinations</span>
-            <span className="inline-flex items-center text-[10px] font-bold text-blue-600">
-              ● {activeExams > 0 ? `${activeExams} Active Sessions Now` : 'Live Proctoring Active'}
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#10264B] flex items-center justify-center flex-shrink-0">
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center">
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#10264B] flex items-center justify-center mb-3 shadow-xs">
             <CalendarCheck className="w-6 h-6" />
           </div>
+          <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono text-center">
+            {totalExams.toLocaleString('en-IN')}
+          </span>
+          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center">
+            Total Examinations
+          </span>
         </div>
 
         {/* Real Verified Certificates */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 shadow-xs flex items-center justify-between">
-          <div className="space-y-1">
-            <span className="text-2xl sm:text-3xl font-black text-[#10264B] block leading-none font-mono">
-              {certificatesIssued.toLocaleString('en-IN')}
-            </span>
-            <span className="text-xs text-gray-500 font-bold block">Verified Certificates Issued</span>
-            <span className="inline-flex items-center text-[10px] font-bold text-purple-600">
-              100% QR Verifiable ({certificatesPending} pending)
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
+        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-xs flex flex-col items-center justify-center text-center">
+          <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-3 shadow-xs">
             <FileCheck2 className="w-6 h-6" />
           </div>
+          <span className="text-3xl sm:text-4xl font-black text-[#10264B] block leading-tight font-mono text-center">
+            {certificatesIssued.toLocaleString('en-IN')}
+          </span>
+          <span className="text-xs sm:text-sm text-gray-700 font-bold block mt-2 text-center">
+            Verified Certificates Issued
+          </span>
         </div>
       </div>
 
-      {/* Row 2: Secondary Metric Strip (Real counts directly from collections) */}
+      {/* Row 2: Secondary Metric Strip (Centered & Bold Numbers) */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="bg-white rounded-xl p-3.5 border border-gray-200 shadow-xs">
-          <span className="text-[11px] font-bold text-gray-400 block uppercase">Paid Candidates</span>
-          <span className="text-lg font-black text-emerald-700 font-mono mt-0.5 block">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
+          <span className="text-xl sm:text-2xl font-black text-emerald-700 font-mono block">
             {totalPaidCandidates.toLocaleString('en-IN')}
           </span>
-          <span className="text-[10px] text-gray-500">{paymentConversion}% payment conversion</span>
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+            Paid Candidates
+          </span>
         </div>
 
-        <div className="bg-white rounded-xl p-3.5 border border-gray-200 shadow-xs">
-          <span className="text-[11px] font-bold text-gray-400 block uppercase">Pending Payments</span>
-          <span className="text-lg font-black text-amber-600 font-mono mt-0.5 block">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
+          <span className="text-xl sm:text-2xl font-black text-amber-600 font-mono block">
             {pendingPayments.toLocaleString('en-IN')}
           </span>
-          <span className="text-[10px] text-amber-700">Invoices & Follow-ups</span>
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+            Pending Payments
+          </span>
         </div>
 
-        <div className="bg-white rounded-xl p-3.5 border border-gray-200 shadow-xs">
-          <span className="text-[11px] font-bold text-gray-400 block uppercase">Passed (Honors)</span>
-          <span className="text-lg font-black text-emerald-600 font-mono mt-0.5 block">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
+          <span className="text-xl sm:text-2xl font-black text-emerald-600 font-mono block">
             {passedCandidates.toLocaleString('en-IN')}
           </span>
-          <span className="text-[10px] text-emerald-700">{passRate}% passing standard</span>
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+            Passed (Honors)
+          </span>
         </div>
 
-        <div className="bg-white rounded-xl p-3.5 border border-gray-200 shadow-xs">
-          <span className="text-[11px] font-bold text-gray-400 block uppercase">Active Certifications</span>
-          <span className="text-lg font-black text-[#10264B] font-mono mt-0.5 block">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
+          <span className="text-xl sm:text-2xl font-black text-[#10264B] font-mono block">
             {activeCertifications}
           </span>
-          <span className="text-[10px] text-gray-500">{totalCertifications} total programs</span>
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+            Active Certifications
+          </span>
         </div>
 
-        <div className="bg-white rounded-xl p-3.5 border border-gray-200 shadow-xs">
-          <span className="text-[11px] font-bold text-gray-400 block uppercase">Completed Exams</span>
-          <span className="text-lg font-black text-[#10264B] font-mono mt-0.5 block">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
+          <span className="text-xl sm:text-2xl font-black text-[#10264B] font-mono block">
             {completedExams.toLocaleString('en-IN')}
           </span>
-          <span className="text-[10px] text-gray-500">Proctored sessions</span>
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+            Completed Exams
+          </span>
         </div>
 
-        <div className="bg-white rounded-xl p-3.5 border border-gray-200 shadow-xs">
-          <span className="text-[11px] font-bold text-gray-400 block uppercase">Verifications</span>
-          <span className="text-lg font-black text-[#F47716] font-mono mt-0.5 block">
+        <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-xs flex flex-col items-center justify-center text-center">
+          <span className="text-xl sm:text-2xl font-black text-[#F47716] font-mono block">
             {totalVerifications.toLocaleString('en-IN')}
           </span>
-          <span className="text-[10px] text-gray-500">Registry lookups</span>
+          <span className="text-xs font-bold text-gray-600 block mt-1 uppercase tracking-wider">
+            Verifications
+          </span>
         </div>
       </div>
 
@@ -383,7 +376,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="flex items-center justify-between border-b border-gray-100 pb-3">
             <h3 className="font-bold text-sm text-[#10264B]">Enrollments by Certification</h3>
             <span className="text-xs font-bold text-[#F47716]">
-              {(stats?.totalEnrollmentsCount || totalCandidates).toLocaleString('en-IN')} Total
+              {(stats?.totalEnrollmentsCount !== undefined ? stats.totalEnrollmentsCount : 0).toLocaleString('en-IN')} Total
             </span>
           </div>
 
@@ -405,7 +398,7 @@ export const AdminDashboard: React.FC = () => {
                   <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                     <div
                       className={`h-full ${d.color || 'bg-[#F47716]'} rounded-full transition-all duration-500`}
-                      style={{ width: `${Math.max(5, d.percentage)}%` }}
+                      style={{ width: `${Math.max(d.count > 0 ? 5 : 0, d.percentage)}%` }}
                     ></div>
                   </div>
                 </div>

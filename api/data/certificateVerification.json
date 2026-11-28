@@ -1970,5 +1970,14 @@
     "createdAt": "2026-11-27T09:33:55.361Z",
     "id": "certificateVerification_1795772035361_mpc9k",
     "updatedAt": "2026-11-27T09:33:55.361Z"
+  },
+  {
+    "certificateNo": "AIICQB-ST-PRF-2026-000007",
+    "candidateName": "pushpak Wani",
+    "certificationName": "AICQB Certified Software Tester",
+    "verifiedCount": 0,
+    "createdAt": "2026-11-28T09:19:14.712Z",
+    "id": "certificateVerification_1795857554712_1vyoh",
+    "updatedAt": "2026-11-28T09:19:14.712Z"
   }
 ]
