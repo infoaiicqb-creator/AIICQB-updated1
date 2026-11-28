@@ -239,7 +239,6 @@ export async function getDashboardStats(req, res) {
 
     // 10. Verification health uptime (100% REAL)
     const validVerifications = verifications.filter(v => v.isValid !== false).length;
-    const totalVerifications = verifications.length;
     const verificationUptime = totalVerifications > 0
       ? (Math.min(99.99, (validVerifications / totalVerifications) * 100)).toFixed(2) + '%'
       : '100%';
