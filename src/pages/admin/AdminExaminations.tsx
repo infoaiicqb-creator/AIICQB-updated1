@@ -49,9 +49,7 @@ const DEFAULT_CERTIFICATIONS: CertificationOption[] = [
 
 const EXAM_LEVELS = [
   'Foundation Level',
-  'Associate Level',
   'Professional Level',
-  'Advanced Level',
   'Expert Level',
 ];
 
@@ -1042,8 +1040,8 @@ export const AdminExaminations: React.FC = () => {
             {[
               { id: 'All', label: 'All Levels', count: questions.length },
               { id: 'Foundation Level', label: 'Foundation Level Only', count: questions.filter(q => (q.level || q.examLevel) === 'Foundation Level').length },
-              { id: 'Associate Level', label: 'Associate Level Only', count: questions.filter(q => (q.level || q.examLevel) === 'Associate Level').length },
               { id: 'Professional Level', label: 'Professional Level Only', count: questions.filter(q => (q.level || q.examLevel) === 'Professional Level').length },
+              { id: 'Expert Level', label: 'Expert Level Only', count: questions.filter(q => (q.level || q.examLevel) === 'Expert Level').length },
             ].map((tab) => (
               <button
                 key={tab.id}

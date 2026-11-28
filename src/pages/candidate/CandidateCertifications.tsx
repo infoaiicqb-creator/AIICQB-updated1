@@ -320,21 +320,20 @@ export const CandidateCertifications: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowLevelMenu(!showLevelMenu)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center space-x-1.5 border shadow-2xs ${
-                selectedLevelFilter !== 'All'
-                  ? 'bg-gradient-to-r from-[#F47716] to-[#FF8C38] text-white border-orange-600'
-                  : 'bg-slate-100 text-[#10264B] border-slate-200 hover:bg-slate-200'
-              }`}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center space-x-1.5 border shadow-2xs ${selectedLevelFilter !== 'All'
+                ? 'bg-gradient-to-r from-[#F47716] to-[#FF8C38] text-white border-orange-600'
+                : 'bg-slate-100 text-[#10264B] border-slate-200 hover:bg-slate-200'
+                }`}
             >
               <GraduationCap className={`w-3.5 h-3.5 ${selectedLevelFilter !== 'All' ? 'text-white' : 'text-[#F47716]'}`} />
               <span>
                 {selectedLevelFilter === 'All'
                   ? 'Level of Exam'
                   : selectedLevelFilter === 'foundation'
-                  ? 'Foundation Level'
-                  : selectedLevelFilter === 'professional'
-                  ? 'Professional Level'
-                  : 'Expert Level'}
+                    ? 'Foundation Level'
+                    : selectedLevelFilter === 'professional'
+                      ? 'Professional Level'
+                      : 'Expert Level'}
               </span>
               <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showLevelMenu ? 'rotate-180' : ''}`} />
             </button>
@@ -399,11 +398,10 @@ export const CandidateCertifications: React.FC = () => {
                         setSelectedLevelFilter('All');
                         setShowLevelMenu(false);
                       }}
-                      className={`w-full px-2.5 py-1.5 rounded-lg text-xs font-medium text-left flex items-center justify-between transition-colors cursor-pointer ${
-                        selectedLevelFilter === 'All'
-                          ? 'bg-orange-50 text-[#10264B] font-bold'
-                          : 'text-gray-600 hover:bg-slate-50'
-                      }`}
+                      className={`w-full px-2.5 py-1.5 rounded-lg text-xs font-medium text-left flex items-center justify-between transition-colors cursor-pointer ${selectedLevelFilter === 'All'
+                        ? 'bg-orange-50 text-[#10264B] font-bold'
+                        : 'text-gray-600 hover:bg-slate-50'
+                        }`}
                     >
                       <div className="flex items-center space-x-2">
                         <span className="w-2 h-2 rounded-full bg-gray-400" />
@@ -418,11 +416,10 @@ export const CandidateCertifications: React.FC = () => {
                         setSelectedLevelFilter('foundation');
                         setShowLevelMenu(false);
                       }}
-                      className={`w-full px-2.5 py-1.5 rounded-lg text-xs font-medium text-left flex items-center justify-between transition-colors cursor-pointer ${
-                        selectedLevelFilter === 'foundation'
-                          ? 'bg-blue-50 text-blue-900 font-bold'
-                          : 'text-gray-600 hover:bg-slate-50'
-                      }`}
+                      className={`w-full px-2.5 py-1.5 rounded-lg text-xs font-medium text-left flex items-center justify-between transition-colors cursor-pointer ${selectedLevelFilter === 'foundation'
+                        ? 'bg-blue-50 text-blue-900 font-bold'
+                        : 'text-gray-600 hover:bg-slate-50'
+                        }`}
                     >
                       <div className="flex items-center space-x-2">
                         <span className="w-2 h-2 rounded-full bg-blue-500" />
@@ -439,11 +436,10 @@ export const CandidateCertifications: React.FC = () => {
                         setSelectedLevelFilter('professional');
                         setShowLevelMenu(false);
                       }}
-                      className={`w-full px-2.5 py-1.5 rounded-lg text-xs font-medium text-left flex items-center justify-between transition-colors cursor-pointer ${
-                        selectedLevelFilter === 'professional'
-                          ? 'bg-orange-50 text-orange-950 font-bold'
-                          : 'text-gray-600 hover:bg-slate-50'
-                      }`}
+                      className={`w-full px-2.5 py-1.5 rounded-lg text-xs font-medium text-left flex items-center justify-between transition-colors cursor-pointer ${selectedLevelFilter === 'professional'
+                        ? 'bg-orange-50 text-orange-950 font-bold'
+                        : 'text-gray-600 hover:bg-slate-50'
+                        }`}
                     >
                       <div className="flex items-center space-x-2">
                         <span className="w-2 h-2 rounded-full bg-[#F47716]" />
@@ -460,11 +456,10 @@ export const CandidateCertifications: React.FC = () => {
                         setSelectedLevelFilter('expert');
                         setShowLevelMenu(false);
                       }}
-                      className={`w-full px-2.5 py-1.5 rounded-lg text-xs font-medium text-left flex items-center justify-between transition-colors cursor-pointer ${
-                        selectedLevelFilter === 'expert'
-                          ? 'bg-purple-50 text-purple-900 font-bold'
-                          : 'text-gray-600 hover:bg-slate-50'
-                      }`}
+                      className={`w-full px-2.5 py-1.5 rounded-lg text-xs font-medium text-left flex items-center justify-between transition-colors cursor-pointer ${selectedLevelFilter === 'expert'
+                        ? 'bg-purple-50 text-purple-900 font-bold'
+                        : 'text-gray-600 hover:bg-slate-50'
+                        }`}
                     >
                       <div className="flex items-center space-x-2">
                         <span className="w-2 h-2 rounded-full bg-purple-500" />
@@ -612,10 +607,10 @@ export const CandidateCertifications: React.FC = () => {
                         {selectedLevelFilter === 'foundation'
                           ? 'Foundation Level'
                           : selectedLevelFilter === 'professional'
-                          ? 'Professional Level'
-                          : selectedLevelFilter === 'expert'
-                          ? 'Expert Level'
-                          : cert.level || 'Professional Level'}
+                            ? 'Professional Level'
+                            : selectedLevelFilter === 'expert'
+                              ? 'Expert Level'
+                              : cert.level || 'Professional Level'}
                       </span>
                     </button>
                   )}
@@ -626,10 +621,10 @@ export const CandidateCertifications: React.FC = () => {
                         (enrolled
                           ? (enrollment?.amount || cert.examFee || 9999)
                           : selectedLevelFilter === 'foundation'
-                          ? 4500
-                          : selectedLevelFilter === 'expert'
-                          ? 13999
-                          : (cert.examFee || 9999)
+                            ? 4500
+                            : selectedLevelFilter === 'expert'
+                              ? 13999
+                              : (cert.examFee || 9999)
                         ).toLocaleString('en-IN')
                       }
                     </span>
@@ -752,7 +747,7 @@ export const CandidateCertifications: React.FC = () => {
                 const next = Array.from(new Set([...prev, enrolledItem.id, enrolledItem.code]));
                 try {
                   localStorage.setItem('aicqb_enrolled_cert_ids', JSON.stringify(next));
-                } catch (_) {}
+                } catch (_) { }
                 return next;
               });
 
@@ -794,16 +789,16 @@ export const CandidateCertifications: React.FC = () => {
                   };
                   localStorage.setItem('aicqb_my_upcoming', JSON.stringify([newSchedule, ...existingUpcoming]));
                 }
-              } catch (_) {}
+              } catch (_) { }
 
               // Refresh schedules from server in background
               api.getMySchedules().then((res) => {
                 if (res?.success && res.upcoming) {
                   try {
                     localStorage.setItem('aicqb_my_upcoming', JSON.stringify(res.upcoming));
-                  } catch (_) {}
+                  } catch (_) { }
                 }
-              }).catch(() => {});
+              }).catch(() => { });
             }
             loadData();
           }}

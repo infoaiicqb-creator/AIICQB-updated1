@@ -66,7 +66,7 @@ const CERTIFICATION_OPTIONS: CertificationOption[] = [
     id: 'cert_aicqb_cy_301',
     code: 'AICQB-CY-301',
     name: 'AICQB Certified Cybersecurity Specialist',
-    level: 'Advanced Level',
+    level: 'Expert Level',
     domainCode: 'CY',
   },
 ];
@@ -819,10 +819,9 @@ export const AdminCertificates: React.FC = () => {
                     onChange={(e) => setCredentialLevel(e.target.value)}
                     className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg focus:ring-1 focus:ring-[#F47716] focus:outline-none"
                   >
+                    <option>Foundation Level</option>
                     <option>Professional Level</option>
-                    <option>Advanced Level</option>
-                    <option>Executive Professional Level</option>
-                    <option>Associate Level</option>
+                    <option>Expert Level</option>
                   </select>
                 </div>
 

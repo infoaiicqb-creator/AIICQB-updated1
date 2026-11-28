@@ -11,34 +11,12 @@
     "updatedAt": "2026-01-15T10:00:00.000Z"
   },
   {
-    "id": "lvl_asc",
-    "levelId": "lvl_asc",
-    "name": "Associate Level",
-    "levelCode": "ASC",
-    "description": "Practical hands-on methodology, tooling proficiency, and problem solving.",
-    "defaultExamFeeINR": 3500,
-    "status": "Active",
-    "createdAt": "2026-01-15T10:00:00.000Z",
-    "updatedAt": "2026-01-15T10:00:00.000Z"
-  },
-  {
     "id": "lvl_prf",
     "levelId": "lvl_prf",
     "name": "Professional Level",
     "levelCode": "PRF",
     "description": "Comprehensive practitioner expertise, architecture validation, and applied design.",
     "defaultExamFeeINR": 4500,
-    "status": "Active",
-    "createdAt": "2026-01-15T10:00:00.000Z",
-    "updatedAt": "2026-01-15T10:00:00.000Z"
-  },
-  {
-    "id": "lvl_adv",
-    "levelId": "lvl_adv",
-    "name": "Advanced Level",
-    "levelCode": "ADV",
-    "description": "Complex enterprise workflows, scalability, optimization, and team leadership.",
-    "defaultExamFeeINR": 5500,
     "status": "Active",
     "createdAt": "2026-01-15T10:00:00.000Z",
     "updatedAt": "2026-01-15T10:00:00.000Z"
