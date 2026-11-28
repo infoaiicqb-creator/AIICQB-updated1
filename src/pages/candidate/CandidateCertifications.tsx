@@ -60,6 +60,14 @@ export const CandidateCertifications: React.FC = () => {
     }
   });
   const [candidateCertificates, setCandidateCertificates] = useState<Certificate[]>([]);
+  const [candidateEnrollments, setCandidateEnrollments] = useState<any[]>(() => {
+    try {
+      const e = localStorage.getItem('aicqb_my_enrollments');
+      return e ? JSON.parse(e) : [];
+    } catch (_) {
+      return [];
+    }
+  });
 
   // Modals
   const [selectedForLevelModal, setSelectedForLevelModal] = useState<Certification | null>(null);
@@ -91,6 +99,12 @@ export const CandidateCertifications: React.FC = () => {
       if (statusRes.success) {
         setEnrolledCertIds(statusRes.enrolledCertIds || []);
         setCompletedCertIds(statusRes.completedCertIds || []);
+        if (Array.isArray(statusRes.enrollments)) {
+          setCandidateEnrollments(statusRes.enrollments);
+          try {
+            localStorage.setItem('aicqb_my_enrollments', JSON.stringify(statusRes.enrollments));
+          } catch (_) { }
+        }
         try {
           localStorage.setItem('aicqb_enrolled_cert_ids', JSON.stringify(statusRes.enrolledCertIds || []));
           localStorage.setItem('aicqb_completed_cert_ids', JSON.stringify(statusRes.completedCertIds || []));
@@ -160,6 +174,19 @@ export const CandidateCertifications: React.FC = () => {
         normalize(c.certificationName) === certNameClean ||
         (c.certificationCode && certCodeClean.includes(normalize(c.certificationCode))) ||
         (certCodeClean && normalize(c.certificationCode).includes(certCodeClean))
+    );
+  };
+
+  const getEnrollmentForCert = (cert: Certification) => {
+    const certCodeClean = normalize(cert.code);
+    const certNameClean = normalize(cert.name);
+    return candidateEnrollments.find(
+      (e) =>
+        e.certificationId === cert.id ||
+        normalize(e.certificationCode) === certCodeClean ||
+        normalize(e.certificationName) === certNameClean ||
+        (certCodeClean && normalize(e.certificationCode).includes(certCodeClean)) ||
+        (certCodeClean && certCodeClean.includes(normalize(e.certificationCode)))
     );
   };
 
@@ -495,6 +522,8 @@ export const CandidateCertifications: React.FC = () => {
             const completed = isCertCompleted(cert);
             const enrolled = isCertEnrolled(cert);
             const matchedCertificate = getCertificateForCert(cert);
+            const enrollment = getEnrollmentForCert(cert);
+            const lockedPaidLevel = enrollment?.certificationLevel || enrollment?.certification_level || cert.level || 'Professional Level';
 
             return (
               <div
@@ -548,35 +577,55 @@ export const CandidateCertifications: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Right Side: Level, Price & Action matching Image 2 #3 */}
+                {/* Right Side: Level, Price & Action */}
                 <div className="flex flex-wrap sm:flex-nowrap items-center justify-between sm:justify-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-gray-100">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setInitialLevelModalId(
-                        selectedLevelFilter !== 'All' ? selectedLevelFilter : 'professional'
-                      );
-                      setSelectedForLevelModal(cert);
-                    }}
-                    title="Click to view or change exam level"
-                    className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 text-[11px] font-semibold rounded-md border border-purple-200 flex items-center space-x-1 transition-colors cursor-pointer"
-                  >
-                    <GraduationCap className="w-3.5 h-3.5 text-purple-600" />
-                    <span>
-                      {selectedLevelFilter === 'foundation'
-                        ? 'Foundation Level'
-                        : selectedLevelFilter === 'professional'
-                        ? 'Professional Level'
-                        : selectedLevelFilter === 'expert'
-                        ? 'Expert Level'
-                        : cert.level || 'Professional Level'}
-                    </span>
-                  </button>
+                  {enrolled ? (
+                    <div
+                      title="Enrolled & Paid Exam Level (Locked)"
+                      className="px-2.5 py-1 bg-[#10264B] text-white text-[11px] font-bold rounded-md border border-[#10264B] flex items-center space-x-1.5 shadow-2xs cursor-default"
+                    >
+                      <GraduationCap className="w-3.5 h-3.5 text-[#F47716]" />
+                      <span>{lockedPaidLevel}</span>
+                    </div>
+                  ) : completed ? (
+                    <div
+                      title="Completed Credential Level"
+                      className="px-2.5 py-1 bg-emerald-50 text-emerald-800 text-[11px] font-bold rounded-md border border-emerald-300 flex items-center space-x-1.5 shadow-2xs cursor-default"
+                    >
+                      <GraduationCap className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>{matchedCertificate?.credentialLevel || matchedCertificate?.certificationLevel || cert.level}</span>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setInitialLevelModalId(
+                          selectedLevelFilter !== 'All' ? selectedLevelFilter : 'professional'
+                        );
+                        setSelectedForLevelModal(cert);
+                      }}
+                      title="Click to view or choose exam level"
+                      className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 text-[11px] font-semibold rounded-md border border-purple-200 flex items-center space-x-1 transition-colors cursor-pointer"
+                    >
+                      <GraduationCap className="w-3.5 h-3.5 text-purple-600" />
+                      <span>
+                        {selectedLevelFilter === 'foundation'
+                          ? 'Foundation Level'
+                          : selectedLevelFilter === 'professional'
+                          ? 'Professional Level'
+                          : selectedLevelFilter === 'expert'
+                          ? 'Expert Level'
+                          : cert.level || 'Professional Level'}
+                      </span>
+                    </button>
+                  )}
 
                   <div className="text-right">
                     <span className="text-base font-black text-[#10264B]">
                       ₹{
-                        (selectedLevelFilter === 'foundation'
+                        (enrolled
+                          ? (enrollment?.amount || cert.examFee || 9999)
+                          : selectedLevelFilter === 'foundation'
                           ? 4500
                           : selectedLevelFilter === 'expert'
                           ? 13999
@@ -622,16 +671,8 @@ export const CandidateCertifications: React.FC = () => {
                   ) : enrolled ? (
                     <button
                       onClick={() => {
-                        const targetLevel =
-                          selectedLevelFilter === 'foundation'
-                            ? 'Foundation Level'
-                            : selectedLevelFilter === 'professional'
-                            ? 'Professional Level'
-                            : selectedLevelFilter === 'expert'
-                            ? 'Expert Level'
-                            : (cert.level || 'Professional Level');
-                        navigate(`/portal/exams?level=${encodeURIComponent(targetLevel)}`, {
-                          state: { level: targetLevel, certificationCode: cert.code }
+                        navigate(`/portal/exams?level=${encodeURIComponent(lockedPaidLevel)}`, {
+                          state: { level: lockedPaidLevel, certificationCode: cert.code }
                         });
                       }}
                       className="px-4 py-2 bg-[#10264B] hover:bg-[#1E3A6E] text-white font-bold text-xs rounded-lg shadow-sm transition-all flex items-center space-x-1 cursor-pointer"

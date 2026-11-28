@@ -720,7 +720,7 @@ export const ExamEngineModal: React.FC<ExamEngineModalProps> = ({ scheduleId, ex
                 PROCTORED
               </span>
               <span className="hidden md:inline px-2 py-0.5 bg-blue-900/60 text-blue-200 border border-blue-400/30 text-[10px] font-bold rounded-md">
-                Professional Level
+                {sessionData?.level || sessionData?.examLevel || examLevel || level || 'Professional Level'}
               </span>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3 text-xs mt-0.5">

@@ -146,6 +146,9 @@ export interface ExamSchedule {
   scheduledTime: string;
   mode: string;
   durationMinutes: number;
+  level?: string;
+  examLevel?: string;
+  certificationLevel?: string;
   status: 'scheduled' | 'in-progress' | 'completed' | 'expired';
   isRetake?: boolean;
   retakeAttemptNumber?: number;
@@ -168,6 +171,7 @@ export interface Certificate {
   certificationName: string;
   certificationCode: string;
   credentialLevel: string;
+  certificationLevel?: string;
   issueDate: string;
   issueDateFormatted: string;
   validUntil: string;

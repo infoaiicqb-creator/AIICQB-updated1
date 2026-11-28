@@ -439,14 +439,14 @@ export async function startExam(req, res) {
       }
     }
 
-    // Determine the exact exam level strictly
+    // Determine the exact exam level strictly: paid schedule level is locked and cannot be changed
     const targetLevel = (
-      req.query?.level ||
-      req.query?.examLevel ||
-      req.body?.level ||
       schedule.level ||
       schedule.examLevel ||
       schedule.certificationLevel ||
+      req.query?.level ||
+      req.query?.examLevel ||
+      req.body?.level ||
       cert?.level ||
       'Professional Level'
     ).trim();

@@ -409,9 +409,14 @@ export const CandidateDashboard: React.FC = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <h4 className="text-xs sm:text-sm font-bold text-[#10264B] leading-snug">
-                      {upcomingExams[0]?.examName}
-                    </h4>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <h4 className="text-xs sm:text-sm font-bold text-[#10264B] leading-snug">
+                        {upcomingExams[0]?.examName}
+                      </h4>
+                      <span className="px-2 py-0.5 bg-[#10264B] text-white font-extrabold text-[10px] rounded-full shadow-2xs">
+                        {upcomingExams[0]?.level || upcomingExams[0]?.examLevel || upcomingExams[0]?.certificationLevel || 'Professional Level'}
+                      </span>
+                    </div>
                     <div className="flex items-center space-x-1 text-xs text-gray-500">
                       <Clock className="w-3.5 h-3.5 text-gray-400" />
                       <span>{upcomingExams[0]?.scheduledTime && !upcomingExams[0].scheduledTime.includes('Retake Window Open') ? upcomingExams[0].scheduledTime : '10:00 AM – 11:30 AM (IST)'}</span>
