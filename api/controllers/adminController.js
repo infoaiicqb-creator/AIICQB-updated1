@@ -80,7 +80,7 @@ export async function getDashboardStats(req, res) {
       ? certificates
       : certificates.filter(c => matchesDate(c.issueDate || c.createdAt));
 
-    // 1. Candidate & Payment conversion (100% REAL & DYNAMIC)
+    // 1. Candidate & Payment conversion (100% REAL & DYNAMIC from candidates collection)
     const successfulPayments = filteredPayments.filter(
       p => p.paymentStatus === 'success' || p.status === 'Successful'
     );
@@ -91,13 +91,10 @@ export async function getDashboardStats(req, res) {
     );
     const totalPaidCandidates = paidCandidateIds.size;
 
-    const allRegisteredCandidateKeys = new Set();
-    filteredCandidates.forEach(c => allRegisteredCandidateKeys.add(c.candidateId || c.email || c.id));
-    users.filter(u => u.role === 'candidate' && matchesDate(u.createdAt)).forEach(u => allRegisteredCandidateKeys.add(u.candidateId || u.email || u.id));
-    enrollments.filter(e => matchesDate(e.enrolledAt || e.createdAt)).forEach(e => allRegisteredCandidateKeys.add(e.candidateId || e.candidateEmail || e.candidateUid));
-    paidCandidateIds.forEach(id => allRegisteredCandidateKeys.add(id));
-
-    const totalCandidates = Math.max(filteredCandidates.length, allRegisteredCandidateKeys.size, totalPaidCandidates);
+    // Use actual candidate collection records for precise alignment with Candidate Management
+    const totalCandidates = filteredCandidates.length > 0
+      ? filteredCandidates.length
+      : (users.filter(u => (u.role || '').toLowerCase() === 'candidate' && matchesDate(u.createdAt)).length || 0);
 
     const pendingPaymentsCount = filteredPayments.filter(
       p => p.paymentStatus === 'pending' || p.status === 'Pending'
@@ -105,7 +102,7 @@ export async function getDashboardStats(req, res) {
 
     const paymentConversion = totalCandidates > 0 ? Math.min(100, Math.round((totalPaidCandidates / totalCandidates) * 100)) : 0;
 
-    // 2. Real Revenue (100% REAL)
+    // 2. Real Revenue (100% REAL from verified payment records)
     const totalRevenue = successfulPayments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
 
     const currentYear = now.getFullYear();
@@ -122,14 +119,19 @@ export async function getDashboardStats(req, res) {
       })
       .reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
 
-    // 3. Real Examinations (100% REAL)
-    const totalExams = (exams.length || 0) + (filteredAttempts.length || 0) + (examSchedules.length || 0);
-    const activeExams =
-      filteredAttempts.filter(a => a.status === 'in_progress').length +
-      examSchedules.filter(s => s.status === 'scheduled').length;
-    const completedExams = Math.max(0, totalExams - activeExams);
+    // 3. Real Examinations (100% REAL candidate sessions & proctored attempts)
+    const totalExams = filteredAttempts.length > 0 ? filteredAttempts.length : (exams.length || 0);
+    const completedExams = filteredAttempts.filter(a => a.status === 'completed' || a.submitTime).length;
+    // Active sessions are only attempts currently in-progress started within the 90-min duration window
+    const ninetyMinutesAgo = new Date(Date.now() - 90 * 60 * 1000);
+    const activeExams = filteredAttempts.filter(a => {
+      if (a.status !== 'in-progress' && a.status !== 'in_progress') return false;
+      const start = a.startTime || a.startedAt || a.createdAt;
+      if (!start) return false;
+      return new Date(start) >= ninetyMinutesAgo;
+    }).length;
 
-    // 4. Results & Quality Standard (100% REAL)
+    // 4. Results & Quality Standard (100% REAL from evaluations)
     const passedResults = filteredResults.filter(r => r.passed === true);
     const failedResults = filteredResults.filter(r => r.passed === false);
     const passedCandidates = passedResults.length;
@@ -143,10 +145,10 @@ export async function getDashboardStats(req, res) {
     const certificatesRevoked = filteredCertificates.filter(c => c.status === 'Revoked').length;
     const certificatesPending = Math.max(0, passedCandidates - certificatesIssued);
 
-    // 6. Partners & Memberships (100% REAL)
-    const trainingInstitutes = trainingPartners.length;
-    const corporatePartners = memberships.filter(m => m.type === 'Organization' || m.plan === 'Corporate').length;
-    const affiliatePartners = memberships.filter(m => m.type === 'Individual' || m.plan === 'Professional' || m.plan === 'Affiliate').length;
+    // 6. Dynamic Certifications & Verifications (Core Platform Assets)
+    const totalCertifications = certifications.length;
+    const activeCertifications = certifications.filter(c => c.status === 'Active').length;
+    const totalVerifications = verifications.length;
 
     // 7. Country Registrations (100% REAL calculated dynamically)
     const countryFlags = {
@@ -262,9 +264,9 @@ export async function getDashboardStats(req, res) {
         certificatesIssued,
         certificatesPending,
         certificatesRevoked,
-        trainingInstitutes,
-        corporatePartners,
-        affiliatePartners,
+        totalCertifications,
+        activeCertifications,
+        totalVerifications,
         countryRegistrations,
         domainBreakdown,
         totalEnrollmentsCount,

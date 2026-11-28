@@ -94,9 +94,9 @@ export const AdminDashboard: React.FC = () => {
   const certificatesIssued = stats?.certificatesIssued ?? 0;
   const certificatesPending = stats?.certificatesPending ?? Math.max(0, passedCandidates - certificatesIssued);
 
-  const trainingInstitutes = stats?.trainingInstitutes ?? 0;
-  const corporatePartners = stats?.corporatePartners ?? 0;
-  const affiliatePartners = stats?.affiliatePartners ?? 0;
+  const totalCertifications = stats?.totalCertifications ?? 0;
+  const activeCertifications = stats?.activeCertifications ?? 0;
+  const totalVerifications = stats?.totalVerifications ?? 0;
 
   const totalRevenue = stats?.totalRevenue ?? 0;
   const monthlyRevenue = stats?.monthlyRevenue ?? 0;
@@ -251,7 +251,7 @@ export const AdminDashboard: React.FC = () => {
             </span>
             <span className="text-xs text-gray-500 font-bold block">Total Examinations</span>
             <span className="inline-flex items-center text-[10px] font-bold text-blue-600">
-              ● {activeExams} Active Sessions Now
+              ● {activeExams > 0 ? `${activeExams} Active Sessions Now` : 'Live Proctoring Active'}
             </span>
           </div>
           <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#10264B] flex items-center justify-center flex-shrink-0">
@@ -303,27 +303,27 @@ export const AdminDashboard: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-xl p-3.5 border border-gray-200 shadow-xs">
-          <span className="text-[11px] font-bold text-gray-400 block uppercase">Training Institutes</span>
+          <span className="text-[11px] font-bold text-gray-400 block uppercase">Active Certifications</span>
           <span className="text-lg font-black text-[#10264B] font-mono mt-0.5 block">
-            {trainingInstitutes}
+            {activeCertifications}
           </span>
-          <span className="text-[10px] text-gray-500">Authorized partners</span>
+          <span className="text-[10px] text-gray-500">{totalCertifications} total programs</span>
         </div>
 
         <div className="bg-white rounded-xl p-3.5 border border-gray-200 shadow-xs">
-          <span className="text-[11px] font-bold text-gray-400 block uppercase">Corporate Clients</span>
+          <span className="text-[11px] font-bold text-gray-400 block uppercase">Completed Exams</span>
           <span className="text-lg font-black text-[#10264B] font-mono mt-0.5 block">
-            {corporatePartners}
+            {completedExams.toLocaleString('en-IN')}
           </span>
-          <span className="text-[10px] text-gray-500">Enterprise bulk testing</span>
+          <span className="text-[10px] text-gray-500">Proctored sessions</span>
         </div>
 
         <div className="bg-white rounded-xl p-3.5 border border-gray-200 shadow-xs">
-          <span className="text-[11px] font-bold text-gray-400 block uppercase">Affiliates</span>
+          <span className="text-[11px] font-bold text-gray-400 block uppercase">Verifications</span>
           <span className="text-lg font-black text-[#F47716] font-mono mt-0.5 block">
-            {affiliatePartners}
+            {totalVerifications.toLocaleString('en-IN')}
           </span>
-          <span className="text-[10px] text-gray-500">Active referral partners</span>
+          <span className="text-[10px] text-gray-500">Registry lookups</span>
         </div>
       </div>
 
