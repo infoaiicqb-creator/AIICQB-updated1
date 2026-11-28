@@ -1037,7 +1037,22 @@ export async function deleteExamAdmin(req, res) {
 
 export async function getQuestionsAdmin(req, res) {
   try {
-    const questions = db.getCollection('questions');
+    const { certificationCode, level } = req.query;
+    let questions = db.getCollection('questions');
+
+    if (certificationCode && certificationCode !== 'All') {
+      questions = questions.filter(q =>
+        (q.certificationCode || '').toUpperCase().includes(certificationCode.toUpperCase()) ||
+        q.certificationId === certificationCode
+      );
+    }
+
+    if (level && level !== 'All') {
+      questions = questions.filter(q =>
+        (q.level || q.examLevel || '').toLowerCase() === level.toLowerCase()
+      );
+    }
+
     return res.json({ success: true, count: questions.length, questions });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to fetch questions' });
@@ -1048,30 +1063,50 @@ export async function createQuestionAdmin(req, res) {
   try {
     const {
       certificationCode,
+      certificationId,
+      level = 'Foundation Level',
+      examLevel,
       type = 'mcq',
       question,
       options = [],
       correctOptionIndex = 0,
       codeTemplate = '',
       points = 10,
+      difficulty = 'Intermediate',
+      rubric = '',
     } = req.body;
+
+    const allCerts = db.getCollection('certifications');
+    const certCode = (certificationCode || '').trim().toUpperCase();
+    const matchedCert = allCerts.find(
+      c => (c.code && c.code.toUpperCase() === certCode) || c.id === certificationId
+    );
+
+    const resolvedLevel = level || examLevel || matchedCert?.level || 'Foundation Level';
 
     const newQuestion = {
       id: `q_${Date.now()}`,
-      certificationCode: certificationCode || 'AICQB-AI-CP',
+      certificationCode: matchedCert ? matchedCert.code : (certCode || 'AIICQB-ST-CP-001'),
+      certificationId: matchedCert ? matchedCert.id : (certificationId || `cert_${certCode.toLowerCase().replace(/[^a-z0-9]/g, '_')}`),
+      certificationName: matchedCert?.name || matchedCert?.certificationName || certCode,
+      level: resolvedLevel,
+      examLevel: resolvedLevel,
       type,
+      questionType: type,
       question: question.trim(),
       options: options.map(o => (typeof o === 'string' ? o : o.text || '')),
       correctOptionIndex: Number(correctOptionIndex),
       correctAnswer: Number(correctOptionIndex),
       codeTemplate,
       points: Number(points),
+      difficulty,
+      rubric,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
 
     db.addDoc('questions', newQuestion);
-    logAudit(req, 'CREATE_QUESTION', 'Examination Management', `Created question in ${newQuestion.certificationCode}`);
+    logAudit(req, 'CREATE_QUESTION', 'Examination Management', `Created question in ${newQuestion.certificationCode} [${resolvedLevel}]`);
 
     return res.status(201).json({ success: true, message: 'Question created successfully', question: newQuestion });
   } catch (err) {
@@ -1081,7 +1116,16 @@ export async function createQuestionAdmin(req, res) {
 
 export async function bulkImportQuestionsAdmin(req, res) {
   try {
-    let { questions, defaultCertificationCode = 'AICQB-AI-CP', defaultCertificationId } = req.body;
+    let {
+      questions,
+      defaultCertificationCode = 'AIICQB-ST-CP-001',
+      defaultCertificationId,
+      defaultLevel = 'Foundation Level',
+      level,
+      examLevel
+    } = req.body;
+
+    const targetDefaultLevel = level || examLevel || defaultLevel || 'Foundation Level';
 
     if (!questions) {
       return res.status(400).json({ success: false, message: 'No questions provided for import.' });
@@ -1115,13 +1159,15 @@ export async function bulkImportQuestionsAdmin(req, res) {
       const q = questions[i];
       if (!q || (!q.question && !q.title)) continue;
 
-      const certCode = (q.certificationCode || defaultCertificationCode || 'AICQB-AI-CP').trim().toUpperCase();
+      const certCode = (q.certificationCode || defaultCertificationCode || 'AIICQB-ST-CP-001').trim().toUpperCase();
       const matchedCert = allCerts.find(
-        c => c.code?.toUpperCase() === certCode || c.id === q.certificationId || c.id === defaultCertificationId
+        c => (c.code && c.code.toUpperCase() === certCode) || c.id === q.certificationId || c.id === defaultCertificationId
       );
       const certId = matchedCert
         ? matchedCert.id
         : q.certificationId || defaultCertificationId || `cert_${certCode.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
+
+      const resolvedLevel = q.level || q.examLevel || targetDefaultLevel || matchedCert?.level || 'Foundation Level';
 
       // Parse options
       let rawOptions = q.options;
@@ -1156,13 +1202,16 @@ export async function bulkImportQuestionsAdmin(req, res) {
         id: q.id || `q_imp_${timestamp}_${i + 1}`,
         certificationId: certId,
         certificationCode: certCode,
+        certificationName: matchedCert?.name || matchedCert?.certificationName || certCode,
+        level: resolvedLevel,
+        examLevel: resolvedLevel,
         questionType: q.questionType || q.type || 'mcq',
         question: String(q.question || q.title).trim(),
         options: cleanOptions.length >= 2 ? cleanOptions : ['Option A', 'Option B', 'Option C', 'Option D'],
         correctAnswer: correctIdx,
         correctOptionIndex: correctIdx,
-        points: Number(q.points) || 10,
-        difficulty: q.difficulty || 'Intermediate',
+        points: Number(q.points) || (resolvedLevel.includes('Expert') ? 15 : resolvedLevel.includes('Professional') ? 10 : 5),
+        difficulty: q.difficulty || (resolvedLevel.includes('Expert') ? 'Hard' : resolvedLevel.includes('Professional') ? 'Intermediate' : 'Easy'),
         rubric: q.rubric || q.explanation || '',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -1176,15 +1225,16 @@ export async function bulkImportQuestionsAdmin(req, res) {
       req,
       'BULK_IMPORT_QUESTIONS',
       'Examination Management',
-      `Imported ${addedQuestions.length} questions into Question Bank via JSON`
+      `Imported ${addedQuestions.length} questions into Question Bank for level ${targetDefaultLevel} via JSON`
     );
 
     const totalQuestions = db.getCollection('questions').length;
 
     return res.status(201).json({
       success: true,
-      message: `Successfully imported ${addedQuestions.length} questions into Question Bank!`,
+      message: `Successfully imported ${addedQuestions.length} questions for [${targetDefaultLevel}] into Question Bank!`,
       importedCount: addedQuestions.length,
+      level: targetDefaultLevel,
       totalQuestions,
       questions: addedQuestions,
     });
@@ -1204,6 +1254,8 @@ export async function updateQuestionAdmin(req, res) {
 
     const updated = db.updateDoc('questions', q.id, {
       ...req.body,
+      level: req.body.level || req.body.examLevel || q.level || 'Foundation Level',
+      examLevel: req.body.level || req.body.examLevel || q.examLevel || 'Foundation Level',
       updatedAt: new Date().toISOString(),
     });
     logAudit(req, 'UPDATE_QUESTION', 'Examination Management', `Updated question ${q.id}`);

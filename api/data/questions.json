@@ -1,1 +1,71 @@
-[]
+[
+  {
+    "id": "q_imp_1795861408667_1",
+    "certificationId": "cert_aiicqb_st_cp_001",
+    "certificationCode": "AIICQB-ST-CP-001",
+    "certificationName": "AIICQB-Playwright-Automation-Testing",
+    "level": "Foundation Level",
+    "examLevel": "Foundation Level",
+    "questionType": "mcq",
+    "question": "What is the primary role of Playwright page.waitForSelector() in automated testing?",
+    "options": [
+      "To delay execution by a fixed timer",
+      "To wait for an element to satisfy a state condition before acting",
+      "To terminate the test runner",
+      "To reload the current webpage"
+    ],
+    "correctAnswer": 1,
+    "correctOptionIndex": 1,
+    "points": 5,
+    "difficulty": "Easy",
+    "rubric": "",
+    "createdAt": "2026-11-28T10:23:28.667Z",
+    "updatedAt": "2026-11-28T10:23:28.669Z"
+  },
+  {
+    "id": "q_imp_1795861408667_2",
+    "certificationId": "cert_aiicqb_st_cp_001",
+    "certificationCode": "AIICQB-ST-CP-001",
+    "certificationName": "AIICQB-Playwright-Automation-Testing",
+    "level": "Foundation Level",
+    "examLevel": "Foundation Level",
+    "questionType": "mcq",
+    "question": "In Playwright test architecture, what does a BrowserContext represent?",
+    "options": [
+      "A remote operating system instance",
+      "An isolated incognito session with separate cookies and cache",
+      "A single HTML DOM element",
+      "A compiler plugin"
+    ],
+    "correctAnswer": 1,
+    "correctOptionIndex": 1,
+    "points": 5,
+    "difficulty": "Easy",
+    "rubric": "",
+    "createdAt": "2026-11-28T10:23:28.671Z",
+    "updatedAt": "2026-11-28T10:23:28.673Z"
+  },
+  {
+    "id": "q_imp_1795861408725_1",
+    "certificationId": "cert_aiicqb_st_cp_001",
+    "certificationCode": "AIICQB-ST-CP-001",
+    "certificationName": "AIICQB-Playwright-Automation-Testing",
+    "level": "Professional Level",
+    "examLevel": "Professional Level",
+    "questionType": "mcq",
+    "question": "When configuring Playwright for parallel cross-browser regression in CI, what prevents worker race conditions on shared database state?",
+    "options": [
+      "Running tests serially with single worker",
+      "Dynamic worker sharding with dedicated test database tenants or worker fixtures",
+      "Disabling browser headless mode",
+      "Increasing test timeout to 10 minutes"
+    ],
+    "correctAnswer": 1,
+    "correctOptionIndex": 1,
+    "points": 10,
+    "difficulty": "Intermediate",
+    "rubric": "",
+    "createdAt": "2026-11-28T10:23:28.725Z",
+    "updatedAt": "2026-11-28T10:23:28.726Z"
+  }
+]

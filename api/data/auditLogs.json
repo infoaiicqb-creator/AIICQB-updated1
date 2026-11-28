@@ -9744,5 +9744,29 @@
     "id": "auditLogs_1795858524391_doo1o",
     "createdAt": "2026-11-28T09:35:24.391Z",
     "updatedAt": "2026-11-28T09:35:24.391Z"
+  },
+  {
+    "userEmail": "admin@aicqb.org",
+    "userRole": "Super Admin",
+    "action": "BULK_IMPORT_QUESTIONS",
+    "module": "Examination Management",
+    "details": "Imported 2 questions into Question Bank for level Foundation Level via JSON",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-28T10:23:28.676Z",
+    "id": "auditLogs_1795861408686_76ssg",
+    "createdAt": "2026-11-28T10:23:28.686Z",
+    "updatedAt": "2026-11-28T10:23:28.686Z"
+  },
+  {
+    "userEmail": "admin@aicqb.org",
+    "userRole": "Super Admin",
+    "action": "BULK_IMPORT_QUESTIONS",
+    "module": "Examination Management",
+    "details": "Imported 1 questions into Question Bank for level Professional Level via JSON",
+    "ipAddress": "::1",
+    "timestamp": "2026-11-28T10:23:28.727Z",
+    "id": "auditLogs_1795861408728_2ykcx",
+    "createdAt": "2026-11-28T10:23:28.728Z",
+    "updatedAt": "2026-11-28T10:23:28.728Z"
   }
 ]

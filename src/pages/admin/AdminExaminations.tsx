@@ -36,46 +36,75 @@ interface CertificationOption {
   code: string;
   id: string;
   name: string;
+  level?: string;
 }
 
-const CERTIFICATIONS: CertificationOption[] = [
-  { code: 'AICQB-AI-CP', id: 'cert_aicqb_ai_cp', name: 'AI Professional' },
-  { code: 'AICQB-DS-201', id: 'cert_aicqb_ds_201', name: 'Data Science Professional' },
-  { code: 'AICQB-ST-CP', id: 'cert_aicqb_st_cp', name: 'Software Tester' },
-  { code: 'AICQB-PW-CP', id: 'cert_aicqb_pw_cp', name: 'Playwright Automation' },
-  { code: 'AICQB-CY-301', id: 'cert_aicqb_cy_301', name: 'Cybersecurity Specialist' },
+const DEFAULT_CERTIFICATIONS: CertificationOption[] = [
+  { code: 'AIICQB-ST-CP-001', id: 'cert_aiicqb_st_cp_001', name: 'AIICQB-Playwright-Automation-Testing', level: 'Foundation Level' },
+  { code: 'AICQB-AI-CP', id: 'cert_aicqb_ai_cp', name: 'AICQB Certified AI Professional', level: 'Professional Level' },
+  { code: 'AICQB-DS-201', id: 'cert_aicqb_ds_201', name: 'AICQB Data Science Professional', level: 'Professional Level' },
+  { code: 'AICQB-ST-CP', id: 'cert_aicqb_st_cp', name: 'AICQB Software Tester', level: 'Foundation Level' },
+  { code: 'AICQB-PW-CP', id: 'cert_aicqb_pw_cp', name: 'AICQB Playwright Automation', level: 'Professional Level' },
+  { code: 'AICQB-CY-301', id: 'cert_aicqb_cy_301', name: 'AICQB Cybersecurity Specialist', level: 'Expert Level' },
 ];
 
-const SAMPLE_JSON_TEMPLATE = `[
-  {
-    "question": "Which evaluation metric is most appropriate for evaluating a binary classification model when dealing with severe class imbalance?",
-    "options": [
-      "Area Under ROC Curve (ROC-AUC) / Precision-Recall AUC",
-      "Overall Accuracy",
-      "Mean Squared Error (MSE)",
-      "Log-cosh Loss"
+const EXAM_LEVELS = [
+  'Foundation Level',
+  'Associate Level',
+  'Professional Level',
+  'Advanced Level',
+  'Expert Level',
+];
+
+const getLevelBadgeClass = (lvl?: string) => {
+  const l = (lvl || '').toLowerCase();
+  if (l.includes('expert')) return 'bg-purple-50 text-purple-700 border-purple-200';
+  if (l.includes('advanced')) return 'bg-indigo-50 text-indigo-700 border-indigo-200';
+  if (l.includes('professional')) return 'bg-blue-50 text-blue-700 border-blue-200';
+  if (l.includes('associate')) return 'bg-amber-50 text-amber-700 border-amber-200';
+  return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+};
+
+const generateSampleJson = (certCode: string, level: string) => {
+  const points = level.includes('Expert') ? 15 : level.includes('Professional') ? 10 : 5;
+  const difficulty = level.includes('Expert') ? 'Hard' : level.includes('Professional') ? 'Intermediate' : 'Easy';
+  return JSON.stringify(
+    [
+      {
+        question: `[${level}] Which assessment metric is most rigorous for evaluating ${certCode} production workloads under skewed real-world distribution?`,
+        options: [
+          'Area Under ROC Curve (ROC-AUC) & Precision-Recall F1-Optimization',
+          'Standard Unweighted Accuracy Rate',
+          'Mean Squared Error without Outlier Clipping',
+          'Arbitrary Threshold Sampling'
+        ],
+        correctAnswer: 0,
+        points,
+        difficulty,
+        certificationCode: certCode,
+        level: level,
+        rubric: `Demonstrates mastery of evaluation techniques required for ${level} candidates.`
+      },
+      {
+        question: `[${level}] In architectural reliability for ${certCode}, which principle guarantees deterministic state during sudden node termination?`,
+        options: [
+          'Idempotent transactional event handlers with dead-letter queue routing',
+          'Unchecked synchronous retry chains without backoff',
+          'Global table lock on primary database instance',
+          'Silently dropping rejected socket payloads'
+        ],
+        correctAnswer: 0,
+        points,
+        difficulty,
+        certificationCode: certCode,
+        level: level,
+        rubric: `High-assurance enterprise systems reliability standard for ${level}.`
+      }
     ],
-    "correctAnswer": 0,
-    "points": 10,
-    "difficulty": "Intermediate",
-    "certificationCode": "AICQB-AI-CP",
-    "rubric": "Understanding of imbalanced classification performance metrics."
-  },
-  {
-    "question": "In neural network optimization, what is the primary function of the Learning Rate parameter?",
-    "options": [
-      "Determines the step size taken towards the minimum of the loss function during gradient descent",
-      "Sets the total number of layers in the deep architecture",
-      "Controls the size of the mini-batch loaded into GPU RAM",
-      "Specifies the number of epochs to train before early stopping"
-    ],
-    "correctAnswer": 0,
-    "points": 10,
-    "difficulty": "Intermediate",
-    "certificationCode": "AICQB-AI-CP",
-    "rubric": "Gradient descent optimization and hyperparameter tuning fundamentals."
-  }
-]`;
+    null,
+    2
+  );
+};
 
 export const AdminExaminations: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'schedules' | 'questions' | 'monitoring' | 'results'>('schedules');
@@ -123,12 +152,16 @@ export const AdminExaminations: React.FC = () => {
 
   const [questionSearch, setQuestionSearch] = useState('');
   const [questionCertFilter, setQuestionCertFilter] = useState('All');
+  const [questionLevelFilter, setQuestionLevelFilter] = useState('All');
   const [questionPage, setQuestionPage] = useState(1);
   const [questionPageSize, setQuestionPageSize] = useState(10);
 
   const [monitoringSearch, setMonitoringSearch] = useState('');
   const [resultFilter, setResultFilter] = useState<'ALL' | 'PASSED' | 'FAILED'>('ALL');
   const [resultSearch, setResultSearch] = useState('');
+
+  // Dynamic Certifications
+  const [certificationsList, setCertificationsList] = useState<CertificationOption[]>(DEFAULT_CERTIFICATIONS);
 
   // Modals
   const [showExamModal, setShowExamModal] = useState(false);
@@ -138,10 +171,11 @@ export const AdminExaminations: React.FC = () => {
   const [editingQuestion, setEditingQuestion] = useState<any>(null);
   const [previewQuestion, setPreviewQuestion] = useState<any>(null);
 
-  // Bulk JSON Import Modal
+  // Bulk JSON Import Modal (Level-Wise)
   const [showJsonModal, setShowJsonModal] = useState(false);
-  const [jsonCode, setJsonCode] = useState(SAMPLE_JSON_TEMPLATE);
-  const [jsonTargetCert, setJsonTargetCert] = useState('AICQB-AI-CP');
+  const [jsonTargetCert, setJsonTargetCert] = useState('AIICQB-ST-CP-001');
+  const [jsonTargetLevel, setJsonTargetLevel] = useState('Foundation Level');
+  const [jsonCode, setJsonCode] = useState(() => generateSampleJson('AIICQB-ST-CP-001', 'Foundation Level'));
   const [copiedSample, setCopiedSample] = useState(false);
   const [importingJson, setImportingJson] = useState(false);
 
@@ -163,9 +197,9 @@ export const AdminExaminations: React.FC = () => {
 
   // Exam Form
   const [examForm, setExamForm] = useState({
-    examCode: 'AICQB-AI-CP-EXAM',
-    examName: 'AICQB Certified AI Professional Examination',
-    certificationCode: 'AICQB-AI-CP',
+    examCode: 'AIICQB-ST-CP-001-EXAM',
+    examName: 'AIICQB Playwright Automation Testing Examination',
+    certificationCode: 'AIICQB-ST-CP-001',
     scheduledDate: '24 Nov 2026',
     scheduledTime: '10:00 AM – 11:30 AM (IST)',
     durationMinutes: 90,
@@ -177,7 +211,8 @@ export const AdminExaminations: React.FC = () => {
 
   // Question Form
   const [questionForm, setQuestionForm] = useState({
-    certificationCode: 'AICQB-AI-CP',
+    certificationCode: 'AIICQB-ST-CP-001',
+    level: 'Foundation Level',
     type: 'mcq',
     question: '',
     optionA: '',
@@ -197,12 +232,30 @@ export const AdminExaminations: React.FC = () => {
   const loadAllData = async () => {
     try {
       if (exams.length === 0 && questions.length === 0) setLoading(true);
-      const [examsRes, questionsRes, monitoringRes, resultsRes] = await Promise.all([
+      const [examsRes, questionsRes, monitoringRes, resultsRes, certsRes] = await Promise.all([
         api.getExams().catch(() => ({ success: false, exams: [] })),
         api.getAdminQuestions().catch(() => ({ success: false, questions: [] })),
         api.getAdminMonitoring().catch(() => ({ success: false, attempts: [], schedules: [] })),
         api.getAdminResults().catch(() => ({ success: false, results: [] })),
+        api.getCertifications({ adminView: 'true' }).catch(() => ({ success: false, certifications: [] })),
       ]);
+
+      if (certsRes.success && Array.isArray(certsRes.certifications) && certsRes.certifications.length > 0) {
+        const mappedCerts: CertificationOption[] = certsRes.certifications.map((c: any) => ({
+          code: c.code || c.certificationCode || c.id,
+          id: c.id || c.certificationId,
+          name: c.name || c.certificationName || c.code,
+          level: c.level || 'Foundation Level',
+        }));
+        setCertificationsList(mappedCerts);
+        if (mappedCerts.length > 0 && jsonTargetCert === 'AIICQB-ST-CP-001') {
+          const firstCode = mappedCerts[0].code;
+          const firstLevel = mappedCerts[0].level || 'Foundation Level';
+          setJsonTargetCert(firstCode);
+          setJsonTargetLevel(firstLevel);
+          setJsonCode(generateSampleJson(firstCode, firstLevel));
+        }
+      }
 
       if (examsRes.success && Array.isArray(examsRes.exams)) {
         setExams(examsRes.exams);
@@ -309,7 +362,7 @@ export const AdminExaminations: React.FC = () => {
     }
   }, [jsonCode]);
 
-  // Bulk JSON Import Handler
+  // Bulk JSON Import Handler (Level-Wise)
   const handleBulkImportJson = async () => {
     if (!jsonValidation.isValid) {
       showToast(jsonValidation.error || 'Please provide valid JSON code.', 'error');
@@ -321,10 +374,11 @@ export const AdminExaminations: React.FC = () => {
       const res = await api.bulkImportQuestionsAdmin({
         questions: jsonCode,
         defaultCertificationCode: jsonTargetCert,
+        defaultLevel: jsonTargetLevel,
       });
 
       if (res.success) {
-        showToast(`✓ Successfully added ${res.importedCount || jsonValidation.count} questions to Question Bank!`);
+        showToast(`✓ Successfully imported ${res.importedCount || jsonValidation.count} questions for [${jsonTargetLevel}] into Question Bank!`);
         setShowJsonModal(false);
         await loadAllData();
       } else {
@@ -338,11 +392,12 @@ export const AdminExaminations: React.FC = () => {
   };
 
   const handleCopySample = () => {
-    setJsonCode(SAMPLE_JSON_TEMPLATE);
-    navigator.clipboard?.writeText(SAMPLE_JSON_TEMPLATE);
+    const sample = generateSampleJson(jsonTargetCert, jsonTargetLevel);
+    setJsonCode(sample);
+    navigator.clipboard?.writeText(sample);
     setCopiedSample(true);
     setTimeout(() => setCopiedSample(false), 2000);
-    showToast('Sample JSON template copied & loaded into editor!');
+    showToast(`Sample JSON for ${jsonTargetCert} [${jsonTargetLevel}] copied & loaded!`);
   };
 
   // Exam Form Handlers
@@ -452,8 +507,11 @@ export const AdminExaminations: React.FC = () => {
   // Question Form Handlers
   const handleOpenAddQuestion = () => {
     setEditingQuestion(null);
+    const defaultCert = certificationsList[0]?.code || 'AIICQB-ST-CP-001';
+    const defaultLevel = certificationsList[0]?.level || 'Foundation Level';
     setQuestionForm({
-      certificationCode: 'AICQB-AI-CP',
+      certificationCode: defaultCert,
+      level: defaultLevel,
       type: 'mcq',
       question: '',
       optionA: '',
@@ -470,7 +528,8 @@ export const AdminExaminations: React.FC = () => {
   const handleOpenEditQuestion = (q: any) => {
     setEditingQuestion(q);
     setQuestionForm({
-      certificationCode: q.certificationCode || q.certificationId || 'AICQB-AI-CP',
+      certificationCode: q.certificationCode || q.certificationId || 'AIICQB-ST-CP-001',
+      level: q.level || q.examLevel || 'Foundation Level',
       type: q.questionType || q.type || 'mcq',
       question: q.question || '',
       optionA: q.options?.[0] || '',
@@ -493,6 +552,8 @@ export const AdminExaminations: React.FC = () => {
 
     const payload = {
       certificationCode: questionForm.certificationCode,
+      level: questionForm.level || 'Foundation Level',
+      examLevel: questionForm.level || 'Foundation Level',
       type: questionForm.type,
       question: questionForm.question.trim(),
       options: [
@@ -549,16 +610,19 @@ export const AdminExaminations: React.FC = () => {
 
   const filteredQuestions = useMemo(() => {
     return questions.filter((q) => {
-      const certCode = q.certificationCode || q.certificationId || '';
-      const matchesCert = questionCertFilter === 'All' || certCode.includes(questionCertFilter);
+      const certCode = (q.certificationCode || q.certificationId || '').toLowerCase();
+      const qLevel = (q.level || q.examLevel || 'Foundation Level').toLowerCase();
+      const matchesCert = questionCertFilter === 'All' || certCode.includes(questionCertFilter.toLowerCase());
+      const matchesLevel = questionLevelFilter === 'All' || qLevel === questionLevelFilter.toLowerCase();
       const matchesSearch =
         questionSearch === '' ||
         q.question?.toLowerCase().includes(questionSearch.toLowerCase()) ||
-        certCode.toLowerCase().includes(questionSearch.toLowerCase()) ||
+        certCode.includes(questionSearch.toLowerCase()) ||
+        qLevel.includes(questionSearch.toLowerCase()) ||
         q.id?.toLowerCase().includes(questionSearch.toLowerCase());
-      return matchesCert && matchesSearch;
+      return matchesCert && matchesLevel && matchesSearch;
     });
-  }, [questions, questionCertFilter, questionSearch]);
+  }, [questions, questionCertFilter, questionLevelFilter, questionSearch]);
 
   const filteredMonitoring = useMemo(() => {
     return monitoringSessions.filter((s) => {
@@ -967,20 +1031,38 @@ export const AdminExaminations: React.FC = () => {
       {activeTab === 'questions' && (
         <div className="space-y-4">
           {/* Question Filter & Search Bar */}
-          <div className="bg-white rounded-xl border border-gray-200 p-3 sm:p-4 shadow-sm flex flex-col sm:flex-row gap-2.5 sm:gap-3 text-xs">
+          <div className="bg-white rounded-xl border border-gray-200 p-3 sm:p-4 shadow-sm flex flex-col md:flex-row gap-2.5 sm:gap-3 text-xs">
+            {/* Certification Filter */}
             <div className="flex items-center space-x-2">
-              <Filter className="w-4 h-4 text-gray-400" />
+              <Filter className="w-4 h-4 text-gray-400 flex-shrink-0" />
               <select
                 value={questionCertFilter}
                 onChange={(e) => setQuestionCertFilter(e.target.value)}
                 className="w-full sm:w-auto px-3 py-2 bg-slate-50 border border-gray-300 rounded-lg font-bold text-gray-700 focus:outline-none cursor-pointer"
               >
                 <option value="All">All Certifications ({questions.length})</option>
-                <option value="AI-CP">AI Professional (AICQB-AI-CP)</option>
-                <option value="DS-201">Data Science (AICQB-DS-201)</option>
-                <option value="ST-CP">Software Tester (AICQB-ST-CP)</option>
-                <option value="PW-CP">Playwright Automation (AICQB-PW-CP)</option>
-                <option value="CY-301">Cybersecurity (AICQB-CY-301)</option>
+                {certificationsList.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.name} ({c.code})
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Exam Level Filter */}
+            <div className="flex items-center space-x-2">
+              <Award className="w-4 h-4 text-[#F47716] flex-shrink-0" />
+              <select
+                value={questionLevelFilter}
+                onChange={(e) => setQuestionLevelFilter(e.target.value)}
+                className="w-full sm:w-auto px-3 py-2 bg-slate-50 border border-gray-300 rounded-lg font-bold text-gray-700 focus:outline-none cursor-pointer"
+              >
+                <option value="All">All Exam Levels</option>
+                {EXAM_LEVELS.map((lvl) => (
+                  <option key={lvl} value={lvl}>
+                    {lvl}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -990,7 +1072,7 @@ export const AdminExaminations: React.FC = () => {
                 type="text"
                 value={questionSearch}
                 onChange={(e) => setQuestionSearch(e.target.value)}
-                placeholder="Search question prompt, keywords, or answers..."
+                placeholder="Search question prompt, level, certification, ID..."
                 className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F47716] font-medium"
               />
             </div>
@@ -1034,9 +1116,14 @@ export const AdminExaminations: React.FC = () => {
                 <div key={q.id} className="bg-white rounded-xl border border-gray-200 p-4 shadow-xs space-y-2.5">
                   <div className="flex items-center justify-between">
                     <span className="font-mono font-bold text-xs text-[#F47716]">{q.id}</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#10264B]/10 text-[#10264B] font-mono">
-                      {q.certificationCode || 'AICQB'}
-                    </span>
+                    <div className="flex items-center space-x-1.5">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#10264B]/10 text-[#10264B] font-mono">
+                        {q.certificationCode || 'AIICQB'}
+                      </span>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${getLevelBadgeClass(q.level || q.examLevel)}`}>
+                        {q.level || q.examLevel || 'Foundation Level'}
+                      </span>
+                    </div>
                   </div>
 
                   <p className="font-bold text-[#10264B] text-xs leading-relaxed">{q.question}</p>
@@ -1115,9 +1202,14 @@ export const AdminExaminations: React.FC = () => {
                         <tr key={q.id} className="hover:bg-slate-50/80 transition-colors">
                           <td className="py-4 px-6">
                             <span className="font-mono font-bold text-[#F47716] block">{q.id}</span>
-                            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#10264B]/10 text-[#10264B] font-mono mt-1 inline-block">
-                              {q.certificationCode || 'AICQB'}
-                            </span>
+                            <div className="flex flex-wrap items-center gap-1 mt-1">
+                              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#10264B]/10 text-[#10264B] font-mono">
+                                {q.certificationCode || 'AIICQB'}
+                              </span>
+                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${getLevelBadgeClass(q.level || q.examLevel)}`}>
+                                {q.level || q.examLevel || 'Foundation Level'}
+                              </span>
+                            </div>
                           </td>
 
                           <td className="py-4 px-6 max-w-md">
@@ -1551,16 +1643,23 @@ export const AdminExaminations: React.FC = () => {
             </div>
 
             <div className="space-y-3 text-xs">
-              {/* Target Certification Selector */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
-                <div className="flex items-center space-x-2">
-                  <label className="font-semibold text-gray-700 whitespace-nowrap">Target Exam / Certification:</label>
+              {/* Target Certification and Exam Level Selectors */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3 rounded-xl border border-gray-200">
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Target Exam / Certification *</label>
                   <select
                     value={jsonTargetCert}
-                    onChange={(e) => setJsonTargetCert(e.target.value)}
-                    className="p-1.5 bg-slate-50 border border-gray-300 rounded-lg font-bold text-gray-700 focus:outline-none"
+                    onChange={(e) => {
+                      const newCert = e.target.value;
+                      setJsonTargetCert(newCert);
+                      // Auto-update sample template if user has not heavily changed it
+                      if (jsonValidation.isValid && jsonValidation.count <= 2) {
+                        setJsonCode(generateSampleJson(newCert, jsonTargetLevel));
+                      }
+                    }}
+                    className="w-full p-2 bg-white border border-gray-300 rounded-lg font-bold text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#F47716]"
                   >
-                    {CERTIFICATIONS.map((c) => (
+                    {certificationsList.map((c) => (
                       <option key={c.code} value={c.code}>
                         {c.name} ({c.code})
                       </option>
@@ -1568,21 +1667,45 @@ export const AdminExaminations: React.FC = () => {
                   </select>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={handleCopySample}
-                  className="px-3 py-1.5 rounded-lg bg-orange-50 text-[#F47716] hover:bg-orange-100 font-bold flex items-center justify-center space-x-1.5 border border-orange-200 cursor-pointer"
-                >
-                  {copiedSample ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copiedSample ? 'Sample Loaded!' : 'Load Sample JSON Template'}</span>
-                </button>
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block font-semibold text-gray-700">Target Exam Level *</label>
+                    <button
+                      type="button"
+                      onClick={handleCopySample}
+                      className="text-[11px] text-[#F47716] hover:text-[#DC660E] font-bold flex items-center space-x-1 cursor-pointer"
+                      title="Load sample questions tailored to this level"
+                    >
+                      {copiedSample ? <Check className="w-3 h-3 text-green-600" /> : <Copy className="w-3 h-3" />}
+                      <span>{copiedSample ? 'Loaded!' : 'Load Level Template'}</span>
+                    </button>
+                  </div>
+                  <select
+                    value={jsonTargetLevel}
+                    onChange={(e) => {
+                      const newLevel = e.target.value;
+                      setJsonTargetLevel(newLevel);
+                      // Auto-update sample template if user has not heavily changed it
+                      if (jsonValidation.isValid && jsonValidation.count <= 2) {
+                        setJsonCode(generateSampleJson(jsonTargetCert, newLevel));
+                      }
+                    }}
+                    className="w-full p-2 bg-white border border-gray-300 rounded-lg font-bold text-gray-700 focus:outline-none focus:ring-1 focus:ring-[#F47716]"
+                  >
+                    {EXAM_LEVELS.map((lvl) => (
+                      <option key={lvl} value={lvl}>
+                        {lvl}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               {/* JSON Code Editor Textarea */}
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <label className="font-semibold text-gray-700">Question Bank JSON Array *</label>
-                  <span className="text-[11px] text-gray-400 font-mono">Format: Array of objects with question, options, correctAnswer</span>
+                  <span className="text-[11px] text-gray-400 font-mono">Format: Array of objects with question, options, correctAnswer, level</span>
                 </div>
                 <textarea
                   rows={12}
@@ -1604,7 +1727,7 @@ export const AdminExaminations: React.FC = () => {
                 {jsonValidation.isValid ? (
                   <>
                     <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0" />
-                    <span>✓ Valid JSON Syntax: Found <strong>{jsonValidation.count}</strong> questions ready to import into {jsonTargetCert}</span>
+                    <span>✓ Valid JSON Syntax: Found <strong>{jsonValidation.count}</strong> questions ready to import into {jsonTargetCert} [<strong>{jsonTargetLevel}</strong>]</span>
                   </>
                 ) : (
                   <>
@@ -1630,7 +1753,7 @@ export const AdminExaminations: React.FC = () => {
                   className="w-full sm:w-auto px-6 py-2.5 bg-[#F47716] hover:bg-[#DC660E] disabled:bg-gray-300 text-white font-bold rounded-lg shadow-sm transition-colors flex items-center justify-center space-x-1.5 cursor-pointer"
                 >
                   {importingJson ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Code2 className="w-3.5 h-3.5" />}
-                  <span>Import & Auto-Add to Exam ({jsonValidation.count} Questions)</span>
+                  <span>Import {jsonValidation.count} Questions ({jsonTargetLevel})</span>
                 </button>
               </div>
             </div>
@@ -1674,7 +1797,7 @@ export const AdminExaminations: React.FC = () => {
                     onChange={(e) => setExamForm({ ...examForm, certificationCode: e.target.value })}
                     className="w-full p-2.5 bg-slate-50 border border-gray-300 rounded-lg font-bold focus:outline-none"
                   >
-                    {CERTIFICATIONS.map((c) => (
+                    {certificationsList.map((c) => (
                       <option key={c.code} value={c.code}>
                         {c.name} ({c.code})
                       </option>
@@ -1793,17 +1916,31 @@ export const AdminExaminations: React.FC = () => {
             </div>
 
             <form onSubmit={handleSaveQuestion} className="space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block font-semibold text-gray-700 mb-1">Target Certification *</label>
                   <select
                     value={questionForm.certificationCode}
                     onChange={(e) => setQuestionForm({ ...questionForm, certificationCode: e.target.value })}
-                    className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg font-bold"
+                    className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg font-bold text-gray-700"
                   >
-                    {CERTIFICATIONS.map((c) => (
+                    {certificationsList.map((c) => (
                       <option key={c.code} value={c.code}>
                         {c.name} ({c.code})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-semibold text-gray-700 mb-1">Exam Level *</label>
+                  <select
+                    value={questionForm.level}
+                    onChange={(e) => setQuestionForm({ ...questionForm, level: e.target.value })}
+                    className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg font-bold text-gray-700"
+                  >
+                    {EXAM_LEVELS.map((lvl) => (
+                      <option key={lvl} value={lvl}>
+                        {lvl}
                       </option>
                     ))}
                   </select>
@@ -1816,7 +1953,7 @@ export const AdminExaminations: React.FC = () => {
                     max={50}
                     value={questionForm.points}
                     onChange={(e) => setQuestionForm({ ...questionForm, points: Number(e.target.value) })}
-                    className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg font-bold"
+                    className="w-full p-2 bg-slate-50 border border-gray-300 rounded-lg font-bold text-gray-700"
                   />
                 </div>
               </div>
@@ -1903,6 +2040,9 @@ export const AdminExaminations: React.FC = () => {
                   {previewQuestion.id}
                 </span>
                 <span className="text-xs font-bold text-gray-600">{previewQuestion.certificationCode}</span>
+                <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${getLevelBadgeClass(previewQuestion.level || previewQuestion.examLevel)}`}>
+                  {previewQuestion.level || previewQuestion.examLevel || 'Foundation Level'}
+                </span>
               </div>
               <button onClick={() => setPreviewQuestion(null)} className="text-gray-400 hover:text-gray-600 p-1 cursor-pointer">
                 <X className="w-5 h-5" />
