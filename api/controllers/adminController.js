@@ -248,6 +248,7 @@ export async function getDashboardStats(req, res) {
       stats: {
         dateFilter,
         totalCandidates,
+        candidatesList: filteredCandidates,
         totalPaidCandidates,
         pendingPayments: pendingPaymentsCount,
         paymentConversion,
