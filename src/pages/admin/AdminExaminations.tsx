@@ -675,8 +675,8 @@ export const AdminExaminations: React.FC = () => {
         </div>
       </div>
 
-      {/* 4 Statistics Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <div
           onClick={() => setActiveTab('schedules')}
           className={`bg-white rounded-xl p-3.5 sm:p-4 border shadow-xs flex items-center space-x-3.5 cursor-pointer transition-all ${activeTab === 'schedules' ? 'border-[#F47716] ring-1 ring-[#F47716]' : 'border-gray-200 hover:border-gray-300'
@@ -705,22 +705,6 @@ export const AdminExaminations: React.FC = () => {
             <div className="text-xl sm:text-2xl font-black text-[#10264B] leading-tight font-mono">{questions.length}</div>
             <div className="text-[10px] sm:text-[11px] font-bold text-gray-500 uppercase tracking-tight mt-0.5">
               Question Bank Items
-            </div>
-          </div>
-        </div>
-
-        <div
-          onClick={() => setActiveTab('monitoring')}
-          className={`bg-white rounded-xl p-3.5 sm:p-4 border shadow-xs flex items-center space-x-3.5 cursor-pointer transition-all ${activeTab === 'monitoring' ? 'border-[#F47716] ring-1 ring-[#F47716]' : 'border-gray-200 hover:border-gray-300'
-            }`}
-        >
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-            <Shield className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="text-xl sm:text-2xl font-black text-emerald-700 leading-tight font-mono">{monitoringSessions.length}</div>
-            <div className="text-[10px] sm:text-[11px] font-bold text-gray-500 uppercase tracking-tight mt-0.5">
-              Live Proctored
             </div>
           </div>
         </div>
